@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">Ecommerce</string>
+
+    <!--Login screen-->
+    <string name="employee_code_hint_login_edt">Username</string>
+    <string name="password_hint_login_edt">Password</string>
+    <string name="login_btn">Login</string>
+    <string name="login_title">Login</string>
+    <string name="username_error_login">Username is required</string>
+    <string name="password_error_login">Password is required</string>
+    <string name="signup_label">Don\'t have an account?</string>
+    <string name="signup_btn">SignUp</string>
+    <string name="login_success">Login Successfully</string>
+
+    <!--<string name="link"><a href="https://www.google.pl/">Google</a></string>-->
+
+    <string name="please_wait">Please wait...</string>
+
+
+    <!--SignupModel Screen-->
+
+    <string name="employee_code_hint_signup_edt">Username</string>
+    <string name="password_hint_signup_edt">Password</string>
+    <string name="phone_no_hint_signup_edt">Phone Number</string>
+    <string name="email_address_hint_signup_edt">Email Address</string>
+    <string name="signup_title">SignUp</string>
+    <string name="signup_screeen_btn">SignUp</string>
+    <string name="username_error">Username is required</string>
+    <string name="password_error">Password is required</string>
+    <string name="email_address_error">Email address is required</string>
+    <string name="phone_no_error">Phone no is required</string>
+<string name="signup_successfully">Account Created successfully.</string>
+
+
+    <!--Dashboard-->
+    <string name="dashboard">Dashboard</string>
+    <string name="Shop">Shop</string>
+    <string name="done">Done</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="are_you_sure_logout">Are you sure you want to logout?</string>
+    <string name="logout">Logout</string>
+    <string name="logout_nav">Logout</string>
+    <string name="feedback_nav">Feedback</string>
+    <string name="about_nav">About</string>
+    <string name="rate_us_nav">Rate Us</string>
+    <string name="share_nav">Share</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="please_check_internet_connection">Please check your internet connection</string>
+    <string name="shop_dashboard">Shop</string>
+    <string name="favourite_dashboard">Favourite</string>
+    <string name="cart_dashboard">Cart</string>
+    <string name="history_dashboard">History</string>
+    <string name="textview_category_label">Category</string>
+
+
+
+
+
+    <string name="update_play_services">Please update Google Play Service on this device</string>
+
+
+    <string name="ardino">Ardino</string>
+    <string name="capacitor">Capacitor</string>
+    <string name="senors">Sensors</string>
+    <string name="wires">Wires</string>
+    <string name="sd_card">SD Card</string>
+    <string name="lcd">LCD</string>
+    <string name="motor_driver">Motor Driver</string>
+    <string name="charges">Charger</string>
+    <string name="motor_wheel">Motor Wheel</string>
+</resources>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="light_blue">#0182c3</color>
+    <color name="red_toolbar">#E42021</color>
+    <color name="colorBlue">#6fcbfa</color>
+    <color name="signup_field_background">#ecf0f1</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">@android:color/black</color>
+    <color name="grey_dark_report_list_item">#54595C</color>
+
+    <color name="white_label">#ffffff</color>
+
+    <color name="category_label">#54595C</color>
+    <!--Bottom Navigation-->
+    <color name="bgBottomNavigation">#008577</color>
+    <string name="title_shop">Shop</string>
+    <string name="title_favourite">Favourite</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_profile">History</string>
+
+
+    <color name="light_grey_textview">#545454</color>
+    <color name="grey_dark_field_headings">#54595C</color>
+    <color name="black_details_of_list_heading_bg">#2A2A2A</color>
+    <color name="grey_dark_serial_num_bg">#545454</color>
+    <color name="grey_light_consignment_num_bg">#717171</color>
+    <color name="grey_light_missing_fields_bg">#97989A</color>
+    <color name="grey_light_report_item_bg_dark">#E8ECED</color>
+    <color name="grey_light_report_item_bg_light">#EDF1F2</color>
+    <color name="grey_dark_report_item_sheet_num">#2B2C2C</color>
+
+    <color name="grey_dark_edt">#494949</color>
+    <color name="grey_dark_edt_hint">#7A7A7A</color>
+
+    <color name="red_edt_hint">#ffffff</color>
+    <color name="edt_signup_hint">#2B2C2C</color>
+    <color name="red_btn_login">#E42021</color>
+    <color name="red_edt_account">#ffffff</color>
+
+
+    <color name="TCS_Colour">#E10915</color>
+    <color name="tcs_red">#E10915</color>
+    <color name="preview_bg">#AAFFFFFF</color>
+    <color name="barcode_list_text">#444444</color>
+    <color name="barcode_list_img">#AAAAAA</color>
+    <color name="flash_button">#00cc6161</color>
+    <color name="blue_polyline">#0073C7</color>
+    <color name="red_toolbar_transparent">#80E42021</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="green">#00FF2A</color>
+    <color name="status_green">#00a563</color>
+
+    <color name="status_red">#E42021</color>
+
+    <color name="status_blue">#0004ff</color>
+
+    <color name="light_gray">#fff</color>
+    <color name="light_background">#e6e6e6</color>
+
+
+    <color name="status_light_brown">#be9b7b</color>
+
+
+</resources>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/RelativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#26A69A"
+                >
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+    >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+        >
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/icon_app_logo"
+
+            />
+        </LinearLayout>
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="2.5"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+        >
+            <EditText
+                    android:id="@+id/edtUsername"
+                    android:layout_width="260dp"
+                    android:layout_height="@dimen/edit_height"
+                    android:background="@drawable/bg_stroke_sign_in_edt"
+                    android:drawableLeft="@drawable/icon_courier_code"
+                    android:drawablePadding="7dp"
+                    android:fontFamily="@font/titilliu_web_regular"
+                    android:hint="@string/employee_code_hint_login_edt"
+                    android:inputType="text"
+                    android:maxLength="20"
+                    android:textColorHint="@color/red_edt_hint"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="14sp" />
+            <EditText
+                    android:id="@+id/edtPassword"
+                    android:layout_width="260dp"
+                    android:layout_height="@dimen/edit_height"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_stroke_sign_in_edt"
+                    android:drawableLeft="@drawable/icon_password"
+                    android:drawablePadding="7dp"
+                    android:fontFamily="@font/titilliu_web_regular"
+                    android:hint="@string/password_hint_login_edt"
+                    android:inputType="textPassword"
+                    android:imeOptions="actionDone"
+                    android:maxLength="15"
+                    android:textColorHint="@color/red_edt_hint"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="20dp"
+            />
+            <Button
+                    android:id="@+id/btnSignIn"
+                    android:layout_width="@dimen/btn_login_width"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/login_btn"
+                    android:theme="@style/PrimaryButton"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/btn_login_txt_size" />
+
+           </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentBottom="true"
+    android:orientation="vertical">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/red_edt_account"
+                  android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                  android:text="@string/signup_label"/>
+        <!--android:background="@drawable/btn_rounded_corners_login"-->
+
+        <Button
+                android:id="@+id/btnCreateAccount"
+                android:layout_width="@dimen/btn_login_width"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/signup_btn"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:layout_marginBottom="5dp"
+                android:theme="@style/PrimaryButton"
+                android:textSize="@dimen/btn_login_txt_size" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="txt_toolbar_title_size">16sp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="txt_dp_user_pop_up_heading_size">15dp</dimen>
+    <dimen name="button_height">40dp</dimen>
+    <dimen name="edit_height">40dp</dimen>
+    <dimen name="btn_login_width">150dp</dimen>
+    <dimen name="btn_call_mobilink_width">200dp</dimen>
+    <dimen name="btn_call_mobilink_txt_size">17dp</dimen>
+    <dimen name="btn_login_txt_size">17dp</dimen>
+
+    <dimen name="txt_home_item_size">12dp</dimen>
+    <dimen name="txt_drawer_courier_route_size">12dp</dimen>
+    <dimen name="txt_drawer_courier_name_size">14dp</dimen>
+
+    <dimen name="txt_category_label_size">30dp</dimen>
+
+    <dimen name="txt_dp_user_buttons_size">15dp</dimen>
+    <dimen name="btn_dp_user_login_txt_size">15dp</dimen>
+    <dimen name="total_cns_heading_size">18dp</dimen>
+    <dimen name="total_cns_value_size">19dp</dimen>
+    <dimen name="delivery_details_lbl_size">17dp</dimen>
+    <dimen name="edt_cn_number_size">15dp</dimen>
+    <dimen name="txt_spinner_item_receivers_name_size">16dp</dimen>
+    <dimen name="txt_delivery_details_field_lbl">12dp</dimen>
+    <dimen name="margin_top_delivery_details_spacing">9dp</dimen>
+    <dimen name="txt_delivery_detail_item_cn_size">14dp</dimen>
+    <dimen name="txt_cod_amount_size">23dp</dimen>
+
+    <dimen name="edt_dp_user_login_txt_size">13dp</dimen>
+    <dimen name="txt_report_list_item_size">13sp</dimen>
+    <dimen name="edt_field_size">15dp</dimen>
+    <dimen name="txt_child_status_item_size">16dp</dimen>
+    <dimen name="txt_security_total_cns_field_lbl">16dp</dimen>
+    <dimen name="txt_pop_up_delete_cn_mesg_size">15dp</dimen>
+
+    <dimen name="edit_comments_height">95dp</dimen>
+    <dimen name="txt_ds_security_item_cn_size">15dp</dimen>
+
+
+    <dimen name="btn_system_generated_route_txt_size">13dp</dimen>
+    <dimen name="txt_journey_stats_time_spent_size">12dp</dimen>
+    <dimen name="txt_customer_route_name_size">14dp</dimen>
+    <dimen name="txt_retry_error_message_size">17dp</dimen>
+
+    <dimen name="btn_add_update_width">130dp</dimen>
+    <dimen name="btn_add_update_height">34dp</dimen>
+    <dimen name="btn_add_update_txt_size">13dp</dimen>
+
+
+    <dimen name="img_drawer_height_size">100dp</dimen>
+
+
+    <dimen name="layout_margin_size">16dp</dimen>
+
+    <dimen name="img_width_login_dashboard_size">45dp</dimen>
+    <dimen name="img_height_login_dashboard_size">30dp</dimen>
+
+
+</resources>
+
+
+
+
+
+
+
+
+
+
+

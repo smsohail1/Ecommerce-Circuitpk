@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<solid android:color="@color/red_toolbar" />-->
+    <stroke android:width="1dp" android:color="@color/grey_dark_edt_hint"/>
+    <corners
+        android:radius="5dp"
+        />
+    <padding android:left="0dp"
+        android:top="5dp"
+        android:right="0dp"
+        android:bottom="5dp"
+        />
+</shape>
+
