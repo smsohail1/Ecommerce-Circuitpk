@@ -326,6 +326,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         manager = getSupportFragmentManager();
         if (fragment != null) {
             manager.beginTransaction()
+                    .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                     .add(R.id.fragmentContainer, fragment)
                     .addToBackStack(null)
                     .commit();

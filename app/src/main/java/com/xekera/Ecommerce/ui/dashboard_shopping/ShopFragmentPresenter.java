@@ -35,7 +35,8 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
     public void setDashboardItems() {
         List<DashboardItem> homeItems = new ArrayList<>();
         homeItems.add(new DashboardItem(R.string.ardino, R.drawable.icon_booking));
-        homeItems.add(new DashboardItem(R.string.capacitor, R.drawable.icon_clear_data));
+        homeItems.add(new DashboardItem(R.string.capacitor, R.drawable.
+                icon_clear_data));
         homeItems.add(new DashboardItem(R.string.senors, R.drawable.icon_retake));
         homeItems.add(new DashboardItem(R.string.wires, R.drawable.icon_reports));
         homeItems.add(new DashboardItem(R.string.sd_card, R.drawable.icon_fetch_data));

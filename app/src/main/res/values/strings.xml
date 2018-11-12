@@ -29,7 +29,7 @@
     <string name="password_error">Password is required</string>
     <string name="email_address_error">Email address is required</string>
     <string name="phone_no_error">Phone no is required</string>
-<string name="signup_successfully">Account Created successfully.</string>
+    <string name="signup_successfully">Account Created successfully.</string>
 
 
     <!--Dashboard-->
@@ -55,8 +55,10 @@
     <string name="textview_category_label">Category</string>
 
 
-
-
+    <!--Shop details screen-->
+    <string name="edt_shop_details">Search products</string>
+    <string name="Add_item">Add</string>
+    <string name="view_item">View</string>
 
     <string name="update_play_services">Please update Google Play Service on this device</string>
 

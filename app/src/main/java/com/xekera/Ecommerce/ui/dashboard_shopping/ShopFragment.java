@@ -27,6 +27,7 @@ import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
+import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.CartFragment;
 import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
 import com.xekera.Ecommerce.ui.dashboard_shopping.model.DashboardItem;
 import com.xekera.Ecommerce.util.*;
@@ -38,15 +39,15 @@ import java.util.*;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopFragment extends Fragment implements ShopFragmentMVP.View{
+public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     @BindView(R.id.recyclerViewHome)
     protected RecyclerView recyclerViewHome;
     @BindView(R.id.viewPager)
     protected ViewPager viewPager;
     @BindView(R.id.indicator)
     protected TabLayout indicator;
-   // @BindView(R.id.slider)
-   // protected SliderLayout sliderLayout;
+    // @BindView(R.id.slider)
+    // protected SliderLayout sliderLayout;
 
     @Inject
     protected ShopFragmentMVP.Presenter presenter;
@@ -129,11 +130,11 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View{
         colorName.add("BLUE");
 
 
-        img=new ArrayList<>();
+        img = new ArrayList<>();
         img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
         img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
         img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
-          presenter.setViewPagerItems(getActivity(), color, colorName,img);
+        presenter.setViewPagerItems(getActivity(), color, colorName, img);
 
         recyclerViewHome.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerViewHome.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
@@ -219,29 +220,33 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View{
 
     @Override
     public void setDashboardViewPagerAdapter(SliderAdapter sliderAdapter) {
-            viewPager.setAdapter(sliderAdapter);
-           indicator.setupWithViewPager(viewPager, true);
+        viewPager.setAdapter(sliderAdapter);
+        indicator.setupWithViewPager(viewPager, true);
 
         Timer timer = new Timer();
-           timer.scheduleAtFixedRate(new SliderTimer(), 4000, 6000);
-    }
+        timer.scheduleAtFixedRate(new SliderTimer(), 4000, 8000);
 
+    }
 
 
     private class SliderTimer extends TimerTask {
 
         @Override
         public void run() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (viewPager.getCurrentItem() < color.size() - 1) {
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-                    } else {
-                        viewPager.setCurrentItem(0);
+            try {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (viewPager.getCurrentItem() < color.size() - 1) {
+                            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                        } else {
+                            viewPager.setCurrentItem(0);
+                        }
                     }
-                }
-            });
+                });
+            } catch (Exception e) {
+
+            }
         }
     }
 

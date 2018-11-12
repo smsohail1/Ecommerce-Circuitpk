@@ -11,6 +11,9 @@
     <dimen name="btn_call_mobilink_txt_size">17dp</dimen>
     <dimen name="btn_login_txt_size">17dp</dimen>
 
+    <dimen name="mnm">500dp</dimen>
+    <dimen name="mnm1">130dp</dimen>
+
     <dimen name="txt_home_item_size">12dp</dimen>
     <dimen name="txt_drawer_courier_route_size">12dp</dimen>
     <dimen name="txt_drawer_courier_name_size">14dp</dimen>

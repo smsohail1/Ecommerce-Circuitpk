@@ -4,22 +4,33 @@ package com.xekera.Ecommerce.ui.dasboard_shopping_details;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
+import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View {
 
+    @BindView(R.id.edtSearchProduct)
+    protected EditText edtSearchProduct;
+    @BindView(R.id.recyclerViewProductDetails)
+    protected RecyclerView recyclerViewProductDetails;
 
     @Inject
     protected ShopDetailsMVP.Presenter presenter;
@@ -34,6 +45,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     public static final String KEY_SHOP_NAME_DETAILS = "shop_details_name";
 
+
+    List<String> shopDetails;
     String productName = "";
 
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
@@ -58,11 +71,11 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         presenter.setView(this);
 
         try {
-           // setTitle();
-           // showBackImageIcon();
+            // setTitle();
+            // showBackImageIcon();
             // hideHumbergIcon();
             hideActionBar();
-           // hideLoginIcon();
+            // hideLoginIcon();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -71,7 +84,6 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     public void setTitle() {
         ((BaseActivity) getActivity()).setTitle(productName);
     }
-
 
 
     public void hideLoginIcon() {
@@ -109,8 +121,19 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
+        recyclerViewProductDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         setTitle();
         hideLoginIcon();
+
+
+        shopDetails = new ArrayList<>();
+        shopDetails.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
+        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
+
+        presenter.setRecylerViewItems(getActivity(), shopDetails);
+
     }
 
 
@@ -142,6 +165,12 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     @Override
     public void showSnackBarLongTime(String message, View view) {
         snackUtil.showSnackBarLongTime(view, message);
+    }
+
+    @Override
+    public void showRecylerViewProductsDetail(ShopDetailsAdapter shopDetailsAdapter) {
+        recyclerViewProductDetails.setAdapter(shopDetailsAdapter);
+
     }
 
 
