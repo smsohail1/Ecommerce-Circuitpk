@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -36,7 +37,9 @@ import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.AppDatabase;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.dashboard.DashboardFragment;
+import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.login.LoginActivity;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import com.xekera.Ecommerce.util.*;
@@ -56,6 +59,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected DrawerLayout drawer;
     @BindView(R.id.nav_view)
     protected NavigationView navigationView;
+
+    @BindView(R.id.dashboardActionBar)
+    protected AppBarLayout dashboardActionBar;
+
     @BindView(R.id.fragmentContainer)
     protected FrameLayout fragmentContainer;
 
@@ -106,7 +113,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 } else {
                     if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
                         enableHomeIcon(true);
-                     //  popBackstack();
+                        //  popBackstack();
                         hideSoftKeyboard();
                         drawer.openDrawer(GravityCompat.START);
 
@@ -140,7 +147,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // onBackPressed();
+                // onBackImagePressed();
             }
         });
         initializeFragment();
@@ -212,8 +219,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     @Override
     public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (fragment instanceof ShopDetailsFragment) {
+            popBackstack();
+            showActionBar();
+            enableHomeIcon(true);
         } else {
             if (backPressedOnce) {
                 this.finish();
@@ -232,7 +246,22 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
     }
 
+
+    private void onBackImagePressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            enableHomeIcon(true);
+            super.onBackPressed();
+            popBackstack();
+            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
+        } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            popBackstack();
+        }
+    }
+
     public Toolbar getToolbar() {
+
         return toolbar;
     }
 
@@ -250,6 +279,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
 
+    public void hideBackImageIcon() {
+        imgBack.setVisibility(View.GONE);
+
+    }
+
+    public void hideHumberIcon() {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    public void showHumberIcon() {
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
     public void showLoginIcon() {
         imgLogin.setVisibility(View.VISIBLE);
     }
@@ -257,6 +299,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     public void showShoppingCartIcon() {
         imgShoppingCart.setVisibility(View.VISIBLE);
+    }
+
+    public void hideActionBar() {
+        getSupportActionBar().hide();
+        //  drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    public void showActionBar() {
+        getSupportActionBar().show();
     }
 
     @Override

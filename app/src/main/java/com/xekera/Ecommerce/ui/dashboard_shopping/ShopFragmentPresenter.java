@@ -1,6 +1,8 @@
 package com.xekera.Ecommerce.ui.dashboard_shopping;
 
+import android.content.Context;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
 import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
 import com.xekera.Ecommerce.ui.dashboard_shopping.model.DashboardItem;
 import com.xekera.Ecommerce.util.SessionManager;
@@ -13,6 +15,7 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
     private ShopFragmentMVP.View view;
     private ShopFragmentMVP.Model model;
     private DashboardAdapter homeAdapter;
+    private SliderAdapter sliderAdapter;
     private SessionManager sessionManager;
     private Utils utils;
 
@@ -26,7 +29,6 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
     public void setView(ShopFragmentMVP.View view) {
         this.view = view;
     }
-
 
 
     @Override
@@ -46,19 +48,26 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
     }
 
     @Override
+    public void setViewPagerItems(Context context,List<Integer> color,
+                                  List<String> colorName,List<String> img
+    ) {
+        sliderAdapter= new SliderAdapter(context, color, colorName,img);
+        view.setDashboardViewPagerAdapter(sliderAdapter);
+
+
+    }
+
+    @Override
     public void onHomeItemClick(DashboardItem homeItem) {
-        switch (homeItem.getNameResId()) {
+        // switch (homeItem.getNameResId()) {
+        view.showShoppingDetailPage(homeItem);
 
-
-//            case R.string.sync: {
+//            case R.string.ardino: {
 //                view.startDeliveryBackgroundService();
 //                break;
 //            }
-//            case R.string.dp_user:{
-//                view.showDPUserLoginPopup();
-//                break;
-//            }
-        }
+
+        //}
     }
 
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -58,6 +59,7 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
             setTitle();
             showShoppingCartIcon();
             showLoginIcon();
+            showActionBar();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -89,7 +91,12 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
-      Fragment fragment;
+
+       // attaching bottom sheet behaviour - hide / show on scroll
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavigationBehavior());
+
+        Fragment fragment;
         fragment = new ShopFragment();
         addFragment(fragment);
     }
@@ -170,6 +177,11 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
         ((BaseActivity) getActivity()).showLoginIcon();
     }
 
+
+    public  void showActionBar(){
+            ((BaseActivity) getActivity()).showActionBar();
+
+    }
     public void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);

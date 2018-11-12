@@ -1,26 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                            xmlns:tools="http://schemas.android.com/tools"
+                                            xmlns:app="http://schemas.android.com/apk/res-auto"
+
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:background="#f1f5f7"
+>
+
+
+    <!--<com.daimajia.slider.library.SliderLayout-->
+    <!--android:id="@+id/slider"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="150dp"-->
+    <!--/>-->
+
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+        <LinearLayout
+                android:id="@+id/viewPagerParent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    <TextView
-            android:id="@+id/categoryLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/textview_category_label"
-            android:textColor="@color/category_label"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:textSize="@dimen/txt_category_label_size"
+            <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+            />
 
-    >
-    </TextView>
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewHome"
-            android:layout_below="@+id/categoryLabel"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-    />
 
-</RelativeLayout>
+            <android.support.design.widget.TabLayout
+                    android:id="@+id/indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    app:tabBackground="@drawable/indicator_selector"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewPagerParent"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/categoryLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/textview_category_label"
+                    android:textColor="@color/category_label"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:textSize="@dimen/txt_category_label_size"
+
+            >
+            </TextView>
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewHome"
+                    android:layout_below="@+id/categoryLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:nestedScrollingEnabled="false"
+
+            />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

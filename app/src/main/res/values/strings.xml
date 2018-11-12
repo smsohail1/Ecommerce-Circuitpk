@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ecommerce</string>
+    <string name="app_name">Circuit.pk</string>
 
     <!--Login screen-->
     <string name="employee_code_hint_login_edt">Username</string>

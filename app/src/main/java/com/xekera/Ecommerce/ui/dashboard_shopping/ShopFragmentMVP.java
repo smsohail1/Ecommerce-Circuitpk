@@ -1,7 +1,13 @@
 package com.xekera.Ecommerce.ui.dashboard_shopping;
 
 
+import android.content.Context;
+import android.transition.Slide;
+import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
 import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
+import com.xekera.Ecommerce.ui.dashboard_shopping.model.DashboardItem;
+
+import java.util.List;
 
 public interface ShopFragmentMVP {
 
@@ -17,6 +23,10 @@ public interface ShopFragmentMVP {
 
         void showToastLongTime(String message);
 
+        void showShoppingDetailPage(DashboardItem homeItem);
+
+        void setDashboardViewPagerAdapter(SliderAdapter sliderAdapter);
+
     }
 
     interface Presenter {
@@ -24,6 +34,8 @@ public interface ShopFragmentMVP {
 
         void setDashboardItems();
 
+        void setViewPagerItems(Context context, List<Integer> color,
+                               List<String> colorName,List<String> img);
     }
 
     interface Model {

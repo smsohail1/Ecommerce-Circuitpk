@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.di.component;
 import com.xekera.Ecommerce.di.module.*;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.LoginBaseActivity;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.dashboard.DashboardFragment;
 import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.CartFragment;
 import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.FragmentFavourites;
@@ -23,7 +24,8 @@ import javax.inject.Singleton;
         DashboardModule.class,
         LoginModule.class,
         SignupModule.class,
-        ShopModule.class
+        ShopModule.class,
+        ShopDetailsModule.class
 })
 @Singleton
 public interface AppComponent {
@@ -34,6 +36,8 @@ public interface AppComponent {
     void inject(LoginBaseActivity loginBaseActivity);
 
     void inject(ShopFragment shopFragment);
+
+    void inject(ShopDetailsFragment shopDetailsFragment);
 
     void inject(CartFragment cartFragment);
 
