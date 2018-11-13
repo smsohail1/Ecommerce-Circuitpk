@@ -147,7 +147,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // onBackImagePressed();
+                onBackImagePressed();
             }
         });
         initializeFragment();
@@ -225,9 +225,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (fragment instanceof ShopDetailsFragment) {
-            popBackstack();
-            showActionBar();
+
+            hideBackImageIcon();
             enableHomeIcon(true);
+            popBackstack();
+            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
+
         } else {
             if (backPressedOnce) {
                 this.finish();
@@ -250,13 +253,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     private void onBackImagePressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+            hideBackImageIcon();
         } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             enableHomeIcon(true);
             super.onBackPressed();
+            hideBackImageIcon();
             popBackstack();
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
         } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            hideBackImageIcon();
+            enableHomeIcon(true);
             popBackstack();
+            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
+
+
         }
     }
 
@@ -281,8 +291,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     public void hideBackImageIcon() {
         imgBack.setVisibility(View.GONE);
-
     }
+
+
+    public void showBackImageIcon() {
+        imgBack.setVisibility(View.VISIBLE);
+    }
+
 
     public void hideHumberIcon() {
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -332,6 +347,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     .commit();
         }
         enableHomeIcon(false);
+    }
+
+
+    public void addFragmentWithLockedHumberIcon(Fragment fragment) {
+        manager = getSupportFragmentManager();
+        if (fragment != null) {
+            manager.beginTransaction()
+                    .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                    .add(R.id.fragmentContainer, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        disbaleHomeIcon(false);
     }
 
 
@@ -436,10 +464,26 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu_icon);
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         } else {
+
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow);
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
         }
     }
+
+    public void disbaleHomeIcon(boolean b) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (b) {
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu_icon);
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow);
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+        }
+    }
+
 
     @Override
     protected void onResume() {

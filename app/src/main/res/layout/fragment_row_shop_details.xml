@@ -36,9 +36,9 @@
                 <ImageView
                         android:id="@+id/imgProduct"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="100dp"
                         android:gravity="center_horizontal"
-                        android:background="@drawable/ic_launcher_background"
+                        android:src="@drawable/ardino"
                 />
 
 
@@ -61,7 +61,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.6"
-                            android:text="abc"
                             android:textColor="@color/colorPrimary"
                             android:gravity="center_horizontal"
                             android:layout_marginLeft="5dp"
@@ -72,7 +71,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.6"
-                            android:text="abc"
                             android:textColor="@color/colorPrimary"
                             android:layout_marginLeft="5dp"
                             android:gravity="center_horizontal"
@@ -88,21 +86,21 @@
 
                         <Button
                                 android:id="@+id/viewDetailsImageView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="75dp"
+                                android:layout_height="45dp"
                                 android:layout_weight="0.6"
                                 android:gravity="center_horizontal"
                                 android:layout_marginRight="5dp"
                                 android:theme="@style/PrimaryButton"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
-                                android:text="@string/Add_item"
+                                android:text="@string/view_item"
                                 android:textSize="@dimen/btn_login_txt_size"
                         />
                         <Button
                                 android:id="@+id/AddImageView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="75dp"
+                                android:layout_height="45dp"
                                 android:layout_weight="0.6"
                                 android:layout_marginRight="5dp"
                                 android:gravity="center_horizontal"

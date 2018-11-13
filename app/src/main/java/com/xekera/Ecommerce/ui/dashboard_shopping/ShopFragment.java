@@ -131,8 +131,8 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
 
 
         img = new ArrayList<>();
-        img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
         img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+        img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
         img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
         presenter.setViewPagerItems(getActivity(), color, colorName, img);
 
@@ -214,7 +214,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     public void showShoppingDetailPage(DashboardItem homeItem) {
 
         ShopDetailsFragment shopDetailsFragment = new ShopDetailsFragment();
-        ((BaseActivity) getActivity()).addFragment(shopDetailsFragment.newInstance(utils.getStringFromResourceId(homeItem.getNameResId())));
+        ((BaseActivity) getActivity()).addFragmentWithLockedHumberIcon(shopDetailsFragment.newInstance(utils.getStringFromResourceId(homeItem.getNameResId())));
 
     }
 
@@ -224,7 +224,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
         indicator.setupWithViewPager(viewPager, true);
 
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new SliderTimer(), 4000, 8000);
+        timer.scheduleAtFixedRate(new SliderTimer(), 5000, 5000);
 
     }
 

@@ -24,13 +24,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
             >
+
+                <ImageView
+                        android:id="@+id/imgBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/img_back"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:padding="8dp"
+                        android:visibility="gone"
+                />
                 <TextView
                         android:id="@+id/txtScreenTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/app_name"
                         android:gravity="center"
                         android:textSize="@dimen/txt_toolbar_title_size"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/imgBack"
                         android:textColor="@color/white"
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/titilliu_web_semi_bold"
@@ -67,44 +79,9 @@
                             android:visibility="visible"
                     />
 
-
-                    <!--<TextView-->
-                    <!--android:id="@+id/txtRouteDone"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/done"-->
-                    <!--android:textSize="@dimen/txt_toolbar_title_size"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:visibility="gone"-->
-                    <!--/>-->
-                    <!--<ImageView-->
-                    <!--android:id="@+id/imgMagnification"-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:layout_toLeftOf="@+id/imgNotifications"-->
-                    <!--android:background="@drawable/magnify_image"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_marginRight="12dp"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:padding="6dp"-->
-                    <!--/>-->
                 </LinearLayout>
 
-                <ImageView
-                        android:id="@+id/imgBack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/img_back"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentLeft="true"
-                        android:padding="8dp"
-                        android:layout_marginLeft="-6dp"
-                        android:visibility="invisible"
-                />
+
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>

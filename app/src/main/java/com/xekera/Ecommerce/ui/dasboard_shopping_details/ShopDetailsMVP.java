@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.dasboard_shopping_details;
 
 import android.content.Context;
 import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface ShopDetailsMVP {
     interface Presenter {
         void setView(ShopDetailsMVP.View view);
 
-        void setRecylerViewItems(Context context, List<String> items);
+        void setRecylerViewItems(Context context, List<ShoppingDetailModel> items);
 
     }
 

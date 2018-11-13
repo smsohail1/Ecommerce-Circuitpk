@@ -6,26 +6,31 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View {
+public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View, ShopDetailsAdapter.IShopDetailAdapter {
 
     @BindView(R.id.edtSearchProduct)
     protected EditText edtSearchProduct;
@@ -46,7 +51,9 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     public static final String KEY_SHOP_NAME_DETAILS = "shop_details_name";
 
 
-    List<String> shopDetails;
+    ShopDetailsAdapter shopDetailsAdapter;
+
+    List<ShoppingDetailModel> shopDetails;
     String productName = "";
 
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
@@ -71,11 +78,12 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         presenter.setView(this);
 
         try {
-            // setTitle();
-            // showBackImageIcon();
-            // hideHumbergIcon();
-            hideActionBar();
-            // hideLoginIcon();
+            setTitle();
+         //   showBackImageIcon();
+           // hideHumbergIcon();
+            showBackImageIcon();
+            //hideActionBar();
+             hideLoginIcon();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -94,8 +102,11 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     public void hideHumbergIcon() {
         ((BaseActivity) getActivity()).hideHumberIcon();
 
-        // getToolbar().setVisibility(View.GONE);
-        //drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    public void showBackImageIcon() {
+        ((BaseActivity) getActivity()).showBackImageIcon();
+
     }
 
     public void hideActionBar() {
@@ -127,12 +138,62 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         hideLoginIcon();
 
 
-        shopDetails = new ArrayList<>();
-        shopDetails.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
-        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
-        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
+        shopDetails = new ArrayList<ShoppingDetailModel>();
+        shopDetails.add(new ShoppingDetailModel("Arduino", "5000"));
 
-        presenter.setRecylerViewItems(getActivity(), shopDetails);
+        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000"));
+
+        shopDetails.add(new ShoppingDetailModel("LED", "300"));
+
+        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800"));
+
+        shopDetails.add(new ShoppingDetailModel("Bread Board", "200"));
+//        shopDetails.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
+//        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+//        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
+//        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+//        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+//        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+//        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+
+        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this);
+        showRecylerViewProductsDetail(shopDetailsAdapter);
+
+
+        //  presenter.setRecylerViewItems(getActivity(), shopDetails);
+        //shopDetailsAdapter = new ShopDetailsAdapter();
+
+
+        edtSearchProduct.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+                try {
+
+
+                    String text = edtSearchProduct.getText().toString().toLowerCase(Locale.getDefault());
+
+                    shopDetailsAdapter.filter(text);
+
+                } catch (Exception ex) {
+
+                }
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1,
+                                          int arg2, int arg3) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+                                      int arg3) {
+                // TODO Auto-generated method stub
+            }
+        });
 
     }
 
@@ -181,9 +242,14 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         fragment.setArguments(bundle);
         return fragment;
     }
-//
-//    public class newInstance extends Fragment {
-//        public newInstance(String s) {
-//        }
-//    }
+
+    @Override
+    public void onAddButtonClick(ShoppingDetailModel productItems) {
+
+    }
+
+    @Override
+    public void onViewDetailsButtonClick(ShoppingDetailModel productItems) {
+
+    }
 }

@@ -2,7 +2,7 @@ package com.xekera.Ecommerce.ui.dasboard_shopping_details;
 
 import android.content.Context;
 import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
-import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 
@@ -27,10 +27,10 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     }
 
     @Override
-    public void setRecylerViewItems(Context context, List<String> items) {
+    public void setRecylerViewItems(Context context, List<ShoppingDetailModel> items) {
 
-        shopDetailsAdapter = new ShopDetailsAdapter(context, items);
-        view.showRecylerViewProductsDetail(shopDetailsAdapter);
+       // shopDetailsAdapter = new ShopDetailsAdapter(context, items, this);
+       // view.showRecylerViewProductsDetail(shopDetailsAdapter);
     }
 
 }
