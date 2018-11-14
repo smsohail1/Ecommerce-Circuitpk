@@ -136,8 +136,8 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
         img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
         presenter.setViewPagerItems(getActivity(), color, colorName, img);
 
-        recyclerViewHome.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        recyclerViewHome.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
+        recyclerViewHome.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerViewHome.addItemDecoration(new GridSpacingItemDecoration(2, 10, true));
 
         presenter.setDashboardItems();
 

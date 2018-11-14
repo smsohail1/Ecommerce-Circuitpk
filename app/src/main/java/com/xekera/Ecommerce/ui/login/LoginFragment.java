@@ -43,8 +43,10 @@ import javax.inject.Inject;
 public class LoginFragment extends Fragment implements View.OnClickListener, LoginMVP.View {
     @BindView(R.id.edtUsername)
     protected EditText edtUsername;
-    @BindView(R.id.edtPassword)
-    protected EditText edtPassword;
+//    @BindView(R.id.edtPassword)
+//    protected EditText edtPassword;
+    @BindView(R.id.customEdtPasswordHideShow)
+    protected EditText customEdtPasswordHideShow;
     @BindView(R.id.btnSignIn)
     protected Button btnSignIn;
     @BindView(R.id.btnCreateAccount)
@@ -132,7 +134,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
             case R.id.btnSignIn: {
 
                 String userName = edtUsername.getText().toString();
-                String password = edtPassword.getText().toString();
+                String password = customEdtPasswordHideShow.getText().toString();
 
                 presenter.onClickBtnSignIn(userName, password,view);
                 break;
@@ -160,7 +162,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     @Override
     public void hideSoftKeyboard() {
         utils.hideSoftKeyboard(edtUsername);
-        utils.hideSoftKeyboard(edtPassword);
+        //utils.hideSoftKeyboard(edtPassword);
 
     }
 

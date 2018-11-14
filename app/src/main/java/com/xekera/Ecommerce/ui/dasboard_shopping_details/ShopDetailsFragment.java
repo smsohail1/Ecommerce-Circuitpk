@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.varunest.sparkbutton.SparkButton;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
@@ -79,11 +80,11 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
         try {
             setTitle();
-         //   showBackImageIcon();
-           // hideHumbergIcon();
+            //   showBackImageIcon();
+            // hideHumbergIcon();
             showBackImageIcon();
             //hideActionBar();
-             hideLoginIcon();
+            hideLoginIcon();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -139,15 +140,15 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
 
         shopDetails = new ArrayList<ShoppingDetailModel>();
-        shopDetails.add(new ShoppingDetailModel("Arduino", "5000"));
+        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0));
 
-        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000"));
+        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 0));
 
-        shopDetails.add(new ShoppingDetailModel("LED", "300"));
+        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 0));
 
-        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800"));
+        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 0));
 
-        shopDetails.add(new ShoppingDetailModel("Bread Board", "200"));
+        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 0));
 //        shopDetails.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
 //        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
 //        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
@@ -250,6 +251,22 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void onViewDetailsButtonClick(ShoppingDetailModel productItems) {
+
+    }
+
+    @Override
+    public void onFavouriteButtonClick(ShoppingDetailModel productItems) {
+        String dd;
+        dd = "";
+    }
+
+    @Override
+    public void onIncrementButtonClick(ShoppingDetailModel productItems) {
+
+    }
+
+    @Override
+    public void onDecrementButtonClick(ShoppingDetailModel productItems) {
 
     }
 }

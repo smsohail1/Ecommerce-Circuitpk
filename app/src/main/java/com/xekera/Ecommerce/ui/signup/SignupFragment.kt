@@ -20,26 +20,26 @@ import javax.inject.Inject
 /**
  * A simple {@link Fragment} subclass.
  */
-class SignupFragment : Fragment(), View.OnClickListener,SignupMVP.View {
+class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
 
     @Inject
-    lateinit  var utils: Utils
+    lateinit var utils: Utils
     @Inject
-    lateinit  var toastUtil: ToastUtil
+    lateinit var toastUtil: ToastUtil
     @Inject
     lateinit var snackUtil: SnackUtil
     @Inject
     lateinit var presenter: SignupMVP.Presenter
 
-    lateinit   var progressDialogControllerPleaseWait: ProgressCustomDialogController
+    lateinit var progressDialogControllerPleaseWait: ProgressCustomDialogController
 
 
     fun SignupFragment() {
         // Required empty public constructor
     }
 
-     override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (getActivity()!!.getApplication() as App).getAppComponent().inject(this)
     }
@@ -65,7 +65,7 @@ class SignupFragment : Fragment(), View.OnClickListener,SignupMVP.View {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_signup, container, false)
 
-       // initializeViews()
+        // initializeViews()edtPasswordShowHide
 
         return v
     }
@@ -95,9 +95,9 @@ class SignupFragment : Fragment(), View.OnClickListener,SignupMVP.View {
         super.onResume()
         this.presenter?.setView(this)
         try {
-       //     setTitle()
-         //   hideLoginIcon()
-           // hideShoppingCartIcon()
+            //     setTitle()
+            //   hideLoginIcon()
+            // hideShoppingCartIcon()
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
@@ -109,10 +109,10 @@ class SignupFragment : Fragment(), View.OnClickListener,SignupMVP.View {
         when (view.getId()) {
             R.id.btnSignUp -> {
                 val userName = edtUsername?.getText().toString()
-                val password = edtPassword?.getText().toString()
+                val password = edtPasswordShowHide?.getText().toString()
                 val phoneNo = edtUserPhoneNo?.getText().toString()
                 val emailAddress = edtEmailAddress?.getText().toString()
-                presenter?.onClickBtnSignUp(userName,password,phoneNo,emailAddress,view)
+                presenter?.onClickBtnSignUp(userName, password, phoneNo, emailAddress, view)
 //                if (validateInputFields(userName, password, phoneNo, emailAddress,view)) {
 //
 //                    Snackbar.make(view,getStringFromResourceId(R.string.signup_successfully, this) , Snackbar.LENGTH_SHORT)
@@ -195,7 +195,7 @@ class SignupFragment : Fragment(), View.OnClickListener,SignupMVP.View {
 
         edtUsername.setText("")
 
-        edtPassword.setText("")
+        edtPasswordShowHide.setText("")
 
         edtUserPhoneNo.setText("")
 
@@ -212,7 +212,7 @@ class SignupFragment : Fragment(), View.OnClickListener,SignupMVP.View {
 
     override fun hideSoftKeyboard() {
         utils?.hideSoftKeyboard(edtUsername)
-        utils?.hideSoftKeyboard(edtPassword)
+        // utils?.hideSoftKeyboard(edtPassword)
         utils?.hideSoftKeyboard(edtUserPhoneNo)
         utils?.hideSoftKeyboard(edtEmailAddress)
 

@@ -4,15 +4,19 @@ public class ShoppingDetailModel {
 
     private String productName;
     private String productPrice;
+    private boolean isFavourite;
+    private long itemQuantity;
 
 
     public ShoppingDetailModel() {
 
     }
 
-    public ShoppingDetailModel(String productName, String productPrice) {
+    public ShoppingDetailModel(String productName, String productPrice, boolean isFavourite, long itemQuantity) {
         this.productName = productName;
         this.productPrice = productPrice;
+        this.isFavourite = isFavourite;
+        this.itemQuantity = itemQuantity;
     }
 
     public String getProductName() {
@@ -30,5 +34,22 @@ public class ShoppingDetailModel {
     public void setProductPrice(String productPrice) {
         this.productPrice = productPrice;
     }
+
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        isFavourite = favourite;
+    }
+
+    public long getItemQuantity() {
+        return itemQuantity;
+    }
+
+    public void setItemQuantity(long itemQuantity) {
+        this.itemQuantity = itemQuantity;
+    }
+
 
 }
