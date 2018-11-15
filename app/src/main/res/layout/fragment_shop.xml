@@ -62,6 +62,8 @@
 
             >
             </TextView>
+
+
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerViewHome"
                     android:layout_below="@+id/categoryLabel"

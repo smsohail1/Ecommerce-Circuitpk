@@ -1,6 +1,7 @@
 package com.xekera.Ecommerce.ui.dasboard_shopping_details;
 
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
+import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
@@ -137,18 +139,19 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
         setTitle();
         hideLoginIcon();
+        showBackImageIcon();
 
 
         shopDetails = new ArrayList<ShoppingDetailModel>();
-        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0));
+        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 1));
 
-        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 0));
+        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 1));
 
-        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 0));
+        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 1));
 
-        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 0));
+        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 1));
 
-        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 0));
+        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 1));
 //        shopDetails.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
 //        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
 //        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
@@ -258,6 +261,13 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     public void onFavouriteButtonClick(ShoppingDetailModel productItems) {
         String dd;
         dd = "";
+        if (productItems.isFavourite()) {
+            showSnackBarShortTime("Add item to favourites.", getView());
+        } else {
+            showSnackBarShortTime("Remove item from favourites.", getView());
+
+        }
+
     }
 
     @Override
@@ -269,4 +279,13 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     public void onDecrementButtonClick(ShoppingDetailModel productItems) {
 
     }
+
+    @Override
+    public void onCardClick(ShoppingDetailModel productItems, Bitmap bitmapImg) {
+        ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
+        ((BaseActivity) getActivity()).addFragmentWithLockedHumberIcon(shopCardSelectedFragment.newInstance(productItems, bitmapImg));
+
+    }
+
+
 }

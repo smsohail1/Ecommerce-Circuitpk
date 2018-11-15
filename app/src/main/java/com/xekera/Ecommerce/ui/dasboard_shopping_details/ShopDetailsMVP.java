@@ -24,6 +24,8 @@ public interface ShopDetailsMVP {
         void showSnackBarLongTime(String message, android.view.View view);
 
         void showRecylerViewProductsDetail(ShopDetailsAdapter shopDetailsAdapter);
+
+
     }
 
     interface Presenter {

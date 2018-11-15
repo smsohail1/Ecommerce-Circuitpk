@@ -1,6 +1,8 @@
 package com.xekera.Ecommerce.ui.dasboard_shopping_details.model;
 
-public class ShoppingDetailModel {
+import java.io.Serializable;
+
+public class ShoppingDetailModel implements Serializable {
 
     private String productName;
     private String productPrice;

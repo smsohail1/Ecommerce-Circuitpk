@@ -13,10 +13,16 @@
     <color name="black">@android:color/black</color>
     <color name="grey_dark_report_list_item">#54595C</color>
 
+
     <color name="white_label">#ffffff</color>
 
 
-    <color name="category_label">#54595C</color>
+    <color name="row_product_name_textview">#000000</color>
+    <color name="discount_price_textview">#54595C</color>
+
+    <color name="price_textview">#E10915</color>
+
+    <color name="category_label"></color>
     <!--Bottom Navigation-->
     <color name="bgBottomNavigation">#008577</color>
     <string name="title_shop">Shop</string>
@@ -35,6 +41,7 @@
     <color name="grey_light_report_item_bg_light">#EDF1F2</color>
     <color name="grey_dark_report_item_sheet_num">#2B2C2C</color>
 
+    <color name="availibility_textview">#494949</color>
     <color name="grey_dark_edt">#494949</color>
     <color name="grey_dark_edt_hint">#7A7A7A</color>
 

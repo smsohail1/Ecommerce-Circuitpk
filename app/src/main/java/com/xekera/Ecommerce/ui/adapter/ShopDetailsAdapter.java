@@ -1,7 +1,10 @@
 package com.xekera.Ecommerce.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +28,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     List<ShoppingDetailModel> productsItemsSearch;
     IShopDetailAdapter iShopDetailAdapter;
     //long decrementCounter = 0;
-   // long incrementCounter = 0;
+    // long incrementCounter = 0;
 
     public ShopDetailsAdapter() {
 
@@ -57,7 +60,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             productDetailsDataListViewHolder.productNameLabelTextView.setText(shoppingDetailModel.getProductName());
             productDetailsDataListViewHolder.priceTextView.setText(shoppingDetailModel.getProductPrice());
-            productDetailsDataListViewHolder.counterTextview.setText(shoppingDetailModel.getItemQuantity()+"");
+            productDetailsDataListViewHolder.counterTextview.setText(shoppingDetailModel.getItemQuantity() + "");
 
             if (shoppingDetailModel.isFavourite()) {
                 productDetailsDataListViewHolder.favouriteButton.setChecked(true);
@@ -109,22 +112,34 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public ImageView incrementImageButton;
         @BindView(R.id.counterTextview)
         public TextView counterTextview;
+        @BindView(R.id.cardViewParent)
+        public CardView cardViewParent;
+
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-             itemView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
             // itemView.findViewById(R.id.AddImageView).setOnClickListener(this);
             // itemView.findViewById(R.id.viewDetailsImageView).setOnClickListener(this);
+
             itemView.findViewById(R.id.favouriteButton).setOnClickListener(this);
             itemView.findViewById(R.id.decrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.incrementImageButton).setOnClickListener(this);
-
+            itemView.findViewById(R.id.cardViewParent).setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
+
+                case R.id.cardViewParent:
+                     BitmapDrawable bitmapDrawable = (BitmapDrawable) imgProduct.getDrawable();
+                     Bitmap bitmapImg = bitmapDrawable.getBitmap();
+
+                    iShopDetailAdapter.onCardClick(productsItems.get(getLayoutPosition()),bitmapImg);
+                    break;
+
                 case R.id.AddImageView:
                     iShopDetailAdapter.onAddButtonClick(productsItems.get(getLayoutPosition()));
 
@@ -152,27 +167,27 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     //productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
 
                     // productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
-                    if (productsItems.get(getLayoutPosition()).getItemQuantity() > 0) {
+                    if (productsItems.get(getLayoutPosition()).getItemQuantity() >1) {
 
-                       long j= productsItems.get(getLayoutPosition()).getItemQuantity() - 1 ;
+                        long j = productsItems.get(getLayoutPosition()).getItemQuantity() - 1;
                         productsItems.get(getLayoutPosition()).setItemQuantity(j);
 
-                        counterTextview.setText(j+"");
+                        counterTextview.setText(j + "");
                     } else {
-                        productsItems.get(getLayoutPosition()).setItemQuantity(0);
+                        productsItems.get(getLayoutPosition()).setItemQuantity(1);
 
-                        counterTextview.setText(productsItems.get(getLayoutPosition()).getItemQuantity()+"");
+                        counterTextview.setText(productsItems.get(getLayoutPosition()).getItemQuantity() + "");
 
                     }
                     break;
                 case R.id.incrementImageButton:
 
                     //   incrementCounter = incrementCounter + 1;
-                      //  productsItems.get(getLayoutPosition()).setItemQuantity(counter + "");
-                   long d= productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
-                    productsItems.get(getLayoutPosition()).setItemQuantity(d );
+                    //  productsItems.get(getLayoutPosition()).setItemQuantity(counter + "");
+                    long d = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
+                    productsItems.get(getLayoutPosition()).setItemQuantity(d);
 
-                    counterTextview.setText(d+"");
+                    counterTextview.setText(d + "");
 
 
                     break;
@@ -204,6 +219,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void onDecrementButtonClick(ShoppingDetailModel productItems);
 
+        void onCardClick(ShoppingDetailModel productItems,Bitmap bitmapImg);
     }
 
 

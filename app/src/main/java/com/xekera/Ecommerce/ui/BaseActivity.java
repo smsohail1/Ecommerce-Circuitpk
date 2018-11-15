@@ -41,6 +41,7 @@ import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.dashboard.DashboardFragment;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.login.LoginActivity;
+import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import com.xekera.Ecommerce.util.*;
 
@@ -147,7 +148,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackImagePressed();
+                onBackPressed();
+                //  onBackImagePressed();
             }
         });
         initializeFragment();
@@ -174,9 +176,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             ((DashboardFragment) fragment).setTitle();
             ((DashboardFragment) fragment).showLoginIcon();
             ((DashboardFragment) fragment).showShoppingCartIcon();
+        } else if (fragment instanceof ShopCardSelectedFragment) {
+            ((ShopCardSelectedFragment) fragment).setTitle();
+
+        } else if (fragment instanceof ShopDetailsFragment) {
+            ((ShopDetailsFragment) fragment).setTitle();
+
         }
-
-
     }
 
     public void popBackFromStack(Fragment fragment) {
@@ -231,7 +237,25 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             popBackstack();
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
 
-        } else {
+        }
+        else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            enableHomeIcon(true);
+            super.onBackPressed();
+            popBackstack();
+            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
+        } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            popBackstack();
+        }
+
+//        else if (fragment instanceof ShopCardSelectedFragment) {
+//            enableHomeIcon(false);
+//            popBackstack();
+//            overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
+//
+//
+//        }
+//
+        else {
             if (backPressedOnce) {
                 this.finish();
             }
