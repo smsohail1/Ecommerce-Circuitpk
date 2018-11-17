@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <!--<color name="colorPrimary">#008577</color>-->
+    <color name="colorPrimary">#E10915</color>
+    <!--<color name="colorPrimaryDark">#00574B</color>-->
+    <color name="colorPrimaryDark">#E10915</color>
+
     <color name="colorAccent">#D81B60</color>
 
     <color name="light_blue">#0182c3</color>
@@ -18,13 +21,13 @@
 
 
     <color name="row_product_name_textview">#000000</color>
-    <color name="discount_price_textview">#54595C</color>
+    <color name="discount_price_textview">#E42021</color>
+    <color name="price_textview">#54595C</color>
 
-    <color name="price_textview">#E10915</color>
 
-    <color name="category_label"></color>
+    <color name="category_label">#ffffff</color>
     <!--Bottom Navigation-->
-    <color name="bgBottomNavigation">#008577</color>
+    <color name="bgBottomNavigation">#E10915</color>
     <string name="title_shop">Shop</string>
     <string name="title_favourite">Favourite</string>
     <string name="title_cart">Cart</string>
@@ -35,6 +38,8 @@
     <color name="grey_dark_field_headings">#54595C</color>
     <color name="black_details_of_list_heading_bg">#2A2A2A</color>
     <color name="grey_dark_serial_num_bg">#545454</color>
+    <color name="textview_naviagtion_drawer">#545454</color>
+
     <color name="grey_light_consignment_num_bg">#717171</color>
     <color name="grey_light_missing_fields_bg">#97989A</color>
     <color name="grey_light_report_item_bg_dark">#E8ECED</color>

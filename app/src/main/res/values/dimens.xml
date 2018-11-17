@@ -20,7 +20,7 @@
     <dimen name="txt_drawer_courier_route_size">12dp</dimen>
     <dimen name="txt_drawer_courier_name_size">14dp</dimen>
 
-    <dimen name="txt_category_label_size">25dp</dimen>
+    <dimen name="txt_category_label_size">20dp</dimen>
 
     <dimen name="txt_dp_user_buttons_size">15dp</dimen>
     <dimen name="btn_dp_user_login_txt_size">15dp</dimen>

@@ -49,27 +49,41 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/viewPagerParent"
                 android:orientation="vertical">
+            >
 
-            <TextView
-                    android:id="@+id/categoryLabel"
+            <android.support.v7.widget.CardView
+                    android:id="@+id/cardViewParent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/textview_category_label"
-                    android:textColor="@color/category_label"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:textSize="@dimen/txt_category_label_size"
-
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="2dp"
+                    app:contentPadding="5dp"
+                    app:cardBackgroundColor="@color/colorPrimary"
             >
-            </TextView>
 
+
+                <TextView
+                        android:id="@+id/categoryLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/textview_category_label"
+                        android:textColor="@color/category_label"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/txt_category_label_size"
+
+                >
+                </TextView>
+            </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerViewHome"
                     android:layout_below="@+id/categoryLabel"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="3dp"
                     android:nestedScrollingEnabled="false"
 
             />

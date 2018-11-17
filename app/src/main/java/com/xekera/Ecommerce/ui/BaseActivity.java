@@ -271,6 +271,23 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             popBackstack();
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
 
+        } else if (fragment instanceof DashboardFragment) {
+
+            if (backPressedOnce) {
+                this.finish();
+            }
+
+            backPressedOnce = true;
+            Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    backPressedOnce = false;
+
+                }
+            }, 2000);
+
         } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             enableHomeIcon(true);
             super.onBackPressed();

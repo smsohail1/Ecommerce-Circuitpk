@@ -52,7 +52,7 @@
     <string name="favourite_dashboard">Favourite</string>
     <string name="cart_dashboard">Cart</string>
     <string name="history_dashboard">History</string>
-    <string name="textview_category_label"><u><b>Category</b></u></string>
+    <string name="textview_category_label">Shop By Category</string>
 
 
     <!--Shop details screen-->
@@ -73,6 +73,8 @@
     <string name="charges">Charger</string>
     <string name="motor_wheel">Motor Wheel</string>
 
-    <string name="product_desc">This DC-DC step down module is based on the MP1584EN chip, which is capable of driving a 3 A load and converts input voltages between 4.5 V to 28 V into a lower voltage between 0.8 V to 20 V. This is suitable for applications which need a highly efficient power converter
+    <string name="product_desc">This DC-DC step down module is based on the MP1584EN chip, which is capable of driving a
+        3 A load and converts input voltages between 4.5 V to 28 V into a lower voltage between 0.8 V to 20 V. This is
+        suitable for applications which need a highly efficient power converter
     </string>
 </resources>

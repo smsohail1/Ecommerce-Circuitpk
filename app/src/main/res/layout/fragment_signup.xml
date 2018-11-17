@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
+                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/signup_field_background"
+                android:background="#adadb2"
 
 >
 
@@ -59,7 +59,7 @@
                     android:id="@+id/edtUsername"
                     android:layout_width="260dp"
                     android:layout_height="@dimen/edit_height"
-                    android:background="@drawable/bg_stroke_signup_edt"
+                    android:background="@drawable/bg_stroke_sign_in_edt"
                     android:drawableLeft="@drawable/icon_courier_code"
                     android:drawablePadding="7dp"
                     android:fontFamily="@font/titilliu_web_regular"
@@ -68,7 +68,7 @@
                     android:maxLength="20"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="15dp"
-                    android:textColorHint="@color/edt_signup_hint"
+                    android:textColorHint="@color/red_edt_hint"
                     android:textCursorDrawable="@drawable/cursor_color"
                     android:textSize="14sp"/>
             <!--<EditText-->
@@ -96,7 +96,7 @@
                     android:layout_width="260dp"
                     android:layout_height="@dimen/edit_height"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_stroke_signup_edt"
+                    android:background="@drawable/bg_stroke_sign_in_edt"
                     android:drawableLeft="@drawable/icon_password"
                     android:drawablePadding="7dp"
                     android:layout_gravity="center_horizontal"
@@ -105,7 +105,7 @@
                     android:inputType="textPassword"
                     android:imeOptions="actionDone"
                     android:maxLength="15"
-                    android:textColorHint="@color/edt_signup_hint"
+                    android:textColorHint="@color/red_edt_hint"
                     android:textCursorDrawable="@drawable/cursor_color"
                     android:textSize="14sp"
                     android:paddingRight="10dp"
@@ -117,7 +117,7 @@
                     android:id="@+id/edtUserPhoneNo"
                     android:layout_width="260dp"
                     android:layout_height="@dimen/edit_height"
-                    android:background="@drawable/bg_stroke_signup_edt"
+                    android:background="@drawable/bg_stroke_sign_in_edt"
                     android:drawableLeft="@drawable/icon_phone_no"
                     android:layout_gravity="center_horizontal"
                     android:drawablePadding="7dp"
@@ -126,14 +126,14 @@
                     android:inputType="number"
                     android:maxLength="11"
                     android:layout_marginTop="10dp"
-                    android:textColorHint="@color/edt_signup_hint"
+                    android:textColorHint="@color/red_edt_hint"
                     android:textCursorDrawable="@drawable/cursor_color"/>
 
             <EditText
                     android:id="@+id/edtEmailAddress"
                     android:layout_width="260dp"
                     android:layout_height="@dimen/edit_height"
-                    android:background="@drawable/bg_stroke_signup_edt"
+                    android:background="@drawable/bg_stroke_sign_in_edt"
                     android:drawableLeft="@drawable/icon_email"
                     android:drawablePadding="7dp"
                     android:layout_gravity="center_horizontal"
@@ -142,7 +142,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLength="25"
                     android:layout_marginTop="10dp"
-                    android:textColorHint="@color/edt_signup_hint"
+                    android:textColorHint="@color/red_edt_hint"
                     android:textCursorDrawable="@drawable/cursor_color"
                     android:textSize="14sp"/>
 

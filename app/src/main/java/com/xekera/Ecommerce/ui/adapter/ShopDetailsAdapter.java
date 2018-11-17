@@ -27,8 +27,6 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     List<ShoppingDetailModel> productsItems;
     List<ShoppingDetailModel> productsItemsSearch;
     IShopDetailAdapter iShopDetailAdapter;
-    //long decrementCounter = 0;
-    // long incrementCounter = 0;
 
     public ShopDetailsAdapter() {
 
@@ -62,12 +60,12 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             productDetailsDataListViewHolder.priceTextView.setText(shoppingDetailModel.getProductPrice());
             productDetailsDataListViewHolder.counterTextview.setText(shoppingDetailModel.getItemQuantity() + "");
 
-            if (shoppingDetailModel.isFavourite()) {
-                productDetailsDataListViewHolder.favouriteButton.setChecked(true);
-
-            } else {
-                productDetailsDataListViewHolder.favouriteButton.setChecked(false);
-            }
+//            if (shoppingDetailModel.isFavourite()) {
+//                productDetailsDataListViewHolder.favouriteButton.setChecked(true);
+//
+//            } else {
+//                productDetailsDataListViewHolder.favouriteButton.setChecked(false);
+//            }
 
             ImageView imageView = productDetailsDataListViewHolder.imgProduct;
             //   Glide.with(context).load(productsItems.get(position))
@@ -104,8 +102,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public Button AddImageView;
         @BindView(R.id.imgProduct)
         public ImageView imgProduct;
-        @BindView(R.id.favouriteButton)
-        public SparkButton favouriteButton;
+        //  @BindView(R.id.favouriteButton)
+//        public SparkButton favouriteButton;
         @BindView(R.id.decrementImageButton)
         public ImageView decrementImageButton;
         @BindView(R.id.incrementImageButton)
@@ -125,7 +123,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             // itemView.findViewById(R.id.AddImageView).setOnClickListener(this);
             // itemView.findViewById(R.id.viewDetailsImageView).setOnClickListener(this);
 
-            itemView.findViewById(R.id.favouriteButton).setOnClickListener(this);
+            // itemView.findViewById(R.id.favouriteButton).setOnClickListener(this);
             itemView.findViewById(R.id.decrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.incrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.cardViewParent).setOnClickListener(this);
@@ -152,20 +150,20 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     iShopDetailAdapter.onViewDetailsButtonClick(productsItems.get(getLayoutPosition()));
                     break;
 
-                case R.id.favouriteButton:
-                    if (((SparkButton) v.findViewById(R.id.favouriteButton)).isChecked()) {
-                        ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(false);
-                        productsItems.get(getLayoutPosition()).setFavourite(false);
-
-                    } else {
-                        ((SparkButton) v.findViewById(R.id.favouriteButton)).playAnimation();
-                        ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(true);
-
-                        productsItems.get(getLayoutPosition()).setFavourite(true);
-                    }
-
-                    iShopDetailAdapter.onFavouriteButtonClick(productsItems.get(getLayoutPosition()));
-                    break;
+//                case R.id.favouriteButton:
+//                    if (((SparkButton) v.findViewById(R.id.favouriteButton)).isChecked()) {
+//                        ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(false);
+//                        productsItems.get(getLayoutPosition()).setFavourite(false);
+//
+//                    } else {
+//                        ((SparkButton) v.findViewById(R.id.favouriteButton)).playAnimation();
+//                        ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(true);
+//
+//                        productsItems.get(getLayoutPosition()).setFavourite(true);
+//                    }
+//
+//                    iShopDetailAdapter.onFavouriteButtonClick(productsItems.get(getLayoutPosition()));
+//                    break;
                 case R.id.decrementImageButton:
                     //  decrementCounter = decrementCounter - 1;
                     //productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
@@ -173,10 +171,10 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     // productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
                     if (productsItems.get(getLayoutPosition()).getItemQuantity() > 1) {
 
-                        long j = productsItems.get(getLayoutPosition()).getItemQuantity() - 1;
-                        productsItems.get(getLayoutPosition()).setItemQuantity(j);
+                      long  dec = productsItems.get(getLayoutPosition()).getItemQuantity() - 1;
+                        productsItems.get(getLayoutPosition()).setItemQuantity(dec);
 
-                        counterTextview.setText(j + "");
+                        counterTextview.setText(dec + "");
                     } else {
                         productsItems.get(getLayoutPosition()).setItemQuantity(1);
 
@@ -188,10 +186,10 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     //   incrementCounter = incrementCounter + 1;
                     //  productsItems.get(getLayoutPosition()).setItemQuantity(counter + "");
-                    long d = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
-                    productsItems.get(getLayoutPosition()).setItemQuantity(d);
+                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
+                    productsItems.get(getLayoutPosition()).setItemQuantity(inc);
 
-                    counterTextview.setText(d + "");
+                    counterTextview.setText(inc + "");
                     break;
 
                 case R.id.imgShareProductDetails:
@@ -217,13 +215,17 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         notifyDataSetChanged();
     }
 
+    public void refreshProduct() {
+        notifyDataSetChanged();
+
+    }
 
     public interface IShopDetailAdapter {
         void onAddButtonClick(ShoppingDetailModel productItems);
 
         void onViewDetailsButtonClick(ShoppingDetailModel productItems);
 
-        void onFavouriteButtonClick(ShoppingDetailModel productItems);
+        //   void onFavouriteButtonClick(ShoppingDetailModel productItems);
 
         void onIncrementButtonClick(ShoppingDetailModel productItems);
 

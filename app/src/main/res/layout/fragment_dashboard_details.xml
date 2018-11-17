@@ -14,7 +14,7 @@
             android:layout_gravity="center"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:background="#008577"
+            android:background="#adadb2"
 
     >
         <EditText
@@ -29,7 +29,6 @@
                 android:hint="@string/edt_shop_details"
                 android:inputType="text"
                 android:maxLength="50"
-                android:textColor="@color/red_edt_hint"
                 android:textColorHint="@color/red_edt_hint"
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:textSize="14sp"/>

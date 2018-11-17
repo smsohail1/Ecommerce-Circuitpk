@@ -86,6 +86,7 @@
 
                             </LinearLayout>
 
+
                             <LinearLayout android:layout_width="0dp"
                                           android:layout_height="match_parent"
                                           android:orientation="horizontal"
@@ -98,61 +99,86 @@
                                               android:layout_height="match_parent"
                                               android:orientation="horizontal"
                                 >
-
-                                    <ImageView
-                                            android:id="@+id/decrementImageButton"
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="0.3"
-                                            android:src="@drawable/icon_decrement"
-                                            android:padding="1dp"
-
-                                    />
-
-                                    <TextView
-                                            android:id="@+id/counterTextview"
-                                            android:layout_width="0dp"
-                                            android:gravity="center_horizontal"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="0.4"
-                                            android:layout_gravity="center_vertical"
-                                            android:layout_marginLeft="4dp"
-                                            android:layout_marginRight="4dp"
-                                    />
-
-                                    <ImageView
-                                            android:id="@+id/incrementImageButton"
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:src="@drawable/icon_increment"
-                                            android:padding="1dp"
-                                            android:layout_weight="0.3"
-
-
-                                    />
-
-
-                                    <!--<com.hariofspades.incdeclibrary.IncDecCircular-->
-                                    <!--android:layout_width="100dp"-->
-                                    <!--android:layout_height="w"-->
-                                    <!--app:textSize="24"-->
-                                    <!--android:gravity="center_vertical"-->
-                                    <!--android:id="@+id/incDecCounterHorizontal"-->
-                                    <!--app:textColor="@color/black"-->
-                                    <!--app:leftButtonColorTint="@color/colorPrimaryDark"-->
-                                    <!--app:rightButtonColorTinit="@color/colorPrimary"-->
-                                    <!--app:leftDrawableTint="@color/white"-->
-                                    <!--app:rightDrawableTint="@color/white"-->
-
-                                    <!--app:leftDrawable="@drawable/ic_remove_black_24dp"-->
-                                    <!--app:rightDrawable="@drawable/ic_add_black_24dp"-->
-                                    <!--/>-->
+                                    <com.varunest.sparkbutton.SparkButton
+                                            android:id="@+id/favouriteButton"
+                                            android:layout_width="40dp"
+                                            android:layout_height="40dp"
+                                            app:sparkbutton_activeImage="@drawable/ic_star_on"
+                                            app:sparkbutton_animationSpeed=".85"
+                                            app:sparkbutton_iconSize="20dp"
+                                            app:sparkbutton_inActiveImage="@drawable/ic_star_off"
+                                            android:clickable="true"/>
 
 
                                 </LinearLayout>
-
-
                             </LinearLayout>
+                            <!--<LinearLayout android:layout_width="0dp"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:orientation="horizontal"-->
+                            <!--android:layout_weight="0.5"-->
+                            <!--android:layout_marginRight="5dp"-->
+                            <!--android:gravity="right"-->
+                            <!--&gt;-->
+
+                            <!--<LinearLayout android:layout_width="wrap_content"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:orientation="horizontal"-->
+                            <!--&gt;-->
+
+                            <!--<ImageView-->
+                            <!--android:id="@+id/decrementImageButton"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_weight="0.3"-->
+                            <!--android:src="@drawable/icon_decrement"-->
+                            <!--android:padding="1dp"-->
+
+                            <!--/>-->
+
+                            <!--<TextView-->
+                            <!--android:id="@+id/counterTextview"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:gravity="center_horizontal"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_weight="0.4"-->
+                            <!--android:layout_gravity="center_vertical"-->
+                            <!--android:layout_marginLeft="4dp"-->
+                            <!--android:layout_marginRight="4dp"-->
+                            <!--/>-->
+
+                            <!--<ImageView-->
+                            <!--android:id="@+id/incrementImageButton"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:src="@drawable/icon_increment"-->
+                            <!--android:padding="1dp"-->
+                            <!--android:layout_weight="0.3"-->
+
+
+                            <!--/>-->
+
+
+                            <!--&lt;!&ndash;<com.hariofspades.incdeclibrary.IncDecCircular&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_width="100dp"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_height="w"&ndash;&gt;-->
+                            <!--&lt;!&ndash;app:textSize="24"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:gravity="center_vertical"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:id="@+id/incDecCounterHorizontal"&ndash;&gt;-->
+                            <!--&lt;!&ndash;app:textColor="@color/black"&ndash;&gt;-->
+                            <!--&lt;!&ndash;app:leftButtonColorTint="@color/colorPrimaryDark"&ndash;&gt;-->
+                            <!--&lt;!&ndash;app:rightButtonColorTinit="@color/colorPrimary"&ndash;&gt;-->
+                            <!--&lt;!&ndash;app:leftDrawableTint="@color/white"&ndash;&gt;-->
+                            <!--&lt;!&ndash;app:rightDrawableTint="@color/white"&ndash;&gt;-->
+
+                            <!--&lt;!&ndash;app:leftDrawable="@drawable/ic_remove_black_24dp"&ndash;&gt;-->
+                            <!--&lt;!&ndash;app:rightDrawable="@drawable/ic_add_black_24dp"&ndash;&gt;-->
+                            <!--&lt;!&ndash;/>&ndash;&gt;-->
+
+
+                            <!--</LinearLayout>-->
+
+
+                            <!--</LinearLayout>-->
 
                         </LinearLayout>
 
@@ -181,6 +207,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/discount_price_textview"
                                     android:text="120"
+                                    android:textStyle="bold"
                                     android:background="@drawable/strike_through"
                                     android:gravity="center_horizontal"
                                     android:textSize="@dimen/txt_report_list_item_size"/>
@@ -192,15 +219,78 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:layout_marginLeft="10dp"
+                                android:weightSum="1.0"
                                 android:layout_marginTop="5dp"
                         >
 
-                            <TextView
-                                    android:id="@+id/productNameLabelTextView"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/row_product_name_textview"
-                                    android:textSize="@dimen/txt_product_name_card_selected_size"/>
+                            <LinearLayout android:layout_width="0dp"
+                                          android:layout_height="wrap_content"
+                                          android:orientation="horizontal"
+                                          android:layout_weight="0.7"
+                            >
+                                <TextView
+                                        android:id="@+id/productNameLabelTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="gghghhghhghghghghghghghghghggh"
+                                        android:textColor="@color/row_product_name_textview"
+                                        android:textSize="@dimen/txt_product_name_card_selected_size"/>
+                            </LinearLayout>
+
+
+                            <LinearLayout android:layout_width="0dp"
+                                          android:layout_height="match_parent"
+                                          android:orientation="horizontal"
+                                          android:layout_weight="0.3"
+                                          android:layout_marginRight="5dp"
+                                          android:gravity="right"
+                            >
+
+                                <LinearLayout android:layout_width="wrap_content"
+                                              android:layout_height="wrap_content"
+                                              android:orientation="horizontal"
+                                >
+
+                                    <ImageView
+                                            android:id="@+id/decrementImageButton"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0.3"
+                                            android:src="@drawable/icon_decrement"
+                                            android:padding="1dp"
+                                            android:clickable="true"
+
+
+                                    />
+
+                                    <TextView
+                                            android:id="@+id/counterTextview"
+                                            android:layout_width="25dp"
+                                            android:gravity="center_horizontal"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_marginLeft="4dp"
+                                            android:layout_marginRight="4dp"
+                                    />
+
+                                    <ImageView
+                                            android:id="@+id/incrementImageButton"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/icon_increment"
+                                            android:padding="1dp"
+                                            android:layout_weight="0.3"
+                                            android:clickable="true"
+
+                                    />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
                         </LinearLayout>
 
                     </LinearLayout>

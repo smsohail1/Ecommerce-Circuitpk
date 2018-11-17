@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.varunest.sparkbutton.SparkButton;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
@@ -22,11 +23,6 @@ import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailMod
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -52,6 +48,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     protected ImageView decrementImageButton;
     @BindView(R.id.incrementImageButton)
     protected ImageView incrementImageButton;
+    @BindView(R.id.favouriteButton)
+    protected SparkButton favouriteButton;
+
 
 
     @Inject
@@ -72,6 +71,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     Bitmap bitmapImage;
 
     long productsCartCounter = 0;
+    boolean isFavourite = true;
+
 
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
 
@@ -187,7 +188,6 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         setProductDetails();
 
 
-
     }
 
     @Override
@@ -248,14 +248,19 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                     long noOfProductsIntIncrement = Long.valueOf(noOfProductsIncrement);
                     if (utils.isTextNullOrEmpty(noOfProductsIncrement) || noOfProductsIntIncrement == 0) {
                         snackUtil.showSnackBarShortTime(view, "Product not available");
-                        shoppingDetailModel.setItemQuantity(0);
+                        //  shoppingDetailModel.setItemQuantity(0);
+                        noOfProductsIntIncrement = 0;
+                        counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
 
                         return;
                     } else {
-                        productsCartCounter = shoppingDetailModel.getItemQuantity() + 1;
-                        shoppingDetailModel.setItemQuantity(productsCartCounter);
+                        // productsCartCounter = shoppingDetailModel.getItemQuantity() + 1;
+
+                        noOfProductsIntIncrement = noOfProductsIntIncrement  + 1;
+
+                        // shoppingDetailModel.setItemQuantity(productsCartCounter);
                         //productsCartCounter = productsCartCounter + 1;
-                        counterTextview.setText(String.valueOf(productsCartCounter));
+                        counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
                     }
 
                 } catch (Exception e) {
@@ -268,29 +273,55 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                     long noOfProductsIntDecrement = Long.valueOf(noOfProductsDecrement);
                     if (utils.isTextNullOrEmpty(noOfProductsDecrement)) {
                         snackUtil.showSnackBarShortTime(view, "Product not available");
-                        shoppingDetailModel.setItemQuantity(0);
+                        //  shoppingDetailModel.setItemQuantity(0);
+                        //decrementCounter = 0;
+                        noOfProductsIntDecrement = 0;
+                        counterTextview.setText(String.valueOf(noOfProductsIntDecrement));
 
                         return;
                     } else {
                         if (noOfProductsIntDecrement == 1) {
-                            counterTextview.setText("1");
-                            shoppingDetailModel.setItemQuantity(1);
-
+                            counterTextview.setText(String.valueOf(noOfProductsIntDecrement));
+                            //   shoppingDetailModel.setItemQuantity(1);
+                            // decrementCounter = 1;
+                            noOfProductsIntDecrement = 1;
                             return;
                         }
-                        productsCartCounter = shoppingDetailModel.getItemQuantity() - 1;
-                        shoppingDetailModel.setItemQuantity(productsCartCounter);
+                        //  productsCartCounter = shoppingDetailModel.getItemQuantity() - 1;
+                        noOfProductsIntDecrement = noOfProductsIntDecrement - 1;
+                        // shoppingDetailModel.setItemQuantity(productsCartCounter);
 
                         //productsCartCounter = productsCartCounter - 1;
-                        counterTextview.setText(String.valueOf(productsCartCounter));
+                        counterTextview.setText(String.valueOf(noOfProductsIntDecrement));
                     }
 
                 } catch (Exception e) {
 
                 }
                 break;
+
+            case R.id.favouriteButton:
+                if (isFavourite) {
+                    showSnackBarShortTime("Add item to favourites.", getView());
+                    isFavourite = false;
+
+                } else {
+                    showSnackBarShortTime("Remove item from favourites.", getView());
+                }
+                break;
         }
     }
 
 
+//    public void setCallBack(ShopDetailsFragment shopDetailsFragment) {
+//        this.shopDetailsFragment = shopDetailsFragment;
+//    }
+
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//
+//        ShopDetailsFragment shopDetailsFragment = new ShopDetailsFragment();
+//        shopDetailsFragment.notifyAdapter(shoppingDetailModel);
+//    }
 }
