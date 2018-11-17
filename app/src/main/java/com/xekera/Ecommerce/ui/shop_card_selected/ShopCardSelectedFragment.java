@@ -1,5 +1,6 @@
 package com.xekera.Ecommerce.ui.shop_card_selected;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -112,6 +115,21 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     }
 
 
+    public void hideHumbergIcon() {
+        ((BaseActivity) getActivity()).hideHumberIcon();
+
+    }
+
+    public void showBackImageIcon() {
+        ((BaseActivity) getActivity()).showBackImageIcon();
+
+    }
+
+    public void hideLoginIcon() {
+        ((BaseActivity) getActivity()).hideLoginIcon();
+    }
+
+
     public void setProductDetails() {
         try {
 
@@ -167,6 +185,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         decrementImageButton.setOnClickListener(this);
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
         setProductDetails();
+
+
 
     }
 
@@ -271,4 +291,6 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                 break;
         }
     }
+
+
 }

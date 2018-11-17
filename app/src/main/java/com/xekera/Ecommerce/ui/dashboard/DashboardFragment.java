@@ -56,10 +56,10 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
         super.onResume();
         presenter.setView(this);
         try {
-            setTitle();
-            showShoppingCartIcon();
-            showLoginIcon();
-            showActionBar();
+          //  setTitle();
+           // showShoppingCartIcon();
+           // showLoginIcon();
+            //showActionBar();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

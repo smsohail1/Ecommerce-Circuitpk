@@ -172,18 +172,49 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         getSupportFragmentManager().popBackStackImmediate();
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
-        if (fragment instanceof DashboardFragment) {
-            ((DashboardFragment) fragment).setTitle();
-            ((DashboardFragment) fragment).showLoginIcon();
-            ((DashboardFragment) fragment).showShoppingCartIcon();
+
+        if (fragment instanceof ShopDetailsFragment) {
+            ((ShopDetailsFragment) fragment).setTitle();
+            ((ShopDetailsFragment) fragment).showBackImageIcon();
+            ((ShopDetailsFragment) fragment).hideLoginIcon();
+            ((ShopDetailsFragment) fragment).hideHumbergIcon();
+        } else if (fragment instanceof ShopFragment) {
+            ((ShopFragment) fragment).setTitle();
+            ((ShopFragment) fragment).showLoginIcon();
+            ((ShopFragment) fragment).showHumbergIcon();
         } else if (fragment instanceof ShopCardSelectedFragment) {
-            ((ShopCardSelectedFragment) fragment).setTitle();
+            ((ShopDetailsFragment) fragment).showBackImageIcon();
+            ((ShopDetailsFragment) fragment).hideLoginIcon();
+            ((ShopDetailsFragment) fragment).hideHumbergIcon();
+        }
+
+
+    }
+
+
+    private void setActionItems() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+
+        if (fragment instanceof DashboardFragment) {
 
         } else if (fragment instanceof ShopDetailsFragment) {
-            ((ShopDetailsFragment) fragment).setTitle();
+            ((ShopDetailsFragment) fragment).showBackImageIcon();
+            ((ShopDetailsFragment) fragment).hideLoginIcon();
+            ((ShopDetailsFragment) fragment).hideHumbergIcon();
 
+        } else if (fragment instanceof ShopFragment) {
+            ((ShopFragment) fragment).setTitle();
+            ((ShopFragment) fragment).showLoginIcon();
+            ((ShopFragment) fragment).showHumbergIcon();
+            ((ShopFragment) fragment).hideBackImageIcon();
+        } else if (fragment instanceof ShopCardSelectedFragment) {
+            ((ShopCardSelectedFragment) fragment).showBackImageIcon();
+            ((ShopCardSelectedFragment) fragment).hideLoginIcon();
+            ((ShopCardSelectedFragment) fragment).hideHumbergIcon();
         }
+
     }
+
 
     public void popBackFromStack(Fragment fragment) {
         FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
@@ -233,12 +264,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         } else if (fragment instanceof ShopDetailsFragment) {
 
             hideBackImageIcon();
+            setTitle("Shop");
+            showLoginIcon();
             enableHomeIcon(true);
+            hideHumberIcon();
             popBackstack();
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
 
-        }
-        else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             enableHomeIcon(true);
             super.onBackPressed();
             popBackstack();
@@ -379,6 +412,33 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         if (fragment != null) {
             manager.beginTransaction()
                     .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                    .replace(R.id.fragmentContainer, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        disbaleHomeIcon(false);
+    }
+
+    public void addTargetFragmentWithLockedHumberIcon(Fragment fragment) {
+//        manager = getSupportFragmentManager();
+//        if (fragment != null) {
+//            ShopDetailsFragment shopDetailsFragment = new ShopDetailsFragment();
+//            ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
+//            shopCardSelectedFragment.setTargetFragment(shopDetailsFragment, 34);
+//            manager.beginTransaction()
+//                    .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+//                    .add(R.id.fragmentContainer, fragment)
+//                    .addToBackStack(null)
+//                    .commit();
+//        }
+//        disbaleHomeIcon(false);
+        ShopDetailsFragment shopDetailsFragment = new ShopDetailsFragment();
+        fragment.setTargetFragment(shopDetailsFragment, 55);
+
+        manager = getSupportFragmentManager();
+        if (fragment != null) {
+            manager.beginTransaction()
+                    .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                     .add(R.id.fragmentContainer, fragment)
                     .addToBackStack(null)
                     .commit();
@@ -512,7 +572,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     @Override
     protected void onResume() {
         super.onResume();
-
+        //  setActionItems();
 //        try {
 //            View headerView = navigationView.getHeaderView(0);
 //            TextView txtCourierName = headerView.findViewById(R.id.txtCourierName);

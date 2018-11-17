@@ -22,9 +22,9 @@
         <item name="android:textColorSecondary">#fff</item>
     </style>
 
-    <style name="NavigationDrawerStyle" parent="ThemeOverlay.AppCompat.Light">
-        <item name="colorControlHighlight">@android:color/transparent</item>
-    </style>
+    <!--<style name="NavigationDrawerStyle" parent="ThemeOverlay.AppCompat.Light">-->
+    <!--<item name="colorControlHighlight">@android:color/transparent</item>-->
+    <!--</style>-->
 
 
     <style name="PrimaryButton" parent="Theme.AppCompat">
@@ -32,7 +32,13 @@
         <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
+    <style name="NavigationDrawerStyle" parent="ThemeOverlay.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <!--<item name="android:activatedBackgroundIndicator">@drawable/drawer_list_selector</item>-->
+    </style>
 
 
+    <style name="MyCardViewStyle" parent="Theme.AppCompat.Light">
+    </style>
 
 </resources>

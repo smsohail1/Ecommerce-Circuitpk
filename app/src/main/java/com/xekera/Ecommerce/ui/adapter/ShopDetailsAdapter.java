@@ -114,6 +114,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public TextView counterTextview;
         @BindView(R.id.cardViewParent)
         public CardView cardViewParent;
+        @BindView(R.id.imgShareProductDetails)
+        public ImageView imgShareProductDetails;
 
 
         public productDetailsDataListViewHolder(View itemView) {
@@ -127,6 +129,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             itemView.findViewById(R.id.decrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.incrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.cardViewParent).setOnClickListener(this);
+            itemView.findViewById(R.id.imgShareProductDetails).setOnClickListener(this);
+
         }
 
         @Override
@@ -134,10 +138,10 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             switch (v.getId()) {
 
                 case R.id.cardViewParent:
-                     BitmapDrawable bitmapDrawable = (BitmapDrawable) imgProduct.getDrawable();
-                     Bitmap bitmapImg = bitmapDrawable.getBitmap();
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) imgProduct.getDrawable();
+                    Bitmap bitmapImg = bitmapDrawable.getBitmap();
 
-                    iShopDetailAdapter.onCardClick(productsItems.get(getLayoutPosition()),bitmapImg);
+                    iShopDetailAdapter.onCardClick(productsItems.get(getLayoutPosition()), bitmapImg);
                     break;
 
                 case R.id.AddImageView:
@@ -167,7 +171,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     //productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
 
                     // productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
-                    if (productsItems.get(getLayoutPosition()).getItemQuantity() >1) {
+                    if (productsItems.get(getLayoutPosition()).getItemQuantity() > 1) {
 
                         long j = productsItems.get(getLayoutPosition()).getItemQuantity() - 1;
                         productsItems.get(getLayoutPosition()).setItemQuantity(j);
@@ -188,8 +192,14 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     productsItems.get(getLayoutPosition()).setItemQuantity(d);
 
                     counterTextview.setText(d + "");
+                    break;
 
+                case R.id.imgShareProductDetails:
 
+                    BitmapDrawable bitmapDrawableImg = (BitmapDrawable) imgProduct.getDrawable();
+                    Bitmap bitmapImage = bitmapDrawableImg.getBitmap();
+
+                    iShopDetailAdapter.shareItemsDetails(productsItems.get(getLayoutPosition()), bitmapImage);
                     break;
             }
         }
@@ -219,7 +229,9 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void onDecrementButtonClick(ShoppingDetailModel productItems);
 
-        void onCardClick(ShoppingDetailModel productItems,Bitmap bitmapImg);
+        void onCardClick(ShoppingDetailModel productItems, Bitmap bitmapImg);
+
+        void shareItemsDetails(ShoppingDetailModel productItems, Bitmap bitmapImg);
     }
 
 

@@ -1,14 +1,24 @@
 package com.xekera.Ecommerce.ui.dasboard_shopping_details;
 
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +36,13 @@ import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,6 +81,18 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //  super.onActivityResult(requestCode, resultCode, data);
+
+        // if (resultCode == RESULT_OK) {
+        if (requestCode == 55) {
+            int addID = data.getIntExtra("addressID", 0);
+            String addressLine = data.getStringExtra("addressLine");
+            // }
+        }
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
@@ -81,12 +107,19 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         presenter.setView(this);
 
         try {
+//            setTitle();
+//            //   showBackImageIcon();
+//            // hideHumbergIcon();
+//            showBackImageIcon();
+//            //hideActionBar();
+//            hideLoginIcon();
+
+
             setTitle();
-            //   showBackImageIcon();
-            // hideHumbergIcon();
+            hideHumbergIcon();
             showBackImageIcon();
-            //hideActionBar();
             hideLoginIcon();
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -111,6 +144,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         ((BaseActivity) getActivity()).showBackImageIcon();
 
     }
+
 
     public void hideActionBar() {
         ((BaseActivity) getActivity()).hideActionBar();
@@ -282,10 +316,116 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void onCardClick(ShoppingDetailModel productItems, Bitmap bitmapImg) {
+        utils.hideSoftKeyboard(edtSearchProduct);
         ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
         ((BaseActivity) getActivity()).addFragmentWithLockedHumberIcon(shopCardSelectedFragment.newInstance(productItems, bitmapImg));
 
     }
 
+    @Override
+    public void shareItemsDetails(ShoppingDetailModel productItems, Bitmap bitmapImg) {
+        requestPermissions();
+        if (!mPermissionDenied) {
+            try {
+
+                Intent share = new Intent(Intent.ACTION_SEND);
+                // share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                share.setType("image/jpeg");
+
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, "title");
+                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                Uri uri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        values);
+
+
+                OutputStream outstream;
+                try {
+                    outstream = getActivity().getContentResolver().openOutputStream(uri);
+                    bitmapImg.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+                    outstream.close();
+                } catch (Exception e) {
+                    System.err.println(e.toString());
+                }
+
+                share.putExtra(Intent.EXTRA_STREAM, uri);
+                share.putExtra(Intent.EXTRA_TEXT, "Product Name: " + productItems.getProductName() + "\n" +
+                        "Price: " + productItems.getProductPrice());
+                share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                startActivity(Intent.createChooser(share, "Share with friends"));
+
+            } catch (Exception e) {
+                Log.d("error", e.getMessage());
+                showMissingPermissionError();
+            }
+        } else {
+            showMissingPermissionError();
+        }
+    }
+
+
+    // PERMISSIONS CODE
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private boolean mPermissionDenied = false;
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void requestPermissions() {
+        int hasReadPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        int hasWritePermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+
+        if ((hasReadPermission != PackageManager.PERMISSION_GRANTED) ||
+                (hasWritePermission != PackageManager.PERMISSION_GRANTED)) {
+            requestPermissions(
+                    new String[]{
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    },
+                    REQUEST_CODE_ASK_PERMISSIONS);
+            return;
+        } else {
+            mPermissionDenied = false;
+            //permissionsGranted();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if ((grantResults[0] == PackageManager.PERMISSION_GRANTED) &&
+                        (grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                    // Permission Allowed
+                    int hasReadPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+                    int hasWritePermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+                    if ((hasReadPermission == PackageManager.PERMISSION_GRANTED) &&
+                            (hasWritePermission == PackageManager.PERMISSION_GRANTED)
+                            ) {
+                        //permissionsGranted();
+                        mPermissionDenied = false;
+                    } else {
+                        mPermissionDenied = true;
+                    }
+                } else {
+                    // showMissingPermissionError();
+                    // Permission Denied
+                    mPermissionDenied = true;
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+
+    /**
+     * Displays a dialog with error message explaining that the phone permission is missing.
+     */
+    private void showMissingPermissionError() {
+        toastUtil.showToastLongTime("Please enable Read/Write Storage permission.");
+    }
 
 }

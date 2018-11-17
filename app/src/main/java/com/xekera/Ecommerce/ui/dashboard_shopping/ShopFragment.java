@@ -1,10 +1,16 @@
 package com.xekera.Ecommerce.ui.dashboard_shopping;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -64,19 +70,32 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
+        requestPermissions();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         presenter.setView(this);
-
+        if (mPermissionDenied) {
+            // Permissions were not granted
+            showMissingPermissionError();
+            mPermissionDenied = false;
+        }
         try {
             setTitle();
+            //  showHumbergIcon();
+            // showLoginIcon();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
+    public void showLoginIcon() {
+        ((BaseActivity) getActivity()).showLoginIcon();
+    }
+
 
     public void setTitle() {
         ((BaseActivity) getActivity()).setTitle(getString(R.string.shop_dashboard));
@@ -108,6 +127,9 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
+        setTitle();
+        showHumbergIcon();
+        showLoginIcon();
 
         color = new ArrayList<>();
         color.add(Color.RED);
@@ -174,6 +196,18 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
 //    }
 //
 
+
+    public void showHumbergIcon() {
+        ((BaseActivity) getActivity()).showHumberIcon();
+
+    }
+
+
+    public void hideBackImageIcon() {
+        ((BaseActivity) getActivity()).hideBackImageIcon();
+
+    }
+
     @Override
     public void setHomeRecyclerViewAdapter(DashboardAdapter homeAdapter) {
         recyclerViewHome.setAdapter(homeAdapter);
@@ -219,6 +253,8 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     }
 
 
+
+
     private class SliderTimer extends TimerTask {
 
         @Override
@@ -238,6 +274,80 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
 
             }
         }
+    }
+
+
+    // PERMISSIONS CODE
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 125;
+    private boolean mPermissionDenied = false;
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void requestPermissions() {
+        // int hasCameraPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA);
+        int hasReadPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        int hasWritePermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        // int hasReadPhoneStatePermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE);
+        //int hasAccessFineLocationPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
+        // int hasCallPhonePermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE);
+        // int hasReceiveSMSPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECEIVE_SMS);
+        // int hasReadSMSPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_SMS);
+        //  int hasSendSMSPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.SEND_SMS);
+
+
+        if ((hasReadPermission != PackageManager.PERMISSION_GRANTED) ||
+                (hasWritePermission != PackageManager.PERMISSION_GRANTED)) {
+            requestPermissions(
+                    new String[]{
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    },
+                    REQUEST_CODE_ASK_PERMISSIONS);
+            return;
+        } else {
+            //permissionsGranted();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        try {
+            switch (requestCode) {
+                case REQUEST_CODE_ASK_PERMISSIONS:
+                    if ((grantResults[0] == PackageManager.PERMISSION_GRANTED) &&
+                            (grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                        // Permission Allowed
+                        // int hasCameraPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA);
+                        int hasReadPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+                        int hasWritePermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//                    int hasReadPhoneStatePermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE);
+//                    int hasAccessFineLocationPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
+//                    int hasCallPhonePermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE);
+//                    int hasReceiveSMSPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECEIVE_SMS);
+//                    int hasReadSMSPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_SMS);
+//                    int hasSendSMSPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.SEND_SMS);
+
+                        if ((hasReadPermission == PackageManager.PERMISSION_GRANTED) &&
+                                (hasWritePermission == PackageManager.PERMISSION_GRANTED)
+                                ) {
+                            //permissionsGranted();
+                        }
+                    } else {
+                        // Permission Denied
+                        mPermissionDenied = true;
+                    }
+                    break;
+                default:
+                    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+
+    private void showMissingPermissionError() {
+        toastUtil.showToastLongTime("These permissions are required");
+        //getActivity().finish();
     }
 
 
