@@ -6,11 +6,6 @@ import android.arch.persistence.room.RoomDatabase;
 import com.xekera.Ecommerce.data.room.dao.UserTestDao;
 import com.xekera.Ecommerce.data.room.model.UserTest;
 
-/**
- * Created by shahrukh.malik on 02, April, 2018
- */
-
-
 @Database(entities = {
 
         UserTest.class,

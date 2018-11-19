@@ -56,7 +56,7 @@ public class AppConstants {
 
     public static final int WIFI_PASSWORD_CONNECT_TIMEOUT = 16000;
 
-    public static final String PREF_NAME = "com.tcs.pickupapp.mt";
+    public static final String PREF_NAME = "xekera.ecommerce";
     public static final String DATABASE_NAME = "test";
 
     public static final String DP_USER_USERNAME = "admin";

@@ -32,7 +32,7 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
 
 
     @Override
-    public void setDashboardItems() {
+    public void setDashboardItems(Context context) {
         List<DashboardItem> homeItems = new ArrayList<>();
         homeItems.add(new DashboardItem(R.string.ardino, R.drawable.icon_booking));
         homeItems.add(new DashboardItem(R.string.capacitor, R.drawable.
@@ -44,7 +44,7 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
         homeItems.add(new DashboardItem(R.string.motor_driver, R.drawable.icon_barcode));
         homeItems.add(new DashboardItem(R.string.charges, R.drawable.icon_security));
         homeItems.add(new DashboardItem(R.string.motor_wheel, R.drawable.icon_courier_code));
-        homeAdapter = new DashboardAdapter(homeItems, this);
+        homeAdapter = new DashboardAdapter(homeItems, this,context);
         view.setHomeRecyclerViewAdapter(homeAdapter);
     }
 

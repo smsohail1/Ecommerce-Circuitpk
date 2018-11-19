@@ -8,9 +8,6 @@ import com.xekera.Ecommerce.di.component.AppComponent;
 import com.xekera.Ecommerce.di.component.DaggerAppComponent;
 import com.xekera.Ecommerce.di.module.*;
 
-/**
- * Created by shahrukh.malik on 09, July, 2018
- */
 public class App extends Application {
     private AppComponent appComponent;
 
@@ -22,7 +19,12 @@ public class App extends Application {
                 .utilModule(new UtilModule())
                 .retrofitModule(new RetrofitModule())
                 .roomModule(new RoomModule())
+                .dashboardModule(new DashboardModule())
                 .loginModule(new LoginModule())
+                .signupModule(new SignupModule())
+                .shopModule(new ShopModule())
+                .shopDetailsModule(new ShopDetailsModule())
+                .shopCardSelectedModule(new ShopCardSelectedModule())
                 .build();
     }
 

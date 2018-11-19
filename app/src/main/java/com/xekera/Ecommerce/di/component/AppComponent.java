@@ -27,7 +27,7 @@ import javax.inject.Singleton;
         SignupModule.class,
         ShopModule.class,
         ShopDetailsModule.class,
-        ShopCardSelectedModule.class
+        ShopCardSelectedModule.class,
 })
 @Singleton
 public interface AppComponent {
@@ -49,11 +49,13 @@ public interface AppComponent {
 
     void inject(DashboardFragment dashboardFragment);
 
+
     void inject(LoginFragment loginFragment);
 
     void inject(SignupFragment signupFragment);
 
     void inject(ShopCardSelectedFragment shopCardSelectedFragment);
+
 
 }
 

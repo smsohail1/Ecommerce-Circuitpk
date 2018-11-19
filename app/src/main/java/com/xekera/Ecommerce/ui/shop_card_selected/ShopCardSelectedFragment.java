@@ -2,14 +2,14 @@ package com.xekera.Ecommerce.ui.shop_card_selected;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -18,8 +18,8 @@ import com.varunest.sparkbutton.SparkButton;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
-import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
+import com.xekera.Ecommerce.ui.home_delivery_Address.DeliveryAddressActivity;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
@@ -50,7 +50,10 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     protected ImageView incrementImageButton;
     @BindView(R.id.favouriteButton)
     protected SparkButton favouriteButton;
-
+    @BindView(R.id.deliveryAddressImageView)
+    protected ImageView deliveryAddressImageView;
+    @BindView(R.id.deliveryAddressValueTextView)
+    protected TextView deliveryAddressValueTextView;
 
 
     @Inject
@@ -73,6 +76,12 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     long productsCartCounter = 0;
     boolean isFavourite = true;
 
+
+    String latitude = "";
+    String longitude = "";
+    String placeName = "";
+
+    Animation shake;
 
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
 
@@ -97,6 +106,12 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
         try {
             setProductDetails();
+            placeName = sessionManager.getKeyPlaceName();
+            latitude = sessionManager.getKeyLatitude();
+            longitude = sessionManager.getKeyLongitude();
+            if (!utils.isTextNullOrEmpty(placeName)) {
+                deliveryAddressValueTextView.setText(placeName);
+            }
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -184,7 +199,11 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
         incrementImageButton.setOnClickListener(this);
         decrementImageButton.setOnClickListener(this);
+        deliveryAddressImageView.setOnClickListener(this);
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
+
+         shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shakeanimation);
+
         setProductDetails();
 
 
@@ -256,11 +275,14 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                     } else {
                         // productsCartCounter = shoppingDetailModel.getItemQuantity() + 1;
 
-                        noOfProductsIntIncrement = noOfProductsIntIncrement  + 1;
+                        noOfProductsIntIncrement = noOfProductsIntIncrement + 1;
 
                         // shoppingDetailModel.setItemQuantity(productsCartCounter);
                         //productsCartCounter = productsCartCounter + 1;
                         counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
+
+                        ((BaseActivity) getActivity()).shakeCartTextview(shake);
+
                     }
 
                 } catch (Exception e) {
@@ -301,13 +323,27 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                 break;
 
             case R.id.favouriteButton:
-                if (isFavourite) {
-                    showSnackBarShortTime("Add item to favourites.", getView());
-                    isFavourite = false;
+                try {
 
-                } else {
-                    showSnackBarShortTime("Remove item from favourites.", getView());
+                    if (isFavourite) {
+                        showSnackBarShortTime("Add item to favourites.", getView());
+                        isFavourite = false;
+
+                    } else {
+                        showSnackBarShortTime("Remove item from favourites.", getView());
+                    }
+
+                } catch (Exception e) {
+
                 }
+                break;
+            case R.id.deliveryAddressImageView:
+
+                Intent i = new Intent(getActivity(), DeliveryAddressActivity.class);
+                getActivity().startActivity(i);
+                //   ((BaseActivity) getActivity()).addActivity(DeliveryAddressActivity.class);
+
+
                 break;
         }
     }

@@ -56,9 +56,9 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
         super.onResume();
         presenter.setView(this);
         try {
-          //  setTitle();
-           // showShoppingCartIcon();
-           // showLoginIcon();
+            //  setTitle();
+            // showShoppingCartIcon();
+            // showLoginIcon();
             //showActionBar();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -92,7 +92,7 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
 
-       // attaching bottom sheet behaviour - hide / show on scroll
+        // attaching bottom sheet behaviour - hide / show on scroll
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
 
@@ -111,7 +111,7 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
             switch (item.getItemId()) {
                 case R.id.navigation_shop:
                     //  Toast.makeText(getActivity(), "Shop is selected", Toast.LENGTH_SHORT).show();
-                      ((BaseActivity) getActivity()).popBackstack();
+                    ((BaseActivity) getActivity()).popBackstack();
                     //((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
 
                     fragment = new ShopFragment();
@@ -127,7 +127,7 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
                 case R.id.navigation_cart:
                     //  Toast.makeText(getActivity(), "Cart is selected", Toast.LENGTH_SHORT).show();
                     //((BaseActivity) getActivity()).popBackstack();
-                   // ((BaseActivity) getActivity()).addDashboardFragment(new CartFragment());
+                    // ((BaseActivity) getActivity()).addDashboardFragment(new CartFragment());
                     fragment = new CartFragment();
                     addFragment(fragment);
                     return true;
@@ -155,7 +155,7 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
         }
     }
 
-    private  void PopStack(Fragment fragment){
+    private void PopStack(Fragment fragment) {
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction trans = manager.beginTransaction();
         trans.remove(fragment);
@@ -163,6 +163,7 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
         manager.popBackStack();
 
     }
+
     public void setTitle() {
         ((BaseActivity) getActivity()).setTitle(getString(R.string.Shop));
     }
@@ -178,20 +179,21 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
     }
 
 
-    public  void showActionBar(){
-            ((BaseActivity) getActivity()).showActionBar();
+    public void showActionBar() {
+        ((BaseActivity) getActivity()).showActionBar();
 
     }
+
     public void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
-       //  recyclerViewHome.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-       // recyclerViewHome.addItemDecoration(new GridSpacingItemDecoration(2, 20, true));
+        //  recyclerViewHome.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        // recyclerViewHome.addItemDecoration(new GridSpacingItemDecoration(2, 20, true));
 
-         presenter.setDashboardItems();
+        presenter.setDashboardItems();
 
     }
 

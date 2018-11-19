@@ -151,7 +151,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
         recyclerViewHome.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerViewHome.addItemDecoration(new GridSpacingItemDecoration(2, 10, true));
 
-        presenter.setDashboardItems();
+        presenter.setDashboardItems(getActivity());
 
         // setViewPagerItems();
 

@@ -22,6 +22,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -397,6 +399,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     public void showActionBar() {
         getSupportActionBar().show();
+    }
+
+    public void shakeCartTextview(Animation shake) {
+        imgShoppingCart.setAnimation(shake);
     }
 
     @Override

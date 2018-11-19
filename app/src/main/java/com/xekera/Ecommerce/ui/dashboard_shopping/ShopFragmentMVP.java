@@ -32,7 +32,7 @@ public interface ShopFragmentMVP {
     interface Presenter {
         void setView(ShopFragmentMVP.View view);
 
-        void setDashboardItems();
+        void setDashboardItems(Context context);
 
         void setViewPagerItems(Context context, List<Integer> color,
                                List<String> colorName,List<String> img);
