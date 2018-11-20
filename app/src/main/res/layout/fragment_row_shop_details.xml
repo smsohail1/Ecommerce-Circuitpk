@@ -143,14 +143,14 @@
 
 
                             <!--<com.varunest.sparkbutton.SparkButton-->
-                                    <!--android:id="@+id/favouriteButton"-->
-                                    <!--android:layout_width="40dp"-->
-                                    <!--android:layout_height="40dp"-->
-                                    <!--app:sparkbutton_activeImage="@drawable/ic_star_on"-->
-                                    <!--app:sparkbutton_animationSpeed=".85"-->
-                                    <!--app:sparkbutton_iconSize="20dp"-->
-                                    <!--app:sparkbutton_inActiveImage="@drawable/ic_star_off"-->
-                                    <!--android:clickable="true"/>-->
+                            <!--android:id="@+id/favouriteButton"-->
+                            <!--android:layout_width="40dp"-->
+                            <!--android:layout_height="40dp"-->
+                            <!--app:sparkbutton_activeImage="@drawable/ic_star_on"-->
+                            <!--app:sparkbutton_animationSpeed=".85"-->
+                            <!--app:sparkbutton_iconSize="20dp"-->
+                            <!--app:sparkbutton_inActiveImage="@drawable/ic_star_off"-->
+                            <!--android:clickable="true"/>-->
 
                             <ImageView
                                     android:id="@+id/imgShareProductDetails"
@@ -172,15 +172,13 @@
                                   android:layout_marginTop="5dp"
                                   android:weightSum="1.0"
                                   android:layout_gravity="right"
-                                  android:layout_marginRight="5dp"
                                   android:orientation="horizontal"
-                                  android:layout_marginBottom="5dp"
                                   android:clickable="true"
+                                  android:padding="5dp"
                     >
 
 
-                        <LinearLayout android:layout_width="0dp"
-                                      android:layout_weight="1"
+                        <LinearLayout android:layout_width="wrap_content"
                                       android:layout_height="wrap_content"
                                       android:clickable="true"
                                       android:orientation="horizontal">
@@ -214,18 +212,22 @@
 
                             <ImageView
                                     android:id="@+id/decrementImageButton"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="30dp"
                                     android:layout_height="wrap_content"
-                                    android:src="@drawable/icon_decrement"
-                                    android:padding="3dp"
+                                    android:src="@drawable/icon_minus_symbol"
                                     android:layout_gravity="center_vertical"
                                     android:clickable="true"
+                                    android:layout_weight="0.3"
+                                    android:paddingLeft="4dp"
+                                    android:paddingRight="4dp"
+                                    android:background="@drawable/round_add_icon"
+
 
                             />
 
                             <TextView
                                     android:id="@+id/counterTextview"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="35dp"
                                     android:gravity="center_horizontal"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
@@ -235,12 +237,15 @@
 
                             <ImageView
                                     android:id="@+id/incrementImageButton"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="30dp"
                                     android:layout_height="wrap_content"
-                                    android:src="@drawable/icon_increment"
-                                    android:padding="3dp"
+                                    android:src="@drawable/icon_plus_symbol"
                                     android:layout_gravity="center_vertical"
                                     android:clickable="true"
+                                    android:paddingLeft="4dp"
+                                    android:paddingRight="4dp"
+                                    android:background="@drawable/round_add_icon"
+
                             />
 
                         </LinearLayout>

@@ -8,11 +8,13 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -45,11 +47,6 @@ public class DeliveryAddressActivity extends FragmentActivity implements OnMapRe
     @Inject
     protected SessionManager sessionManager;
 
-//    @BindView(R.id.map)
-//    public SupportMapFragment mapFragment;
-//    @BindView(R.id.searchLocationFabIcon)
-//    protected FloatingActionButton searchLocationFabIcon;
-
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
@@ -78,6 +75,20 @@ public class DeliveryAddressActivity extends FragmentActivity implements OnMapRe
         createLocationRequest();
 
         FloatingActionButton searchLocationFabIcon = (FloatingActionButton) findViewById(R.id.searchLocationFabIcon);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    loadPlacePicker();
+//
+//                } catch (Exception e) {
+//                    Log.d("map_error", e.getMessage());
+//
+//                }
+//
+//            }
+//        }, 1500);
+
         searchLocationFabIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +113,7 @@ public class DeliveryAddressActivity extends FragmentActivity implements OnMapRe
 
         // Add a marker in Sydney and move the camera
         LatLng myPlace = new LatLng(40.73, -73.99);  // this is New York
-        mMap.addMarker(new MarkerOptions().position(myPlace).title("My Favorite City"));
+        //   mMap.addMarker(new MarkerOptions().position(myPlace).title("My Favorite City"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPlace, 50));
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -317,6 +328,5 @@ public class DeliveryAddressActivity extends FragmentActivity implements OnMapRe
             e.printStackTrace();
         }
     }
-
 
 }

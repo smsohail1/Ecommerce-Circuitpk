@@ -7,22 +7,25 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-    <fragment
-            android:id="@+id/map"
-            class="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
-    <android.support.design.widget.FloatingActionButton
-            android:id="@+id/searchLocationFabIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginRight="66dp"
-            android:src="@drawable/icon_delivery_search_location"
-            android:layout_marginBottom="15dp"
+        <fragment
+                android:id="@+id/map"
+                class="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        />
 
-    />
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/searchLocationFabIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginRight="66dp"
+                android:src="@drawable/icon_delivery_search_location"
+                android:layout_marginBottom="15dp"
+
+        />
+
 
 </android.support.design.widget.CoordinatorLayout>
 

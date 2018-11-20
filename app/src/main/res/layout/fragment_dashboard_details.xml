@@ -14,9 +14,11 @@
             android:layout_gravity="center"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:background="#adadb2"
+            android:background="@drawable/search_edt_background"
 
     >
+        <!--android:background="#adadb2"-->
+
         <EditText
                 android:id="@+id/edtSearchProduct"
                 android:layout_width="match_parent"
@@ -30,7 +32,8 @@
                 android:inputType="text"
                 android:maxLength="50"
                 android:textColorHint="@color/red_edt_hint"
-                android:textCursorDrawable="@drawable/cursor_color"
+                android:textCursorDrawable="@drawable/search_edt_cursor_color"
+                android:textColor="#ffffff"
                 android:textSize="14sp"/>
 
         <ImageView android:layout_width="wrap_content"

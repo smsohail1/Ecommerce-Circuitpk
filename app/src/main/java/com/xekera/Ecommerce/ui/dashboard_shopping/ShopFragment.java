@@ -253,8 +253,6 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     }
 
 
-
-
     private class SliderTimer extends TimerTask {
 
         @Override

@@ -109,8 +109,14 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             placeName = sessionManager.getKeyPlaceName();
             latitude = sessionManager.getKeyLatitude();
             longitude = sessionManager.getKeyLongitude();
-            if (!utils.isTextNullOrEmpty(placeName)) {
-                deliveryAddressValueTextView.setText(placeName);
+            if ((!utils.isTextNullOrEmpty(longitude) && !utils.isTextNullOrEmpty(longitude))) {
+                if (placeName != null && (placeName.equalsIgnoreCase("") || !placeName.equalsIgnoreCase(""))) {
+                    deliveryAddressValueTextView.setText(placeName);
+                }
+            } else {
+                snackUtil.showSnackBarShortTime(getView(), "Select delivery address from map.");
+                deliveryAddressValueTextView.setText("");
+
             }
 
         } catch (Exception ex) {
@@ -202,7 +208,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         deliveryAddressImageView.setOnClickListener(this);
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
-         shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shakeanimation);
+        shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shakeanimation);
 
         setProductDetails();
 

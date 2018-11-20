@@ -59,7 +59,7 @@
                     android:layout_marginRight="5dp"
                     app:cardCornerRadius="2dp"
                     app:cardElevation="2dp"
-                    app:contentPadding="5dp"
+                    app:contentPadding="2dp"
                     app:cardBackgroundColor="@color/colorPrimary"
             >
 

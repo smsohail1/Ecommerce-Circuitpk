@@ -21,6 +21,9 @@
 
     <color name="white_label">#ffffff</color>
 
+    <color name="add_cart_img_color">#ffffff</color>
+    <color name="add_cart_img_pressed_color">#E10915</color>
+    <color name="add_cart_img_focused_color">#e67656</color>
 
     <color name="row_product_name_textview">#000000</color>
     <color name="discount_price_textview">#E42021</color>
@@ -34,6 +37,8 @@
     <string name="title_favourite">Favourite</string>
     <string name="title_cart">Cart</string>
     <string name="title_profile">History</string>
+
+    <color name="light_grey_add_cart_border_color">#545454</color>
 
 
     <color name="light_grey_textview">#545454</color>
