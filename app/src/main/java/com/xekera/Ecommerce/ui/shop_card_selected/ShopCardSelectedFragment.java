@@ -109,12 +109,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             placeName = sessionManager.getKeyPlaceName();
             latitude = sessionManager.getKeyLatitude();
             longitude = sessionManager.getKeyLongitude();
-            if ((!utils.isTextNullOrEmpty(longitude) && !utils.isTextNullOrEmpty(longitude))) {
-                if (placeName != null && (placeName.equalsIgnoreCase("") || !placeName.equalsIgnoreCase(""))) {
-                    deliveryAddressValueTextView.setText(placeName);
-                }
+            if (!utils.isTextNullOrEmpty(placeName)) {
+                deliveryAddressValueTextView.setText(placeName);
             } else {
-                snackUtil.showSnackBarShortTime(getView(), "Select delivery address from map.");
                 deliveryAddressValueTextView.setText("");
 
             }

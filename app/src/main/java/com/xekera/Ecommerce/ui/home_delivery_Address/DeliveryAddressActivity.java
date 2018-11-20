@@ -150,7 +150,7 @@ public class DeliveryAddressActivity extends FragmentActivity implements OnMapRe
         markerOptions.title(titleStr);
         sessionManager = new SessionManager(this);
 
-        sessionManager.createDeliverySession(String.valueOf(location.latitude), String.valueOf(location.longitude), addressText);
+        sessionManager.createDeliverySession(String.valueOf(location.latitude), String.valueOf(location.longitude), titleStr);
 
         LatLng myPlace = new LatLng(location.latitude, location.longitude);
         mMap.addMarker(new MarkerOptions().position(myPlace).title(addressText));
@@ -225,9 +225,14 @@ public class DeliveryAddressActivity extends FragmentActivity implements OnMapRe
             addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1); // 2
             if (null != addresses && !addresses.isEmpty()) { // 3
                 address = addresses.get(0);
-                for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
-                    addressText += (i == 0) ? address.getAddressLine(i) : ("\n" + address.getAddressLine(i));
+                // result = address.getAddressLine(0) + ", " + address.getLocality();
+                if (address.getMaxAddressLineIndex() == 0) {
+                    addressText = address.getAddressLine(0);
+                } else {
+                    for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+                        addressText += (i == 0) ? address.getAddressLine(i) : ("\n" + address.getAddressLine(i));
 
+                    }
                 }
             }
         } catch (IOException e) {
