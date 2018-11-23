@@ -1,5 +1,6 @@
 package com.xekera.Ecommerce.di.module;
 
+import android.content.Context;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedMVP;
@@ -15,8 +16,8 @@ import dagger.Provides;
 public class ShopCardSelectedModule {
 
     @Provides
-    public ShopCardSelectedMVP.Presenter provideShopDetailsPresenter(ShopCardSelectedMVP.Model model, SessionManager sessionManager, Utils utils) {
-        return new ShopCardSelectedPresenter(model, sessionManager, utils);
+    public ShopCardSelectedMVP.Presenter provideShopDetailsPresenter(Context context, ShopCardSelectedMVP.Model model, SessionManager sessionManager, Utils utils) {
+        return new ShopCardSelectedPresenter(context, model, sessionManager, utils);
     }
 
     @Provides

@@ -23,7 +23,7 @@
                 android:id="@+id/edtSearchProduct"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_height"
-                android:background="@drawable/bg_stroke_sign_in_edt"
+                android:background="@drawable/bg_search_edt"
                 android:drawableLeft="@drawable/icon_search"
                 android:drawablePadding="7dp"
                 android:layout_margin="10dp"
@@ -31,7 +31,7 @@
                 android:hint="@string/edt_shop_details"
                 android:inputType="text"
                 android:maxLength="50"
-                android:textColorHint="@color/red_edt_hint"
+                android:textColorHint="@color/edt_search_white_hint"
                 android:textCursorDrawable="@drawable/search_edt_cursor_color"
                 android:textColor="#ffffff"
                 android:textSize="14sp"/>

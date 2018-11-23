@@ -2,12 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
 
-                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/irongrip_repeating"
                 android:clickable="true">
     <ScrollView android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_above="@+id/addToCartLayoutPrent"
+
 
     >
         <LinearLayout android:layout_width="match_parent"
@@ -405,23 +408,29 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/availibility_textview"
-                                        android:layout_weight="1.0"
+                                        android:layout_weight="0.8"
                                         android:layout_marginLeft="5dp"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
+                                <LinearLayout android:layout_width="0dp"
+                                              android:layout_height="wrap_content"
+                                              android:gravity="right"
+                                              android:layout_marginRight="5dp"
+                                              android:layout_weight="0.2">
 
 
-                                <ImageView
-                                        android:id="@+id/deliveryAddressImageView"
-                                        android:layout_width="30dp"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/availibility_textview"
-                                        android:layout_marginLeft="5dp"
-                                        android:src="@drawable/icon_right_arrow"
-                                        android:clickable="true"
-                                        android:paddingLeft="4dp"
-                                        android:paddingRight="4dp"
-                                        android:background="@drawable/round_add_icon"
-                                />
+                                    <ImageView
+                                            android:id="@+id/deliveryAddressImageView"
+                                            android:layout_width="33dp"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/availibility_textview"
+                                            android:src="@drawable/icon_right_arrow"
+                                            android:clickable="true"
+                                            android:paddingLeft="3dp"
+                                            android:paddingRight="3dp"
+                                            android:background="@drawable/round_add_icon"
+                                    />
+
+                                </LinearLayout>
                             </LinearLayout>
 
 
@@ -452,7 +461,7 @@
 
                                 </LinearLayout>
                                 <EditText
-                                        android:id="@+id/deliveryAddress2ValueTextView"
+                                        android:id="@+id/deliveryAddress2ValueEdittext"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/availibility_textview"
@@ -529,4 +538,24 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+            android:id="@+id/addToCartLayoutPrent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+    >
+        <Button
+                android:id="@+id/btnAddToCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_add_to_cart"
+                android:textColor="@color/btn_white_add_to_cart"
+                android:theme="@style/PrimaryButton"
+
+
+        />
+
+    </LinearLayout>
 </RelativeLayout>

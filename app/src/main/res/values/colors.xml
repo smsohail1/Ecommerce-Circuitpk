@@ -16,6 +16,9 @@
     <color name="black">@android:color/black</color>
     <color name="grey_dark_report_list_item">#54595C</color>
 
+    <color name="btn_white_add_to_cart">#ffffff</color>
+
+    <color name="search_white_edt">#ffffff</color>
 
     <color name="black_home_label">#000000</color>
 
@@ -57,10 +60,12 @@
     <color name="grey_dark_edt">#494949</color>
     <color name="grey_dark_edt_hint">#7A7A7A</color>
 
-    <color name="red_edt_hint">#ffffff</color>
+    <color name="red_edt_hint">#444444</color>
     <color name="edt_signup_hint">#2B2C2C</color>
     <color name="red_btn_login">#E42021</color>
     <color name="red_edt_account">#ffffff</color>
+
+    <color name="edt_search_white_hint">#ffffff</color>
 
 
     <color name="TCS_Colour">#E10915</color>

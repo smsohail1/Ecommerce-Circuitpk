@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
+import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
 import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.CartFragment;
 import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.FragmentFavourites;
 import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.HistoryFragment;
@@ -127,8 +128,9 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
                 case R.id.navigation_cart:
                     //  Toast.makeText(getActivity(), "Cart is selected", Toast.LENGTH_SHORT).show();
                     //((BaseActivity) getActivity()).popBackstack();
-                    // ((BaseActivity) getActivity()).addDashboardFragment(new CartFragment());
-                    fragment = new CartFragment();
+                    // ((BaseActivity) getActivity()).addDashboardFragment(new AddToCartFragment());
+                    // fragment = new CartFragment();
+                    fragment = new AddToCartFragment();
                     addFragment(fragment);
                     return true;
 

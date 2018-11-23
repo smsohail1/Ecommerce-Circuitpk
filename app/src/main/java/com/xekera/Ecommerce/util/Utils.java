@@ -125,7 +125,6 @@ public class Utils {
     }
 
 
-
     public boolean isInternetAvailableMoreAccurate() {
         if (context != null) {
             try {
@@ -166,6 +165,24 @@ public class Utils {
             return true;
         }
         if (text.isEmpty()) {
+            return true;
+        }
+        if (text.equalsIgnoreCase("")) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean isTextNullOrEmptyOrZero(String text) {
+        if (text == null) {
+            return true;
+        }
+        if (text.isEmpty()) {
+            return true;
+        }
+
+        if (text.equalsIgnoreCase("0")) {
             return true;
         }
         if (text.equalsIgnoreCase("")) {
@@ -337,8 +354,6 @@ public class Utils {
         dateTime = String.valueOf(dateFormat.format(new Date()));
         return dateTime;
     }
-
-
 
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -597,8 +612,7 @@ public class Utils {
 
     public String savePhoto(Bitmap bmp, String directoryName) {
         FileOutputStream out = null;
-        try
-        {
+        try {
             // Create a media file name
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                     Locale.getDefault()).format(new Date());
@@ -610,8 +624,7 @@ public class Utils {
             refreshGallery(imageFile.getAbsolutePath());
             out = null;
             return imageFile.getAbsolutePath();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
@@ -619,12 +632,11 @@ public class Utils {
 
     public String savePhoto(Bitmap bmp, String directoryName, String consignmentNumber) {
         FileOutputStream out = null;
-        try
-        {
+        try {
             // Create a media file name
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                     Locale.getDefault()).format(new Date());
-            File imageFile = getOutputMediaFile(directoryName,consignmentNumber);
+            File imageFile = getOutputMediaFile(directoryName, consignmentNumber);
             out = new FileOutputStream(imageFile);
             bmp.compress(Bitmap.CompressFormat.JPEG, 80, out);
             out.flush();
@@ -632,8 +644,7 @@ public class Utils {
             refreshGallery(imageFile.getAbsolutePath());
             out = null;
             return imageFile.getAbsolutePath();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
@@ -707,74 +718,74 @@ public class Utils {
                         });
     }
 
-    public static String getTrimmedMobileNumber(String phoneNumber){
-        try{
+    public static String getTrimmedMobileNumber(String phoneNumber) {
+        try {
             String newPhoneNumber = "";
-            newPhoneNumber = phoneNumber.replace(" ","");
-            if(newPhoneNumber.startsWith("92")){
+            newPhoneNumber = phoneNumber.replace(" ", "");
+            if (newPhoneNumber.startsWith("92")) {
                 newPhoneNumber = "+" + newPhoneNumber;
             }
-            if(newPhoneNumber.startsWith("2")){
+            if (newPhoneNumber.startsWith("2")) {
                 newPhoneNumber = "0" + newPhoneNumber;
             }
-            if(newPhoneNumber.startsWith("21")){
+            if (newPhoneNumber.startsWith("21")) {
                 newPhoneNumber = "0" + newPhoneNumber;
             }
-            if(newPhoneNumber.startsWith("3")){
+            if (newPhoneNumber.startsWith("3")) {
                 newPhoneNumber = "0" + newPhoneNumber;
             }
-            if(newPhoneNumber.startsWith("+")){
+            if (newPhoneNumber.startsWith("+")) {
                 char[] phoneArray = newPhoneNumber.toCharArray();
                 int startPosition = 0;
-                for(int i=0;i<phoneArray.length;i++){
-                    if(phoneArray[i] != '+') {
+                for (int i = 0; i < phoneArray.length; i++) {
+                    if (phoneArray[i] != '+') {
                         startPosition = i;
                         break;
                     }
                 }
-                newPhoneNumber = newPhoneNumber.substring(startPosition,newPhoneNumber.length());
+                newPhoneNumber = newPhoneNumber.substring(startPosition, newPhoneNumber.length());
             }
-            if(newPhoneNumber.startsWith("0")){
+            if (newPhoneNumber.startsWith("0")) {
                 char[] phoneArray = newPhoneNumber.toCharArray();
-                if(phoneArray[1] == '0'){
+                if (phoneArray[1] == '0') {
                     int startPosition = 0;
-                    for(int i=1;i<phoneArray.length;i++){
-                        if(phoneArray[i] != '0') {
+                    for (int i = 1; i < phoneArray.length; i++) {
+                        if (phoneArray[i] != '0') {
                             startPosition = i;
                             break;
                         }
                     }
-                    newPhoneNumber = newPhoneNumber.substring(startPosition,newPhoneNumber.length());
-                }else {
-                    newPhoneNumber = newPhoneNumber.substring(1,newPhoneNumber.length());
+                    newPhoneNumber = newPhoneNumber.substring(startPosition, newPhoneNumber.length());
+                } else {
+                    newPhoneNumber = newPhoneNumber.substring(1, newPhoneNumber.length());
                 }
             }
-            if(newPhoneNumber.startsWith("92")) {
+            if (newPhoneNumber.startsWith("92")) {
                 newPhoneNumber = "+" + newPhoneNumber;
             }
-            if(newPhoneNumber.startsWith("+920")) {
+            if (newPhoneNumber.startsWith("+920")) {
                 char[] phoneArray = newPhoneNumber.toCharArray();
                 int startPosition = 0;
-                for(int i=4;i<phoneArray.length;i++){
-                    if(phoneArray[i] != '0') {
+                for (int i = 4; i < phoneArray.length; i++) {
+                    if (phoneArray[i] != '0') {
                         startPosition = i;
                         break;
                     }
                 }
-                newPhoneNumber = "+92" + newPhoneNumber.substring(startPosition,newPhoneNumber.length());
+                newPhoneNumber = "+92" + newPhoneNumber.substring(startPosition, newPhoneNumber.length());
             }
-            if(!newPhoneNumber.startsWith("+92")) {
+            if (!newPhoneNumber.startsWith("+92")) {
                 newPhoneNumber = "+92" + newPhoneNumber;
             }
             return newPhoneNumber;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
-            return phoneNumber.replace(" ","");
+            return phoneNumber.replace(" ", "");
         }
     }
 
-    public String byteArrayToString(byte[] byteArrayImage){
-        if(byteArrayImage == null){
+    public String byteArrayToString(byte[] byteArrayImage) {
+        if (byteArrayImage == null) {
             return "";
         }
         return Base64.encodeToString(byteArrayImage, Base64.NO_WRAP);

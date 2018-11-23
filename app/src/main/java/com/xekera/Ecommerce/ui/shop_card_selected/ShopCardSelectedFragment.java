@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -17,12 +19,14 @@ import butterknife.ButterKnife;
 import com.varunest.sparkbutton.SparkButton;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.home_delivery_Address.DeliveryAddressActivity;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
+import java.io.ByteArrayOutputStream;
 
 
 /**
@@ -54,6 +58,10 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     protected ImageView deliveryAddressImageView;
     @BindView(R.id.deliveryAddressValueTextView)
     protected TextView deliveryAddressValueTextView;
+    @BindView(R.id.deliveryAddress2ValueEdittext)
+    protected EditText deliveryAddress2ValueEdittext;
+    @BindView(R.id.btnAddToCart)
+    protected Button btnAddToCart;
 
 
     @Inject
@@ -203,6 +211,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         incrementImageButton.setOnClickListener(this);
         decrementImageButton.setOnClickListener(this);
         deliveryAddressImageView.setOnClickListener(this);
+        btnAddToCart.setOnClickListener(this);
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
         shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shakeanimation);
@@ -245,6 +254,15 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         snackUtil.showSnackBarShortTime(view, message);
     }
 
+    public void showSnackBarShortTime(String message) {
+        snackUtil.showSnackBarShortTime(getView(), message);
+    }
+
+    @Override
+    public void setUpdatedQuantity() {
+        //  counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
+    }
+
     @Override
     public void showSnackBarLongTime(String message, View view) {
         snackUtil.showSnackBarLongTime(view, message);
@@ -260,6 +278,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         return fragment;
     }
 
+    // long noOfProductsIntIncrement = 1;
+    // long noOfProductsIntDecrement = 1;
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -274,17 +295,22 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                         noOfProductsIntIncrement = 0;
                         counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
 
+                        if (shoppingDetailModel != null) {
+                            shoppingDetailModel.setItemQuantity(0);
+                        }
                         return;
                     } else {
-                        // productsCartCounter = shoppingDetailModel.getItemQuantity() + 1;
 
                         noOfProductsIntIncrement = noOfProductsIntIncrement + 1;
-
-                        // shoppingDetailModel.setItemQuantity(productsCartCounter);
-                        //productsCartCounter = productsCartCounter + 1;
                         counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
 
-                        ((BaseActivity) getActivity()).shakeCartTextview(shake);
+                        if (shoppingDetailModel != null) {
+                            shoppingDetailModel.setItemQuantity(noOfProductsIntIncrement);
+                        }
+
+                        //  presenter.updateItemCountInDB(String.valueOf(noOfProductsIntIncrement)
+                        //        , productNameLabelTextView.getText().toString());
+
 
                     }
 
@@ -303,21 +329,36 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                         noOfProductsIntDecrement = 0;
                         counterTextview.setText(String.valueOf(noOfProductsIntDecrement));
 
+                        if (shoppingDetailModel != null) {
+                            shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
+                        }
+
                         return;
                     } else {
                         if (noOfProductsIntDecrement == 1) {
                             counterTextview.setText(String.valueOf(noOfProductsIntDecrement));
+                            if (shoppingDetailModel != null) {
+                                shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
+                            }
                             //   shoppingDetailModel.setItemQuantity(1);
                             // decrementCounter = 1;
                             noOfProductsIntDecrement = 1;
+
+//                            presenter.updateItemCountInDB(String.valueOf(noOfProductsIntDecrement)
+//                                    , productNameLabelTextView.getText().toString());
                             return;
                         }
-                        //  productsCartCounter = shoppingDetailModel.getItemQuantity() - 1;
                         noOfProductsIntDecrement = noOfProductsIntDecrement - 1;
-                        // shoppingDetailModel.setItemQuantity(productsCartCounter);
 
-                        //productsCartCounter = productsCartCounter - 1;
+                        //  presenter.updateItemCountInDB(String.valueOf(noOfProductsIntDecrement)
+                        //        , productNameLabelTextView.getText().toString());
                         counterTextview.setText(String.valueOf(noOfProductsIntDecrement));
+
+                        if (shoppingDetailModel != null) {
+                            shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
+                        }
+
+
                     }
 
                 } catch (Exception e) {
@@ -344,23 +385,35 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
                 Intent i = new Intent(getActivity(), DeliveryAddressActivity.class);
                 getActivity().startActivity(i);
-                //   ((BaseActivity) getActivity()).addActivity(DeliveryAddressActivity.class);
 
+
+                break;
+            case R.id.btnAddToCart:
+                String productName = productNameLabelTextView.getText().toString();
+                String price = priceTextView.getText().toString();
+                String quantity = counterTextview.getText().toString();
+                String deliveryAddress1 = deliveryAddressValueTextView.getText().toString();
+                String deliveryAddress2 = deliveryAddress2ValueEdittext.getText().toString();
+                String itemCutPrice = discountPriceTextView.getText().toString();
+
+                long totalAmount = Long.valueOf(quantity) * Long.valueOf(price);
+                latitude = sessionManager.getKeyLatitude();
+                longitude = sessionManager.getKeyLongitude();
+
+                byte[] byteArray = new byte[0];
+                if (bitmapImage != null) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                    bitmapImage.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                    byteArray = stream.toByteArray();
+
+                }
+                AddToCart addToCart = new AddToCart("1", productName, String.valueOf(totalAmount), quantity, deliveryAddress1,
+                        deliveryAddress2, latitude, longitude, "N", byteArray, itemCutPrice, price);
+                presenter.saveProductDetails(addToCart);
 
                 break;
         }
     }
 
-
-//    public void setCallBack(ShopDetailsFragment shopDetailsFragment) {
-//        this.shopDetailsFragment = shopDetailsFragment;
-//    }
-
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//
-//        ShopDetailsFragment shopDetailsFragment = new ShopDetailsFragment();
-//        shopDetailsFragment.notifyAdapter(shoppingDetailModel);
-//    }
 }

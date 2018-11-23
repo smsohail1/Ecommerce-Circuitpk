@@ -56,6 +56,7 @@
     <dimen name="btn_add_update_height">34dp</dimen>
     <dimen name="btn_add_update_txt_size">13dp</dimen>
 
+    <dimen name="no_item_found_txt_size">15dp</dimen>
 
     <dimen name="img_drawer_height_size">100dp</dimen>
 

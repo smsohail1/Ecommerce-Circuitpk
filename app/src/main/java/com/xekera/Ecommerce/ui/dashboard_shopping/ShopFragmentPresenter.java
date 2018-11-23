@@ -43,7 +43,7 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
         homeItems.add(new DashboardItem(R.string.lcd, R.drawable.icon_dp_user));
         homeItems.add(new DashboardItem(R.string.motor_driver, R.drawable.icon_barcode));
         homeItems.add(new DashboardItem(R.string.charges, R.drawable.icon_security));
-        homeItems.add(new DashboardItem(R.string.motor_wheel, R.drawable.icon_courier_code));
+        homeItems.add(new DashboardItem(R.string.motor_wheel, R.drawable.icon_security));
         homeAdapter = new DashboardAdapter(homeItems, this,context);
         view.setHomeRecyclerViewAdapter(homeAdapter);
     }
