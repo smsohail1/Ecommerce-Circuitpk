@@ -38,10 +38,11 @@ import java.util.*;
 public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     @BindView(R.id.recyclerViewHome)
     protected RecyclerView recyclerViewHome;
-    @BindView(R.id.viewPager)
-    protected ViewPager viewPager;
-    @BindView(R.id.indicator)
-    protected TabLayout indicator;
+//    @BindView(R.id.viewPager)
+//    protected ViewPager viewPager;
+//    @BindView(R.id.indicator)
+//    protected TabLayout indicator;
+//
     // @BindView(R.id.slider)
     // protected SliderLayout sliderLayout;
 
@@ -70,7 +71,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
-        requestPermissions();
+        //  requestPermissions();
 
     }
 
@@ -78,13 +79,15 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     public void onResume() {
         super.onResume();
         presenter.setView(this);
-        if (mPermissionDenied) {
-            // Permissions were not granted
-            showMissingPermissionError();
-            mPermissionDenied = false;
-        }
+
+//        if (mPermissionDenied) {
+//            // Permissions were not granted
+//            showMissingPermissionError();
+//            mPermissionDenied = false;
+//        }
+//
         try {
-            setTitle();
+          //  setTitle();
             //  showHumbergIcon();
             // showLoginIcon();
         } catch (Exception ex) {
@@ -127,26 +130,27 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
-        setTitle();
-        showHumbergIcon();
-        showLoginIcon();
-
-        color = new ArrayList<>();
-        color.add(Color.RED);
-        color.add(Color.GREEN);
-        color.add(Color.BLUE);
-
-        colorName = new ArrayList<>();
-        colorName.add("RED");
-        colorName.add("GREEN");
-        colorName.add("BLUE");
+//        setTitle();
+//        showHumbergIcon();
+//        showLoginIcon();
 
 
-        img = new ArrayList<>();
-        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
-        img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
-        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
-        presenter.setViewPagerItems(getActivity(), color, colorName, img);
+//        color = new ArrayList<>();
+//        color.add(Color.RED);
+//        color.add(Color.GREEN);
+//        color.add(Color.BLUE);
+//
+//        colorName = new ArrayList<>();
+//        colorName.add("RED");
+//        colorName.add("GREEN");
+//        colorName.add("BLUE");
+//
+//
+//        img = new ArrayList<>();
+//        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+//        img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
+//        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
+//        presenter.setViewPagerItems(getActivity(), color, colorName, img);
 
         recyclerViewHome.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerViewHome.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
@@ -238,21 +242,21 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     public void showShoppingDetailPage(DashboardItem homeItem) {
 
         ShopDetailsFragment shopDetailsFragment = new ShopDetailsFragment();
-        ((BaseActivity) getActivity()).addFragmentWithLockedHumberIcon(shopDetailsFragment.newInstance(utils.getStringFromResourceId(homeItem.getNameResId())));
-
+        ((BaseActivity) getActivity()).replaceFragment(shopDetailsFragment.newInstance(utils.getStringFromResourceId(homeItem.getNameResId())));
     }
 
     @Override
     public void setDashboardViewPagerAdapter(SliderAdapter sliderAdapter) {
-        viewPager.setAdapter(sliderAdapter);
-        indicator.setupWithViewPager(viewPager, true);
-
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new SliderTimer(), 5000, 5000);
+//        viewPager.setAdapter(sliderAdapter);
+//        indicator.setupWithViewPager(viewPager, true);
+//
+//        Timer timer = new Timer();
+//        timer.scheduleAtFixedRate(new SliderTimer(), 5000, 5000);
 
     }
 
 
+/*
     private class SliderTimer extends TimerTask {
 
         @Override
@@ -273,6 +277,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
             }
         }
     }
+*/
 
 
     // PERMISSIONS CODE

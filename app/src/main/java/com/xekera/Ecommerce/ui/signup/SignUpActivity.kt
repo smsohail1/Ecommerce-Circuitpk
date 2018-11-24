@@ -3,9 +3,9 @@ package com.xekera.Ecommerce.ui.signup
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.xekera.Ecommerce.R
-import com.xekera.Ecommerce.ui.LoginBaseActivity
+import com.xekera.Ecommerce.ui.BaseActivity
 
-public class SignUpActivity  : LoginBaseActivity() {
+public class SignUpActivity : BaseActivity() {
 
     protected override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

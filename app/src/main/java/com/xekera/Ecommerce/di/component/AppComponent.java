@@ -60,7 +60,6 @@ public interface AppComponent {
 
     void inject(AddToCartFragment addToCartFragment);
 
-
 }
 
 

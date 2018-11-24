@@ -38,7 +38,7 @@ import com.xekera.Ecommerce.util.Utils;
 import javax.inject.Inject;
 
 
-public abstract class LoginBaseActivity extends AppCompatActivity  {
+public abstract class LoginBaseActivity extends AppCompatActivity {
     @BindView(R.id.fragmentContainerLogin)
     protected FrameLayout fragmentContainerLogin;
 
@@ -93,7 +93,6 @@ public abstract class LoginBaseActivity extends AppCompatActivity  {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerLogin);
 
 
-
     }
 
     @Override
@@ -126,7 +125,7 @@ public abstract class LoginBaseActivity extends AppCompatActivity  {
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
         } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             popBackstack();
-        }else{
+        } else {
             super.onBackPressed();
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
 

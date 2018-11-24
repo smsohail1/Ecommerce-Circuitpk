@@ -134,7 +134,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         try {
 
 
-            ((BaseActivity) getActivity()).setTitle("kj");
+            //  ((BaseActivity) getActivity()).setTitle("kj");
 
         } catch (Exception e) {
 
@@ -160,8 +160,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     public void setProductDetails() {
         try {
 
-            if (shoppingDetailModel != null && shoppingDetailModel.getProductName() != null)
-                ((BaseActivity) getActivity()).setTitle(shoppingDetailModel.getProductName());
+//            if (shoppingDetailModel != null && shoppingDetailModel.getProductName() != null)
+//                ((BaseActivity) getActivity()).setTitle(shoppingDetailModel.getProductName());
 
 
             if (bitmapImage != null)

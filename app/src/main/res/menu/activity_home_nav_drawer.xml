@@ -1,40 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
 
+        <item
+                android:id="@+id/navProduct"
+                android:title="@string/product_nav"
+                android:icon="@drawable/icon_nav_product"/>
+        <item
+                android:id="@+id/nav_Favourite"
+                android:title="@string/favourite_nav"
+                android:icon="@drawable/nav_icon_favorite"/>
+        <item
+                android:id="@+id/nav_Profile"
+                android:title="@string/profile_nav"
+                android:icon="@drawable/nav_icon_profile"/>
 
         <item
-            android:id="@+id/navFeedback"
-            android:title="@string/feedback_nav"
-        android:icon="@drawable/icon_feedback"/>
+                android:id="@+id/nav_Setting"
+                android:title="@string/setting_nav"
+                android:icon="@drawable/nav_icon_settings"/>
 
 
         <item
-                android:id="@+id/navRateUs"
-                android:icon="@drawable/icon_rate"
-                android:title="@string/rate_us_nav" />
+                android:id="@+id/navFeedback"
+                android:title="@string/feedback_nav"
+                android:icon="@drawable/icon_feedback"/>
 
         <item
                 android:id="@+id/navShare"
                 android:icon="@drawable/icon_share"
-                android:title="@string/share_nav" />
+                android:title="@string/share_nav"/>
 
         <item
-            android:id="@+id/navAbout"
-            android:icon="@drawable/icon_about"
-            android:title="@string/about_nav" />
+                android:id="@+id/navAbout"
+                android:icon="@drawable/icon_about"
+                android:title="@string/about_nav"/>
 
 
         <item
-            android:id="@+id/navLogout"
-            android:icon="@drawable/icon_logout"
-            android:title="@string/logout_nav" />
+                android:id="@+id/navLogout"
+                android:icon="@drawable/icon_logout"
+                android:title="@string/logout_nav"/>
 
     </group>
-
 
 
     <!--<item android:title="Communicate">

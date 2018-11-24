@@ -43,6 +43,7 @@ import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.dashboard.DashboardFragment;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.login.LoginActivity;
+import com.xekera.Ecommerce.ui.login.LoginFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import com.xekera.Ecommerce.util.*;
@@ -134,26 +135,27 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         imgLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);
-//                try {
-//                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-//                    if (!(fragment instanceof LoginFragment)) {
-//                        addFragment(new LoginFragment());
-//                    }
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
+                // Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                // startActivity(i);
+
+                try {
+                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                    if (!(fragment instanceof LoginFragment)) {
+                        addFragment(new LoginFragment());
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-                //  onBackImagePressed();
-            }
-        });
+//        imgBack.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                onBackPressed();
+//                //  onBackImagePressed();
+//            }
+//        });
         initializeFragment();
 
 
@@ -175,20 +177,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
 
-        if (fragment instanceof ShopDetailsFragment) {
-            ((ShopDetailsFragment) fragment).setTitle();
-            ((ShopDetailsFragment) fragment).showBackImageIcon();
-            ((ShopDetailsFragment) fragment).hideLoginIcon();
-            ((ShopDetailsFragment) fragment).hideHumbergIcon();
-        } else if (fragment instanceof ShopFragment) {
-            ((ShopFragment) fragment).setTitle();
-            ((ShopFragment) fragment).showLoginIcon();
-            ((ShopFragment) fragment).showHumbergIcon();
-        } else if (fragment instanceof ShopCardSelectedFragment) {
-            ((ShopDetailsFragment) fragment).showBackImageIcon();
-            ((ShopDetailsFragment) fragment).hideLoginIcon();
-            ((ShopDetailsFragment) fragment).hideHumbergIcon();
-        }
+//        if (fragment instanceof ShopDetailsFragment) {
+//           // ((ShopDetailsFragment) fragment).setTitle();
+//            //((ShopDetailsFragment) fragment).showBackImageIcon();
+//            //((ShopDetailsFragment) fragment).hideLoginIcon();
+//            //((ShopDetailsFragment) fragment).hideHumbergIcon();
+//        } else if (fragment instanceof ShopFragment) {
+//            //((ShopFragment) fragment).setTitle();
+//            //((ShopFragment) fragment).showLoginIcon();
+//            //((ShopFragment) fragment).showHumbergIcon();
+//        } else if (fragment instanceof ShopCardSelectedFragment) {
+//            //((ShopDetailsFragment) fragment).showBackImageIcon();
+//            //((ShopDetailsFragment) fragment).hideLoginIcon();
+//            //((ShopDetailsFragment) fragment).hideHumbergIcon();
+//        }
 
 
     }
@@ -200,19 +202,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         if (fragment instanceof DashboardFragment) {
 
         } else if (fragment instanceof ShopDetailsFragment) {
-            ((ShopDetailsFragment) fragment).showBackImageIcon();
-            ((ShopDetailsFragment) fragment).hideLoginIcon();
-            ((ShopDetailsFragment) fragment).hideHumbergIcon();
+            //  ((ShopDetailsFragment) fragment).showBackImageIcon();
+            // ((ShopDetailsFragment) fragment).hideLoginIcon();
+            //((ShopDetailsFragment) fragment).hideHumbergIcon();
 
         } else if (fragment instanceof ShopFragment) {
             ((ShopFragment) fragment).setTitle();
-            ((ShopFragment) fragment).showLoginIcon();
-            ((ShopFragment) fragment).showHumbergIcon();
-            ((ShopFragment) fragment).hideBackImageIcon();
+            //((ShopFragment) fragment).showLoginIcon();
+            //((ShopFragment) fragment).showHumbergIcon();
+            //((ShopFragment) fragment).hideBackImageIcon();
         } else if (fragment instanceof ShopCardSelectedFragment) {
-            ((ShopCardSelectedFragment) fragment).showBackImageIcon();
-            ((ShopCardSelectedFragment) fragment).hideLoginIcon();
-            ((ShopCardSelectedFragment) fragment).hideHumbergIcon();
+            //((ShopCardSelectedFragment) fragment).showBackImageIcon();
+            //((ShopCardSelectedFragment) fragment).hideLoginIcon();
+            //((ShopCardSelectedFragment) fragment).hideHumbergIcon();
         }
 
     }
@@ -265,15 +267,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             drawer.closeDrawer(GravityCompat.START);
         } else if (fragment instanceof ShopDetailsFragment) {
 
-            hideBackImageIcon();
-            setTitle("Shop");
-            showLoginIcon();
+            //   hideBackImageIcon();
+            // setTitle("Shop");
+            //showLoginIcon();
             enableHomeIcon(true);
-            hideHumberIcon();
+            //hideHumberIcon();
             popBackstack();
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
 
         } else if (fragment instanceof DashboardFragment) {
+            enableHomeIcon(true);
 
             if (backPressedOnce) {
                 this.finish();
@@ -296,6 +299,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             popBackstack();
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
         } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            enableHomeIcon(true);
+
             popBackstack();
         }
 
@@ -329,15 +334,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     private void onBackImagePressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-            hideBackImageIcon();
+            // hideBackImageIcon();
         } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             enableHomeIcon(true);
             super.onBackPressed();
-            hideBackImageIcon();
+            // hideBackImageIcon();
             popBackstack();
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
         } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            hideBackImageIcon();
+            //hideBackImageIcon();
             enableHomeIcon(true);
             popBackstack();
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
@@ -426,11 +431,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     .addToBackStack(null)
                     .commit();
         }
-        enableHomeIcon(false);
+        enableHomeIcon(true);
     }
 
 
-    public void addFragmentWithLockedHumberIcon(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
         manager = getSupportFragmentManager();
         if (fragment != null) {
             manager.beginTransaction()
@@ -439,7 +444,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     .addToBackStack(null)
                     .commit();
         }
-        disbaleHomeIcon(false);
+        disbaleHomeIcon(true);
     }
 
     public void addTargetFragmentWithLockedHumberIcon(Fragment fragment) {
@@ -466,7 +471,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     .addToBackStack(null)
                     .commit();
         }
-        disbaleHomeIcon(false);
+        disbaleHomeIcon(true);
     }
 
 

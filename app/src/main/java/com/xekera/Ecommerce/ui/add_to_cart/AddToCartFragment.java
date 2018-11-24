@@ -90,7 +90,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 //                deliveryAddressValueTextView.setText("");
 //
 //            }
-            setTitle();
+            //   setTitle();
 
         } catch (Exception ex) {
             ex.printStackTrace();

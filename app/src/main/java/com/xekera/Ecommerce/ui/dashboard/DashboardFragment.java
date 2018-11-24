@@ -100,6 +100,10 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
         Fragment fragment;
         fragment = new ShopFragment();
         addFragment(fragment);
+
+        final Menu menu = navigation.getMenu();
+        menu.getItem(0).setTitle("fsss" + "32434");
+
     }
 
 
@@ -112,8 +116,10 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
             switch (item.getItemId()) {
                 case R.id.navigation_shop:
                     //  Toast.makeText(getActivity(), "Shop is selected", Toast.LENGTH_SHORT).show();
-                    ((BaseActivity) getActivity()).popBackstack();
+//                    ((BaseActivity) getActivity()).popBackstack();
                     //((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
+
+                    ((BaseActivity) getActivity()).popBackstack();
 
                     fragment = new ShopFragment();
                     addFragment(fragment);

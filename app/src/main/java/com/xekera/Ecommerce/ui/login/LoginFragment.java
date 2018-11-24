@@ -26,7 +26,6 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
-import com.xekera.Ecommerce.ui.LoginBaseActivity;
 import com.xekera.Ecommerce.ui.dashboard.DashboardActivity;
 import com.xekera.Ecommerce.ui.signup.SignUpActivity;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
@@ -43,7 +42,7 @@ import javax.inject.Inject;
 public class LoginFragment extends Fragment implements View.OnClickListener, LoginMVP.View {
     @BindView(R.id.edtUsername)
     protected EditText edtUsername;
-//    @BindView(R.id.edtPassword)
+    //    @BindView(R.id.edtPassword)
 //    protected EditText edtPassword;
     @BindView(R.id.customEdtPasswordHideShow)
     protected EditText customEdtPasswordHideShow;
@@ -136,12 +135,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                 String userName = edtUsername.getText().toString();
                 String password = customEdtPasswordHideShow.getText().toString();
 
-                presenter.onClickBtnSignIn(userName, password,view);
+                presenter.onClickBtnSignIn(userName, password, view);
                 break;
             }
             case R.id.btnCreateAccount: {
 
-                ((LoginBaseActivity) getActivity()).addFragment(new SignupFragment());
+                ((BaseActivity) getActivity()).addFragment(new SignupFragment());
 
 
                 break;
@@ -177,13 +176,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     }
 
     @Override
-    public void showSnackBarShortTime(String message,View view) {
-        snackUtil.showSnackBarShortTime(view,message);
+    public void showSnackBarShortTime(String message, View view) {
+        snackUtil.showSnackBarShortTime(view, message);
     }
 
     @Override
-    public void showSnackBarLongTime(String message,View view) {
-        snackUtil.showSnackBarLongTime(view,message);
+    public void showSnackBarLongTime(String message, View view) {
+        snackUtil.showSnackBarLongTime(view, message);
     }
 
     @Override

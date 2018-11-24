@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
+                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clickable="true"
                 android:background="@drawable/irongrip_repeating"
@@ -24,10 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_height"
                 android:background="@drawable/bg_search_edt"
-                android:drawableLeft="@drawable/icon_search"
+                android:drawableLeft="@drawable/icon_search_product"
                 android:drawablePadding="7dp"
                 android:layout_margin="10dp"
-                android:fontFamily="@font/titilliu_web_regular"
                 android:hint="@string/edt_shop_details"
                 android:inputType="text"
                 android:maxLength="50"
@@ -40,6 +39,7 @@
                    android:layout_height="wrap_content"/>
 
     </LinearLayout>
+
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"

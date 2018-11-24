@@ -35,6 +35,15 @@
                         android:padding="8dp"
                         android:visibility="gone"
                 />
+
+                <ImageView
+                        android:id="@+id/imgCompanyLogo"
+                        android:layout_width="@dimen/width_company_logo"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/company_logo"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                />
                 <TextView
                         android:id="@+id/txtScreenTitle"
                         android:layout_width="wrap_content"
@@ -46,6 +55,7 @@
                         android:textColor="@color/white"
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/titilliu_web_semi_bold"
+                        android:visibility="gone"
                 />
                 <RelativeLayout
                         android:layout_width="wrap_content"

@@ -57,6 +57,7 @@
     <color name="grey_dark_report_item_sheet_num">#2B2C2C</color>
 
     <color name="availibility_textview">#494949</color>
+    <color name="in_stock_textview_color">#7ac57a</color>
     <color name="grey_dark_edt">#494949</color>
     <color name="grey_dark_edt_hint">#7A7A7A</color>
 

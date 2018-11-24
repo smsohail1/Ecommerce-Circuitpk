@@ -41,7 +41,12 @@
     <string name="are_you_sure_logout">Are you sure you want to logout?</string>
     <string name="logout">Logout</string>
     <string name="logout_nav">Logout</string>
+    <string name="product_nav">Products</string>
+    <string name="favourite_nav">Favourite</string>
+    <string name="profile_nav">Profile</string>
     <string name="feedback_nav">Feedback</string>
+    <string name="setting_nav">Setting</string>
+
     <string name="about_nav">About</string>
     <string name="rate_us_nav">Rate Us</string>
     <string name="share_nav">Share</string>

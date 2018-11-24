@@ -130,10 +130,10 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //            //hideActionBar();
 //            hideLoginIcon();
 
-            setTitle();
-            hideHumbergIcon();
-            showBackImageIcon();
-            hideLoginIcon();
+//            setTitle();
+//            hideHumbergIcon();
+//            showBackImageIcon();
+//            hideLoginIcon();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -186,9 +186,9 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
         recyclerViewProductDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        setTitle();
-        hideLoginIcon();
-        showBackImageIcon();
+        //  setTitle();
+        //hideLoginIcon();
+        // showBackImageIcon();
 
         edtSearchProduct.setText("");
 
@@ -336,7 +336,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     public void onCardClick(ShoppingDetailModel productItems, Bitmap bitmapImg) {
         utils.hideSoftKeyboard(edtSearchProduct);
         ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
-        ((BaseActivity) getActivity()).addFragmentWithLockedHumberIcon(shopCardSelectedFragment.newInstance(productItems, bitmapImg));
+        ((BaseActivity) getActivity()).replaceFragment(shopCardSelectedFragment.newInstance(productItems, bitmapImg));
 
     }
 
