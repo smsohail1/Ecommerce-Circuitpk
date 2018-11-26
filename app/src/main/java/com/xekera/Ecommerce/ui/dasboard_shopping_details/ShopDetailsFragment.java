@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -91,6 +92,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
             // }
         }
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -333,10 +335,16 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     }
 
     @Override
-    public void onCardClick(ShoppingDetailModel productItems, Bitmap bitmapImg) {
+    public void onCardClick(final ShoppingDetailModel productItems, final Bitmap bitmapImg) {
         utils.hideSoftKeyboard(edtSearchProduct);
-        ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
-        ((BaseActivity) getActivity()).replaceFragment(shopCardSelectedFragment.newInstance(productItems, bitmapImg));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
+                ((BaseActivity) getActivity()).replaceFragment(shopCardSelectedFragment.newInstance(productItems, bitmapImg));
+            }
+        }, 400);
 
     }
 

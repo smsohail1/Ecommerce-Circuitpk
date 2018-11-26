@@ -15,7 +15,8 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="2dp"
             app:cardCornerRadius="2dp"
-            style="@style/MyCardViewStyle"
+
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardElevation="2dp">
 
 
@@ -160,7 +161,7 @@
                                     android:layout_height="25dp"
                                     android:clickable="true"
                                     android:background="@drawable/cross_icon_selector"
-                                    />
+                            />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -186,15 +187,14 @@
 
                             <ImageView
                                     android:id="@+id/decrementImageButton"
-                                    android:layout_width="30dp"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/icon_minus_symbol"
+                                    android:layout_width="23dp"
+                                    android:layout_height="23dp"
                                     android:layout_gravity="center_vertical"
                                     android:clickable="true"
                                     android:layout_weight="0.3"
-                                    android:paddingLeft="4dp"
-                                    android:paddingRight="4dp"
-                                    android:background="@drawable/round_add_icon"
+                                    android:padding="7dp"
+
+                                    android:background="@drawable/minus_selector"
 
 
                             />
@@ -211,15 +211,12 @@
 
                             <ImageView
                                     android:id="@+id/incrementImageButton"
-                                    android:layout_width="30dp"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/icon_plus_symbol"
+                                    android:layout_width="23dp"
+                                    android:layout_height="23dp"
                                     android:layout_gravity="center_vertical"
                                     android:clickable="true"
-                                    android:paddingLeft="4dp"
-                                    android:paddingRight="4dp"
-                                    android:background="@drawable/round_add_icon"
-
+                                    android:padding="7dp"
+                                    android:background="@drawable/add_selector"
                             />
 
                         </LinearLayout>

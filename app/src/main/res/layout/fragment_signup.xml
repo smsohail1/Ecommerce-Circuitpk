@@ -3,7 +3,7 @@
                 xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/grey_light_missing_fields_bg"
-
+                android:clickable="true"
 >
 
 
@@ -150,7 +150,7 @@
                     android:fontFamily="@font/titilliu_web_regular"
                     android:hint="@string/email_address_hint_signup_edt"
                     android:inputType="textEmailAddress"
-                    android:maxLength="25"
+                    android:maxLength="30"
                     android:layout_marginTop="10dp"
                     android:textColorHint="#ffffff"
                     android:textCursorDrawable="@drawable/cursor_color"

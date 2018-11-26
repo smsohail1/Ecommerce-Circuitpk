@@ -35,7 +35,9 @@ public interface AddToCartMVP {
 
         void hideNoCartItemFound();
 
+        void showMessageZeroItemOnCart();
 
+        void navigateToBillingDetailScreen();
     }
 
     interface Presenter {
@@ -47,6 +49,7 @@ public interface AddToCartMVP {
 
         void updateItemCountInDB(String quantity, String itemPrice, String productName);
 
+        void getCartCountList();
 
     }
 
@@ -54,6 +57,7 @@ public interface AddToCartMVP {
 
         void getCartDetailsList(AddToCartModel.IFetchCartDetailsList iFetchCartDetailsList);
 
+        void getCartDetails(AddToCartModel.IFetchCartDetailsList iFetchCartDetailsList);
 
         void removeSelectedCartDetails(AddToCart productItems, AddToCartModel.IRemoveSelectedItemDetails iRemoveSelectedItemDetails);
 

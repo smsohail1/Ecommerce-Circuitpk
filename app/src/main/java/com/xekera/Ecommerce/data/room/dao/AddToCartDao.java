@@ -26,6 +26,10 @@ public interface AddToCartDao {
     List<AddToCart> getAllCartDetails();
 
 
+    @Query("SELECT * FROM add_to_cart")
+    List<AddToCart> getAllCartCount();
+
+
     @Query("DELETE FROM add_to_cart where item_name =:itemName")
     void deleteItem(String itemName);
 

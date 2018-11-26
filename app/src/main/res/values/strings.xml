@@ -95,4 +95,21 @@
 
     <string name="no_item_found">No items available in cart.</string>
 
+
+    <!--Billing details-->
+    <string name="edt_billing_detail_first_name">First name</string>
+    <string name="edt_billing_detail_last_name">Last name</string>
+    <string name="edt_billing_detail_company_name">Company\nname</string>
+    <string name="edt_billing_detail_country">Country</string>
+    <string name="edt_billing_detail_street_address">Street\naddress</string>
+    <string name="edt_billing_detail_town_city">Town/City</string>
+    <string name="edt_billing_detail_state_country">State/Country</string>
+    <string name="edt_billing_detail_postal_code">Postalcode/Zip</string>
+    <string name="edt_billing_detail_phone_no">Phone no</string>
+    <string name="edt_billing_detail_email_address">Email</string>
+
+    <string name="edt_billing_detail_street_address1">House no and street name</string>
+    <string name="edt_billing_detail_street_address2">Apartment, suite, unit etc</string>
+
+
 </resources>

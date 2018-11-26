@@ -32,6 +32,7 @@
     <color name="discount_price_textview">#E42021</color>
     <color name="price_textview">#54595C</color>
 
+    <color name="different_address_checkbox">#54595C</color>
 
     <color name="category_label">#ffffff</color>
     <!--Bottom Navigation-->
@@ -43,6 +44,8 @@
 
     <color name="light_grey_add_cart_border_color">#545454</color>
 
+    <color name="light_grey_delivey_screen_color">#545454</color>
+
 
     <color name="light_grey_textview">#545454</color>
     <color name="grey_dark_field_headings">#54595C</color>
@@ -52,6 +55,11 @@
 
     <color name="grey_light_consignment_num_bg">#717171</color>
     <color name="grey_light_missing_fields_bg">#97989A</color>
+    <color name="grey_light_delivery_page_bg">#97989A</color>
+
+    <color name="grey_light_broder">#717171</color>
+
+
     <color name="grey_light_report_item_bg_dark">#E8ECED</color>
     <color name="grey_light_report_item_bg_light">#EDF1F2</color>
     <color name="grey_dark_report_item_sheet_num">#2B2C2C</color>

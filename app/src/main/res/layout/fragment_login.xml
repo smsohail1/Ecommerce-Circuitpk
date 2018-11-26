@@ -6,6 +6,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/grey_light_missing_fields_bg"
+                android:clickable="true"
 >
 
 
@@ -73,8 +74,7 @@
                     android:inputType="textPassword"
                     android:imeOptions="actionDone"
                     android:maxLength="15"
-
-                    android:textColorHint="@color/red_edt_hint"
+                    android:textColorHint="#ffffff"
                     android:textCursorDrawable="@drawable/cursor_color"
                     android:textSize="14sp"
                     android:layout_marginBottom="20dp"/>

@@ -2,6 +2,7 @@ package com.xekera.Ecommerce.ui.add_to_cart;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,10 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
@@ -20,7 +18,11 @@ import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
+import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
 import com.xekera.Ecommerce.ui.home_delivery_Address.DeliveryAddressActivity;
+import com.xekera.Ecommerce.ui.login.LoginFragment;
+import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
+import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
@@ -45,6 +47,8 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     protected TextView totalValueTextView;
     @BindView(R.id.txtNoCartItemFound)
     protected TextView txtNoCartItemFound;
+    @BindView(R.id.btnCheckout)
+    protected Button btnCheckout;
 
 
     @Inject
@@ -117,7 +121,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
         ButterKnife.bind(this, v);
         presenter.setView(this);
 
-        //  deliveryAddressImageView.setOnClickListener(this);
+        btnCheckout.setOnClickListener(this);
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
@@ -230,12 +234,51 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     }
 
     @Override
+    public void showMessageZeroItemOnCart() {
+        toastUtil.showToastShortTime("No item exist in cart.");
+    }
+
+    @Override
+    public void navigateToBillingDetailScreen() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                DeliveyBillingDetailsFragment deliveyBillingDetailsFragment = new DeliveyBillingDetailsFragment();
+                ((BaseActivity) getActivity()).addFragment(deliveyBillingDetailsFragment);
+            }
+        }, 300);
+
+//                if (sessionManager.isLoggedIn()) {
+//
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                            DeliveyBillingDetailsFragment deliveyBillingDetailsFragment = new DeliveyBillingDetailsFragment();
+//                            ((BaseActivity) getActivity()).addFragment(deliveyBillingDetailsFragment);
+//                        }
+//                    }, 6000);
+//                } else {
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            showSnackBarLongTime("Required SignUp/Login for further proceed. ", getView());
+//                            ((BaseActivity) getActivity()).addFragment(new LoginFragment());
+//
+//                        }
+//                    }, 6000);
+//
+//                }
+
+    }
+
+    @Override
     public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.deliveryAddressImageView:
-//                Intent i = new Intent(getActivity(), DeliveryAddressActivity.class);
-//                getActivity().startActivity(i);
-//                break;
-//        }
+        switch (view.getId()) {
+            case R.id.btnCheckout:
+                presenter.getCartCountList();
+                break;
+        }
     }
 }

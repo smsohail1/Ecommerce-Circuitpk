@@ -26,6 +26,7 @@ public class App extends Application {
                 .shopDetailsModule(new ShopDetailsModule())
                 .shopCardSelectedModule(new ShopCardSelectedModule())
                 .addToCartModule(new AddToCartModule())
+                .deliveyBillingDetailsModule(new DeliveyBillingDetailsModule())
                 .build();
     }
 

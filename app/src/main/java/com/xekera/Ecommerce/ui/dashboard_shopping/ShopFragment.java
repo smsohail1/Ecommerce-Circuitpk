@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -87,7 +88,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
 //        }
 //
         try {
-          //  setTitle();
+            //  setTitle();
             //  showHumbergIcon();
             // showLoginIcon();
         } catch (Exception ex) {
@@ -239,10 +240,16 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     }
 
     @Override
-    public void showShoppingDetailPage(DashboardItem homeItem) {
+    public void showShoppingDetailPage(final DashboardItem homeItem) {
 
-        ShopDetailsFragment shopDetailsFragment = new ShopDetailsFragment();
-        ((BaseActivity) getActivity()).replaceFragment(shopDetailsFragment.newInstance(utils.getStringFromResourceId(homeItem.getNameResId())));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ShopDetailsFragment shopDetailsFragment = new ShopDetailsFragment();
+                ((BaseActivity) getActivity()).replaceFragment(shopDetailsFragment.newInstance(utils.getStringFromResourceId(homeItem.getNameResId())));
+
+            }
+        }, 300);
     }
 
     @Override

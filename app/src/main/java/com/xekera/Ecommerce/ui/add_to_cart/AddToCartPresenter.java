@@ -77,7 +77,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
     }
 
     private void getUpdatedTotalAmount() {
-        model.getCartDetailsList(new AddToCartModel.IFetchCartDetailsList() {
+        model.getCartDetails(new AddToCartModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCarts) {
                 if (addToCarts == null || addToCarts.size() == 0) {
@@ -144,5 +144,32 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
             }
         });
 
+    }
+
+    @Override
+    public void getCartCountList() {
+        model.getCartDetails(new AddToCartModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+                    view.hideRecyclerView();
+                    view.setParentFields();
+                    view.txtNoCartItemFound();
+                    view.showMessageZeroItemOnCart();
+                    return;
+                } else {
+                    view.navigateToBillingDetailScreen();
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+                view.setParentFields();
+                view.hideRecyclerView();
+                view.showMessageZeroItemOnCart();
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
     }
 }

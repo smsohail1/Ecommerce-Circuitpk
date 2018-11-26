@@ -1,6 +1,7 @@
 package com.xekera.Ecommerce.ui.dashboard;
 
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 
@@ -36,8 +37,34 @@ public class DashboardPresenter implements DashboardMVP.Presenter {
 //        homeItems.add(new DashboardItem(R.string.app_name, R.drawable.icon_dp_user));
 //        homeItems.add(new DashboardItem(R.string.app_name, R.drawable.icon_barcode));
 //        homeItems.add(new DashboardItem(R.string.app_name, R.drawable.icon_security));
-      //  homeAdapter = new DashboardAdapter(homeItems, this);
+        //  homeAdapter = new DashboardAdapter(homeItems, this);
         //view.setHomeRecyclerViewAdapter(homeAdapter);
+    }
+
+    @Override
+    public void getCartCountList() {
+
+        model.getCartCountList(new DashboardModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+                    view.setCartCounts(0);
+                    return;
+                } else {
+                    view.setCartCounts(addToCarts.size());
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.setCartLabel();
+                view.showToastLongTime("Error in fetch count.");
+
+
+            }
+        });
+
     }
 
 //    @Override

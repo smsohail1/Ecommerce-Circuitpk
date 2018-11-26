@@ -101,9 +101,6 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
         fragment = new ShopFragment();
         addFragment(fragment);
 
-        final Menu menu = navigation.getMenu();
-        menu.getItem(0).setTitle("fsss" + "32434");
-
     }
 
 
@@ -136,6 +133,7 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
                     //((BaseActivity) getActivity()).popBackstack();
                     // ((BaseActivity) getActivity()).addDashboardFragment(new AddToCartFragment());
                     // fragment = new CartFragment();
+                    presenter.getCartCountList();
                     fragment = new AddToCartFragment();
                     addFragment(fragment);
                     return true;
@@ -229,6 +227,20 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
     @Override
     public void showToastLongTime(String message) {
         toastUtil.showToastLongTime(message);
+    }
+
+    @Override
+    public void setCartCounts(long counts) {
+        final Menu menu = navigation.getMenu();
+        menu.getItem(2).setTitle("Cart(" + counts + ")");
+
+    }
+
+    @Override
+    public void setCartLabel() {
+
+        final Menu menu = navigation.getMenu();
+        menu.getItem(2).setTitle("Cart");
     }
 
 

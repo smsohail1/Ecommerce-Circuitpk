@@ -30,7 +30,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             app:cardCornerRadius="5dp"
-            style="@style/MyCardViewStyle"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardElevation="5dp">
 
 

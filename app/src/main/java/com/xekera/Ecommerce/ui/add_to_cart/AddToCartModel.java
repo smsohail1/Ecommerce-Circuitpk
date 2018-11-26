@@ -67,6 +67,45 @@ public class AddToCartModel implements AddToCartMVP.Model {
 
 
     @Override
+    public void getCartDetails(final IFetchCartDetailsList IFetchCartDetailsList) {
+        try {
+            Observable.just(appDatabase.getAddToCartDao()).
+                    map(new Function<AddToCartDao, List<AddToCart>>() {
+                        @Override
+                        public List<AddToCart> apply(AddToCartDao addToCartDao) throws Exception {
+                            return addToCartDao.getAllCartCount();
+                        }
+                    }).
+                    subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Observer<List<AddToCart>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<AddToCart> AddToCartList) {
+                            IFetchCartDetailsList.onCartDetailsReceived(AddToCartList);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            IFetchCartDetailsList.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception e) {
+            IFetchCartDetailsList.onErrorReceived(e);
+        }
+    }
+
+
+    @Override
     public void removeSelectedCartDetails(final AddToCart productItems, final IRemoveSelectedItemDetails iRemoveSelectedItemDetails) {
         try {
             Observable.just(appDatabase)
@@ -111,14 +150,14 @@ public class AddToCartModel implements AddToCartMVP.Model {
 
 
     @Override
-    public void updateItemCountInDB(final String quantity,final String itemPrice, final String productName, final ISaveProductDetails iSaveProductDetails) {
+    public void updateItemCountInDB(final String quantity, final String itemPrice, final String productName, final ISaveProductDetails iSaveProductDetails) {
 
         try {
             Observable.just(appDatabase)
                     .map(new Function<AppDatabase, Boolean>() {
                         @Override
                         public Boolean apply(AppDatabase appDatabase) throws Exception {
-                            appDatabase.getAddToCartDao().updateItemCount(quantity,itemPrice, productName);
+                            appDatabase.getAddToCartDao().updateItemCount(quantity, itemPrice, productName);
                             return true;
                         }
                     })
