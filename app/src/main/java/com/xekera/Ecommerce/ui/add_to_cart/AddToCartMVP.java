@@ -38,12 +38,17 @@ public interface AddToCartMVP {
         void showMessageZeroItemOnCart();
 
         void navigateToBillingDetailScreen();
+
+        void setCartCounts(long counts);
     }
 
     interface Presenter {
         void setView(View view);
 
         void fetchCartDetails();
+
+
+        void fetchCartDetailsOnBack(int i);
 
         void removeItemFromCart(AddToCart productItems);
 

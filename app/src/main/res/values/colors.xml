@@ -39,7 +39,7 @@
     <color name="bgBottomNavigation">#E10915</color>
     <string name="title_shop">Shop</string>
     <string name="title_favourite">Favourite</string>
-    <string name="title_cart">Cart</string>
+    <string name="title_cart">Cart(0)</string>
     <string name="title_profile">History</string>
 
     <color name="light_grey_add_cart_border_color">#545454</color>

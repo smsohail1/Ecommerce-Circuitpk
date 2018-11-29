@@ -65,17 +65,12 @@ public class AddToCart {
         this.transmissionStatus = transmissionStatus;
     }
 
-    public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity, String address1, String address2,
-                     String latitude, String longitude, String transmissionStatus, byte[] itemImage, String itemCutPrice
+    public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity,String transmissionStatus, byte[] itemImage, String itemCutPrice
             , String itemIndividualPrice) {
         this.orderID = orderID;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.itemQuantity = itemQuantity;
-        this.address1 = address1;
-        this.address2 = address2;
-        this.latitude = latitude;
-        this.longitude = longitude;
         this.transmissionStatus = transmissionStatus;
         this.itemImage = itemImage;
         this.itemCutPrice = itemCutPrice;

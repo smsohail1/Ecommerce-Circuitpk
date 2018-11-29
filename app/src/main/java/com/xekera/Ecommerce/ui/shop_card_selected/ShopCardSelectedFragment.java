@@ -114,15 +114,15 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
         try {
             setProductDetails();
-            placeName = sessionManager.getKeyPlaceName();
-            latitude = sessionManager.getKeyLatitude();
-            longitude = sessionManager.getKeyLongitude();
-            if (!utils.isTextNullOrEmpty(placeName)) {
-                deliveryAddressValueTextView.setText(placeName);
-            } else {
-                deliveryAddressValueTextView.setText("");
-
-            }
+//            placeName = sessionManager.getKeyPlaceName();
+//            latitude = sessionManager.getKeyLatitude();
+//            longitude = sessionManager.getKeyLongitude();
+//            if (!utils.isTextNullOrEmpty(placeName)) {
+//                deliveryAddressValueTextView.setText(placeName);
+//            } else {
+//                deliveryAddressValueTextView.setText("");
+//
+//            }
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -392,13 +392,13 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                 String productName = productNameLabelTextView.getText().toString();
                 String price = priceTextView.getText().toString();
                 String quantity = counterTextview.getText().toString();
-                String deliveryAddress1 = deliveryAddressValueTextView.getText().toString();
-                String deliveryAddress2 = deliveryAddress2ValueEdittext.getText().toString();
+//                String deliveryAddress1 = deliveryAddressValueTextView.getText().toString();
+//                String deliveryAddress2 = deliveryAddress2ValueEdittext.getText().toString();
                 String itemCutPrice = discountPriceTextView.getText().toString();
 
                 long totalAmount = Long.valueOf(quantity) * Long.valueOf(price);
-                latitude = sessionManager.getKeyLatitude();
-                longitude = sessionManager.getKeyLongitude();
+                //  latitude = sessionManager.getKeyLatitude();
+                // longitude = sessionManager.getKeyLongitude();
 
                 byte[] byteArray = new byte[0];
                 if (bitmapImage != null) {
@@ -408,8 +408,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                     byteArray = stream.toByteArray();
 
                 }
-                AddToCart addToCart = new AddToCart("1", productName, String.valueOf(totalAmount), quantity, deliveryAddress1,
-                        deliveryAddress2, latitude, longitude, "N", byteArray, itemCutPrice, price);
+                AddToCart addToCart = new AddToCart("1", productName, String.valueOf(totalAmount), quantity, "N", byteArray, itemCutPrice, price);
                 presenter.saveProductDetails(addToCart);
 
                 break;

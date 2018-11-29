@@ -59,6 +59,8 @@
                             android:layout_marginRight="3dp"
                             android:layout_marginTop="2dp"
                             app:cardCornerRadius="5dp"
+                            android:clickable="true"
+
                             android:foreground="?android:attr/selectableItemBackground"
 
                             app:cardElevation="2dp">
@@ -324,6 +326,8 @@
                             android:layout_marginRight="3dp"
                             android:layout_marginTop="2dp"
                             app:cardCornerRadius="5dp"
+                            android:clickable="true"
+
                             android:foreground="?android:attr/selectableItemBackground"
 
                             app:cardElevation="2dp">
@@ -352,7 +356,7 @@
 
                             <LinearLayout android:layout_width="match_parent"
                                           android:layout_height="wrap_content"
-                                          android:layout_marginTop="5dp"
+                                          android:layout_marginTop="10dp"
                                           android:weightSum="1.0"
                                           android:orientation="horizontal">
                                 <LinearLayout android:layout_width="0dp"
@@ -380,14 +384,25 @@
                                             android:src="@drawable/icon_asterik"/>
 
                                 </LinearLayout>
-                                <EditText
-                                        android:id="@+id/edtCountry"
+                                <!--<EditText-->
+                                <!--android:id="@+id/edtCountry"-->
+                                <!--android:layout_width="0dp"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:textColor="@color/availibility_textview"-->
+                                <!--android:layout_weight="0.75"-->
+                                <!--android:layout_marginLeft="5dp"-->
+                                <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
+
+                                <Spinner
+                                        android:id="@+id/spinnerCountry"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
+                                        android:background="@drawable/bg_spinner_receiver_name"
                                         android:textColor="@color/availibility_textview"
                                         android:layout_weight="0.75"
-                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginLeft="10dp"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
+
                             </LinearLayout>
 
 
@@ -485,21 +500,33 @@
                                             android:src="@drawable/icon_asterik"/>
 
                                 </LinearLayout>
-                                <EditText
-                                        android:id="@+id/edtTownCity"
+                                <!--<EditText-->
+                                <!--android:id="@+id/edtTownCity"-->
 
+                                <!--android:layout_width="0dp"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:textColor="@color/availibility_textview"-->
+                                <!--android:layout_weight="0.75"-->
+                                <!--android:layout_marginLeft="5dp"-->
+                                <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
+
+                                <Spinner
+                                        android:id="@+id/spinnerTownCity"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
+                                        android:background="@drawable/bg_spinner_receiver_name"
                                         android:textColor="@color/availibility_textview"
                                         android:layout_weight="0.75"
-                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginLeft="10dp"
+
                                         android:textSize="@dimen/txt_report_list_item_size"/>
+
                             </LinearLayout>
 
 
                             <LinearLayout android:layout_width="match_parent"
                                           android:layout_height="wrap_content"
-                                          android:layout_marginTop="5dp"
+                                          android:layout_marginTop="10dp"
 
                                           android:weightSum="1.0"
                                           android:orientation="horizontal">
@@ -527,13 +554,24 @@
                                             android:src="@drawable/icon_asterik"/>
 
                                 </LinearLayout>
-                                <EditText
-                                        android:id="@+id/edtState"
+                                <!--<EditText-->
+                                <!--android:id="@+id/edtState"-->
+                                <!--android:layout_width="0dp"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:textColor="@color/availibility_textview"-->
+                                <!--android:layout_weight="0.75"-->
+                                <!--android:layout_marginLeft="5dp"-->
+                                <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
+
+
+                                <Spinner
+                                        android:id="@+id/spinnerStateCountry"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
+                                        android:background="@drawable/bg_spinner_receiver_name"
                                         android:textColor="@color/availibility_textview"
                                         android:layout_weight="0.75"
-                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginLeft="10dp"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
                             </LinearLayout>
 
@@ -590,6 +628,108 @@
                 </LinearLayout>
 
 
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                    <android.support.v7.widget.CardView
+                            android:id="@+id/cardViewPaymenrModeParent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_marginTop="2dp"
+                            app:cardCornerRadius="5dp"
+                            android:clickable="true"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            app:cardElevation="2dp">
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:orientation="vertical"
+                        >
+
+
+                            <LinearLayout android:layout_width="match_parent"
+                                          android:layout_height="wrap_content"
+                                          android:orientation="horizontal">
+
+
+                                <TextView android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
+                                          android:text="Payment Modes"
+                                          android:textSize="@dimen/textview_user_update_height"
+                                          android:textColor="@color/light_grey_delivey_screen_color"
+                                />
+
+
+                            </LinearLayout>
+
+
+                            <RadioGroup
+                                    android:id="@+id/radioGroup"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="vertical">
+
+                                <RadioButton
+                                        android:id="@+id/radioButton1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/direct_bank_transfer"
+                                        android:textSize="@dimen/payment_mode_textview_size"/>
+
+                                <RadioButton
+                                        android:id="@+id/radioButton2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/check_payments"
+                                        android:textSize="@dimen/payment_mode_textview_size"/>
+
+                                <RadioButton
+                                        android:id="@+id/radioButton3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/cash_on_delivery"
+                                        android:textSize="@dimen/payment_mode_textview_size"/>
+
+                                <RadioButton
+                                        android:id="@+id/radioButton4"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/easy_paisa"
+                                        android:textSize="@dimen/payment_mode_textview_size"/>
+
+                                <RadioButton
+                                        android:id="@+id/radioButton5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/jazzcash"
+                                        android:textSize="@dimen/payment_mode_textview_size"/>
+
+                                <RadioButton
+                                        android:id="@+id/radioButton6"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/credit_card_stripe"
+                                        android:textSize="@dimen/payment_mode_textview_size"/>
+                            </RadioGroup>
+
+
+                        </LinearLayout>
+
+
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                               android:orientation="vertical">
 
@@ -607,9 +747,9 @@
                     <LinearLayout
                             android:id="@+id/DiffAddressLayout"
                             android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:orientation="vertical"
-                                  android:visibility="gone">
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone">
                         <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -625,6 +765,7 @@
                                     android:layout_marginTop="2dp"
                                     app:cardCornerRadius="5dp"
                                     android:foreground="?android:attr/selectableItemBackground"
+                                    android:clickable="true"
 
                                     app:cardElevation="2dp">
                                 <LinearLayout
@@ -890,6 +1031,7 @@
                                     android:layout_marginTop="2dp"
                                     app:cardCornerRadius="5dp"
                                     android:foreground="?android:attr/selectableItemBackground"
+                                    android:clickable="true"
 
                                     app:cardElevation="2dp">
                                 <LinearLayout
@@ -917,7 +1059,7 @@
 
                                     <LinearLayout android:layout_width="match_parent"
                                                   android:layout_height="wrap_content"
-                                                  android:layout_marginTop="5dp"
+                                                  android:layout_marginTop="10dp"
                                                   android:weightSum="1.0"
                                                   android:orientation="horizontal">
                                         <LinearLayout android:layout_width="0dp"
@@ -945,13 +1087,24 @@
                                                     android:src="@drawable/icon_asterik"/>
 
                                         </LinearLayout>
-                                        <EditText
-                                                android:id="@+id/edtCountryDiffAddress"
+                                        <!--<EditText-->
+                                        <!--android:id="@+id/edtCountryDiffAddress"-->
+                                        <!--android:layout_width="0dp"-->
+                                        <!--android:layout_height="wrap_content"-->
+                                        <!--android:textColor="@color/availibility_textview"-->
+                                        <!--android:layout_weight="0.75"-->
+                                        <!--android:layout_marginLeft="5dp"-->
+                                        <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
+
+
+                                        <Spinner
+                                                android:id="@+id/spinnerCountryDiffAddress"
                                                 android:layout_width="0dp"
                                                 android:layout_height="wrap_content"
+                                                android:background="@drawable/bg_spinner_receiver_name"
                                                 android:textColor="@color/availibility_textview"
                                                 android:layout_weight="0.75"
-                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginLeft="10dp"
                                                 android:textSize="@dimen/txt_report_list_item_size"/>
                                     </LinearLayout>
 
@@ -1050,21 +1203,33 @@
                                                     android:src="@drawable/icon_asterik"/>
 
                                         </LinearLayout>
-                                        <EditText
-                                                android:id="@+id/edtTownCityDiffAddress"
+                                        <!--<EditText-->
+                                        <!--android:id="@+id/edtTownCityDiffAddress"-->
 
+                                        <!--android:layout_width="0dp"-->
+                                        <!--android:layout_height="wrap_content"-->
+                                        <!--android:textColor="@color/availibility_textview"-->
+                                        <!--android:layout_weight="0.75"-->
+                                        <!--android:layout_marginLeft="5dp"-->
+                                        <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
+
+
+                                        <Spinner
+                                                android:id="@+id/spinnerTownCityDiffAddress"
                                                 android:layout_width="0dp"
                                                 android:layout_height="wrap_content"
+                                                android:background="@drawable/bg_spinner_receiver_name"
                                                 android:textColor="@color/availibility_textview"
                                                 android:layout_weight="0.75"
-                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginLeft="10dp"
+
                                                 android:textSize="@dimen/txt_report_list_item_size"/>
                                     </LinearLayout>
 
 
                                     <LinearLayout android:layout_width="match_parent"
                                                   android:layout_height="wrap_content"
-                                                  android:layout_marginTop="5dp"
+                                                  android:layout_marginTop="10dp"
 
                                                   android:weightSum="1.0"
                                                   android:orientation="horizontal">
@@ -1092,13 +1257,25 @@
                                                     android:src="@drawable/icon_asterik"/>
 
                                         </LinearLayout>
-                                        <EditText
-                                                android:id="@+id/edtStateDiffAddress"
+                                        <!--<EditText-->
+                                        <!--android:id="@+id/edtStateDiffAddress"-->
+                                        <!--android:layout_width="0dp"-->
+                                        <!--android:layout_height="wrap_content"-->
+                                        <!--android:textColor="@color/availibility_textview"-->
+                                        <!--android:layout_weight="0.75"-->
+                                        <!--android:layout_marginLeft="5dp"-->
+                                        <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
+
+
+                                        <Spinner
+                                                android:id="@+id/spinnerStateCountryDiffAddress"
                                                 android:layout_width="0dp"
                                                 android:layout_height="wrap_content"
+                                                android:background="@drawable/bg_spinner_receiver_name"
                                                 android:textColor="@color/availibility_textview"
                                                 android:layout_weight="0.75"
-                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginLeft="10dp"
+
                                                 android:textSize="@dimen/txt_report_list_item_size"/>
                                     </LinearLayout>
 
@@ -1155,6 +1332,108 @@
                         </LinearLayout>
 
 
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:orientation="vertical">
+
+                            <android.support.v7.widget.CardView
+                                    android:id="@+id/cardViewPaymenrModeParentDiffAddress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="3dp"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_marginTop="2dp"
+                                    app:cardCornerRadius="5dp"
+                                    android:clickable="true"
+                                    android:foreground="?android:attr/selectableItemBackground"
+                                    app:cardElevation="2dp">
+
+                                <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="10dp"
+                                        android:orientation="vertical"
+                                >
+
+
+                                    <LinearLayout android:layout_width="match_parent"
+                                                  android:layout_height="wrap_content"
+                                                  android:orientation="horizontal">
+
+
+                                        <TextView android:layout_width="wrap_content"
+                                                  android:layout_height="wrap_content"
+                                                  android:text="Payment Modes"
+                                                  android:textSize="@dimen/textview_user_update_height"
+                                                  android:textColor="@color/light_grey_delivey_screen_color"
+                                        />
+
+
+                                    </LinearLayout>
+
+
+                                    <RadioGroup
+                                            android:id="@+id/radioGroupDiffAddress"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="10dp"
+                                            android:orientation="vertical">
+
+                                        <RadioButton
+                                                android:id="@+id/radioButton1DiffAddress"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/direct_bank_transfer"
+                                                android:textSize="@dimen/payment_mode_textview_size"/>
+
+                                        <RadioButton
+                                                android:id="@+id/radioButton2DiffAddress"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/check_payments"
+                                                android:textSize="@dimen/payment_mode_textview_size"/>
+
+                                        <RadioButton
+                                                android:id="@+id/radioButton3DiffAddress"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/cash_on_delivery"
+                                                android:textSize="@dimen/payment_mode_textview_size"/>
+
+                                        <RadioButton
+                                                android:id="@+id/radioButton4DiffAddress"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/easy_paisa"
+                                                android:textSize="@dimen/payment_mode_textview_size"/>
+
+                                        <RadioButton
+                                                android:id="@+id/radioButton5DiffAddress"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/jazzcash"
+                                                android:textSize="@dimen/payment_mode_textview_size"/>
+
+                                        <RadioButton
+                                                android:id="@+id/radioButton6DiffAddress"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/credit_card_stripe"
+                                                android:textSize="@dimen/payment_mode_textview_size"/>
+                                    </RadioGroup>
+
+
+                                </LinearLayout>
+
+
+                            </android.support.v7.widget.CardView>
+
+                        </LinearLayout>
+
+
                     </LinearLayout>
 
 
@@ -1181,8 +1460,21 @@
                             android:layout_marginRight="5dp"
                             android:padding="5dp"
                             android:textSize="@dimen/txt_report_list_item_size"
-                            android:layout_marginBottom="30dp"
                     />
+
+                    <Button
+                            android:id="@+id/btnCheckout"
+                            android:layout_width="@dimen/btn_login_width"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@string/btn_submit_delivery_address"
+                            android:theme="@style/PrimaryButton"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="10dp"
+                            android:textSize="@dimen/btn_confirm_checkout_txt_size"
+                            android:layout_marginBottom="5dp"/>
 
 
                 </LinearLayout>

@@ -37,6 +37,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                     view.hideRecyclerView();
                     view.setParentFields();
                     view.txtNoCartItemFound();
+                    view.setCartCounts(0);
                     return;
                 } else {
                     view.hideNoCartItemFound();
@@ -50,6 +51,39 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                 ex.printStackTrace();
                 view.setParentFields();
                 view.hideRecyclerView();
+                view.setCartCounts(0);
+
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void fetchCartDetailsOnBack(final int i) {
+
+        model.getCartDetailsList(new AddToCartModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+                    view.hideRecyclerView();
+                    view.setParentFields();
+                    view.txtNoCartItemFound();
+                    view.setCartCounts(0);
+                    return;
+                } else {
+                    view.hideNoCartItemFound();
+                    view.showRecyclerView();
+                    setAdapter(addToCarts, i);
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+                view.setParentFields();
+                view.hideRecyclerView();
+                view.setCartCounts(0);
+
                 view.showToastShortTime(ex.getMessage());
             }
         });
@@ -84,6 +118,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                     view.hideRecyclerView();
                     view.setParentFields();
                     view.txtNoCartItemFound();
+                    view.setCartCounts(0);
                     return;
                 } else {
                     getSubTotal(addToCarts);
@@ -96,6 +131,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                 ex.printStackTrace();
                 view.setParentFields();
                 view.hideRecyclerView();
+                view.setCartCounts(0);
                 view.showToastShortTime(ex.getMessage());
             }
         });
@@ -103,6 +139,18 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
 
     private void setAdapter(List<AddToCart> AddToCartList) {
         if (adapter == null) {
+            adapter = new AddToCartAdapter(AddToCartList, this);
+            view.showRecylerViewProductsDetail(adapter);
+        } else {
+            adapter.removeAll();
+            adapter.addAll(AddToCartList);
+        }
+
+        getSubTotal(AddToCartList);
+    }
+
+    private void setAdapter(List<AddToCart> AddToCartList, int i) {
+        if (i == 1 || adapter == null) {
             adapter = new AddToCartAdapter(AddToCartList, this);
             view.showRecylerViewProductsDetail(adapter);
         } else {
@@ -123,6 +171,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
 
         }
         view.setSubTotal(String.valueOf(price));
+        view.setCartCounts(addToCarts.size());
     }
 
 

@@ -13,6 +13,7 @@ public interface SignupMVP {
         fun hideProgressDialogPleaseWait()
         fun showSnackBarShortTime(message: String, view: android.view.View)
         fun showSnackBarLongTime(message: String, view: android.view.View)
+        fun signUpSuccessfully();
     }
 
     interface Presenter {

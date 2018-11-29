@@ -2,6 +2,7 @@ package com.xekera.Ecommerce.ui.signup
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,6 @@ import javax.inject.Inject
  * A simple {@link Fragment} subclass.
  */
 class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
-
 
     @Inject
     lateinit var utils: Utils
@@ -81,6 +81,8 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
         progressDialogControllerPleaseWait = ProgressCustomDialogController(getActivity(), R.string.please_wait)
 
+        (activity as BaseActivity).hideBottomNavigation()
+
         utils?.hideSoftKeyboard(edtUsername)
 
         btnSignUp.setOnClickListener { view ->
@@ -132,6 +134,7 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
     override fun showSnackBarLongTime(message: String, view: View) {
         snackUtil.showSnackBarLongTime(view, message)
     }
+
 
 //    private fun validateInputFields(
 //        username: String,
@@ -205,6 +208,17 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
     override fun showToastShortTime(message: String) {
         toastUtil?.showToastShortTime(message)
     }
+
+    override fun signUpSuccessfully() {
+
+        this!!.view?.let { showSnackBarShortTime("SignUp successfully.", it) }
+        Handler().postDelayed({
+            (activity as BaseActivity).popBackstack()
+        }, 100)
+
+
+    }
+
 
     override fun showToastLongTime(message: String) {
         toastUtil?.showToastLongTime(message)

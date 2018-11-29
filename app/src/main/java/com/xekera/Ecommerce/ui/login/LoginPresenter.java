@@ -16,7 +16,7 @@ public class LoginPresenter implements LoginMVP.Presenter {
     private Utils utils;
     private SessionManager sessionManager;
 
-    public LoginPresenter(LoginMVP.Model model,Utils utils,SessionManager sessionManager){
+    public LoginPresenter(LoginMVP.Model model, Utils utils, SessionManager sessionManager) {
         this.model = model;
         this.utils = utils;
         this.sessionManager = sessionManager;
@@ -28,10 +28,16 @@ public class LoginPresenter implements LoginMVP.Presenter {
     }
 
     @Override
-    public void onClickBtnSignIn(final String username, String password,View view) {
-        if(validateInputFields(username,password,view)) {
-            if (utils.isInternetAvailable()) {
+    public void onClickBtnSignIn(final String username, String password, View activity) {
+        if (validateInputFields(username, password, activity)) {
+            // if (utils.isInternetAvailable()) {
+            if (sessionManager.getusername().equalsIgnoreCase(username) &&
+                    sessionManager.getuserPassword().equals(password)) {
+                view.loggedInSuccessfully();
+            } else {
+                view.showToastShortTime("Invalid Username/Paword");
             }
+            // }
         }
     }
 
@@ -41,13 +47,13 @@ public class LoginPresenter implements LoginMVP.Presenter {
     }
 
 
-    private boolean validateInputFields(String username, String password,View viewActivity){
-        if(utils.isTextNullOrEmpty(username)){
-            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.username_error_login),viewActivity);
+    private boolean validateInputFields(String username, String password, View viewActivity) {
+        if (utils.isTextNullOrEmpty(username)) {
+            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.username_error_login), viewActivity);
             return false;
         }
-        if(utils.isTextNullOrEmpty(password)){
-            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.password_error_login),viewActivity);
+        if (utils.isTextNullOrEmpty(password)) {
+            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.password_error_login), viewActivity);
             return false;
         }
         return true;

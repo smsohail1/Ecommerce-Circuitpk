@@ -3,13 +3,15 @@ package com.xekera.Ecommerce.ui.add_to_cart;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +20,10 @@ import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
+import com.xekera.Ecommerce.ui.dashboard.BottomNavigationBehavior;
+import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.FragmentFavourites;
+import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.HistoryFragment;
+import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
 import com.xekera.Ecommerce.ui.home_delivery_Address.DeliveryAddressActivity;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
@@ -80,10 +86,13 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
         try {
+            ((BaseActivity) getActivity()).showBottomNavigation();
+            // btnCheckout.setClickable(true);
 
 //            placeName = sessionManager.getKeyPlaceName();
 //            latitude = sessionManager.getKeyLatitude();
@@ -112,6 +121,69 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
         return v;
     }
 
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+
+//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+//        // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
+//
+//        // attaching bottom sheet behaviour - hide / show on scroll
+//        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+//        layoutParams.setBehavior(new BottomNavigationBehavior());
+
+//        Fragment fragment;
+//        fragment = new ShopFragment();
+//        addFragment(fragment);
+
+    }
+
+//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+//
+//        @Override
+//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//            Fragment fragment;
+//            switch (item.getItemId()) {
+//                case R.id.navigation_shop:
+//
+//                    fragment = new ShopFragment();
+//                    addFragment(fragment);
+//                    return true;
+//                case R.id.navigation_favourite:
+//                    fragment = new FragmentFavourites();
+//                    addFragment(fragment);
+//                    return true;
+//                case R.id.navigation_cart:
+//                    fragment = new AddToCartFragment();
+//                    addFragment(fragment);
+//                    return true;
+//
+//                case R.id.navigation_History:
+//                    //  Toast.makeText(getActivity(), "History is selected", Toast.LENGTH_SHORT).show();
+//                    //((BaseActivity) getActivity()).popBackstack();
+//                    //((BaseActivity) getActivity()).addDashboardFragment(new HistoryFragment());
+//                    fragment = new HistoryFragment();
+//                    addFragment(fragment);
+//                    return true;
+//            }
+//            return false;
+//        }
+//    };
+
+
+    private void addFragment(Fragment fragment) {
+        // load fragment
+        if (fragment != null) {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainer2, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+    }
+
     public void setTitle() {
         ((BaseActivity) getActivity()).setTitle(getString(R.string.cart_dashboard));
     }
@@ -120,6 +192,8 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);
+        ((BaseActivity) getActivity()).showBottomNavigation();
+
 
         btnCheckout.setOnClickListener(this);
 
@@ -240,36 +314,44 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     @Override
     public void navigateToBillingDetailScreen() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//
+//                DeliveyBillingDetailsFragment deliveyBillingDetailsFragment = new DeliveyBillingDetailsFragment();
+//                ((BaseActivity) getActivity()).addFragment(deliveyBillingDetailsFragment);
+//            }
+//        }, 100);
 
-                DeliveyBillingDetailsFragment deliveyBillingDetailsFragment = new DeliveyBillingDetailsFragment();
-                ((BaseActivity) getActivity()).addFragment(deliveyBillingDetailsFragment);
-            }
-        }, 300);
+        if (sessionManager.isLoggedIn()) {
 
-//                if (sessionManager.isLoggedIn()) {
-//
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//
-//                            DeliveyBillingDetailsFragment deliveyBillingDetailsFragment = new DeliveyBillingDetailsFragment();
-//                            ((BaseActivity) getActivity()).addFragment(deliveyBillingDetailsFragment);
-//                        }
-//                    }, 6000);
-//                } else {
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            showSnackBarLongTime("Required SignUp/Login for further proceed. ", getView());
-//                            ((BaseActivity) getActivity()).addFragment(new LoginFragment());
-//
-//                        }
-//                    }, 6000);
-//
-//                }
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    DeliveyBillingDetailsFragment deliveyBillingDetailsFragment = new DeliveyBillingDetailsFragment();
+                    ((BaseActivity) getActivity()).addFragment(deliveyBillingDetailsFragment);
+                }
+            }, 100);
+        } else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showSnackBarLongTime("Required SignUp/Login for further proceed. ", getView());
+                    ((BaseActivity) getActivity()).addFragment(new LoginFragment());
+
+                }
+            }, 100);
+
+        }
+
+    }
+
+    @Override
+    public void setCartCounts(long counts) {
+
+        ((BaseActivity) getActivity()).setCartsCounts(counts);
 
     }
 

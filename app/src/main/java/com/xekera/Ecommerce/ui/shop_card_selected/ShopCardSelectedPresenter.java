@@ -30,8 +30,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter 
 
     @Override
     public void saveProductDetails(final AddToCart addToCart) {
-        if (isFieldValid(addToCart.getItemName(), addToCart.getItemPrice(), addToCart.getItemQuantity(), addToCart.getAddress1(),
-                addToCart.getAddress2(), addToCart.getLatitude(), addToCart.getLongitude())) {
+        if (isFieldValid(addToCart.getItemName(), addToCart.getItemPrice(), addToCart.getItemQuantity())) {
 
             model.getProductCount(addToCart.getItemName(), new ShopCardSelectedModel.IFetchCartDetailsList() {
                 @Override
@@ -98,8 +97,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter 
     }
 
 
-    private boolean isFieldValid(String productName, String price, String quantity, String deliveryAddress1,
-                                 String deliveryAddress2, String latitude, String longitude) {
+    private boolean isFieldValid(String productName, String price, String quantity) {
         if (utils.isTextNullOrEmpty(productName)) {
             view.showToastShortTime(utils.getStringFromResourceId(R.string.product_name_is_empty));
             return false;
@@ -111,12 +109,6 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter 
 
         if (utils.isTextNullOrEmptyOrZero(quantity)) {
             view.showToastShortTime(utils.getStringFromResourceId(R.string.quantity_error));
-            return false;
-        }
-
-
-        if (utils.isTextNullOrEmpty(deliveryAddress1)) {
-            view.showToastShortTime(utils.getStringFromResourceId(R.string.address1_error));
             return false;
         }
 

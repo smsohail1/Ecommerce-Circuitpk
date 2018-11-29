@@ -5,19 +5,21 @@ import com.xekera.Ecommerce.R
 import com.xekera.Ecommerce.util.SessionManager
 import com.xekera.Ecommerce.util.Utils
 
-public class SignupPresenter:SignupMVP.Presenter{
+public class SignupPresenter : SignupMVP.Presenter {
 
     private var view: SignupMVP.View? = null
     private var model: SignupMVP.Model? = null
     private var utils: Utils? = null
     private var sessionManager: SessionManager? = null
 
-    constructor( utils: Utils,
-                 sessionManager: SessionManager,
-                 model: SignupMVP.Model){
+    constructor(
+        utils: Utils,
+        sessionManager: SessionManager,
+        model: SignupMVP.Model
+    ) {
         this.utils = utils
         this.sessionManager = sessionManager
-        this.model= model
+        this.model = model
     }
 
 //     SignupPresenter(utils: Utils, sessionManager: SessionManager,model :SignupMVP.Model) {
@@ -31,12 +33,20 @@ public class SignupPresenter:SignupMVP.Presenter{
     }
 
 
-    override fun onClickBtnSignUp(userName: String, password: String, phoneNo: String, emailID: String,viewActivity: View) {
+    override fun onClickBtnSignUp(
+        userName: String,
+        password: String,
+        phoneNo: String,
+        emailID: String,
+        viewActivity: View
+    ) {
 
-        if (validateInputFields(userName, password, phoneNo, emailID,viewActivity)) {
-            if (utils?.isInternetAvailable()!!) {
-
-            }
+        if (validateInputFields(userName, password, phoneNo, emailID, viewActivity)) {
+            sessionManager?.createLoginSession(userName, password, phoneNo, emailID, true)
+            view?.signUpSuccessfully();
+//            if (utils?.isInternetAvailable()!!) {
+//
+//            }
         }
     }
 
@@ -49,20 +59,20 @@ public class SignupPresenter:SignupMVP.Presenter{
         viewActivity: View
     ): Boolean {
         if (utils?.isTextNullOrEmpty(username)!!) {
-            view?.showSnackBarShortTime(utils?.getStringFromResourceId(R.string.username_error_login)!!,viewActivity)
+            view?.showSnackBarShortTime(utils?.getStringFromResourceId(R.string.username_error_login)!!, viewActivity)
             return false
         }
         if (utils?.isTextNullOrEmpty(password)!!) {
-            view?.showSnackBarShortTime(utils?.getStringFromResourceId(R.string.password_error_login)!!,viewActivity)
+            view?.showSnackBarShortTime(utils?.getStringFromResourceId(R.string.password_error_login)!!, viewActivity)
             return false
         }
 
         if (utils?.isTextNullOrEmpty(phoneNo)!!) {
-            view?.showSnackBarShortTime(utils?.getStringFromResourceId(R.string.phone_no_error)!!,viewActivity)
+            view?.showSnackBarShortTime(utils?.getStringFromResourceId(R.string.phone_no_error)!!, viewActivity)
             return false
         }
         if (utils?.isTextNullOrEmpty(emailAddress)!!) {
-            view?.showSnackBarShortTime(utils?.getStringFromResourceId(R.string.email_address_error)!!,viewActivity)
+            view?.showSnackBarShortTime(utils?.getStringFromResourceId(R.string.email_address_error)!!, viewActivity)
             return false
         }
 

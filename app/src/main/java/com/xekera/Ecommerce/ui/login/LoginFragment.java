@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -118,6 +119,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         this.presenter.setView(this);
+        ((BaseActivity) getActivity()).hideBottomNavigation();
+
         btnSignIn.setOnClickListener(this);
         btnCreateAccount.setOnClickListener(this);
 
@@ -140,7 +143,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
             }
             case R.id.btnCreateAccount: {
 
-                ((BaseActivity) getActivity()).addFragment(new SignupFragment());
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((BaseActivity) getActivity()).addFragment(new SignupFragment());
+
+                    }
+                }, 400);
 
 
                 break;
@@ -190,6 +199,21 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         // open dashboard screen here
         startActivity(new Intent(getActivity(), DashboardActivity.class));
         getActivity().finish();
+    }
+
+    @Override
+    public void loggedInSuccessfully() {
+        showSnackBarShortTime("Logged In successfully.", getView());
+        final LoginFragment loginFragment = new LoginFragment();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                (((BaseActivity) getActivity())).popBackFromStack(loginFragment);
+
+            }
+        }, 100);
+
+
     }
 
     private void turnGPSOn() {

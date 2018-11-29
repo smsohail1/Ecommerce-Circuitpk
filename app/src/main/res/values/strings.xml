@@ -107,9 +107,52 @@
     <string name="edt_billing_detail_postal_code">Postalcode/Zip</string>
     <string name="edt_billing_detail_phone_no">Phone no</string>
     <string name="edt_billing_detail_email_address">Email</string>
-
     <string name="edt_billing_detail_street_address1">House no and street name</string>
     <string name="edt_billing_detail_street_address2">Apartment, suite, unit etc</string>
+    <string name="btn_checkout_delivery_address">Submit</string>
+    <string name="btn_confirm_checkout_billing_amount">Confirm CheckOut</string>
+
+    <string name="btn_submit_delivery_address">Submit</string>
+
+    <string-array name="country">
+        <item>Pakistan</item>
+    </string-array>
+    <string-array name="town_city">
+        <item>Select</item>
+        <item>Islamabad</item>
+        <item>Rawalpindi</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="state_country">
+        <item>Select</item>
+        <item>Balochistan</item>
+        <item>FATA</item>
+        <item>Gilgit Baltistan</item>
+        <item>Islamabad Capital Territory</item>
+        <item>Khyber Pakhtunkhwa</item>
+        <item>Punjab</item>
+        <item>Sindh</item>
+    </string-array>
+
+    <string name="direct_bank_transfer">Direct bank transfer</string>
+    <string name="check_payments">Check payments</string>
+    <string name="cash_on_delivery">Cash on delivery</string>
+    <string name="easy_paisa">Easypay PK</string>
+    <string name="jazzcash">JazzCash</string>
+    <string name="credit_card_stripe">Credit Card (Stripe)</string>
+    <string name="firstname_error">First name is required</string>
+    <string name="lastname_error">Last name name is required</string>
+    <string name="phone_error">Phone no is required</string>
+    <string name="email_error">Email is is required</string>
+    <string name="house_no_error">Street address is required</string>
+    <string name="country_error">Please select Country name</string>
+    <string name="state_country_error">Please select State/Country</string>
+    <string name="town_city_error">Please select Town/City</string>
+    <string name="error_valid_state_country">Please select valid state/country</string>
+    <string name="error_valid_town_city">Please select valid town/city</string>
+    <string name="postal_code_error">PostalCode/ZIP is required</string>
+    <string name="paymode_error">Please select payment modei</string>
 
 
 </resources>

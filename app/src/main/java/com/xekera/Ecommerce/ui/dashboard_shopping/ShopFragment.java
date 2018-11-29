@@ -8,14 +8,19 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.BindView;
@@ -24,7 +29,11 @@ import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
+import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
+import com.xekera.Ecommerce.ui.dashboard.BottomNavigationBehavior;
+import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.FragmentFavourites;
+import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.HistoryFragment;
 import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
 import com.xekera.Ecommerce.ui.dashboard_shopping.model.DashboardItem;
 import com.xekera.Ecommerce.util.*;
@@ -81,6 +90,8 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
         super.onResume();
         presenter.setView(this);
 
+        ((BaseActivity) getActivity()).showBottomNavigation();
+
 //        if (mPermissionDenied) {
 //            // Permissions were not granted
 //            showMissingPermissionError();
@@ -119,10 +130,32 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
 
+//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+//        // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
+//
+//        // attaching bottom sheet behaviour - hide / show on scroll
+//        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+//        layoutParams.setBehavior(new BottomNavigationBehavior());
+
+//        Fragment fragment;
+//        fragment = new ShopFragment();
+//        addFragment(fragment);
+
+    }
+
+
+    private void addFragment(Fragment fragment) {
+        // load fragment
+        if (fragment != null) {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainer2, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
     private void initializeViews(View v) {

@@ -108,6 +108,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         super.onResume();
         presenter.setView(this);
 
+        ((BaseActivity) getActivity()).hideBottomNavigation();
+
         edtSearchProduct.setText("");
         shopDetails.clear();
         shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 1));
@@ -183,6 +185,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);
+
+        ((BaseActivity) getActivity()).hideBottomNavigation();
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
@@ -344,7 +348,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                 ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
                 ((BaseActivity) getActivity()).replaceFragment(shopCardSelectedFragment.newInstance(productItems, bitmapImg));
             }
-        }, 400);
+        }, 300);
 
     }
 

@@ -124,6 +124,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             // itemView.findViewById(R.id.viewDetailsImageView).setOnClickListener(this);
 
             // itemView.findViewById(R.id.favouriteButton).setOnClickListener(this);
+            cardViewParent.setClickable(true);
+
             itemView.findViewById(R.id.decrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.incrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.cardViewParent).setOnClickListener(this);
@@ -139,6 +141,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     BitmapDrawable bitmapDrawable = (BitmapDrawable) imgProduct.getDrawable();
                     Bitmap bitmapImg = bitmapDrawable.getBitmap();
 
+                    cardViewParent.setClickable(false);
                     iShopDetailAdapter.onCardClick(productsItems.get(getLayoutPosition()), bitmapImg);
                     break;
 
@@ -171,7 +174,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     // productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
                     if (productsItems.get(getLayoutPosition()).getItemQuantity() > 1) {
 
-                      long  dec = productsItems.get(getLayoutPosition()).getItemQuantity() - 1;
+                        long dec = productsItems.get(getLayoutPosition()).getItemQuantity() - 1;
                         productsItems.get(getLayoutPosition()).setItemQuantity(dec);
 
                         counterTextview.setText(dec + "");

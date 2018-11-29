@@ -31,12 +31,13 @@ public class SessionManager {
     }
 
 
-    public void createLoginSession(String username, String phoneno, String userPassword, String email) {
+    public void createLoginSession(String username, String phoneno, String userPassword, String email, boolean isLoggedIn) {
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_USER_NAME, username);
         editor.putString(KEY_USER_PHONE, phoneno);
         editor.putString(KEY_USER_PASSWORD, userPassword);
         editor.putString(KEY_USER_EMAIL, email);
+        editor.putBoolean(IS_LOGIN, isLoggedIn);
         editor.commit();
     }
 
@@ -138,12 +139,12 @@ public class SessionManager {
     }
 
 
-    public void setCourieremail(String courieremail) {
+    public void setEmail(String courieremail) {
         editor.putString(KEY_USER_EMAIL, courieremail);
         editor.commit();
     }
 
-    public String getCourieremail() {
+    public String getEmail() {
         return pref.getString(KEY_USER_EMAIL, "");
     }
 

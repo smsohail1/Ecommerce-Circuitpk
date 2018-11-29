@@ -32,8 +32,8 @@ import com.xekera.Ecommerce.util.*;
  */
 public class DashboardFragment extends Fragment implements DashboardMVP.View {
 
-    @BindView(R.id.navigation)
-    protected BottomNavigationView navigation;
+    //  @BindView(R.id.navigation)
+    //   protected BottomNavigationView navigation;
 
 
     @Inject
@@ -87,16 +87,16 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        //BottomNavigationView navigationView = (BottomNavigationView) getView().findViewById(R.id.navigation);
-
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
-
-        // attaching bottom sheet behaviour - hide / show on scroll
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
-        layoutParams.setBehavior(new BottomNavigationBehavior());
-
+//
+//        //BottomNavigationView navigationView = (BottomNavigationView) getView().findViewById(R.id.navigation);
+//
+//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+//        // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
+//
+//        // attaching bottom sheet behaviour - hide / show on scroll
+//        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+//        layoutParams.setBehavior(new BottomNavigationBehavior());
+//
         Fragment fragment;
         fragment = new ShopFragment();
         addFragment(fragment);
@@ -104,58 +104,58 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
     }
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment;
-            switch (item.getItemId()) {
-                case R.id.navigation_shop:
-                    //  Toast.makeText(getActivity(), "Shop is selected", Toast.LENGTH_SHORT).show();
+//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+//
+//        @Override
+//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//            Fragment fragment;
+//            switch (item.getItemId()) {
+//                case R.id.navigation_shop:
+//                    //  Toast.makeText(getActivity(), "Shop is selected", Toast.LENGTH_SHORT).show();
+////                    ((BaseActivity) getActivity()).popBackstack();
+//                    //((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
+//
 //                    ((BaseActivity) getActivity()).popBackstack();
-                    //((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
-
-                    ((BaseActivity) getActivity()).popBackstack();
-
-                    fragment = new ShopFragment();
-                    addFragment(fragment);
-                    return true;
-                case R.id.navigation_favourite:
-                    //    Toast.makeText(getActivity(), "Wishlist is selected", Toast.LENGTH_SHORT).show();
-                    //  ((BaseActivity) getActivity()).popBackstack();
-                    //((BaseActivity) getActivity()).addDashboardFragment(new FragmentFavourites());
-                    fragment = new FragmentFavourites();
-                    addFragment(fragment);
-                    return true;
-                case R.id.navigation_cart:
-                    //  Toast.makeText(getActivity(), "Cart is selected", Toast.LENGTH_SHORT).show();
-                    //((BaseActivity) getActivity()).popBackstack();
-                    // ((BaseActivity) getActivity()).addDashboardFragment(new AddToCartFragment());
-                    // fragment = new CartFragment();
-                    presenter.getCartCountList();
-                    fragment = new AddToCartFragment();
-                    addFragment(fragment);
-                    return true;
-
-                case R.id.navigation_History:
-                    //  Toast.makeText(getActivity(), "History is selected", Toast.LENGTH_SHORT).show();
-                    //((BaseActivity) getActivity()).popBackstack();
-                    //((BaseActivity) getActivity()).addDashboardFragment(new HistoryFragment());
-                    fragment = new HistoryFragment();
-                    addFragment(fragment);
-                    return true;
-            }
-            return false;
-        }
-    };
+//
+//                    fragment = new ShopFragment();
+//                    addFragment(fragment);
+//                    return true;
+//                case R.id.navigation_favourite:
+//                    //    Toast.makeText(getActivity(), "Wishlist is selected", Toast.LENGTH_SHORT).show();
+//                    //  ((BaseActivity) getActivity()).popBackstack();
+//                    //((BaseActivity) getActivity()).addDashboardFragment(new FragmentFavourites());
+//                    fragment = new FragmentFavourites();
+//                    addFragment(fragment);
+//                    return true;
+//                case R.id.navigation_cart:
+//                    //  Toast.makeText(getActivity(), "Cart is selected", Toast.LENGTH_SHORT).show();
+//                    //((BaseActivity) getActivity()).popBackstack();
+//                    // ((BaseActivity) getActivity()).addDashboardFragment(new AddToCartFragment());
+//                    // fragment = new CartFragment();
+//                    presenter.getCartCountList();
+//                    fragment = new AddToCartFragment();
+//                    addFragment(fragment);
+//                    return true;
+//
+//                case R.id.navigation_History:
+//                    //  Toast.makeText(getActivity(), "History is selected", Toast.LENGTH_SHORT).show();
+//                    //((BaseActivity) getActivity()).popBackstack();
+//                    //((BaseActivity) getActivity()).addDashboardFragment(new HistoryFragment());
+//                    fragment = new HistoryFragment();
+//                    addFragment(fragment);
+//                    return true;
+//            }
+//            return false;
+//        }
+//    };
 
 
     private void addFragment(Fragment fragment) {
         // load fragment
         if (fragment != null) {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame_container, fragment);
+            transaction.replace(R.id.fragmentContainer, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
         }
@@ -231,16 +231,16 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
 
     @Override
     public void setCartCounts(long counts) {
-        final Menu menu = navigation.getMenu();
-        menu.getItem(2).setTitle("Cart(" + counts + ")");
+        //   final Menu menu = navigation.getMenu();
+        //    menu.getItem(2).setTitle("Cart(" + counts + ")");
 
     }
 
     @Override
     public void setCartLabel() {
 
-        final Menu menu = navigation.getMenu();
-        menu.getItem(2).setTitle("Cart");
+        //final Menu menu = navigation.getMenu();
+        // menu.getItem(2).setTitle("Cart");
     }
 
 

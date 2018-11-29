@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +21,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -39,14 +42,21 @@ import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.AppDatabase;
+import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
+import com.xekera.Ecommerce.ui.dashboard.BottomNavigationBehavior;
 import com.xekera.Ecommerce.ui.dashboard.DashboardFragment;
+import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.FragmentFavourites;
+import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.HistoryFragment;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
+import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
 import com.xekera.Ecommerce.ui.login.LoginActivity;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import com.xekera.Ecommerce.util.*;
+import kotlin.Unit;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.toolbar)
@@ -63,6 +73,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected DrawerLayout drawer;
     @BindView(R.id.nav_view)
     protected NavigationView navigationView;
+    @BindView(R.id.navigation)
+    protected BottomNavigationView navigation;
 
     @BindView(R.id.dashboardActionBar)
     protected AppBarLayout dashboardActionBar;
@@ -108,6 +120,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         enableHomeIcon(true);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
+
+        // attaching bottom sheet behaviour - hide / show on scroll
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavigationBehavior());
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +159,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                 try {
                     Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-                    if (!(fragment instanceof LoginFragment)) {
+                    if (!(fragment instanceof LoginFragment || fragment instanceof SignupFragment)) {
                         addFragment(new LoginFragment());
                     }
                 } catch (Exception ex) {
@@ -161,6 +180,41 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     }
 
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(MenuItem item) {
+            Fragment fragment;
+            switch (item.getItemId()) {
+                case R.id.navigation_shop:
+                    fragment = new ShopFragment();
+                    replaceFragmentWithContainer(fragment);
+                    return true;
+                case R.id.navigation_favourite:
+                    //    Toast.makeText(getActivity(), "Wishlist is selected", Toast.LENGTH_SHORT).show();
+                    //  ((BaseActivity) getActivity()).popBackstack();
+                    //((BaseActivity) getActivity()).addDashboardFragment(new FragmentFavourites());
+                    fragment = new FragmentFavourites();
+                    replaceFragmentWithContainer(fragment);
+                    return true;
+                case R.id.navigation_cart:
+                    fragment = new AddToCartFragment();
+                    replaceFragmentWithContainer(fragment);
+                    //  navigation.setSelectedItemId(R.id.navigation_History);
+
+                    return true;
+
+                case R.id.navigation_History:
+                    fragment = new HistoryFragment();
+                    replaceFragmentWithContainer(fragment);
+                    return true;
+            }
+            return false;
+        }
+    };
+
     public void addSignUpFragment() {
         try {
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
@@ -173,9 +227,29 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     public void popBackstack() {
+
         getSupportFragmentManager().popBackStackImmediate();
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+        if (fragment instanceof AddToCartFragment || fragment instanceof ShopFragment ||
+                fragment instanceof HistoryFragment ||
+                fragment instanceof FragmentFavourites) {
+            showBottomNavigation();
+            //navigation.setSelectedItemId(R.id.navigation_History);
+        }
+    }
 
+    public void navigateToScreen(final int menuId) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showBottomNavigation();
+                View view = navigation.findViewById(menuId);
+                view.performClick();
+
+            }
+        }, 200);
+
+    }
 
 //        if (fragment instanceof ShopDetailsFragment) {
 //           // ((ShopDetailsFragment) fragment).setTitle();
@@ -191,9 +265,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 //            //((ShopDetailsFragment) fragment).hideLoginIcon();
 //            //((ShopDetailsFragment) fragment).hideHumbergIcon();
 //        }
-
-
-    }
 
 
     private void setActionItems() {
@@ -221,12 +292,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
 
     public void popBackFromStack(Fragment fragment) {
-        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-        trans.remove(fragment);
-        trans.commit();
-        manager.popBackStack();
+        try {
 
+            FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+            trans.remove(fragment);
+            trans.commit();
+            manager.popBackStack();
+
+
+        } catch (Exception e) {
+
+        }
     }
+
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -271,11 +349,30 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             // setTitle("Shop");
             //showLoginIcon();
             enableHomeIcon(true);
+            showBottomNavigation();
             //hideHumberIcon();
             popBackstack();
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
 
         } else if (fragment instanceof DashboardFragment) {
+            enableHomeIcon(true);
+
+            if (backPressedOnce) {
+                this.finish();
+            }
+
+            backPressedOnce = true;
+            Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    backPressedOnce = false;
+
+                }
+            }, 2000);
+
+        } else if (fragment instanceof ShopFragment) {
             enableHomeIcon(true);
 
             if (backPressedOnce) {
@@ -364,6 +461,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         imgLogin.setVisibility(View.GONE);
     }
 
+    public void hideBottomNavigation() {
+        navigation.setVisibility(View.GONE);
+    }
+
+    public void showBottomNavigation() {
+        navigation.setVisibility(View.VISIBLE);
+
+    }
 
     public void hideShoppingCartIcon() {
         imgShoppingCart.setVisibility(View.GONE);
@@ -379,6 +484,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         imgBack.setVisibility(View.VISIBLE);
     }
 
+    public void setCartsCounts(long counts) {
+        final Menu menu = navigation.getMenu();
+        menu.getItem(2).setTitle("Cart(" + counts + ")");
+
+    }
 
     public void hideHumberIcon() {
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -424,16 +534,54 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     public void addFragment(Fragment fragment) {
         manager = getSupportFragmentManager();
+
+        if (fragment != null) {
+            try {
+                //  Fragment fragmentContainer = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                //  if (!(fragmentContainer instanceof DeliveyBillingDetailsFragment)) {
+
+                manager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                        .add(R.id.fragmentContainer, fragment)
+                        .addToBackStack(null)
+                        .commit();
+
+
+                //   }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        enableHomeIcon(true);
+    }
+
+
+    private void replaceFragmentWithContainer(Fragment fragment) {
+
+        manager = getSupportFragmentManager();
         if (fragment != null) {
             manager.beginTransaction()
-                    .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                    .replace(R.id.fragmentContainer, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        enableHomeIcon(true);
+
+    }
+
+
+    private void addFragmentWithOutAnimationContainer(Fragment fragment) {
+
+        manager = getSupportFragmentManager();
+        if (fragment != null) {
+            manager.beginTransaction()
                     .add(R.id.fragmentContainer, fragment)
                     .addToBackStack(null)
                     .commit();
         }
         enableHomeIcon(true);
-    }
 
+    }
 
     public void replaceFragment(Fragment fragment) {
         manager = getSupportFragmentManager();
@@ -637,6 +785,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             ex.printStackTrace();
         }
     }
+
 }
 
 

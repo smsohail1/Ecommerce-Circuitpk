@@ -14,6 +14,8 @@ public interface LoginMVP {
         void showSnackBarShortTime(String message, android.view.View view);
         void showSnackBarLongTime(String message, android.view.View view);
         void showHomeScreen();
+
+        void loggedInSuccessfully();
     }
 
     interface Presenter{
