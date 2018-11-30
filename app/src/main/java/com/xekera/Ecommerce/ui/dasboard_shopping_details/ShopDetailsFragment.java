@@ -86,11 +86,11 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         //  super.onActivityResult(requestCode, resultCode, data);
 
         // if (resultCode == RESULT_OK) {
-        if (requestCode == 55) {
-            int addID = data.getIntExtra("addressID", 0);
-            String addressLine = data.getStringExtra("addressLine");
-            // }
-        }
+//        if (requestCode == 55) {
+//            int addID = data.getIntExtra("addressID", 0);
+//            String addressLine = data.getStringExtra("addressLine");
+//            // }
+//        }
     }
 
 
@@ -109,18 +109,27 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         presenter.setView(this);
 
         ((BaseActivity) getActivity()).hideBottomNavigation();
+        List<String> img;
+        img = new ArrayList<>();
+        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+        img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
+        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
+        img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_hidden_gsm_supported_voice_recorder_black.jpg");
+        img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_usb_range_extender_black.jpg");
+        img.add("https://www.bhphotovideo.com/images/images2000x2000/kingston_dt100g3_16gb_16gb_data_traveler_100_964342.jpg");
+        img.add("https://a.pololu-files.com/picture/0J1479.1200.jpg?6d28c13f103617525228f0936ec16321");
 
         edtSearchProduct.setText("");
         shopDetails.clear();
-        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 1));
+        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 1, img));
 
-        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 1));
+        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 1, img));
 
-        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 1));
+        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 1, img));
 
-        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 1));
+        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 1, img));
 
-        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 1));
+        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 1, img));
 
         shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this);
         showRecylerViewProductsDetail(shopDetailsAdapter);

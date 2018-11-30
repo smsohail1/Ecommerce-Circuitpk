@@ -164,6 +164,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
+
 //        setTitle();
 //        showHumbergIcon();
 //        showLoginIcon();
@@ -194,6 +195,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
         // setViewPagerItems();
 
     }
+
 
 //    private void setViewPagerItems() {
 //        HashMap<String, String> Hash_file_maps = new HashMap<>();

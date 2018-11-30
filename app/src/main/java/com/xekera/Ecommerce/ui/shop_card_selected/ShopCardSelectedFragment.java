@@ -5,6 +5,10 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +20,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
 import com.varunest.sparkbutton.SparkButton;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.BaseActivity;
+import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
+import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.home_delivery_Address.DeliveryAddressActivity;
 import com.xekera.Ecommerce.util.*;
@@ -62,7 +69,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     protected EditText deliveryAddress2ValueEdittext;
     @BindView(R.id.btnAddToCart)
     protected Button btnAddToCart;
-
+    @BindView(R.id.recyclerViewImageDetails)
+    protected RecyclerView recyclerViewImageDetails;
 
     @Inject
     protected ShopCardSelectedMVP.Presenter presenter;
@@ -213,11 +221,14 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         deliveryAddressImageView.setOnClickListener(this);
         btnAddToCart.setOnClickListener(this);
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
+        recyclerViewImageDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shakeanimation);
 
+
         setProductDetails();
 
+        presenter.setMultipleImagesItems(getActivity(), shoppingDetailModel.getImage());
 
     }
 
@@ -261,6 +272,29 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     @Override
     public void setUpdatedQuantity() {
         //  counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
+    }
+
+    @Override
+    public void showRecylerViewProductsImages(ProductsImagesAdapter productsImagesAdapter) {
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewImageDetails.setLayoutManager(horizontalLayoutManager);
+        recyclerViewImageDetails.setAdapter(productsImagesAdapter);
+    }
+
+    @Override
+    public void setSelectedImage(String clickedUrl) {
+        if (!utils.isTextNullOrEmpty(clickedUrl)) {
+            Glide.with(getActivity()).load(clickedUrl)
+                    .fitCenter()
+                    .centerCrop()
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
+                    .into(imgProduct);
+        } else {
+            imgProduct.setImageResource(R.drawable.placeholder);
+
+        }
     }
 
     @Override

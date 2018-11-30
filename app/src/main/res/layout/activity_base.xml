@@ -64,6 +64,7 @@
                         android:padding="10dp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
+                        android:clickable="true"
                 >
 
                     <RelativeLayout
@@ -96,12 +97,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:layout_toRightOf="@+id/badge_layout1">
+                            android:layout_toRightOf="@+id/badge_layout1"
+                            android:clickable="true"
+                    >
 
                         <RelativeLayout
                                 android:id="@+id/relative_layout1"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                >
 
                             <ImageView
                                     android:id="@+id/imgShoppingCart"
@@ -113,20 +117,35 @@
                                     android:padding="2dp"
 
                             />
+
+                            <TextView
+                                    android:id="@+id/txtAddToCartNotify"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignTop="@id/imgShoppingCart"
+                                    android:layout_alignRight="@id/imgShoppingCart"
+                                    android:background="@drawable/notification_circle"
+                                    android:gravity="center"
+                                    android:minWidth="13dip"
+                                    android:minHeight="13dip"
+                                    android:padding="0.2dp"
+                                    android:text="0"
+                                    android:textColor="#424242"
+                                    android:textSize="12sp"/>
                         </RelativeLayout>
 
-                        <TextView
-                                android:id="@+id/badge_notification_2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="40dp"
-                                android:layout_alignParentTop="true"
-                                android:layout_alignRight="@id/relative_layout1"
-                                android:background="@drawable/cart_item_count"
-                                android:text="11"
-                                android:textColor="#FFF"
-                                android:textSize="16sp"
-                                android:visibility="gone"
-                                android:textStyle="bold"/>
+                        <!--<TextView-->
+                        <!--android:id="@+id/badge_notification_2"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--android:layout_alignParentTop="true"-->
+                        <!--android:layout_alignRight="@id/relative_layout1"-->
+                        <!--android:background="@drawable/cart_item_count"-->
+                        <!--android:text="11"-->
+                        <!--android:textColor="#FFF"-->
+                        <!--android:textSize="16sp"-->
+                        <!--android:visibility="gone"-->
+                        <!--android:textStyle="bold"/>-->
                     </RelativeLayout>
 
                 </RelativeLayout>

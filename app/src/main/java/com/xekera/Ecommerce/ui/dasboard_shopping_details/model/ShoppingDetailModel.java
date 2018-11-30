@@ -1,6 +1,7 @@
 package com.xekera.Ecommerce.ui.dasboard_shopping_details.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ShoppingDetailModel implements Serializable {
 
@@ -8,17 +9,19 @@ public class ShoppingDetailModel implements Serializable {
     private String productPrice;
     private boolean isFavourite;
     private long itemQuantity;
+    private List<String> image;
 
 
     public ShoppingDetailModel() {
 
     }
 
-    public ShoppingDetailModel(String productName, String productPrice, boolean isFavourite, long itemQuantity) {
+    public ShoppingDetailModel(String productName, String productPrice, boolean isFavourite, long itemQuantity, List<String> image) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.isFavourite = isFavourite;
         this.itemQuantity = itemQuantity;
+        this.image = image;
     }
 
     public String getProductName() {
@@ -53,5 +56,12 @@ public class ShoppingDetailModel implements Serializable {
         this.itemQuantity = itemQuantity;
     }
 
+    public List<String> getImage() {
+        return image;
+    }
+
+    public void setImage(List<String> image) {
+        this.image = image;
+    }
 
 }

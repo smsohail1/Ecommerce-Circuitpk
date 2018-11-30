@@ -1,7 +1,15 @@
 package com.xekera.Ecommerce.ui.shop_card_selected;
 
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.view.View;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
+import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
+import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
+
+import java.util.List;
 
 public interface ShopCardSelectedMVP {
 
@@ -23,6 +31,9 @@ public interface ShopCardSelectedMVP {
 
         void setUpdatedQuantity();
 
+        void showRecylerViewProductsImages(ProductsImagesAdapter productsImagesAdapter);
+
+        void setSelectedImage(String clickedUrl);
     }
 
     interface Presenter {
@@ -35,6 +46,9 @@ public interface ShopCardSelectedMVP {
         void saveProductDetails(AddToCart addToCart);
 
         void updateItemCountInDB(String quantity, String itemPrice, String productName);
+
+        void setMultipleImagesItems(Context context, List<String> images);
+
 
     }
 

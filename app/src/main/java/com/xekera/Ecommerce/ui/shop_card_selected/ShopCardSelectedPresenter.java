@@ -1,16 +1,24 @@
 package com.xekera.Ecommerce.ui.shop_card_selected;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.view.View;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
+import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
+import com.xekera.Ecommerce.ui.dashboard_shopping.model.DashboardItem;
+import com.xekera.Ecommerce.ui.shop_card_selected.model.MultipleImagesItem;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter {
+public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter, ProductsImagesAdapter.IMultipleImageAdapter {
     private ShopCardSelectedMVP.View view;
     private ShopCardSelectedMVP.Model model;
+    private ProductsImagesAdapter productsImagesAdapter;
     private SessionManager sessionManager;
     private Utils utils;
     private Context context;
@@ -96,6 +104,19 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter 
 
     }
 
+    @Override
+    public void setMultipleImagesItems(Context context, List<String> images) {
+        List<MultipleImagesItem> imagesItems = new ArrayList<>();
+
+        for (String img : images) {
+            imagesItems.add(new MultipleImagesItem(img));
+        }
+        productsImagesAdapter = new ProductsImagesAdapter(imagesItems, this, context);
+        view.showRecylerViewProductsImages(productsImagesAdapter);
+
+
+    }
+
 
     private boolean isFieldValid(String productName, String price, String quantity) {
         if (utils.isTextNullOrEmpty(productName)) {
@@ -117,4 +138,8 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter 
     }
 
 
+    @Override
+    public void onImageClick(String clickedUrl) {
+        view.setSelectedImage(clickedUrl);
+    }
 }

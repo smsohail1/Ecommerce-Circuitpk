@@ -309,7 +309,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     @Override
     public void showMessageZeroItemOnCart() {
-        toastUtil.showToastShortTime("No item exist in cart.");
+        toastUtil.showToastShortTime("No item available in cart.");
     }
 
     @Override

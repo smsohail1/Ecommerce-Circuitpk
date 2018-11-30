@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="@dimen/nav_header_height"
               android:background="@drawable/side_nav_bar"
@@ -9,32 +10,58 @@
               android:paddingLeft="15dp"
               android:paddingRight="15dp">
 
-    <ImageView
-            android:id="@+id/imageView"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/img_drawer_height_size"
-            android:paddingTop="@dimen/nav_header_vertical_spacing"
-            app:srcCompat="@drawable/icon_user"/>
+    <!--<ImageView-->
+    <!--android:id="@+id/imageViewUserProfile"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="@dimen/img_drawer_height_size"-->
+    <!--android:paddingTop="@dimen/nav_header_vertical_spacing"-->
+    <!--app:srcCompat="@drawable/icon_user"/>-->
 
-    <TextView
-            android:id="@+id/txtCourierName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:textSize="@dimen/txt_drawer_courier_name_size"
-            android:text="Mr.James"
-            android:textColor="#ffffff"
-            android:gravity="center_horizontal"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+    <!--<com.github.abdularis.civ.CircleImageView-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="170dp"-->
+    <!--android:layout_marginRight="8dp"-->
+    <!--android:src="@drawable/icon_user"-->
+    <!--app:highlightColor="#80fb1743"-->
+    <!--app:strokeColor="@color/colorAccent"-->
+    <!--app:strokeWidth="2px" />-->
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center_horizontal"
+                  android:orientation="vertical">
 
-    <TextView
-            android:id="@+id/txtCourierDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textSize="@dimen/txt_drawer_courier_route_size"
-            android:visibility="gone"
-    />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/icon_user_profile"
+                app:civ_border_width="2dp"
+                android:padding="5dp"
+                app:civ_border_color="#ffffff"
+        />
+
+
+        <TextView
+                android:id="@+id/txtCourierName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:textSize="@dimen/txt_drawer_courier_name_size"
+                android:text="Mr.James"
+                android:textColor="#ffffff"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+        <TextView
+                android:id="@+id/txtCourierDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/txt_drawer_courier_route_size"
+                android:visibility="gone"
+        />
+    </LinearLayout>
 
 </LinearLayout>

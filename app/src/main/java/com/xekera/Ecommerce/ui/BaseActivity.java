@@ -28,11 +28,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 
 import javax.inject.Inject;
@@ -75,6 +71,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected NavigationView navigationView;
     @BindView(R.id.navigation)
     protected BottomNavigationView navigation;
+    @BindView(R.id.txtAddToCartNotify)
+    protected TextView txtAddToCartNotify;
+    @BindView(R.id.badge2)
+    protected RelativeLayout badge2;
+
 
     @BindView(R.id.dashboardActionBar)
     protected AppBarLayout dashboardActionBar;
@@ -168,6 +169,21 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             }
         });
 
+        badge2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                if (!(fragment instanceof AddToCartFragment)) {
+                    navigation.setSelectedItemId(R.id.navigation_cart);
+                    // replaceFragmentWithContainer(new AddToCartFragment());
+                }
+
+
+            }
+        });
+
 //        imgBack.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -175,6 +191,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 //                //  onBackImagePressed();
 //            }
 //        });
+
+
         initializeFragment();
 
 
@@ -187,28 +205,45 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         @Override
         public boolean onNavigationItemSelected(MenuItem item) {
             Fragment fragment;
+            Fragment fragmentContainer = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+
             switch (item.getItemId()) {
                 case R.id.navigation_shop:
-                    fragment = new ShopFragment();
-                    replaceFragmentWithContainer(fragment);
+
+                    if (!(fragmentContainer instanceof ShopFragment)) {
+
+                        fragment = new ShopFragment();
+                        replaceFragmentWithContainer(fragment);
+                    }
                     return true;
                 case R.id.navigation_favourite:
                     //    Toast.makeText(getActivity(), "Wishlist is selected", Toast.LENGTH_SHORT).show();
                     //  ((BaseActivity) getActivity()).popBackstack();
                     //((BaseActivity) getActivity()).addDashboardFragment(new FragmentFavourites());
-                    fragment = new FragmentFavourites();
-                    replaceFragmentWithContainer(fragment);
+
+                    if (!(fragmentContainer instanceof FragmentFavourites)) {
+
+                        fragment = new FragmentFavourites();
+                        replaceFragmentWithContainer(fragment);
+                    }
                     return true;
                 case R.id.navigation_cart:
-                    fragment = new AddToCartFragment();
-                    replaceFragmentWithContainer(fragment);
+
+                    if (!(fragmentContainer instanceof AddToCartFragment)) {
+
+                        fragment = new AddToCartFragment();
+                        replaceFragmentWithContainer(fragment);
+                    }
                     //  navigation.setSelectedItemId(R.id.navigation_History);
 
                     return true;
 
                 case R.id.navigation_History:
-                    fragment = new HistoryFragment();
-                    replaceFragmentWithContainer(fragment);
+                    if (!(fragmentContainer instanceof HistoryFragment)) {
+                        fragment = new HistoryFragment();
+                        replaceFragmentWithContainer(fragment);
+                    }
+
                     return true;
             }
             return false;
@@ -234,21 +269,23 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 fragment instanceof HistoryFragment ||
                 fragment instanceof FragmentFavourites) {
             showBottomNavigation();
-            //navigation.setSelectedItemId(R.id.navigation_History);
+            if (fragment instanceof AddToCartFragment) {
+                navigation.setSelectedItemId(R.id.navigation_cart);
+            } else if (fragment instanceof ShopFragment) {
+                navigation.setSelectedItemId(R.id.navigation_shop);
+            } else if (fragment instanceof HistoryFragment) {
+                navigation.setSelectedItemId(R.id.navigation_History);
+            } else if (fragment instanceof FragmentFavourites) {
+                navigation.setSelectedItemId(R.id.navigation_favourite);
+            }
+
         }
     }
 
     public void navigateToScreen(final int menuId) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showBottomNavigation();
-                View view = navigation.findViewById(menuId);
-                view.performClick();
-
-            }
-        }, 200);
-
+        showBottomNavigation();
+        View view = navigation.findViewById(menuId);
+        view.performClick();
     }
 
 //        if (fragment instanceof ShopDetailsFragment) {
