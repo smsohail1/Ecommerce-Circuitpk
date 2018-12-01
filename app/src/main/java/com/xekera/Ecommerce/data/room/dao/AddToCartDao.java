@@ -38,8 +38,8 @@ public interface AddToCartDao {
     List<AddToCart> getCartDetailsByProductName(String itemName);
 
 
-    @Query("UPDATE add_to_cart SET item_quantity = :quantity , item_price = :itemPrice where item_name = :itemName")
-    void updateItemCount(String quantity, String itemPrice, String itemName);
+    @Query("UPDATE add_to_cart SET item_quantity = :quantity , item_price = :itemPrice , item_cut_price = :cutPrice where item_name = :itemName")
+    void updateItemCount(String quantity, String itemPrice, String itemName, String cutPrice);
 
 
 //    @Query("SELECT sum(item_price) FROM add_to_cart")

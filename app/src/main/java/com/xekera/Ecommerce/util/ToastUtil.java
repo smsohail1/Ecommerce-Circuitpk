@@ -11,7 +11,7 @@ public class ToastUtil {
     }
 
     public void showToastShortTime(int messageResource) {
-        if(context != null) {
+        if (context != null) {
             Toast.makeText(context,
                     context.getResources().getString(messageResource),
                     Toast.LENGTH_SHORT)
@@ -20,7 +20,7 @@ public class ToastUtil {
     }
 
     public void showToastLongTime(int messageResource) {
-        if(context != null) {
+        if (context != null) {
             Toast.makeText(context,
                     context.getResources().getString(messageResource),
                     Toast.LENGTH_LONG)
@@ -29,7 +29,7 @@ public class ToastUtil {
     }
 
     public void showToastShortTime(String message) {
-        if(context != null) {
+        if (context != null) {
             Toast.makeText(context,
                     message,
                     Toast.LENGTH_SHORT)
@@ -37,8 +37,22 @@ public class ToastUtil {
         }
     }
 
+    public void showToastShortTimeForDismiss(String message) {
+        if (context != null) {
+            Toast toast;
+            toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+
+            if (toast.getView().isShown()) {
+                toast.cancel();
+            } else {
+                toast.show();
+
+            }
+        }
+    }
+
     public void showToastLongTime(String message) {
-        if(context != null) {
+        if (context != null) {
             Toast.makeText(context,
                     message,
                     Toast.LENGTH_LONG)

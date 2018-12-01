@@ -2,7 +2,9 @@ package com.xekera.Ecommerce.ui.dashboard_shopping;
 
 import android.content.Context;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
+import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
 import com.xekera.Ecommerce.ui.dashboard_shopping.model.DashboardItem;
 import com.xekera.Ecommerce.util.SessionManager;
@@ -44,18 +46,42 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
         homeItems.add(new DashboardItem(R.string.motor_driver, R.drawable.icon_barcode));
         homeItems.add(new DashboardItem(R.string.charges, R.drawable.icon_security));
         homeItems.add(new DashboardItem(R.string.motor_wheel, R.drawable.icon_security));
-        homeAdapter = new DashboardAdapter(homeItems, this,context);
+        homeAdapter = new DashboardAdapter(homeItems, this, context);
         view.setHomeRecyclerViewAdapter(homeAdapter);
     }
 
     @Override
-    public void setViewPagerItems(Context context,List<Integer> color,
-                                  List<String> colorName,List<String> img
+    public void setViewPagerItems(Context context, List<Integer> color,
+                                  List<String> colorName, List<String> img
     ) {
-        sliderAdapter= new SliderAdapter(context, color, colorName,img);
+        sliderAdapter = new SliderAdapter(context, color, colorName, img);
         view.setDashboardViewPagerAdapter(sliderAdapter);
 
 
+    }
+
+    @Override
+    public void getTotalCounts() {
+        model.getCartDetails(new ShopFragmentModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+                    view.setCounts(0);
+
+                    return;
+                } else {
+                    view.setCounts(addToCarts.size());
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
     }
 
     @Override

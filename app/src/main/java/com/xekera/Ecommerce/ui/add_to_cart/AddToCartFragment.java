@@ -356,6 +356,12 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     }
 
     @Override
+    public void setCartCounterTextview(int counts) {
+        ((BaseActivity) getActivity()).showTotalCartsCount(counts);
+
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnCheckout:

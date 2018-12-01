@@ -40,6 +40,8 @@ public interface AddToCartMVP {
         void navigateToBillingDetailScreen();
 
         void setCartCounts(long counts);
+
+        void setCartCounterTextview(int counts);
     }
 
     interface Presenter {
@@ -52,9 +54,11 @@ public interface AddToCartMVP {
 
         void removeItemFromCart(AddToCart productItems);
 
-        void updateItemCountInDB(String quantity, String itemPrice, String productName);
+        void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice);
 
         void getCartCountList();
+
+        void saveProductDetails(String quantity, long individualPrice, String itemPrice, String productName, String cutPrice, byte[] bytes);
 
     }
 
@@ -66,7 +70,12 @@ public interface AddToCartMVP {
 
         void removeSelectedCartDetails(AddToCart productItems, AddToCartModel.IRemoveSelectedItemDetails iRemoveSelectedItemDetails);
 
-        void updateItemCountInDB(String quantity, String itemPrice, String productName, AddToCartModel.ISaveProductDetails iSaveProductDetails);
+        void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice,
+                                 AddToCartModel.ISaveProductDetails iSaveProductDetails);
+
+        void getProductCount(String productName, AddToCartModel.IFetchCartDetailsList iFetchCartDetailsList);
+
+        void saveProductDetails(AddToCart addToCart, AddToCartModel.ISaveProductDetails iSaveProductDetails);
 
     }
 }

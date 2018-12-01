@@ -192,6 +192,8 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
 
         presenter.setDashboardItems(getActivity());
 
+
+        presenter.getTotalCounts();
         // setViewPagerItems();
 
     }
@@ -294,6 +296,12 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
 //
 //        Timer timer = new Timer();
 //        timer.scheduleAtFixedRate(new SliderTimer(), 5000, 5000);
+
+    }
+
+    @Override
+    public void setCounts(int counts) {
+        ((BaseActivity) getActivity()).showTotalCartsCount(counts);
 
     }
 

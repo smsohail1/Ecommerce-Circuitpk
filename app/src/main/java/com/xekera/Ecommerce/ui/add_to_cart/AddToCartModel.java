@@ -150,14 +150,15 @@ public class AddToCartModel implements AddToCartMVP.Model {
 
 
     @Override
-    public void updateItemCountInDB(final String quantity, final String itemPrice, final String productName, final ISaveProductDetails iSaveProductDetails) {
+    public void updateItemCountInDB(final String quantity, final String itemPrice, final String productName, final String cutPrice,
+                                    final ISaveProductDetails iSaveProductDetails) {
 
         try {
             Observable.just(appDatabase)
                     .map(new Function<AppDatabase, Boolean>() {
                         @Override
                         public Boolean apply(AppDatabase appDatabase) throws Exception {
-                            appDatabase.getAddToCartDao().updateItemCount(quantity, itemPrice, productName);
+                            appDatabase.getAddToCartDao().updateItemCount(quantity, itemPrice, productName, cutPrice);
                             return true;
                         }
                     })
@@ -194,11 +195,94 @@ public class AddToCartModel implements AddToCartMVP.Model {
     }
 
 
+    @Override
+    public void getProductCount(final String productName, final IFetchCartDetailsList iFetchCartDetailsList) {
+        try {
+            Observable.just(appDatabase.getAddToCartDao()).
+                    map(new Function<AddToCartDao, List<AddToCart>>() {
+                        @Override
+                        public List<AddToCart> apply(AddToCartDao addToCartDao) throws Exception {
+                            return addToCartDao.getCartDetailsByProductName(productName);
+                        }
+                    }).
+                    subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Observer<List<AddToCart>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<AddToCart> AddToCartList) {
+                            iFetchCartDetailsList.onCartDetailsReceived(AddToCartList);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            iFetchCartDetailsList.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception e) {
+            iFetchCartDetailsList.onErrorReceived(e);
+        }
+    }
+
+    @Override
+    public void saveProductDetails(final AddToCart addToCart, final ISaveProductDetails iSaveProductDetails) {
+        try {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
+                        @Override
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+                            appDatabase.getAddToCartDao().insert(addToCart);
+                            return true;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean isAdded) {
+                            iSaveProductDetails.onProductDetailsSaved(isAdded);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (e.getMessage() != null) {
+                                iSaveProductDetails.onErrorReceived((Exception) e);
+                            }
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception ex) {
+            iSaveProductDetails.onErrorReceived(ex);
+        }
+
+    }
+
+
     interface IFetchCartDetailsList {
         void onCartDetailsReceived(List<AddToCart> AddToCartList);
 
         void onErrorReceived(Exception ex);
     }
+
 
     public interface IRemoveSelectedItemDetails {
         void onSuccess();

@@ -105,7 +105,7 @@
                                 android:id="@+id/relative_layout1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                >
+                        >
 
                             <ImageView
                                     android:id="@+id/imgShoppingCart"
@@ -129,7 +129,6 @@
                                     android:minWidth="13dip"
                                     android:minHeight="13dip"
                                     android:padding="0.2dp"
-                                    android:text="0"
                                     android:textColor="#424242"
                                     android:textSize="12sp"/>
                         </RelativeLayout>

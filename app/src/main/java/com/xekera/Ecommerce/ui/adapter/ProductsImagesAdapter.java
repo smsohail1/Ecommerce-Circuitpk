@@ -21,10 +21,10 @@ public class ProductsImagesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     List<MultipleImagesItem> productsItems;
     IMultipleImageAdapter iMultipleImageAdapter;
 
-    public ProductsImagesAdapter(List<MultipleImagesItem> productsItems, IMultipleImageAdapter iMultipleImageAdapter,Context context) {
+    public ProductsImagesAdapter(List<MultipleImagesItem> productsItems, IMultipleImageAdapter iMultipleImageAdapter, Context context) {
         this.productsItems = productsItems;
         this.iMultipleImageAdapter = iMultipleImageAdapter;
-        this.context=context;
+        this.context = context;
     }
 
 
@@ -47,6 +47,7 @@ public class ProductsImagesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             Glide.with(context).load(items.getImage())
                     .fitCenter()
+                    .centerCrop()
                     .placeholder(R.drawable.placeholder)
                     .error(R.drawable.placeholder)
                     .into(productDetailsDataListViewHolder.imageViewMultipleProduct);

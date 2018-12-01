@@ -1,5 +1,6 @@
 package com.xekera.Ecommerce.ui;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentResolver;
@@ -104,6 +105,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     ToastUtil toastUtil;
     @Inject
     AppDatabase appDatabase;
+    @Inject
+    protected SnackUtil snackUtil;
+
+    private int itemCounter = 0;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -822,6 +828,62 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             ex.printStackTrace();
         }
     }
+
+    public void makeFlyAnimation(ImageView targetView, final int cartsCount) {
+
+        //RelativeLayout destView = (RelativeLayout) findViewById(R.id.cartRelativeLayout);
+
+        new CircleAnimationUtil().attachActivity(this).setTargetView(targetView).setMoveDuration(700).setDestView(badge2).setAnimationListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // addItemToCart(cartsCount);
+                //  snackUtil.showSnackBarLongTimeIsShown(findViewById(android.R.id.content), "Item added to cart successfully.");
+                // Toast.makeText(getApplicationContext(), "Continue Shopping...", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        }).startAnimation();
+
+
+    }
+
+    public void addItemToCart(int cartsCount) {
+        //   txtAddToCartNotify.setText(String.valueOf(++itemCounter));
+        // toastUtil.showToastShortTimeForDismiss("Item added to cart successfully");
+        txtAddToCartNotify.setText(String.valueOf(cartsCount));
+//        Toast toast = new Toast(getApplicationContext());
+//        toast.setText("Item added to cart successfully");
+//        toast.setDuration(Toast.LENGTH_SHORT);
+//        if (!toast.getView().isShown()) {
+//            toast.show();
+//        }
+
+
+    }
+
+    public void showTotalCartsCount(int cartsCount) {
+        txtAddToCartNotify.setText(String.valueOf(cartsCount));
+
+    }
+
+
+    public void removeItemToCart(int cartsCount) {
+        txtAddToCartNotify.setText(String.valueOf(cartsCount));
+    }
+
 
 }
 

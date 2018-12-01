@@ -7,13 +7,12 @@ import android.view.View;
 public class SnackUtil {
     private Context context;
 
-    public SnackUtil(Context context){
+    public SnackUtil(Context context) {
         this.context = context;
     }
 
-    public void showSnackBarShortTime(View view, int messageResource)
-    {
-        if(context != null) {
+    public void showSnackBarShortTime(View view, int messageResource) {
+        if (context != null) {
             Snackbar.make(view,
                     messageResource,
                     Snackbar.LENGTH_SHORT)
@@ -21,9 +20,8 @@ public class SnackUtil {
         }
     }
 
-    public void showSnackBarLongTime(View view, int messageResource)
-    {
-        if(context != null) {
+    public void showSnackBarLongTime(View view, int messageResource) {
+        if (context != null) {
             Snackbar.make(view,
                     messageResource,
                     Snackbar.LENGTH_LONG)
@@ -31,9 +29,8 @@ public class SnackUtil {
         }
     }
 
-    public void showSnackBarShortTime(View view, String message)
-    {
-        if(context != null) {
+    public void showSnackBarShortTime(View view, String message) {
+        if (context != null) {
             Snackbar.make(view,
                     message,
                     Snackbar.LENGTH_SHORT)
@@ -41,9 +38,17 @@ public class SnackUtil {
         }
     }
 
-    public void showSnackBarLongTime(View view, String message)
-    {
-        if(context != null) {
+    public void showSnackBarLongTimeIsShown(View view, String message) {
+        if (context != null) {
+            Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
+            if (!snackbar.isShown()) {
+                snackbar.show();
+            }
+        }
+    }
+
+    public void showSnackBarLongTime(View view, String message) {
+        if (context != null) {
             Snackbar.make(view,
                     message,
                     Snackbar.LENGTH_LONG)

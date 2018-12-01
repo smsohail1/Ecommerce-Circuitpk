@@ -4,6 +4,7 @@ import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsModel;
 import com.xekera.Ecommerce.util.Utils;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -71,14 +72,15 @@ public class ShopCardSelectedModel implements ShopCardSelectedMVP.Model {
     }
 
     @Override
-    public void updateItemCountInDB(final String quantity, final String itemPrice, final String productName, final ISaveProductDetails iSaveProductDetails) {
+    public void updateItemCountInDB(final String quantity, final String itemPrice, final String productName, final String cutPrice,
+                                    final ISaveProductDetails iSaveProductDetails) {
 
         try {
             Observable.just(appDatabase)
                     .map(new Function<AppDatabase, Boolean>() {
                         @Override
                         public Boolean apply(AppDatabase appDatabase) throws Exception {
-                            appDatabase.getAddToCartDao().updateItemCount(quantity, itemPrice, productName);
+                            appDatabase.getAddToCartDao().updateItemCount(quantity, itemPrice, productName, cutPrice);
                             return true;
                         }
                     })
@@ -149,6 +151,45 @@ public class ShopCardSelectedModel implements ShopCardSelectedMVP.Model {
                     });
         } catch (Exception e) {
             iFetchCartDetailsList.onErrorReceived(e);
+        }
+    }
+
+
+    @Override
+    public void getCartDetails(final IFetchCartDetailsList IFetchCartDetailsList) {
+        try {
+            Observable.just(appDatabase.getAddToCartDao()).
+                    map(new Function<AddToCartDao, List<AddToCart>>() {
+                        @Override
+                        public List<AddToCart> apply(AddToCartDao addToCartDao) throws Exception {
+                            return addToCartDao.getAllCartCount();
+                        }
+                    }).
+                    subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Observer<List<AddToCart>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<AddToCart> AddToCartList) {
+                            IFetchCartDetailsList.onCartDetailsReceived(AddToCartList);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            IFetchCartDetailsList.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception e) {
+            IFetchCartDetailsList.onErrorReceived(e);
         }
     }
 

@@ -28,6 +28,7 @@ import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
 import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsPresenter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.home_delivery_Address.DeliveryAddressActivity;
 import com.xekera.Ecommerce.util.*;
@@ -43,6 +44,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
     @BindView(R.id.imgProduct)
     protected ImageView imgProduct;
+    @BindView(R.id.imgProductCopy)
+    protected ImageView imgProductCopy;
     @BindView(R.id.priceTextView)
     protected TextView priceTextView;
     @BindView(R.id.discountPriceTextView)
@@ -175,6 +178,11 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             if (bitmapImage != null)
                 imgProduct.setImageBitmap(bitmapImage);
 
+
+            if (bitmapImage != null)
+                imgProductCopy.setImageBitmap(bitmapImage);
+
+
             if (shoppingDetailModel != null && shoppingDetailModel.getProductPrice() != null) {
                 priceTextView.setText(shoppingDetailModel.getProductPrice());
             }
@@ -286,15 +294,29 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     public void setSelectedImage(String clickedUrl) {
         if (!utils.isTextNullOrEmpty(clickedUrl)) {
             Glide.with(getActivity()).load(clickedUrl)
-                    .fitCenter()
-                    .centerCrop()
+//                    .fitCenter()
+//                    .centerCrop()
                     .placeholder(R.drawable.placeholder)
                     .error(R.drawable.placeholder)
                     .into(imgProduct);
+
+            Glide.with(getActivity()).load(clickedUrl)
+//                    .fitCenter()
+//                    .centerCrop()
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
+                    .into(imgProductCopy);
         } else {
             imgProduct.setImageResource(R.drawable.placeholder);
 
+            imgProductCopy.setImageResource(R.drawable.placeholder);
+
         }
+    }
+
+    @Override
+    public void setCountZero(int counts) {
+        ((BaseActivity) getActivity()).showTotalCartsCount(counts);
     }
 
     @Override
@@ -323,7 +345,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
                     String noOfProductsIncrement = counterTextview.getText().toString();
                     long noOfProductsIntIncrement = Long.valueOf(noOfProductsIncrement);
-                    if (utils.isTextNullOrEmpty(noOfProductsIncrement) || noOfProductsIntIncrement == 0) {
+                    if (utils.isTextNullOrEmpty(noOfProductsIncrement) || noOfProductsIntIncrement < 0) {
                         snackUtil.showSnackBarShortTime(view, "Product not available");
                         //  shoppingDetailModel.setItemQuantity(0);
                         noOfProductsIntIncrement = 0;
@@ -334,18 +356,39 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                         }
                         return;
                     } else {
+                        try {
 
-                        noOfProductsIntIncrement = noOfProductsIntIncrement + 1;
-                        counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
 
-                        if (shoppingDetailModel != null) {
-                            shoppingDetailModel.setItemQuantity(noOfProductsIntIncrement);
+                            noOfProductsIntIncrement = noOfProductsIntIncrement + 1;
+                            counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
+
+                            if (shoppingDetailModel != null) {
+                                shoppingDetailModel.setItemQuantity(noOfProductsIntIncrement);
+                            }
+
+                            long itemQuantity = Long.valueOf(counterTextview.getText().toString());
+                            long productPrice = Long.valueOf(priceTextView.getText().toString());
+                            long totalPrice = itemQuantity * productPrice;
+
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            byte[] byteArray = stream.toByteArray();
+
+                            presenter.onIncrementButtonClicked(itemQuantity,
+                                    productPrice, totalPrice, productNameLabelTextView.getText().toString(),
+                                    discountPriceTextView.getText().toString(), byteArray, imgProductCopy);
+
+
+                            // ((BaseActivity) getActivity()).makeFlyAnimation(imgProductCopy, 0);
+
+                            //((BaseActivity) getActivity()).addItemToCart(cartsCount);
+
+                            //  presenter.updateItemCountInDB(String.valueOf(noOfProductsIntIncrement)
+                            //        , productNameLabelTextView.getText().toString());
+
+                        } catch (Exception e) {
+
                         }
-
-                        //  presenter.updateItemCountInDB(String.valueOf(noOfProductsIntIncrement)
-                        //        , productNameLabelTextView.getText().toString());
-
-
                     }
 
                 } catch (Exception e) {
@@ -356,7 +399,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                 try {
                     String noOfProductsDecrement = counterTextview.getText().toString();
                     long noOfProductsIntDecrement = Long.valueOf(noOfProductsDecrement);
-                    if (utils.isTextNullOrEmpty(noOfProductsDecrement)) {
+                    if (utils.isTextNullOrEmpty(noOfProductsDecrement) || noOfProductsIntDecrement < 0) {
                         snackUtil.showSnackBarShortTime(view, "Product not available");
                         //  shoppingDetailModel.setItemQuantity(0);
                         //decrementCounter = 0;
@@ -369,17 +412,18 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
                         return;
                     } else {
-                        if (noOfProductsIntDecrement == 1) {
+                        if (noOfProductsIntDecrement == 0) {
                             counterTextview.setText(String.valueOf(noOfProductsIntDecrement));
                             if (shoppingDetailModel != null) {
                                 shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
                             }
                             //   shoppingDetailModel.setItemQuantity(1);
                             // decrementCounter = 1;
-                            noOfProductsIntDecrement = 1;
+                            noOfProductsIntDecrement = 0;
 
 //                            presenter.updateItemCountInDB(String.valueOf(noOfProductsIntDecrement)
 //                                    , productNameLabelTextView.getText().toString());
+                            snackUtil.showSnackBarShortTime(view, "Please select atleast one quantity.");
                             return;
                         }
                         noOfProductsIntDecrement = noOfProductsIntDecrement - 1;
@@ -392,6 +436,20 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                             shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
                         }
 
+                        long itemQuantity = Long.valueOf(counterTextview.getText().toString());
+                        long productPrice = Long.valueOf(priceTextView.getText().toString());
+                        long totalPrice = itemQuantity * productPrice;
+
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byte[] byteArray = stream.toByteArray();
+
+                        presenter.onIncrementButtonClicked(itemQuantity,
+                                productPrice, totalPrice, productNameLabelTextView.getText().toString(),
+                                discountPriceTextView.getText().toString(), byteArray, imgProductCopy);
+
+
+                        // showSnackBarShortTime("Cart updated successfully.");
 
                     }
 
@@ -448,5 +506,6 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                 break;
         }
     }
+
 
 }

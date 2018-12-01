@@ -28,6 +28,9 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     List<ShoppingDetailModel> productsItemsSearch;
     IShopDetailAdapter iShopDetailAdapter;
 
+
+//    private ProductItemActionListener actionListener;
+
     public ShopDetailsAdapter() {
 
     }
@@ -39,6 +42,11 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.productsItemsSearch = new ArrayList<>();
         this.productsItemsSearch.addAll(productsItems);
     }
+
+
+//    public void setActionListener(ProductItemActionListener actionListener) {
+//        this.actionListener = actionListener;
+//    }
 
 
     @Override
@@ -60,14 +68,14 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             productDetailsDataListViewHolder.priceTextView.setText(shoppingDetailModel.getProductPrice());
             productDetailsDataListViewHolder.counterTextview.setText(shoppingDetailModel.getItemQuantity() + "");
 
-//            if (shoppingDetailModel.isFavourite()) {
+            //            if (shoppingDetailModel.isFavourite()) {
 //                productDetailsDataListViewHolder.favouriteButton.setChecked(true);
 //
 //            } else {
 //                productDetailsDataListViewHolder.favouriteButton.setChecked(false);
 //            }
 
-            ImageView imageView = productDetailsDataListViewHolder.imgProduct;
+            //   ImageView imageView = productDetailsDataListViewHolder.imgProduct;
             //   Glide.with(context).load(productsItems.get(position))
             //         .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
             //       .override(500, 500) // resizes the image to these dimensions (in pixel). resize does not respect aspect ratio
@@ -102,6 +110,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public Button AddImageView;
         @BindView(R.id.imgProduct)
         public ImageView imgProduct;
+        @BindView(R.id.imgProductCopy)
+        public ImageView imgProductCopy;
         //  @BindView(R.id.favouriteButton)
 //        public SparkButton favouriteButton;
         @BindView(R.id.decrementImageButton)
@@ -172,27 +182,67 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     //productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
 
                     // productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
+
                     if (productsItems.get(getLayoutPosition()).getItemQuantity() > 1) {
 
                         long dec = productsItems.get(getLayoutPosition()).getItemQuantity() - 1;
                         productsItems.get(getLayoutPosition()).setItemQuantity(dec);
 
                         counterTextview.setText(dec + "");
-                    } else {
-                        productsItems.get(getLayoutPosition()).setItemQuantity(1);
 
+                        long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getProductPrice());
+                        long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+                        iShopDetailAdapter.onDecrementButtonClick(productsItems.get(getLayoutPosition()).getItemQuantity(),
+                                String.valueOf(productPrice),
+                                String.valueOf(productPrice * itemQuantity),
+                                productsItems.get(getLayoutPosition()).getProductName(),
+                                productsItems.get(getLayoutPosition()).getCutPrice(),
+                                productsItems.get(getLayoutPosition()).getByteImage(), imgProductCopy);
+
+                    } else {
+                        productsItems.get(getLayoutPosition()).setItemQuantity(0);
                         counterTextview.setText(productsItems.get(getLayoutPosition()).getItemQuantity() + "");
+
+                        iShopDetailAdapter.removeItemFromCart(productsItems.get(getLayoutPosition()));
+
+
+//                        long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getProductPrice());
+//                        long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+//                        iShopDetailAdapter.onDecrementButtonClick(productsItems.get(getLayoutPosition()).getItemQuantity(),
+//                                String.valueOf(productPrice),
+//                                String.valueOf(productPrice * itemQuantity),
+//                                productsItems.get(getLayoutPosition()).getProductName(),
+//                                productsItems.get(getLayoutPosition()).getCutPrice(),
+//                                productsItems.get(getLayoutPosition()).getByteImage(), imgProductCopy);
 
                     }
                     break;
                 case R.id.incrementImageButton:
 
-                    //   incrementCounter = incrementCounter + 1;
-                    //  productsItems.get(getLayoutPosition()).setItemQuantity(counter + "");
-                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
-                    productsItems.get(getLayoutPosition()).setItemQuantity(inc);
+                    long inc = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+                    long incrementLong = inc + 1;
+                    productsItems.get(getLayoutPosition()).setItemQuantity(incrementLong);
+                    counterTextview.setText(incrementLong + "");
+                    long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getProductPrice());
+                    long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
 
-                    counterTextview.setText(inc + "");
+
+                    iShopDetailAdapter.onIncrementButtonClick(productsItems.get(getLayoutPosition()).getItemQuantity(),
+                            String.valueOf(productPrice),
+                            String.valueOf(productPrice * itemQuantity),
+                            productsItems.get(getLayoutPosition()).getProductName(),
+                            productsItems.get(getLayoutPosition()).getCutPrice(),
+                            productsItems.get(getLayoutPosition()).getByteImage(), imgProductCopy);
+
+
+//                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
+//                    productsItems.get(getLayoutPosition()).setItemQuantity(inc);
+//                    counterTextview.setText(inc + "");
+
+
+//                    if (actionListener != null)
+//                        actionListener.onItemTap(imgProductCopy);
+
                     break;
 
                 case R.id.imgShareProductDetails:
@@ -230,13 +280,18 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         //   void onFavouriteButtonClick(ShoppingDetailModel productItems);
 
-        void onIncrementButtonClick(ShoppingDetailModel productItems);
+        void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy);
 
-        void onDecrementButtonClick(ShoppingDetailModel productItems);
+        void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName,
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy);
+
 
         void onCardClick(ShoppingDetailModel productItems, Bitmap bitmapImg);
 
         void shareItemsDetails(ShoppingDetailModel productItems, Bitmap bitmapImg);
+
+        void removeItemFromCart(ShoppingDetailModel shoppingDetailModel);
     }
 
 
@@ -264,5 +319,10 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         {
         }
     }
+
+//
+//    public interface ProductItemActionListener {
+//        void onItemTap(ImageView imageView);
+//    }
 
 }

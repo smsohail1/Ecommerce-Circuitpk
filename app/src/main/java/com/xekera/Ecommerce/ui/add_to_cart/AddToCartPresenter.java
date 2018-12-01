@@ -119,6 +119,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                     view.setParentFields();
                     view.txtNoCartItemFound();
                     view.setCartCounts(0);
+                    view.setCartCounterTextview(0);
                     return;
                 } else {
                     getSubTotal(addToCarts);
@@ -172,12 +173,14 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
         }
         view.setSubTotal(String.valueOf(price));
         view.setCartCounts(addToCarts.size());
+        view.setCartCounterTextview(addToCarts.size());
+
     }
 
 
     @Override
-    public void updateItemCountInDB(String quantity, String itemPrice, String productName) {
-        model.updateItemCountInDB(quantity, itemPrice, productName, new AddToCartModel.ISaveProductDetails() {
+    public void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice) {
+        model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new AddToCartModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
@@ -221,4 +224,51 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
             }
         });
     }
+
+    @Override
+    public void saveProductDetails(final String quantity, final long individualPrice, final String itemPrice, final String productName,
+                                   final String cutPrice, final byte[] bytes) {
+        model.getProductCount(productName, new AddToCartModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCartList) {
+                if (addToCartList == null || addToCartList.size() == 0) {
+                    AddToCart addToCart = new AddToCart("43", productName, itemPrice, quantity, "N", bytes, cutPrice, String.valueOf(individualPrice));
+                    noProductFound(addToCart);
+                    return;
+                } else {
+
+                    updateItemCountInDB(quantity, itemPrice,
+                            productName, cutPrice);
+                }
+
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.showToastLongTime("Error while in saving data.");
+
+            }
+        });
+
+    }
+
+
+    private void noProductFound(AddToCart addToCart) {
+
+        model.saveProductDetails(addToCart, new AddToCartModel.ISaveProductDetails() {
+            @Override
+            public void onProductDetailsSaved(boolean isAdded) {
+                if (isAdded) {
+                    view.showToastLongTime("Item added to cart successfully.");
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.showToastLongTime("Error while saving data.");
+
+            }
+        });
+    }
+
 }

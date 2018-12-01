@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -121,18 +123,44 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
         edtSearchProduct.setText("");
         shopDetails.clear();
-        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 1, img));
 
-        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 1, img));
 
-        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 1, img));
+        Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.ardino);
 
-        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 1, img));
+        byte[] byteArray = new byte[0];
+        if (icon != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 1, img));
+            icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byteArray = stream.toByteArray();
+
+        }
+
+
+        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0, img, byteArray, 30));
+
+        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 0, img, byteArray, 10));
+
+        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 0, img, byteArray, 40));
+
+        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 0, img, byteArray, 33));
+
+        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 0, img, byteArray, 54));
 
         shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this);
         showRecylerViewProductsDetail(shopDetailsAdapter);
+
+        presenter.setActionListener(new ShopDetailsPresenter.ProductItemActionListener() {
+            @Override
+            public void onItemTap(ImageView imageView, int cartsCount) {
+                if (imageView != null) {
+                    ((BaseActivity) getActivity()).makeFlyAnimation(imageView, cartsCount);
+                    ((BaseActivity) getActivity()).addItemToCart(cartsCount);
+
+                }
+            }
+        });
 
 
         try {
@@ -209,6 +237,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
 
         shopDetails = new ArrayList<ShoppingDetailModel>();
+
+
 //        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 1));
 //
 //        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 1));
@@ -303,6 +333,24 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     public void showRecylerViewProductsDetail(ShopDetailsAdapter shopDetailsAdapter) {
         recyclerViewProductDetails.setAdapter(shopDetailsAdapter);
 
+
+    }
+
+    @Override
+    public void setCountZero(int counts) {
+        ((BaseActivity) getActivity()).addItemToCart(0);
+
+    }
+
+    @Override
+    public void setDecrementCount(int counts) {
+        ((BaseActivity) getActivity()).removeItemToCart(counts);
+
+    }
+
+    @Override
+    public void showSnackBarShortTime(String message) {
+        showSnackBarShortTime(message, getView());
     }
 
 
@@ -324,6 +372,19 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     }
 
+    @Override
+    public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy) {
+
+        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy);
+    }
+
+    @Override
+    public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy) {
+
+        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy);
+
+    }
+
 //    @Override
 //    public void onFavouriteButtonClick(ShoppingDetailModel productItems) {
 //        String dd;
@@ -337,15 +398,11 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //
 //    }
 
-    @Override
-    public void onIncrementButtonClick(ShoppingDetailModel productItems) {
+//    @Override
+//    public void onIncrementButtonClick(ShoppingDetailModel productItems) {
+//
+//    }
 
-    }
-
-    @Override
-    public void onDecrementButtonClick(ShoppingDetailModel productItems) {
-
-    }
 
     @Override
     public void onCardClick(final ShoppingDetailModel productItems, final Bitmap bitmapImg) {
@@ -402,6 +459,13 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         } else {
             showMissingPermissionError();
         }
+    }
+
+    @Override
+    public void removeItemFromCart(ShoppingDetailModel shoppingDetailModel) {
+        showSnackBarShortTime("Please select atleast one item", getView());
+        presenter.removeItem(shoppingDetailModel);
+
     }
 
 

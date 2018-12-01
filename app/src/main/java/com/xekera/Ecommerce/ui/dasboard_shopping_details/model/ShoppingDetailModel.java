@@ -10,18 +10,26 @@ public class ShoppingDetailModel implements Serializable {
     private boolean isFavourite;
     private long itemQuantity;
     private List<String> image;
+    private long totalPrice;
+    private long cutPrice;
+    private byte[] byteImage;
+    private byte[] byteArray;
+    private long itemTotalFetchQuantity;
 
 
     public ShoppingDetailModel() {
 
     }
 
-    public ShoppingDetailModel(String productName, String productPrice, boolean isFavourite, long itemQuantity, List<String> image) {
+    public ShoppingDetailModel(String productName, String productPrice, boolean isFavourite, long itemQuantity,
+                               List<String> image, byte[] byteArray, long itemTotalFetchQuantity) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.isFavourite = isFavourite;
         this.itemQuantity = itemQuantity;
         this.image = image;
+        this.byteArray = byteArray;
+        this.itemTotalFetchQuantity = itemTotalFetchQuantity;
     }
 
     public String getProductName() {
@@ -64,4 +72,51 @@ public class ShoppingDetailModel implements Serializable {
         this.image = image;
     }
 
+    public long getItemTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setItemTotalPrice(long itemIndividualPrice) {
+        this.totalPrice = itemIndividualPrice;
+    }
+
+    public long getCutPrice() {
+        return cutPrice;
+    }
+
+    public void setCutPrice(long cutPrice) {
+        this.cutPrice = cutPrice;
+    }
+
+    public long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(long totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public byte[] getByteImage() {
+        return byteImage;
+    }
+
+    public void setByteImage(byte[] byteImage) {
+        this.byteImage = byteImage;
+    }
+
+    public byte[] getByteArray() {
+        return byteArray;
+    }
+
+    public void setByteArray(byte[] byteArray) {
+        this.byteArray = byteArray;
+    }
+
+    public long getItemTotalFetchQuantity() {
+        return itemTotalFetchQuantity;
+    }
+
+    public void setItemTotalFetchQuantity(long itemTotalFetchQuantity) {
+        this.itemTotalFetchQuantity = itemTotalFetchQuantity;
+    }
 }

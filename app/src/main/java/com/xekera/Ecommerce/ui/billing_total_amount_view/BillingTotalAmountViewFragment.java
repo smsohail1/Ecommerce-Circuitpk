@@ -235,7 +235,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                 ((BaseActivity) getActivity()).navigateToScreen(R.id.navigation_History);
 
             }
-        }, 200);
+        }, 300);
 
     }
 

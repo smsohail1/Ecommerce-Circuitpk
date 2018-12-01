@@ -3,9 +3,11 @@ package com.xekera.Ecommerce.ui.shop_card_selected;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
+import android.widget.ImageView;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsModel;
 import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
 import com.xekera.Ecommerce.ui.dashboard_shopping.model.DashboardItem;
 import com.xekera.Ecommerce.ui.shop_card_selected.model.MultipleImagesItem;
@@ -52,7 +54,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
                         long itemQuantity = Long.valueOf(addToCart.getItemQuantity());
 
                         updateItemCountInDB(addToCart.getItemQuantity(), String.valueOf(productPrice * itemQuantity),
-                                addToCart.getItemName());
+                                addToCart.getItemName(), addToCart.getItemCutPrice());
                     }
 
                 }
@@ -80,24 +82,28 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showSnackBarShortTime("Error while saving data.");
+                view.showToastLongTime("Error while saving data.");
 
             }
         });
     }
 
     @Override
-    public void updateItemCountInDB(String quantity, String itemPrice, String productName) {
-        model.updateItemCountInDB(quantity, itemPrice, productName, new ShopCardSelectedModel.ISaveProductDetails() {
+    public void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice) {
+        model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new ShopCardSelectedModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean updated) {
-                view.showToastLongTime("Item added to cart successfully.");
+                if (updated) {
+                    view.showToastLongTime("Item added to cart successfully.");
+                } else {
+                    view.showToastLongTime("Error while saving data.");
 
+                }
             }
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showSnackBarShortTime("Error while updating data.");
+                view.showToastLongTime("Error while updating data.");
 
             }
         });
@@ -115,6 +121,13 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
         view.showRecylerViewProductsImages(productsImagesAdapter);
 
 
+    }
+
+    @Override
+    public void onIncrementButtonClicked(long quantity, long price, long totalPrice, String productName, String cutPrice,
+                                         byte[] byteImage, ImageView imgProductCopy) {
+        saveProductDetails(quantity, price, totalPrice, productName,
+                cutPrice, byteImage, imgProductCopy);
     }
 
 
@@ -142,4 +155,105 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
     public void onImageClick(String clickedUrl) {
         view.setSelectedImage(clickedUrl);
     }
+
+
+    public void saveProductDetails(final long quantity, final long price, final long totalPrice, final String productName,
+                                   final String cutPrice, final byte[] byteImage, final ImageView imgProductCopy) {
+        model.getProductCount(productName, new ShopCardSelectedModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCartList) {
+                if (addToCartList == null || addToCartList.size() == 0) {
+                    AddToCart addToCart = new AddToCart("4341", productName, String.valueOf(totalPrice), String.valueOf(quantity),
+                            "N", byteImage, String.valueOf(cutPrice), String.valueOf(price));
+                    noProductFound(addToCart, imgProductCopy);
+                    return;
+                } else {
+
+                    updateItemCountInDB(String.valueOf(quantity), String.valueOf(totalPrice),
+                            productName, String.valueOf(cutPrice), imgProductCopy);
+                }
+
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.showToastLongTime("Error while in saving data.");
+
+            }
+        });
+
+    }
+
+
+    private void noProductFound(AddToCart addToCart, final ImageView imgProductCopy) {
+
+        model.saveProductDetails(addToCart, new ShopCardSelectedModel.ISaveProductDetails() {
+            @Override
+            public void onProductDetailsSaved(boolean isAdded) {
+                if (isAdded) {
+                    view.showToastLongTime("Item added to cart successfully.");
+                    getUpdatedTotalCount();
+
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.showToastLongTime("Error while saving data.");
+
+            }
+        });
+    }
+
+    @Override
+    public void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice, final ImageView imgProductCopy) {
+        model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new ShopCardSelectedModel.ISaveProductDetails() {
+            @Override
+            public void onProductDetailsSaved(boolean updated) {
+                if (updated) {
+                    view.showToastShortTime("Cart updated successfully.");
+
+                    getUpdatedTotalCount();
+                } else {
+                    view.showToastLongTime("Error while saving data.");
+
+                }
+
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+                view.showToastLongTime("Error while saving data.");
+
+            }
+        });
+
+    }
+
+
+    private void getUpdatedTotalCount() {
+        model.getCartDetails(new ShopCardSelectedModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+                    view.setCountZero(0);
+
+                    return;
+                } else {
+                    view.setCountZero(addToCarts.size());
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
+    }
+
 }
