@@ -1,6 +1,7 @@
 package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.adapter.BillingTotalAmountViewAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 
@@ -42,6 +43,10 @@ public interface BillingTotalAmountViewMVP {
         void cartLists(List<AddToCart> addToCarts);
 
         void itemRemovedFromCart();
+
+        void bookingObject(List<Booking> AddToCartList);
+
+        void deleteItemsFromCart();
     }
 
     interface Presenter {
@@ -51,6 +56,13 @@ public interface BillingTotalAmountViewMVP {
 
         void deleteCartItems(List<String> items);
 
+        void insertBooking(List<Booking> addToCart, String dateTime);
+
+        void addItemsToBooking(List<AddToCart> addToCarts, String firstName, String lastName, String company, String phone,
+                               String email, String streetAddress1, String streetAddress2,
+                               String country, String stateCountry, String townCity, String paymode,
+                               String notes, String flatCharges, String postalCode);
+
     }
 
     interface Model {
@@ -59,6 +71,15 @@ public interface BillingTotalAmountViewMVP {
 
 
         void removeSelectedCartDetails(List<String> items, BillingTotalAmountViewModel.IRemoveSelectedItemDetails iRemoveSelectedItemDetails);
+
+        void insertBooking(List<Booking> addToCart, String dateTime, BillingTotalAmountViewModel.IBookingInsert iBookingInsert);
+
+        void addItemsToBooking(List<AddToCart> addToCarts,
+                               String firstName, String lastName, String company, String phone,
+                               String email, String streetAddress1, String streetAddress2,
+                               String country, String stateCountry, String townCity, String paymode,
+                               String notes, String flatCharges, String postalCode,
+                               BillingTotalAmountViewModel.IFetchCartBookingDetailsList iFetchCartDetailsList);
 
     }
 }

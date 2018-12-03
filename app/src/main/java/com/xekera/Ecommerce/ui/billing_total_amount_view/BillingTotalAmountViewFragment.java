@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
 import com.xekera.Ecommerce.ui.adapter.BillingTotalAmountViewAdapter;
@@ -24,6 +25,10 @@ import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
 import com.xekera.Ecommerce.util.*;
+
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -64,8 +69,25 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     protected SessionManager sessionManager;
 
     public static final String KEY_FLAT_CHARGES = "flat_charges";
-    String flatCharges = "";
+    public static final String KEY_FIRST_NAME = "first_name";
+    public static final String KEY_LAST_NAME = "last_name";
+    public static final String KEY_COMPANY_NAME = "company_name";
+    public static final String KEY_PHONE_NO = "phone_no";
+    public static final String KEY_EMAIL = "email";
+    public static final String KEY_COUNTRY = "country";
+    public static final String KEY_STREET_ADDRESS1 = "street_address1";
+    public static final String KEY_STREET_ADDRESS2 = "street_address2";
+    public static final String KEY_TOWN_CITY = "town_city";
+    public static final String KEY_STATE_COUNTRY = "state_country";
+    public static final String KEY_POSTAL_CODE = "postal_code";
+    public static final String KEY_PAYMENT_MODE = "payment_mode";
+    public static final String KEY_ORDER_NOTES = "order_notes";
+
+
+    String flatCharges = "", firstName = "", lastName = "", companyName = "", phoneNo = "", email = "", country = "", streetAddress1 = "",
+            streetAddress2 = "", townCity = "", stateCountry = "", postalCode = "", paymentMode = "", orderNotes = "";
     List<String> cartItems;
+    List<Booking> cartList;
 
 
     public BillingTotalAmountViewFragment() {
@@ -76,7 +98,21 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
+
         flatCharges = getArguments().getString(KEY_FLAT_CHARGES, "");
+        firstName = getArguments().getString(KEY_FIRST_NAME, "");
+        lastName = getArguments().getString(KEY_LAST_NAME, "");
+        companyName = getArguments().getString(KEY_COMPANY_NAME, "");
+        phoneNo = getArguments().getString(KEY_PHONE_NO, "");
+        email = getArguments().getString(KEY_EMAIL, "");
+        country = getArguments().getString(KEY_COUNTRY, "");
+        streetAddress1 = getArguments().getString(KEY_STREET_ADDRESS1, "");
+        streetAddress2 = getArguments().getString(KEY_STREET_ADDRESS2, "");
+        townCity = getArguments().getString(KEY_TOWN_CITY, "");
+        stateCountry = getArguments().getString(KEY_STATE_COUNTRY, "");
+        postalCode = getArguments().getString(KEY_POSTAL_CODE, "");
+        paymentMode = getArguments().getString(KEY_PAYMENT_MODE, "");
+        orderNotes = getArguments().getString(KEY_ORDER_NOTES, "");
 
 
     }
@@ -183,9 +219,26 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     }
 
 
-    public BillingTotalAmountViewFragment newInstance(String flatCharges) {
+    public BillingTotalAmountViewFragment newInstance(String flatCharges, String firstName, String lastName, String company, String phone,
+                                                      String email, String streetAddress1, String streetAddress2,
+                                                      String country, String stateCountry, String townCity, String paymode,
+                                                      String notes, String postalCode) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_FLAT_CHARGES, flatCharges);
+        bundle.putString(KEY_FIRST_NAME, firstName);
+        bundle.putString(KEY_LAST_NAME, lastName);
+        bundle.putString(KEY_COMPANY_NAME, company);
+        bundle.putString(KEY_PHONE_NO, phone);
+        bundle.putString(KEY_EMAIL, email);
+        bundle.putString(KEY_COUNTRY, country);
+        bundle.putString(KEY_STREET_ADDRESS1, streetAddress1);
+        bundle.putString(KEY_STREET_ADDRESS2, streetAddress2);
+        bundle.putString(KEY_STATE_COUNTRY, stateCountry);
+        bundle.putString(KEY_TOWN_CITY, townCity);
+        bundle.putString(KEY_PAYMENT_MODE, paymode);
+        bundle.putString(KEY_ORDER_NOTES, notes);
+        bundle.putString(KEY_POSTAL_CODE, postalCode);
+
         BillingTotalAmountViewFragment fragment = new BillingTotalAmountViewFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -221,7 +274,10 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
             cartItems.add(addToCart.getItemName());
         }
 
+        presenter.addItemsToBooking(addToCarts, firstName, lastName, companyName, phoneNo, email, streetAddress1, streetAddress2,
+                country, stateCountry, townCity, paymentMode, orderNotes, flatCharges, postalCode);
     }
+
 
     @Override
     public void itemRemovedFromCart() {
@@ -240,12 +296,38 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     }
 
     @Override
+    public void bookingObject(List<Booking> bookings) {
+        cartList = bookings;
+    }
+
+    @Override
+    public void deleteItemsFromCart() {
+        presenter.deleteCartItems(cartItems);
+
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnConfirmCheckout:
-                presenter.deleteCartItems(cartItems);
+                String formattedDate = "";
+                formattedDate = getCurrentDate();
+                presenter.insertBooking(cartList, formattedDate);
+
+//                presenter.deleteCartItems(cartItems);
                 break;
         }
 
+    }
+
+    public String getCurrentDate() {
+        try {
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat(AppConstants.DATE_TIME_FORMAT_TWO);
+            return df.format(c.getTime());
+        } catch (Exception e) {
+            return "";
+        }
     }
 }

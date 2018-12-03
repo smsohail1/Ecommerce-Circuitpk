@@ -47,10 +47,11 @@ public class AppConstants {
     public static final String TIME_FORMAT_ONE = "hh:mm a";
     public static final String TIME_FORMAT_TWO = "hh:mm:ss";
     public static final String DATE_TIME_FORMAT_ONE = "yyyy-MM-dd HH:mm:ss";
-    public static final String DATE_TIME_FORMAT_TWO = "dd/MM/yyyy HH:mm:ss";
     public static final String DATE_TIME_FORMAT_THREE = "ddMMyy_HHmmss_";
     public static final String DATE_TIME_FORMAT_FOUR = "MM/dd/yyyy HH:mm:ss a";
     public static final String DATE_TIME_FORMAT_FIVE = "MM/dd/yyyy hh:mm:ss";
+    public static final String DATE_TIME_FORMAT_TWO = "dd/MM/yyyy HH:mm:ss";
+
     public static final SimpleDateFormat TTCDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
     public static final SimpleDateFormat TTCInputDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 

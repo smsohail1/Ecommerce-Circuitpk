@@ -358,14 +358,19 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     }
 
     @Override
-    public void showBillingAmountDetailView(final String flatCharges) {
+    public void showBillingAmountDetailView(final String flatCharges, final String firstName, final String lastName,
+                                            final String company, final String phone,
+                                            final String email, final String streetAddress1, final String streetAddress2,
+                                            final String country, final String stateCountry, final String townCity, final String paymode,
+                                            final String notes, final String postalCode) {
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 BillingTotalAmountViewFragment billingTotalAmountViewFragment = new BillingTotalAmountViewFragment();
                 ((BaseActivity) getActivity()).addFragment
-                        (billingTotalAmountViewFragment.newInstance(flatCharges));
+                        (billingTotalAmountViewFragment.newInstance(flatCharges, firstName, lastName, company, phone,
+                                email, streetAddress1, streetAddress2, country, stateCountry, townCity, paymode, notes, postalCode));
 
             }
         }, 200);

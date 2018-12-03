@@ -37,7 +37,8 @@ public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.
         if (validateInputFields(firstName, lastName, company, phone, email, streetAddress1,
                 streetAddress2, country, stateCountry, townCity, paymode, notes, flatCharges, postalCode)) {
 
-            view.showBillingAmountDetailView(flatCharges);
+            view.showBillingAmountDetailView(flatCharges, firstName, lastName, company, phone, email, streetAddress1, streetAddress2,
+                    country, stateCountry, townCity, paymode, notes, postalCode);
         }
 
     }

@@ -3,7 +3,9 @@ package com.xekera.Ecommerce.ui.billing_total_amount_view;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
+import com.xekera.Ecommerce.data.room.dao.BookingDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.util.Utils;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -12,6 +14,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Model {
@@ -112,8 +115,111 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
         }
     }
 
+    @Override
+    public void insertBooking(final List<Booking> addToCart, final String dateTime, final IBookingInsert iBookingInsert) {
+        try {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
+                        @Override
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+                            for (Booking b : addToCart) {
+                                b.setCreatedDate(dateTime);
+                            }
+                            appDatabase.getBookingDao().insert(addToCart);
+
+                            return true;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean added) {
+                            iBookingInsert.onSuccess(added);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            iBookingInsert.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception ex) {
+            iBookingInsert.onErrorReceived(ex);
+        }
+    }
+
+    @Override
+    public void addItemsToBooking(final List<AddToCart> addToCarts, final String firstName, final String lastName, final String company, final String phone,
+                                  final String email, final String streetAddress1, final String streetAddress2,
+                                  final String country, final String stateCountry, final String townCity, final String paymode,
+                                  final String notes, final String flatCharges, final String postalCode, final IFetchCartBookingDetailsList iFetchCartBookingDetailsList) {
+
+        try {
+            Observable.just(appDatabase.getBookingDao()).
+                    map(new Function<BookingDao, List<Booking>>() {
+                        @Override
+                        public List<Booking> apply(BookingDao bookingDao) throws Exception {
+                            byte[] itemImage = new byte[0];
+                            List<Booking> bookingList = new ArrayList<>();
+                            for (AddToCart addToCart : addToCarts) {
+                                Booking booking = new Booking("44", addToCart.getItemName(),
+                                        addToCart.getItemIndividualPrice(), addToCart.getItemPrice(),
+                                        addToCart.getItemCutPrice(), addToCart.getItemQuantity(),
+                                        firstName, lastName, company, phone, email, country, streetAddress1, streetAddress2, townCity,
+                                        stateCountry, postalCode, paymode, notes, flatCharges, "", itemImage, "N");
+                                bookingList.add(booking);
+                            }
+                            return bookingList;
+                        }
+                    }).
+                    subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Observer<List<Booking>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<Booking> bookings) {
+                            iFetchCartBookingDetailsList.onCartDetailsReceived(bookings);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            iFetchCartBookingDetailsList.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception e) {
+            iFetchCartBookingDetailsList.onErrorReceived(e);
+        }
+
+    }
+
     interface IFetchCartDetailsList {
         void onCartDetailsReceived(List<AddToCart> AddToCartList);
+
+        void onErrorReceived(Exception ex);
+    }
+
+
+    interface IFetchCartBookingDetailsList {
+        void onCartDetailsReceived(List<Booking> AddToCartList);
 
         void onErrorReceived(Exception ex);
     }
@@ -124,4 +230,10 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
         void onError(Exception ex);
     }
 
+
+    interface IBookingInsert {
+        void onSuccess(boolean success);
+
+        void onErrorReceived(Exception ex);
+    }
 }

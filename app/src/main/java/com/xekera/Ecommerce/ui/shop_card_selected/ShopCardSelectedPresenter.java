@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsModel;
 import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
@@ -40,7 +41,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
 
     @Override
     public void saveProductDetails(final AddToCart addToCart) {
-        if (isFieldValid(addToCart.getItemName(), addToCart.getItemPrice(), addToCart.getItemQuantity())) {
+        if (isFieldValid(addToCart.getItemName(), addToCart.getItemPrice(), addToCart.getItemQuantity(), addToCart.getItemIndividualPrice())) {
 
             model.getProductCount(addToCart.getItemName(), new ShopCardSelectedModel.IFetchCartDetailsList() {
                 @Override
@@ -50,10 +51,10 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
                         return;
                     } else {
 
-                        long productPrice = Long.valueOf(addToCart.getItemIndividualPrice());
-                        long itemQuantity = Long.valueOf(addToCart.getItemQuantity());
+                        //    long productPrice = Long.valueOf(addToCart.getItemIndividualPrice());
+                        //  long itemQuantity = Long.valueOf(addToCart.getItemQuantity());
 
-                        updateItemCountInDB(addToCart.getItemQuantity(), String.valueOf(productPrice * itemQuantity),
+                        updateItemCountInDB(addToCart.getItemQuantity(), addToCart.getItemPrice(),
                                 addToCart.getItemName(), addToCart.getItemCutPrice());
                     }
 
@@ -77,6 +78,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
                     view.showToastLongTime("Item added to cart successfully.");
+                    view.shakeAddToCartTextview();
                 }
             }
 
@@ -95,6 +97,8 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
                     view.showToastLongTime("Item added to cart successfully.");
+                    view.shakeAddToCartTextview();
+
                 } else {
                     view.showToastLongTime("Error while saving data.");
 
@@ -131,13 +135,9 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
     }
 
 
-    private boolean isFieldValid(String productName, String price, String quantity) {
+    private boolean isFieldValid(String productName, String totalPrice, String quantity, String individualPrice) {
         if (utils.isTextNullOrEmpty(productName)) {
             view.showToastShortTime(utils.getStringFromResourceId(R.string.product_name_is_empty));
-            return false;
-        }
-        if (utils.isTextNullOrEmptyOrZero(price)) {
-            view.showToastShortTime(utils.getStringFromResourceId(R.string.price_is_zero_error));
             return false;
         }
 
@@ -146,6 +146,16 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             return false;
         }
 
+        if (utils.isTextNullOrEmptyOrZero(totalPrice)) {
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.quantity_error));
+            return false;
+        }
+
+
+        if (utils.isTextNullOrEmptyOrZero(individualPrice)) {
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.price_is_zero_error));
+            return false;
+        }
 
         return true;
     }
@@ -191,9 +201,12 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
-                    view.showToastLongTime("Item added to cart successfully.");
+                    // view.showToastLongTime("Item added to cart successfully.");
                     getUpdatedTotalCount();
 
+
+                } else {
+                    view.showToastLongTime("Error while saving data.");
 
                 }
             }

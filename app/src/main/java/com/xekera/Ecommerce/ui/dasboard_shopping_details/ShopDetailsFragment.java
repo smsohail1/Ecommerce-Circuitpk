@@ -32,11 +32,18 @@ import butterknife.ButterKnife;
 import com.varunest.sparkbutton.SparkButton;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.util.*;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
@@ -67,6 +74,9 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     protected SnackUtil snackUtil;
     @Inject
     protected SessionManager sessionManager;
+    @Inject
+    protected AppDatabase appDatabase;
+
 
     public static final String KEY_SHOP_NAME_DETAILS = "shop_details_name";
 
@@ -123,30 +133,70 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
         edtSearchProduct.setText("");
         shopDetails.clear();
+        final byte[][] byteArray = {new byte[0]};
 
 
-        Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
-                R.drawable.ardino);
+        try {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
+                        @Override
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
 
-        byte[] byteArray = new byte[0];
-        if (icon != null) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                                    R.drawable.ardino);
 
-            icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byteArray = stream.toByteArray();
+                            if (icon != null) {
+                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
+                                icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                byteArray[0] = stream.toByteArray();
+
+                            }
+                            return true;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean success) {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception ex) {
         }
 
 
-        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0, img, byteArray, 30));
+        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0, img, byteArray[0], 30));
 
-        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 0, img, byteArray, 10));
+        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 0, img, byteArray[0], 10));
 
-        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 0, img, byteArray, 40));
+        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 0, img, byteArray[0], 40));
 
-        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 0, img, byteArray, 33));
+        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 0, img, byteArray[0], 33));
 
-        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 0, img, byteArray, 54));
+        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 0, img, byteArray[0], 54));
+
+        shopDetails.add(new ShoppingDetailModel("Telivision", "30000", false, 0, img, byteArray[0], 40));
+
+        shopDetails.add(new ShoppingDetailModel("Seven Segment", "800", false, 0, img, byteArray[0], 33));
+
+        shopDetails.add(new ShoppingDetailModel("Capacitor", "200", false, 0, img, byteArray[0], 54));
+
 
         shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this);
         showRecylerViewProductsDetail(shopDetailsAdapter);
@@ -414,7 +464,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                 ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
                 ((BaseActivity) getActivity()).replaceFragment(shopCardSelectedFragment.newInstance(productItems, bitmapImg));
             }
-        }, 300);
+        }, 200);
 
     }
 

@@ -35,7 +35,7 @@ public class LoginPresenter implements LoginMVP.Presenter {
                     sessionManager.getuserPassword().equals(password)) {
                 view.loggedInSuccessfully();
             } else {
-                view.showToastShortTime("Invalid Username/Paword");
+                view.showToastShortTime("Invalid Username/Password");
             }
             // }
         }

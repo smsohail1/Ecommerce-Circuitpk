@@ -286,7 +286,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
                 ((BaseActivity) getActivity()).replaceFragment(shopDetailsFragment.newInstance(utils.getStringFromResourceId(homeItem.getNameResId())));
 
             }
-        }, 300);
+        }, 200);
     }
 
     @Override

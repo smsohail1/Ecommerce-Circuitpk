@@ -39,6 +39,7 @@ public interface ShopCardSelectedMVP {
 
         void setCountZero(int counts);
 
+        void shakeAddToCartTextview();
     }
 
     interface Presenter {

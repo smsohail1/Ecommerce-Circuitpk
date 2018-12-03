@@ -1,6 +1,7 @@
 package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
 import com.xekera.Ecommerce.ui.adapter.BillingTotalAmountViewAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
@@ -73,6 +74,57 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
             }
         });
 
+    }
+
+    @Override
+    public void insertBooking(List<Booking> addToCart,String dateTime) {
+        model.insertBooking(addToCart,dateTime, new BillingTotalAmountViewModel.IBookingInsert() {
+            @Override
+            public void onSuccess(boolean success) {
+                if (success) {
+
+                    view.deleteItemsFromCart();
+                    return;
+                } else {
+                    view.showToastShortTime("Error while saving data");
+                }
+
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.showToastShortTime(ex.getMessage());
+
+            }
+        });
+
+    }
+
+
+    @Override
+    public void addItemsToBooking(List<AddToCart> addToCarts, String firstName, String lastName, String company, String phone,
+                                  String email, String streetAddress1, String streetAddress2,
+                                  String country, String stateCountry, String townCity, String paymode,
+                                  String notes, String flatCharges, String postalCode) {
+        model.addItemsToBooking(addToCarts, firstName, lastName, company, phone, email, streetAddress1, streetAddress2, country,
+                stateCountry, townCity, paymode, notes, flatCharges, postalCode, new BillingTotalAmountViewModel.IFetchCartBookingDetailsList() {
+                    @Override
+                    public void onCartDetailsReceived(List<Booking> AddToCartList) {
+                        if (AddToCartList == null || AddToCartList.size() == 0) {
+                            view.showToastShortTime("No item found in cart");
+                            return;
+                        } else {
+                            view.bookingObject(AddToCartList);
+
+                        }
+                    }
+
+                    @Override
+                    public void onErrorReceived(Exception ex) {
+                        view.showToastShortTime(ex.getMessage());
+
+                    }
+                });
     }
 
     private void setAdapter(List<AddToCart> AddToCartList) {

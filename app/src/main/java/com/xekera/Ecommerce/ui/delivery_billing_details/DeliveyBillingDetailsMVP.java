@@ -17,7 +17,10 @@ public interface DeliveyBillingDetailsMVP {
 
         void showSnackBarShortTime(String message);
 
-        void showBillingAmountDetailView(String flatCharges);
+        void showBillingAmountDetailView(String flatCharges, String firstName, String lastName, String company, String phone,
+                                         String email, String streetAddress1, String streetAddress2,
+                                         String country, String stateCountry, String townCity, String paymode,
+                                         String notes, String postalCode);
 
     }
 

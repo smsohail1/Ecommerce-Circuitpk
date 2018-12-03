@@ -172,6 +172,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 productsItems.get(getLayoutPosition()).getItemName(),
                                 productsItems.get(getLayoutPosition()).getItemCutPrice(),
                                 productsItems.get(getLayoutPosition()).getItemImage());
+
 //                        addToCartPresenter.updateItemCountInDB(productsItems.get(getLayoutPosition()).getItemQuantity(),
 //                                String.valueOf(productPrice * itemQuantity),
 //                                productsItems.get(getLayoutPosition()).getItemName(),
