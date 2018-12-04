@@ -19,10 +19,6 @@ import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
-import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
-import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.CartFragment;
-import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.FragmentFavourites;
-import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.HistoryFragment;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.util.*;
 

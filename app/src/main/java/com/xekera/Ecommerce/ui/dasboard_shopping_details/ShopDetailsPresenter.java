@@ -7,9 +7,12 @@ import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
+import com.xekera.Ecommerce.util.AppConstants;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
@@ -70,8 +73,12 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
                 if (addToCartList == null || addToCartList.size() == 0) {
+
+                    String formattedDate = "";
+                    formattedDate = getCurrentDate();
+
                     AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
-                            "N", byteImage, String.valueOf(cutPrice), price);
+                            "N", byteImage, String.valueOf(cutPrice), price, formattedDate);
                     noProductFound(addToCart, imgProductCopy);
                     return;
                 } else {
@@ -98,8 +105,12 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
                 if (addToCartList == null || addToCartList.size() == 0) {
+
+                    String formattedDate = "";
+                    formattedDate = getCurrentDate();
+
                     AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
-                            "N", byteImage, String.valueOf(cutPrice), price);
+                            "N", byteImage, String.valueOf(cutPrice), price, formattedDate);
                     noProductFoundForDecrement(addToCart, imgProductCopy);
                     return;
                 } else {
@@ -292,6 +303,17 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
                 view.showToastShortTime(ex.getMessage());
             }
         });
+    }
+
+    private String getCurrentDate() {
+        try {
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat(AppConstants.DATE_TIME_FORMAT_TWO);
+            return df.format(c.getTime());
+        } catch (Exception e) {
+            return "";
+        }
     }
 
 

@@ -26,6 +26,9 @@ public interface AddToCartDao {
     List<AddToCart> getAllCartDetails();
 
 
+    @Query("SELECT * FROM add_to_cart order by created_date desc")
+    List<AddToCart> getAllCartDetailsWithRespectToDateDesc();
+
     @Query("SELECT * FROM add_to_cart")
     List<AddToCart> getAllCartCount();
 
@@ -40,6 +43,9 @@ public interface AddToCartDao {
 
     @Query("UPDATE add_to_cart SET item_quantity = :quantity , item_price = :itemPrice , item_cut_price = :cutPrice where item_name = :itemName")
     void updateItemCount(String quantity, String itemPrice, String itemName, String cutPrice);
+
+    @Query("UPDATE add_to_cart SET item_quantity = :quantity , item_price = :itemPrice , item_cut_price = :cutPrice , created_date = :createdDate where item_name = :itemName")
+    void updateItemCountWithDate(String quantity, String itemPrice, String itemName, String cutPrice, String createdDate);
 
 
 //    @Query("SELECT sum(item_price) FROM add_to_cart")

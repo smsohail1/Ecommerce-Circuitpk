@@ -68,6 +68,20 @@ public class AddToCart {
 
     public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity, String transmissionStatus,
                      byte[] itemImage, String itemCutPrice
+            , String itemIndividualPrice, String createdDate) {
+        this.orderID = orderID;
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.itemQuantity = itemQuantity;
+        this.transmissionStatus = transmissionStatus;
+        this.itemImage = itemImage;
+        this.itemCutPrice = itemCutPrice;
+        this.itemIndividualPrice = itemIndividualPrice;
+        this.createdDate = createdDate;
+    }
+
+    public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity, String transmissionStatus,
+                     byte[] itemImage, String itemCutPrice
             , String itemIndividualPrice) {
         this.orderID = orderID;
         this.itemName = itemName;

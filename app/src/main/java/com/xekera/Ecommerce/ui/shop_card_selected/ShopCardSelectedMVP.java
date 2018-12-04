@@ -73,6 +73,10 @@ public interface ShopCardSelectedMVP {
         void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice,
                                  ShopCardSelectedModel.ISaveProductDetails iSaveProductDetails);
 
+
+        void updateItemCountInDBWithDate(String quantity, String itemPrice, String productName, String cutPrice, String createdDate,
+                                         ShopCardSelectedModel.ISaveProductDetails iSaveProductDetails);
+
         void getProductCount(String productName, ShopCardSelectedModel.IFetchCartDetailsList iFetchCartDetailsList);
 
         void getCartDetails(ShopCardSelectedModel.IFetchCartDetailsList iFetchCartDetailsList);

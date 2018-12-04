@@ -4,9 +4,12 @@ import android.os.Handler;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedModel;
+import com.xekera.Ecommerce.util.AppConstants;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class AddToCartPresenter implements AddToCartMVP.Presenter {
@@ -177,6 +180,16 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
 
     }
 
+    private String getCurrentDate() {
+        try {
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat(AppConstants.DATE_TIME_FORMAT_TWO);
+            return df.format(c.getTime());
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
     @Override
     public void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice) {
@@ -232,7 +245,11 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
                 if (addToCartList == null || addToCartList.size() == 0) {
-                    AddToCart addToCart = new AddToCart("43", productName, itemPrice, quantity, "N", bytes, cutPrice, String.valueOf(individualPrice));
+                    String formattedDate = "";
+                    formattedDate = getCurrentDate();
+
+                    AddToCart addToCart = new AddToCart("43", productName, itemPrice, quantity, "N",
+                            bytes, cutPrice, String.valueOf(individualPrice), formattedDate);
                     noProductFound(addToCart);
                     return;
                 } else {

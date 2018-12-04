@@ -1,21 +1,18 @@
 package com.xekera.Ecommerce.ui.shop_card_selected;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.view.View;
 import android.widget.ImageView;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
-import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
-import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsModel;
-import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
-import com.xekera.Ecommerce.ui.dashboard_shopping.model.DashboardItem;
 import com.xekera.Ecommerce.ui.shop_card_selected.model.MultipleImagesItem;
+import com.xekera.Ecommerce.util.AppConstants;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter, ProductsImagesAdapter.IMultipleImageAdapter {
@@ -114,6 +111,30 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
 
     }
 
+    public void updateItemCountInDBWithDate(String quantity, String itemPrice, String productName, String cutPrice, String createdDate) {
+        model.updateItemCountInDBWithDate(quantity, itemPrice, productName, cutPrice, createdDate, new ShopCardSelectedModel.ISaveProductDetails() {
+            @Override
+            public void onProductDetailsSaved(boolean updated) {
+                if (updated) {
+                    view.showToastLongTime("Item added to cart successfully.");
+                    view.shakeAddToCartTextview();
+
+                } else {
+                    view.showToastLongTime("Error while saving data.");
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.showToastLongTime("Error while updating data.");
+
+            }
+        });
+
+    }
+
+
     @Override
     public void setMultipleImagesItems(Context context, List<String> images) {
         List<MultipleImagesItem> imagesItems = new ArrayList<>();
@@ -173,8 +194,11 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
                 if (addToCartList == null || addToCartList.size() == 0) {
+                    String formattedDate = "";
+                    formattedDate = getCurrentDate();
+
                     AddToCart addToCart = new AddToCart("4341", productName, String.valueOf(totalPrice), String.valueOf(quantity),
-                            "N", byteImage, String.valueOf(cutPrice), String.valueOf(price));
+                            "N", byteImage, String.valueOf(cutPrice), String.valueOf(price), formattedDate);
                     noProductFound(addToCart, imgProductCopy);
                     return;
                 } else {
@@ -220,7 +244,8 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
     }
 
     @Override
-    public void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice, final ImageView imgProductCopy) {
+    public void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice,
+                                    final ImageView imgProductCopy) {
         model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new ShopCardSelectedModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean updated) {
@@ -269,4 +294,14 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
         });
     }
 
+    private String getCurrentDate() {
+        try {
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat(AppConstants.DATE_TIME_FORMAT_TWO);
+            return df.format(c.getTime());
+        } catch (Exception e) {
+            return "";
+        }
+    }
 }

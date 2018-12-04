@@ -43,6 +43,8 @@ import io.reactivex.schedulers.Schedulers;
 
 import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -541,6 +543,10 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                 String itemCutPrice = discountPriceTextView.getText().toString();
 
                 long totalAmount = Long.valueOf(quantity) * Long.valueOf(price);
+
+                String formattedDate = "";
+                formattedDate = getCurrentDate();
+
                 //  latitude = sessionManager.getKeyLatitude();
                 // longitude = sessionManager.getKeyLongitude();
 
@@ -553,12 +559,22 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //
 //                }
                 AddToCart addToCart = new AddToCart("1", productName, String.valueOf(totalAmount), quantity,
-                        "N", byteArray, itemCutPrice, price);
+                        "N", byteArray, itemCutPrice, price, formattedDate);
                 presenter.saveProductDetails(addToCart);
 
                 break;
         }
     }
 
+    private String getCurrentDate() {
+        try {
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat(AppConstants.DATE_TIME_FORMAT_TWO);
+            return df.format(c.getTime());
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
 }

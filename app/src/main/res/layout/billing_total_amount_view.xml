@@ -211,6 +211,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_confirm_checkout_billing_amount"
+                android:textAllCaps="false"
                 android:textColor="@color/btn_white_add_to_cart"
                 android:theme="@style/PrimaryButton"
 

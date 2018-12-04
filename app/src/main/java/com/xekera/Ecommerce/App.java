@@ -28,6 +28,7 @@ public class App extends Application {
                 .addToCartModule(new AddToCartModule())
                 .deliveyBillingDetailsModule(new DeliveyBillingDetailsModule())
                 .billingTotalAmountViewModule(new BillingTotalAmountViewModule())
+                .historyModule(new HistoryModule())
                 .build();
     }
 

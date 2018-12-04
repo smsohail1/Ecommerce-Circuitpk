@@ -1,12 +1,8 @@
 package com.xekera.Ecommerce.ui.add_to_cart;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,15 +16,8 @@ import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
-import com.xekera.Ecommerce.ui.dashboard.BottomNavigationBehavior;
-import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.FragmentFavourites;
-import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.HistoryFragment;
-import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
-import com.xekera.Ecommerce.ui.home_delivery_Address.DeliveryAddressActivity;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
-import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
-import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;

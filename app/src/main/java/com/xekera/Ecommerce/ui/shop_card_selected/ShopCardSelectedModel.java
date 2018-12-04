@@ -117,6 +117,53 @@ public class ShopCardSelectedModel implements ShopCardSelectedMVP.Model {
     }
 
     @Override
+    public void updateItemCountInDBWithDate(final String quantity, final String itemPrice, final String productName, final String cutPrice,
+                                            final String createdDate,
+                                            final ISaveProductDetails iSaveProductDetails) {
+
+        try {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
+                        @Override
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+                            appDatabase.getAddToCartDao().updateItemCountWithDate(quantity, itemPrice, productName, cutPrice, createdDate);
+                            return true;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean updated) {
+                            iSaveProductDetails.onProductDetailsSaved(updated);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (e.getMessage() != null) {
+                                iSaveProductDetails.onErrorReceived((Exception) e);
+                            }
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception ex) {
+            iSaveProductDetails.onErrorReceived(ex);
+        }
+
+    }
+
+
+    @Override
     public void getProductCount(final String productName, final IFetchCartDetailsList iFetchCartDetailsList) {
         try {
             Observable.just(appDatabase.getAddToCartDao()).

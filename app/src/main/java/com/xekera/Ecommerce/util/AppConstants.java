@@ -6,9 +6,6 @@ import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-/**
- * Created by shahrukh.malik on 02, April, 2018
- */
 public class AppConstants {
 
     public static final String BASE_URL_UAT = "http://uat-hsk.tcscourier.com";
@@ -50,7 +47,7 @@ public class AppConstants {
     public static final String DATE_TIME_FORMAT_THREE = "ddMMyy_HHmmss_";
     public static final String DATE_TIME_FORMAT_FOUR = "MM/dd/yyyy HH:mm:ss a";
     public static final String DATE_TIME_FORMAT_FIVE = "MM/dd/yyyy hh:mm:ss";
-    public static final String DATE_TIME_FORMAT_TWO = "dd/MM/yyyy HH:mm:ss";
+    public static final String DATE_TIME_FORMAT_TWO = "dd-MM-yyyy HH:mm";
 
     public static final SimpleDateFormat TTCDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
     public static final SimpleDateFormat TTCInputDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -58,7 +55,7 @@ public class AppConstants {
     public static final int WIFI_PASSWORD_CONNECT_TIMEOUT = 16000;
 
     public static final String PREF_NAME = "xekera.ecommerce";
-    public static final String DATABASE_NAME = "test";
+    public static final String DATABASE_NAME = "xekera_ecommerce";
 
     public static final String DP_USER_USERNAME = "admin";
     public static final String DP_USER_PASSWORD = "abc123";

@@ -154,5 +154,9 @@
     <string name="postal_code_error">PostalCode/ZIP is required</string>
     <string name="paymode_error">Please select payment modei</string>
 
+    <!--History-->
+    <string name="bnt_title_cancel_order">Cancel</string>
+    <string name="no_order_found">No order placed yet.</string>
+
 
 </resources>

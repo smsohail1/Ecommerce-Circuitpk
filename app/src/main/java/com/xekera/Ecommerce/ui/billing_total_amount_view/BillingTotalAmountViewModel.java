@@ -169,14 +169,14 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
                     map(new Function<BookingDao, List<Booking>>() {
                         @Override
                         public List<Booking> apply(BookingDao bookingDao) throws Exception {
-                            byte[] itemImage = new byte[0];
+                            // byte[] itemImage = new byte[0];
                             List<Booking> bookingList = new ArrayList<>();
                             for (AddToCart addToCart : addToCarts) {
                                 Booking booking = new Booking("44", addToCart.getItemName(),
                                         addToCart.getItemIndividualPrice(), addToCart.getItemPrice(),
                                         addToCart.getItemCutPrice(), addToCart.getItemQuantity(),
                                         firstName, lastName, company, phone, email, country, streetAddress1, streetAddress2, townCity,
-                                        stateCountry, postalCode, paymode, notes, flatCharges, "", itemImage, "N");
+                                        stateCountry, postalCode, paymode, notes, flatCharges, "", addToCart.getItemImage(), "N");
                                 bookingList.add(booking);
                             }
                             return bookingList;

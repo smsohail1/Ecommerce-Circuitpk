@@ -9,9 +9,9 @@ import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.dashboard.DashboardFragment;
 import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.CartFragment;
 import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.FragmentFavourites;
-import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.HistoryFragment;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
+import com.xekera.Ecommerce.ui.history.HistoryFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
@@ -33,7 +33,8 @@ import javax.inject.Singleton;
         ShopCardSelectedModule.class,
         AddToCartModule.class,
         DeliveyBillingDetailsModule.class,
-        BillingTotalAmountViewModule.class
+        BillingTotalAmountViewModule.class,
+        HistoryModule.class
 })
 @Singleton
 public interface AppComponent {
@@ -49,7 +50,7 @@ public interface AppComponent {
 
     void inject(CartFragment cartFragment);
 
-    void inject(HistoryFragment historyFragment);
+//    void inject(HistoryFragment historyFragment);
 
     void inject(FragmentFavourites fragmentFavourites);
 
@@ -67,7 +68,8 @@ public interface AppComponent {
     void inject(DeliveyBillingDetailsFragment deliveyBillingDetailsFragment);
 
     void inject(BillingTotalAmountViewFragment billingTotalAmountView);
-
+    
+    void inject(HistoryFragment historyFragment);
 
 }
 

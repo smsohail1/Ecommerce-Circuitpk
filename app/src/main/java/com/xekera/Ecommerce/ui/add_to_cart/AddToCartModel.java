@@ -34,7 +34,7 @@ public class AddToCartModel implements AddToCartMVP.Model {
                     map(new Function<AddToCartDao, List<AddToCart>>() {
                         @Override
                         public List<AddToCart> apply(AddToCartDao addToCartDao) throws Exception {
-                            return addToCartDao.getAllCartDetails();
+                            return addToCartDao.getAllCartDetailsWithRespectToDateDesc();
                         }
                     }).
                     subscribeOn(Schedulers.io()).

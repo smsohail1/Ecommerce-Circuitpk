@@ -1,11 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--android:clickable="true"-->
+<!--android:background="@drawable/irongrip_repeating"-->
+<!--&gt;-->
+
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/frameParent"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@drawable/irongrip_repeating"
+             android:clickable="true">
+
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+        <LinearLayout
+                android:id="@+id/linearLayoutItemDetails"
                 android:layout_width="match_parent"
-                android:background="#998655"
-                android:layout_height="match_parent">
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="History Screen"
-              android:layout_centerInParent="true"
-              android:textSize="40sp"/>
-</RelativeLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+            <LinearLayout
+                    android:id="@+id/TotalAmountParentLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linearDeliveryAddressLayout"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                        android:id="@+id/cardViewAvailibilityParent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="2dp"
+                        app:cardCornerRadius="2dp"
+                        app:cardElevation="2dp"
+                        android:foreground="?android:attr/selectableItemBackground">
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="7dp"
+                            android:orientation="vertical">
+                        <RelativeLayout android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:visibility="gone"
+                        >
+                            <TextView
+                                    android:id="@+id/subTotalLabelTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/discount_price_textview"
+                                    android:text="Sub Total"
+                                    android:textSize="@dimen/txt_report_list_item_size"/>
+                            <RelativeLayout android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true">
+
+                                <TextView
+                                        android:id="@+id/subTotalRsLabelTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/availibility_textview"
+                                        android:text="Rs "
+                                        android:textSize="@dimen/txt_report_list_item_size"/>
+
+                                <TextView
+                                        android:id="@+id/subTotalValueTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/availibility_textview"
+                                        android:layout_toRightOf="@+id/subTotalRsLabelTextView"
+                                        android:textSize="@dimen/txt_report_list_item_size"/>
+                            </RelativeLayout>
+                        </RelativeLayout>
+
+                        <RelativeLayout android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginTop="3dp"
+                                        android:visibility="gone"
+                        >
+                            <TextView
+                                    android:id="@+id/shippingLabelTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/discount_price_textview"
+                                    android:text="Shipping Flat Rate"
+                                    android:textSize="@dimen/txt_report_list_item_size"/>
+
+                            <RelativeLayout android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true">
+
+                                <TextView
+                                        android:id="@+id/subTotalRsFlatRateTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/availibility_textview"
+                                        android:text="Rs "
+                                        android:textSize="@dimen/txt_report_list_item_size"/>
+
+                                <TextView
+                                        android:id="@+id/shippingValueTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/availibility_textview"
+                                        android:layout_toRightOf="@+id/subTotalRsFlatRateTextView"
+                                        android:text="0"
+                                        android:textSize="@dimen/txt_report_list_item_size"/>
+                            </RelativeLayout>
+                        </RelativeLayout>
+
+
+                        <RelativeLayout android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginTop="3dp"
+                        >
+                            <TextView
+                                    android:id="@+id/totalLabelTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/discount_price_textview"
+                                    android:text="Total"
+                                    android:textSize="@dimen/txt_report_list_item_size"/>
+
+
+                            <RelativeLayout android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true">
+
+                                <TextView
+                                        android:id="@+id/TotalRsTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/availibility_textview"
+                                        android:text="Rs "
+                                        android:textSize="@dimen/txt_report_list_item_size"/>
+
+                                <TextView
+                                        android:id="@+id/totalValueTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_toRightOf="@+id/TotalRsTextView"
+                                        android:textColor="@color/availibility_textview"
+                                        android:textSize="@dimen/txt_report_list_item_size"/>
+
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v4.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                >
+
+
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="match_parent"
+                                  android:orientation="vertical">
+
+
+                        <LinearLayout
+                                android:id="@+id/linearParent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/linearLayoutItemDetails"
+                                android:layout_marginTop="3dp"
+                        >
+
+                            <android.support.v7.widget.RecyclerView
+                                    android:id="@+id/recyclerViewAddToCartDetails"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:nestedScrollingEnabled="true"
+
+                            />
+                        </LinearLayout>
+
+
+                        <TextView
+                                android:id="@+id/txtNoCartItemFound"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/linerarParent"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="3dp"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/discount_price_textview"
+                                android:textSize="@dimen/no_item_found_txt_size"
+                                android:text="@string/no_order_found"
+                                android:visibility="gone"
+                        />
+
+
+                    </LinearLayout>
+                </android.support.v4.widget.NestedScrollView>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

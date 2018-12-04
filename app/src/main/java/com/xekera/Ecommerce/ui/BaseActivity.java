@@ -44,16 +44,12 @@ import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.dashboard.BottomNavigationBehavior;
 import com.xekera.Ecommerce.ui.dashboard.DashboardFragment;
 import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.FragmentFavourites;
-import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.HistoryFragment;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
-import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
-import com.xekera.Ecommerce.ui.login.LoginActivity;
+import com.xekera.Ecommerce.ui.history.HistoryFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import com.xekera.Ecommerce.util.*;
-import kotlin.Unit;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.toolbar)

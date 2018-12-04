@@ -172,6 +172,7 @@
                                     android:textColor="@color/btn_white_add_to_cart"
                                     android:theme="@style/PrimaryButton"
                                     android:clickable="true"
+                                    android:textAllCaps="false"
 
                             />
                         </RelativeLayout>

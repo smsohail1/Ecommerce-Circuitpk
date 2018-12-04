@@ -320,7 +320,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
     }
 
-    public String getCurrentDate() {
+    private String getCurrentDate() {
         try {
 
             Calendar c = Calendar.getInstance();
