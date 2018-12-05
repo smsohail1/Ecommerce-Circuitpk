@@ -1,12 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--android:clickable="true"-->
+<!--android:background="@drawable/irongrip_repeating"-->
+<!--&gt;-->
+
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/frameParent"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@drawable/irongrip_repeating"
+             android:clickable="true">
+
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+
+        <LinearLayout
+                android:id="@+id/TotalAmountParentLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-android:background="#987766">
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Favourite Screen"
-              android:layout_centerInParent="true"
-              android:textSize="40sp"/>
-</RelativeLayout>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearDeliveryAddressLayout"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+
+            <android.support.v4.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+            >
+
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:orientation="vertical">
+
+
+                    <LinearLayout
+                            android:id="@+id/linearParent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:visibility="gone"
+                    >
+
+                        <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recyclerViewAddToCartDetails"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:nestedScrollingEnabled="true"
+
+                        />
+                    </LinearLayout>
+
+
+                    <TextView
+                            android:id="@+id/txtNoCartItemFound"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/linerarParent"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="3dp"
+                            android:gravity="center_horizontal"
+                            android:textColor="@color/discount_price_textview"
+                            android:textSize="@dimen/no_item_found_txt_size"
+                            android:text="@string/label_no_favourite_item_found"
+                    />
+
+
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

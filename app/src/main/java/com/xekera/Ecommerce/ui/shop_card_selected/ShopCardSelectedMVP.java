@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
 import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
 import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
@@ -40,6 +41,14 @@ public interface ShopCardSelectedMVP {
         void setCountZero(int counts);
 
         void shakeAddToCartTextview();
+
+        void enableAddtoFavouriteButton();
+
+        void animateFavouriteButton();
+
+        void animationAddButton();
+
+        void setIsFavourite(boolean isFavourite);
     }
 
     interface Presenter {
@@ -62,7 +71,9 @@ public interface ShopCardSelectedMVP {
 
         void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice, ImageView imgProductCopy);
 
+        void addItemToFavourites(Favourites favourites,boolean isChecked);
 
+        void setIsFavourite(String productName);
     }
 
     interface Model {
@@ -82,9 +93,15 @@ public interface ShopCardSelectedMVP {
         void getCartDetails(ShopCardSelectedModel.IFetchCartDetailsList iFetchCartDetailsList);
 
 
+        void addItemToFavourites(Favourites favourites, ShopCardSelectedModel.ISaveProductDetails iSaveProductDetails);
 //        void saveProductDetails(String productName, String price, String quantity, String deliveryAddress1, String deliveryAddress2
 //                , String latitude, String longitude,ShopCardSelectedModel.ISaveProductDetails iSaveProductDetails);
 
 
+        void getFavouritesCount(ShopCardSelectedModel.IFetchFavouritesDetailsList iFetchFavouritesDetailsList);
+
+        void getFavouritesCount(String productName, ShopCardSelectedModel.IFetchFavouritesDetails iFetchFavouritesDetails);
+
+        void deleteItem(String itemName, ShopCardSelectedModel.IRemoveFavouriteItemDetails iRemoveFavouriteItemDetails);
     }
 }

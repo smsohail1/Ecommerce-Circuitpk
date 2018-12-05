@@ -132,6 +132,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/discount_price_textview"
                                     android:text="Total"
+                                    android:textStyle="bold"
                                     android:textSize="@dimen/txt_report_list_item_size"/>
 
 

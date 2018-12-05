@@ -43,8 +43,8 @@ import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.dashboard.BottomNavigationBehavior;
 import com.xekera.Ecommerce.ui.dashboard.DashboardFragment;
-import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.FragmentFavourites;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
+import com.xekera.Ecommerce.ui.favourites.FavouritesFragment;
 import com.xekera.Ecommerce.ui.history.HistoryFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
@@ -60,6 +60,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected TextView txtScreenTitle;
     @BindView(R.id.imgLogin)
     protected ImageView imgLogin;
+    @BindView(R.id.textviewLogin)
+    protected TextView textviewLogin;
     @BindView(R.id.imgShoppingCart)
     protected ImageView imgShoppingCart;
     @BindView(R.id.drawer_layout)
@@ -154,7 +156,24 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 }
             }
         });
-        imgLogin.setOnClickListener(new View.OnClickListener() {
+//        imgLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+//                // startActivity(i);
+//
+//                try {
+//                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+//                    if (!(fragment instanceof LoginFragment || fragment instanceof SignupFragment)) {
+//                        addFragment(new LoginFragment());
+//                    }
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        });
+
+        textviewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Intent i = new Intent(getApplicationContext(), LoginActivity.class);
@@ -221,11 +240,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 case R.id.navigation_favourite:
                     //    Toast.makeText(getActivity(), "Wishlist is selected", Toast.LENGTH_SHORT).show();
                     //  ((BaseActivity) getActivity()).popBackstack();
-                    //((BaseActivity) getActivity()).addDashboardFragment(new FragmentFavourites());
+                    //((BaseActivity) getActivity()).addDashboardFragment(new FavouritesFragment());
 
-                    if (!(fragmentContainer instanceof FragmentFavourites)) {
+                    if (!(fragmentContainer instanceof FavouritesFragment)) {
 
-                        fragment = new FragmentFavourites();
+                        fragment = new FavouritesFragment();
                         replaceFragmentWithContainer(fragment);
                     }
                     return true;
@@ -269,7 +288,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
         if (fragment instanceof AddToCartFragment || fragment instanceof ShopFragment ||
                 fragment instanceof HistoryFragment ||
-                fragment instanceof FragmentFavourites) {
+                fragment instanceof FavouritesFragment) {
             showBottomNavigation();
             if (fragment instanceof AddToCartFragment) {
                 navigation.setSelectedItemId(R.id.navigation_cart);
@@ -277,7 +296,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 navigation.setSelectedItemId(R.id.navigation_shop);
             } else if (fragment instanceof HistoryFragment) {
                 navigation.setSelectedItemId(R.id.navigation_History);
-            } else if (fragment instanceof FragmentFavourites) {
+            } else if (fragment instanceof FavouritesFragment) {
                 navigation.setSelectedItemId(R.id.navigation_favourite);
             }
 
@@ -526,6 +545,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     public void setCartsCounts(long counts) {
         final Menu menu = navigation.getMenu();
         menu.getItem(2).setTitle("Cart(" + counts + ")");
+
+    }
+
+
+    public void setCartsCounts(long counts, int position, String navigationName) {
+        final Menu menu = navigation.getMenu();
+        menu.getItem(position).setTitle(navigationName + "(" + counts + ")");
 
     }
 

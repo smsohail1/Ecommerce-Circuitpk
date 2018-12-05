@@ -18,6 +18,8 @@
 
     <color name="btn_white_add_to_cart">#ffffff</color>
 
+    <color name="textview_login_color">#ffffff</color>
+
     <color name="search_white_edt">#ffffff</color>
 
     <color name="black_home_label">#000000</color>
@@ -38,9 +40,9 @@
     <!--Bottom Navigation-->
     <color name="bgBottomNavigation">#E10915</color>
     <string name="title_shop">Shop</string>
-    <string name="title_favourite">Favourite</string>
+    <string name="title_favourite">Favourite(0)</string>
     <string name="title_cart">Cart(0)</string>
-    <string name="title_profile">History</string>
+    <string name="title_profile">History(0)</string>
 
     <color name="light_grey_add_cart_border_color">#545454</color>
 

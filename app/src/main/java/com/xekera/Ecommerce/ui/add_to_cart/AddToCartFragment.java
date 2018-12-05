@@ -190,7 +190,14 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        presenter.fetchCartDetails();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                presenter.fetchCartDetails();
+
+            }
+        }, 600);
 
     }
 

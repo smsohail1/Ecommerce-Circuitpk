@@ -60,10 +60,13 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             try {
 
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 8;
+
 
                 bytes = addToCart.getItemImage();
                 // Create a bitmap from the byte array
-                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
 
                 productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
 

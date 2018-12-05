@@ -605,7 +605,7 @@
                                             android:layout_height="wrap_content"
                                             android:textColor="@color/in_stock_textview_color"
                                             android:layout_marginLeft="5dp"
-                                            android:text=" In Stock"
+                                            android:text="In Stock"
                                             android:textSize="@dimen/txt_report_list_item_size"/>
 
 

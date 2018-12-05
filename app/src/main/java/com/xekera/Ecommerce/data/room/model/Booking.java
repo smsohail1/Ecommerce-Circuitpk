@@ -9,7 +9,7 @@ import io.reactivex.annotations.NonNull;
 public class Booking {
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    @ColumnInfo(name = "add_to_cart_id")
+    @ColumnInfo(name = "booking_id")
     private int id;
     @ColumnInfo(name = "order_ID")
     private String orderID;
@@ -96,6 +96,7 @@ public class Booking {
     public void setId(int id) {
         this.id = id;
     }
+
     public String getOrderID() {
         return orderID;
     }

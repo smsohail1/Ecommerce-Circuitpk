@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.data.room.model.Favourites;
 
 import java.util.List;
 
@@ -39,6 +40,10 @@ public interface AddToCartDao {
 
     @Query("SELECT * FROM add_to_cart where item_name =:itemName")
     List<AddToCart> getCartDetailsByProductName(String itemName);
+
+
+    @Query("SELECT * FROM add_to_cart where item_name = :itemName")
+    List<AddToCart> getCartsByName(String itemName);
 
 
     @Query("UPDATE add_to_cart SET item_quantity = :quantity , item_price = :itemPrice , item_cut_price = :cutPrice where item_name = :itemName")

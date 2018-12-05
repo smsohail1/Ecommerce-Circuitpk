@@ -1,6 +1,5 @@
 package com.xekera.Ecommerce.ui.adapter;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,29 +15,29 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.xekera.Ecommerce.R;
-import com.xekera.Ecommerce.data.room.model.Booking;
+import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.history.HistoryPresenter;
 
 import java.util.List;
 
-public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
-    List<Booking> productsItems;
+    List<Favourites> productsItems;
     // IShopDetailAdapter iShopDetailAdapter;
     HistoryPresenter historyPresenter;
-    IHistoryCancelOrderAdapter iHistoryCancelOrderAdapter;
+    IFvaouritesAddToCartAdapter iFvaouritesAddToCartAdapter;
 
-    public HistoryAdapter(Context context, List<Booking> productsItems, IHistoryCancelOrderAdapter iHistoryCancelOrderAdapter) {
+    public FavoritesAdapter(Context context, List<Favourites> productsItems, IFvaouritesAddToCartAdapter iFvaouritesAddToCartAdapter) {
         this.context = context;
         this.productsItems = productsItems;
-        this.iHistoryCancelOrderAdapter = iHistoryCancelOrderAdapter;
+        this.iFvaouritesAddToCartAdapter = iFvaouritesAddToCartAdapter;
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_history_fragment, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_favourites_fragment, parent, false);
         productDetailsDataListViewHolder productDetailDataListViewHolder = new productDetailsDataListViewHolder(v);
         return productDetailDataListViewHolder;
     }
@@ -47,23 +45,25 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final Booking booking = productsItems.get(position);
+        final Favourites favourites = productsItems.get(position);
         byte[] bytes;
         if (holder instanceof productDetailsDataListViewHolder) {
             productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
-            productDetailsDataListViewHolder.productNameLabelTextView.setText(booking.getItemName());
-            productDetailsDataListViewHolder.priceTextView.setText(booking.getItemIndividualPrice());
-            productDetailsDataListViewHolder.flatRateTextView.setText(booking.getFlatCharges());
-            productDetailsDataListViewHolder.quantityTextView.setText(booking.getItemQuantity());
-            productDetailsDataListViewHolder.orderDateTextView.setText(booking.getCreatedDate());
+            productDetailsDataListViewHolder.productNameLabelTextView.setText(favourites.getItemName());
+            productDetailsDataListViewHolder.priceTextView.setText(favourites.getItemIndividualPrice());
+            productDetailsDataListViewHolder.discountPriceTextView.setText(favourites.getItemCutPrice());
+            productDetailsDataListViewHolder.availabilitStockTextView.setText(favourites.getItemStockStatus());
 
             try {
 
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 8;
 
-                bytes = booking.getItemImage();
+
+                bytes = favourites.getItemImage();
                 // Create a bitmap from the byte array
-                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
 
                 productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
 
@@ -88,28 +88,27 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ImageView imgProduct;
         @BindView(R.id.cardViewParent)
         public CardView cardViewParent;
-        @BindView(R.id.orderDateTextView)
-        public TextView orderDateTextView;
-        @BindView(R.id.flatRateTextView)
-        public TextView flatRateTextView;
-        @BindView(R.id.quantityTextView)
-        public TextView quantityTextView;
-        @BindView(R.id.btnCancel)
-        public Button btnCancel;
+        @BindView(R.id.availabilitStockTextView)
+        public TextView availabilitStockTextView;
+        @BindView(R.id.discountPriceTextView)
+        public TextView discountPriceTextView;
+        @BindView(R.id.btnAddToCart)
+        public Button btnAddToCart;
+
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
-            itemView.findViewById(R.id.btnCancel).setOnClickListener(this);
+            itemView.findViewById(R.id.btnAddToCart).setOnClickListener(this);
 
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.btnCancel:
-                    iHistoryCancelOrderAdapter.cancelOrder(productsItems.get(getLayoutPosition()).getOrderID());
+                case R.id.btnAddToCart:
+                    iFvaouritesAddToCartAdapter.addToCartFavourites(productsItems.get(getLayoutPosition()), getLayoutPosition());
                     break;
 
             }
@@ -128,21 +127,28 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
+
+    public void removeByPosition(int position) {
+        this.productsItems.remove(position);
+        notifyDataSetChanged();
+    }
+
     public void refreshProduct() {
         notifyDataSetChanged();
 
     }
 
 
-    public void addAll(List<Booking> addToCarts) {
+    public void addAll(List<Favourites> addToCarts) {
         int currentListSize = this.productsItems.size();
         this.productsItems.addAll(addToCarts);
         notifyItemRangeInserted(currentListSize, addToCarts.size());
     }
 
 
-    public interface IHistoryCancelOrderAdapter {
-        void cancelOrder(String orderID);
+    public interface IFvaouritesAddToCartAdapter {
+        void addToCartFavourites(Favourites favourites, int position);
     }
 }
+
 

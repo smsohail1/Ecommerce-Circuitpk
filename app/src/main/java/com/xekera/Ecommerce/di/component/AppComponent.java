@@ -11,6 +11,7 @@ import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.CartFragment;
 import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.FragmentFavourites;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
+import com.xekera.Ecommerce.ui.favourites.FavouritesFragment;
 import com.xekera.Ecommerce.ui.history.HistoryFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
@@ -34,7 +35,8 @@ import javax.inject.Singleton;
         AddToCartModule.class,
         DeliveyBillingDetailsModule.class,
         BillingTotalAmountViewModule.class,
-        HistoryModule.class
+        HistoryModule.class,
+        FavouritesModule.class
 })
 @Singleton
 public interface AppComponent {
@@ -68,8 +70,10 @@ public interface AppComponent {
     void inject(DeliveyBillingDetailsFragment deliveyBillingDetailsFragment);
 
     void inject(BillingTotalAmountViewFragment billingTotalAmountView);
-    
+
     void inject(HistoryFragment historyFragment);
+
+    void inject(FavouritesFragment favouritesFragment);
 
 }
 

@@ -69,6 +69,8 @@
     <dimen name="btn_add_update_height">28dp</dimen>
     <dimen name="payment_mode_textview_size">14sp</dimen>
 
+    <dimen name="textview_login_height">16dp</dimen>
+
     <dimen name="textview_user_update_height">20dp</dimen>
 
     <dimen name="btn_add_update_txt_size">13dp</dimen>

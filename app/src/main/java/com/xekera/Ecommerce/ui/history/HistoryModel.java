@@ -26,7 +26,7 @@ public class HistoryModel implements HistoryMVP.Model {
     }
 
     @Override
-    public void getOrderDetailsList(final HistoryModel.IFetchOrderDetailsList iFetchOrderDetailsList) {
+    public void getOrderDetailsList(final IFetchOrderDetailsList iFetchOrderDetailsList) {
         try {
             Observable.just(appDatabase.getBookingDao()).
                     map(new Function<BookingDao, List<Booking>>() {

@@ -17,9 +17,10 @@ public class RoomModule {
 
     @Provides
     @Singleton
-    public AppDatabase provideAppDatabase(Context context){
+    public AppDatabase provideAppDatabase(Context context) {
         return Room.databaseBuilder(context, AppDatabase.class, AppConstants.DATABASE_NAME)
                 .allowMainThreadQueries() //temporary, should be done on seperate thread
+                //.fallbackToDestructiveMigration()
                 .build();
     }
 

@@ -9,7 +9,7 @@ import io.reactivex.annotations.NonNull;
 public class UserTest {
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    @ColumnInfo(name = "booking_id")
+    @ColumnInfo(name = "user_id")
     private int id;
     @ColumnInfo(name = "customer_name")
     private String name;

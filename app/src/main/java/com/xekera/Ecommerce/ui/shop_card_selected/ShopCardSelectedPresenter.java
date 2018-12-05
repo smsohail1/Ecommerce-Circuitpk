@@ -4,7 +4,9 @@ import android.content.Context;
 import android.widget.ImageView;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
+import com.xekera.Ecommerce.ui.favourites.FavouritesModel;
 import com.xekera.Ecommerce.ui.shop_card_selected.model.MultipleImagesItem;
 import com.xekera.Ecommerce.util.AppConstants;
 import com.xekera.Ecommerce.util.SessionManager;
@@ -268,6 +270,123 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             }
         });
 
+    }
+
+    @Override
+    public void addItemToFavourites(final Favourites favourites, boolean isChecked) {
+
+
+        if (isChecked) {
+            deleteItem(favourites.getItemName());
+
+        } else {
+            addItem(favourites);
+
+        }
+//        model.getFavouritesCount(new ShopCardSelectedModel.IFetchFavouritesDetailsList() {
+//            @Override
+//            public void onCartDetailsReceived(List<Favourites> favouritesList) {
+//                if (favouritesList == null || favouritesList.size() == 0) {
+//                    addItem(favourites);
+//                    return;
+//                } else {
+//                    deleteItem(favourites.getItemName());
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onErrorReceived(Exception ex) {
+//                view.showToastLongTime("Error while in saving data.");
+//
+//            }
+//        });
+
+
+    }
+
+    @Override
+    public void setIsFavourite(String productName) {
+        model.getFavouritesCount(productName, new ShopCardSelectedModel.IFetchFavouritesDetails() {
+            @Override
+            public void onCartDetailsReceived(List<Favourites> favourites) {
+                if (favourites == null || favourites.size() == 0) {
+                    view.setIsFavourite(false);
+                    return;
+                } else {
+                    view.setIsFavourite(true);
+                }
+
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.setIsFavourite(false);
+
+                view.showToastLongTime("Error while in saving data.");
+
+            }
+        });
+
+    }
+
+    private void addItem(Favourites favourites) {
+
+        model.addItemToFavourites(favourites, new ShopCardSelectedModel.ISaveProductDetails() {
+            @Override
+            public void onProductDetailsSaved(boolean isAdded) {
+                if (isAdded) {
+                    view.showSnackBarShortTime("Item added to favourite.");
+                    view.enableAddtoFavouriteButton();
+                    view.animationAddButton();
+
+                } else {
+                    view.enableAddtoFavouriteButton();
+                    view.animationAddButton();
+
+                    view.showSnackBarShortTime("Error while add to favourite.");
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.enableAddtoFavouriteButton();
+                view.animationAddButton();
+
+                view.showSnackBarShortTime("Error while saving data.");
+
+            }
+        });
+    }
+
+
+    private void deleteItem(String itemName) {
+        model.deleteItem(itemName, new ShopCardSelectedModel.IRemoveFavouriteItemDetails() {
+            @Override
+            public void onSuccess(boolean success) {
+                if (success) {
+                    view.enableAddtoFavouriteButton();
+                    view.animateFavouriteButton();
+                    view.showSnackBarShortTime("Item removed from favourite.");
+                    return;
+                } else {
+                    view.enableAddtoFavouriteButton();
+                    view.animateFavouriteButton();
+                    view.showSnackBarShortTime("Error while remove to favourite.");
+
+                }
+
+            }
+
+            @Override
+            public void onError(Exception ex) {
+                view.enableAddtoFavouriteButton();
+                view.animateFavouriteButton();
+                view.showToastLongTime("Error while in saving data.");
+
+            }
+        });
     }
 
 

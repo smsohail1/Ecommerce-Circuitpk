@@ -156,7 +156,11 @@
 
     <!--History-->
     <string name="bnt_title_cancel_order">Cancel</string>
-    <string name="no_order_found">No order placed yet.</string>
+    <string name="no_order_found">No order placed.</string>
 
+
+    <!--Favourites-->
+    <string name="btn_add_to_cart">Add to Cart</string>
+    <string name="label_no_favourite_item_found">No items added in Favourite.</string>
 
 </resources>

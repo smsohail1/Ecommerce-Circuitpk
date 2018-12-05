@@ -13,14 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import javax.inject.Singleton;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by shahrukh.malik on 02, April, 2018
- */
 @Module
 public class RetrofitModule {
     @Singleton
     @Provides
-    public OkHttpClient provideOkHttpClient(){
+    public OkHttpClient provideOkHttpClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -33,7 +30,7 @@ public class RetrofitModule {
 
     @Singleton
     @Provides
-    public Retrofit provideRetrofit(String baseURL, OkHttpClient client){
+    public Retrofit provideRetrofit(String baseURL, OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .client(client)
@@ -43,8 +40,8 @@ public class RetrofitModule {
 
     @Singleton
     @Provides
-    public XekeraAPI provideApiService(){
-        return provideRetrofit(AppConstants.BASE_URL_UAT,provideOkHttpClient()).create(XekeraAPI.class);
+    public XekeraAPI provideApiService() {
+        return provideRetrofit(AppConstants.BASE_URL_UAT, provideOkHttpClient()).create(XekeraAPI.class);
     }
 
 }

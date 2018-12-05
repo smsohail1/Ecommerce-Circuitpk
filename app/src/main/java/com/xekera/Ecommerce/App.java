@@ -29,6 +29,7 @@ public class App extends Application {
                 .deliveyBillingDetailsModule(new DeliveyBillingDetailsModule())
                 .billingTotalAmountViewModule(new BillingTotalAmountViewModule())
                 .historyModule(new HistoryModule())
+                .favouritesModule(new FavouritesModule())
                 .build();
     }
 

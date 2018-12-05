@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.shop_card_selected;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -27,6 +28,7 @@ import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
 import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
@@ -85,6 +87,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     protected Button btnAddToCart;
     @BindView(R.id.recyclerViewImageDetails)
     protected RecyclerView recyclerViewImageDetails;
+    @BindView(R.id.availabilitStockTextView)
+    protected TextView availabilitStockTextView;
 
     @Inject
     protected ShopCardSelectedMVP.Presenter presenter;
@@ -138,7 +142,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
         try {
             ((BaseActivity) getActivity()).hideBottomNavigation();
-            setProductDetails();
+            //setProductDetails();
 
 //            placeName = sessionManager.getKeyPlaceName();
 //            latitude = sessionManager.getKeyLatitude();
@@ -191,6 +195,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //                ((BaseActivity) getActivity()).setTitle(shoppingDetailModel.getProductName());
 
 
+            if (shoppingDetailModel != null && shoppingDetailModel.getProductName() != null) {
+                productNameLabelTextView.setText(shoppingDetailModel.getProductName());
+            }
             if (bitmapImage != null) {
                 imgProduct.setImageBitmap(bitmapImage);
 
@@ -254,9 +261,6 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                 counterTextview.setText(String.valueOf(shoppingDetailModel.getItemQuantity()));
             }
 
-            if (shoppingDetailModel != null && shoppingDetailModel.getProductName() != null) {
-                productNameLabelTextView.setText(shoppingDetailModel.getProductName());
-            }
 
         } catch (Exception e) {
 
@@ -286,6 +290,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         incrementImageButton.setOnClickListener(this);
         decrementImageButton.setOnClickListener(this);
         deliveryAddressImageView.setOnClickListener(this);
+        favouriteButton.setOnClickListener(this);
         btnAddToCart.setOnClickListener(this);
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
         recyclerViewImageDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -294,6 +299,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
 
         setProductDetails();
+        presenter.setIsFavourite(shoppingDetailModel.getProductName());
 
         presenter.setMultipleImagesItems(getActivity(), shoppingDetailModel.getImage());
 
@@ -383,6 +389,33 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         ((BaseActivity) getActivity()).AnimateCartTextview();
 
     }
+
+    @Override
+    public void enableAddtoFavouriteButton() {
+        favouriteButton.setEnabled(true);
+    }
+
+    @Override
+    public void animateFavouriteButton() {
+        favouriteButton.setChecked(false);
+        // favouriteButton.playAnimation();
+        // favouriteButton.setInactiveImage(R.drawable.heart);
+
+    }
+
+    @Override
+    public void animationAddButton() {
+        favouriteButton.setChecked(true);
+        // favouriteButton.playAnimation();
+        // favouriteButton.setActiveImage(R.drawable.icon_heart_on);
+
+    }
+
+    @Override
+    public void setIsFavourite(boolean isFavourite) {
+        favouriteButton.setChecked(isFavourite);
+    }
+
 
     @Override
     public void showSnackBarLongTime(String message, View view) {
@@ -515,13 +548,41 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             case R.id.favouriteButton:
                 try {
 
-                    if (isFavourite) {
-                        showSnackBarShortTime("Add item to favourites.", getView());
-                        isFavourite = false;
+//                    if (isFavourite) {
+//                        showSnackBarShortTime("Add item to favourites.", getView());
+//                        isFavourite = false;
+//
+//                    } else {
+//                        showSnackBarShortTime("Remove item from favourites.", getView());
+//                    }
+                    String quantity = counterTextview.getText().toString();
 
-                    } else {
-                        showSnackBarShortTime("Remove item from favourites.", getView());
+                    if (utils.isTextNullOrEmptyOrZero(quantity)) {
+                        quantity = "1";
                     }
+                    boolean favourite = false;
+                    if (favouriteButton.isChecked()) {
+                        favourite = true;
+                    } else {
+                        favourite = false;
+                    }
+
+                    //  favouriteButton.setChecked(true);
+                    favouriteButton.playAnimation();
+                    favouriteButton.setEnabled(false);
+
+                    String itemName = productNameLabelTextView.getText().toString();
+                    String itemIndividualPrice = priceTextView.getText().toString();
+                    String itemCutPrice = discountPriceTextView.getText().toString();
+                    String availabilityInStock = availabilitStockTextView.getText().toString();
+
+                    String formattedDate = "";
+                    formattedDate = getCurrentDate();
+
+                    Favourites favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice, availabilityInStock, formattedDate,
+                            byteArray, quantity);
+                    presenter.addItemToFavourites(favourites, favourite);
+
 
                 } catch (Exception e) {
 

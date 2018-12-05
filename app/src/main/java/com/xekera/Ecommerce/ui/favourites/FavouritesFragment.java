@@ -1,4 +1,4 @@
-package com.xekera.Ecommerce.ui.history;
+package com.xekera.Ecommerce.ui.favourites;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -19,35 +19,31 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
+import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.BaseActivity;
+import com.xekera.Ecommerce.ui.adapter.FavoritesAdapter;
 import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
-import com.xekera.Ecommerce.util.SessionManager;
-import com.xekera.Ecommerce.util.SnackUtil;
-import com.xekera.Ecommerce.util.ToastUtil;
-import com.xekera.Ecommerce.util.Utils;
+import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
-public class HistoryFragment extends Fragment implements HistoryMVP.View, HistoryAdapter.IHistoryCancelOrderAdapter {
+public class FavouritesFragment extends Fragment implements FavouritesMVP.View, FavoritesAdapter.IFvaouritesAddToCartAdapter {
 
 
     @BindView(R.id.recyclerViewAddToCartDetails)
     protected RecyclerView recyclerViewAddToCartDetails;
     @BindView(R.id.linearParent)
     protected LinearLayout linearParent;
-    // @BindView(R.id.subTotalValueTextView)
-    //protected TextView subTotalValueTextView;
-    //  @BindView(R.id.shippingValueTextView)
-    //protected TextView shippingValueTextView;
-    @BindView(R.id.totalValueTextView)
-    protected TextView totalValueTextView;
     @BindView(R.id.txtNoCartItemFound)
     protected TextView txtNoCartItemFound;
 
     @Inject
-    protected HistoryMVP.Presenter presenter;
+    protected FavouritesMVP.Presenter presenter;
     @Inject
     protected Utils utils;
     @Inject
@@ -57,10 +53,10 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     @Inject
     protected SessionManager sessionManager;
 
-    HistoryAdapter adapter;
+    FavoritesAdapter adapter;
 
 
-    public HistoryFragment() {
+    public FavouritesFragment() {
         // Required empty public constructor
     }
 
@@ -85,7 +81,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_history, container, false);
+        View v = inflater.inflate(R.layout.fragment_favourite, container, false);
 
         initializeViews(v);
 
@@ -100,15 +96,15 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);
+
         ((BaseActivity) getActivity()).showBottomNavigation();
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                presenter.fetchOrderDetails();
+                presenter.fetchFavouritesDetails();
 
             }
         }, 600);
@@ -131,8 +127,8 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     }
 
     @Override
-    public void showRecylerViewProductsDetail(HistoryAdapter historyAdapter) {
-        recyclerViewAddToCartDetails.setAdapter(historyAdapter);
+    public void showRecylerViewProductsDetail(FavoritesAdapter favoritesAdapter) {
+        recyclerViewAddToCartDetails.setAdapter(favoritesAdapter);
 
     }
 
@@ -149,7 +145,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     @Override
     public void setCartCounts(long counts) {
 
-        ((BaseActivity) getActivity()).setCartsCounts(counts, 3, "History");
+        ((BaseActivity) getActivity()).setCartsCounts(counts, 1, "Favourite");
 
     }
 
@@ -159,12 +155,6 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
     }
 
-    @Override
-    public void setParentFields() {
-        //  subTotalValueTextView.setText("0");
-        //   shippingValueTextView.setText("0");
-        totalValueTextView.setText("0");
-    }
 
     @Override
     public void txtNoCartItemFound() {
@@ -177,48 +167,20 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         txtNoCartItemFound.setVisibility(View.GONE);
     }
 
-    @Override
-    public void setSubTotal(String setSubToal) {
-        if (!utils.isTextNullOrEmpty(setSubToal)) {
-//            subTotalValueTextView.setText(setSubToal);
-            //  String flatShippingRateStr = shippingValueTextView.getText().toString();
-            // long flatShippingRateLong = 0;
-            //   flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr);
-            totalValueTextView.setText(String.valueOf(setSubToal));
-
-        } else {
-            totalValueTextView.setText("0");
-
-            //          subTotalValueTextView.setText("0");
-        }
-
-
-    }
-
 
     @Override
-    public void setAdapter(List<Booking> addToCarts) {
-        //   if (adapter == null) {
-        adapter = new HistoryAdapter(getActivity(), addToCarts, this);
+    public void setAdapter(List<Favourites> addToCarts) {
+
+        adapter = new FavoritesAdapter(getActivity(), addToCarts, this);
         showRecylerViewProductsDetail(adapter);
-        // } else {
-        //    adapter.removeAll();
-        //   adapter.addAll(addToCarts);
-        // }
-        getSubTotal(addToCarts);
 
-    }
-
-
-    private void getSubTotal(List<Booking> addToCarts) {
-        long price = 0;
-
-        for (Booking i : addToCarts) {
-            price = price + Long.valueOf(i.getItemPrice()) + Long.valueOf(i.getFlatCharges());
-        }
-        setSubTotal(String.valueOf(price));
         setCartCounts(addToCarts.size());
 
+    }
+
+    @Override
+    public void removeItemFromFavourites(int position) {
+        adapter.removeByPosition(position);
     }
 
 
@@ -235,52 +197,38 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     boolean isShowing = true;
 
     @Override
-    public void cancelOrder(String orderID) {
+    public void addToCartFavourites(final Favourites favourites, final int position) {
         if (isShowing) {
             isShowing = false;
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    //isShowing = true;
-                    // if (isShowing)
-                    showCancelDialog(getActivity(), "Alert", "Do you want to cancel this order?");
+
+                    String formattedDate = "";
+                    formattedDate = getCurrentDate();
+
+                    AddToCart addToCart = new AddToCart("15", favourites.getItemName(), favourites.getItemIndividualPrice()
+                            , favourites.getItemQuantity(),
+                            "N", favourites.getItemImage(), favourites.getItemCutPrice(), favourites.getItemIndividualPrice(),
+                            formattedDate);
+                    presenter.insertSelectedFavouritesToCart(addToCart, position);
                     isShowing = true;
                 }
             }, 200);
         }
     }
 
-    private void showCancelDialog(Context context, String title, String message) {
-        final Dialog dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.fragment_cancel_dialog);
 
-        Button cancel = dialog.findViewById(R.id.cancel);
-        Button submit = dialog.findViewById(R.id.submit);
-        TextView txtMessage = dialog.findViewById(R.id.txtMessage);
-        TextView txtTitle = dialog.findViewById(R.id.txtTitle);
+    private String getCurrentDate() {
+        try {
 
-        txtMessage.setText("" + message);
-        txtTitle.setText("" + title);
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //sessionManager.logoutUser();
-                //  startActivity(new Intent(BaseActivity.this, LoginActivity.class));
-                dialog.dismiss();
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        if (!dialog.isShowing()) {
-            dialog.show();
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat(AppConstants.DATE_TIME_FORMAT_TWO);
+            return df.format(c.getTime());
+        } catch (Exception e) {
+            return "";
         }
-
     }
 
 }
+

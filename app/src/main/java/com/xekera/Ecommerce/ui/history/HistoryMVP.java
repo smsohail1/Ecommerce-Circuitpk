@@ -1,7 +1,10 @@
 package com.xekera.Ecommerce.ui.history;
 
 import android.content.Context;
+import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
+
+import java.util.List;
 
 public interface HistoryMVP {
 
@@ -35,6 +38,9 @@ public interface HistoryMVP {
 
         void setSubTotal(String setSubToal);
 
+        void setAdapter(List<Booking> addToCarts);
+
+
 
     }
 
@@ -43,7 +49,6 @@ public interface HistoryMVP {
 
         void fetchOrderDetails();
 
-        void cancelOrder(Context context);
 
     }
 

@@ -18,7 +18,7 @@ public interface BookingDao {
     void insert(List<Booking> bookingList);
 
 
-    @Query("SELECT * FROM booking order by created_date asc")
+    @Query("SELECT * FROM booking order by created_date desc")
     List<Booking> getAllBookingDetails();
 
 }
