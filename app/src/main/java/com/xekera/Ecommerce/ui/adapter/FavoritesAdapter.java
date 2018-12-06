@@ -93,7 +93,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.discountPriceTextView)
         public TextView discountPriceTextView;
         @BindView(R.id.btnAddToCart)
-        public Button btnAddToCart;
+        public ImageView btnAddToCart;
 
 
         public productDetailsDataListViewHolder(View itemView) {

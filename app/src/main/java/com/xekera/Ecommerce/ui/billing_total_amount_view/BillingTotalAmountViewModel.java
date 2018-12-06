@@ -161,8 +161,8 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
     @Override
     public void addItemsToBooking(final List<AddToCart> addToCarts, final String firstName, final String lastName, final String company, final String phone,
                                   final String email, final String streetAddress1, final String streetAddress2,
-                                  final String country, final String stateCountry, final String townCity, final String paymode,
-                                  final String notes, final String flatCharges, final String postalCode, final IFetchCartBookingDetailsList iFetchCartBookingDetailsList) {
+                                  final String townCity, final String paymode,
+                                  final String notes, final String flatCharges, final IFetchCartBookingDetailsList iFetchCartBookingDetailsList) {
 
         try {
             Observable.just(appDatabase.getBookingDao()).
@@ -175,8 +175,7 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
                                 Booking booking = new Booking("44", addToCart.getItemName(),
                                         addToCart.getItemIndividualPrice(), addToCart.getItemPrice(),
                                         addToCart.getItemCutPrice(), addToCart.getItemQuantity(),
-                                        firstName, lastName, company, phone, email, country, streetAddress1, streetAddress2, townCity,
-                                        stateCountry, postalCode, paymode, notes, flatCharges, "", addToCart.getItemImage(), "N");
+                                        firstName, lastName, company, phone, email, streetAddress1, streetAddress2, townCity, paymode, notes, flatCharges, "", addToCart.getItemImage(), "N");
                                 bookingList.add(booking);
                             }
                             return bookingList;

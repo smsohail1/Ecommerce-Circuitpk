@@ -45,7 +45,8 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                 } else {
                     view.hideNoCartItemFound();
                     view.showRecyclerView();
-                    setAdapter(addToCarts);
+                    view.setAdapter(addToCarts);
+                    //setAdapter(addToCarts);
                 }
             }
 
@@ -76,7 +77,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                 } else {
                     view.hideNoCartItemFound();
                     view.showRecyclerView();
-                    setAdapter(addToCarts, i);
+                    // setAdapter(addToCarts, i);
                 }
             }
 
@@ -142,25 +143,25 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
     }
 
     private void setAdapter(List<AddToCart> AddToCartList) {
-        if (adapter == null) {
-            adapter = new AddToCartAdapter(AddToCartList, this);
-            view.showRecylerViewProductsDetail(adapter);
-        } else {
-            adapter.removeAll();
-            adapter.addAll(AddToCartList);
-        }
+//        if (adapter == null) {
+//            adapter = new AddToCartAdapter(AddToCartList, this);
+//            view.showRecylerViewProductsDetail(adapter);
+//        } else {
+//            adapter.removeAll();
+//            adapter.addAll(AddToCartList);
+//        }
 
         getSubTotal(AddToCartList);
     }
 
     private void setAdapter(List<AddToCart> AddToCartList, int i) {
-        if (i == 1 || adapter == null) {
-            adapter = new AddToCartAdapter(AddToCartList, this);
-            view.showRecylerViewProductsDetail(adapter);
-        } else {
-            adapter.removeAll();
-            adapter.addAll(AddToCartList);
-        }
+//        if (i == 1 || adapter == null) {
+//            adapter = new AddToCartAdapter(AddToCartList, this);
+//            view.showRecylerViewProductsDetail(adapter);
+//        } else {
+//            adapter.removeAll();
+//            adapter.addAll(AddToCartList);
+//        }
 
         getSubTotal(AddToCartList);
     }

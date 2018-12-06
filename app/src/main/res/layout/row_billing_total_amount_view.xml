@@ -33,7 +33,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_weight="0.3"
-                    android:gravity="center_vertical"
                     android:padding="5dp">
 
 
@@ -118,7 +117,7 @@
                                         android:textColor="@color/discount_price_textview"
                                         android:layout_marginLeft="5dp"
                                         android:textStyle="bold"
-                                        android:text="Quantity: "
+                                        android:text="Qty: "
                                         android:gravity="center_horizontal"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 

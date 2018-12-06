@@ -78,7 +78,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
         super.onResume();
         presenter.setView(this);
 
-        ((BaseActivity) getActivity()).showBottomNavigation();
+        // ((BaseActivity) getActivity()).showBottomNavigation();
 
 //        if (mPermissionDenied) {
 //            // Permissions were not granted

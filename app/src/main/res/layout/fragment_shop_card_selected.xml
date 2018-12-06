@@ -9,7 +9,6 @@
                 android:clickable="true">
     <ScrollView android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/addToCartLayoutPrent"
 
 
     >
@@ -22,12 +21,28 @@
                           android:orientation="vertical"
             >
 
+                <LinearLayout
+                        android:id="@+id/productNameLayout"
+                        android:layout_width="match_parent"
+                        android:padding="5dp"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:id="@+id/productNameTextview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/price_textview"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/txt_product_name_card_selected_size"
+                    />
+                </LinearLayout>
                 <RelativeLayout android:layout_width="wrap_content"
-                                android:layout_height="match_parent">
+                                android:layout_height="200dp">
                     <ImageView
                             android:id="@+id/imgProduct"
                             android:layout_width="match_parent"
-                            android:layout_height="280dp"
+                            android:layout_height="200dp"
                             android:layout_centerInParent="true"
                             android:gravity="center_horizontal"
 
@@ -38,7 +53,7 @@
                     <ImageView
                             android:id="@+id/imgProductCopy"
                             android:layout_width="wrap_content"
-                            android:layout_height="280dp"
+                            android:layout_height="220dp"
                             android:gravity="center_horizontal"
                             android:layout_centerInParent="true"
                     />
@@ -48,7 +63,8 @@
                 <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerViewImageDetails"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="5dp"
                         android:nestedScrollingEnabled="true"
 
                 />
@@ -530,7 +546,7 @@
                                         android:id="@+id/descriptionLabelTextView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/discount_price_textview"
+                                        android:textColor="@color/card_textview"
                                         android:text="Description:"
                                         android:textStyle="bold"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
@@ -590,7 +606,7 @@
                                             android:id="@+id/availabilityLabelTextView"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:textColor="@color/discount_price_textview"
+                                            android:textColor="@color/card_textview"
                                             android:text="Availability:"
                                             android:textStyle="bold"
                                             android:textSize="@dimen/txt_report_list_item_size"/>
@@ -617,7 +633,7 @@
                                             android:id="@+id/availabilitSKUTextView"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:textColor="@color/discount_price_textview"
+                                            android:textColor="@color/card_textview"
                                             android:layout_marginLeft="5dp"
                                             android:text="SKU:"
                                             android:textStyle="bold"
@@ -641,28 +657,43 @@
 
                 </LinearLayout>
 
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="10dp"
+                >
+                    <Button
+                            android:id="@+id/btnAddToCart"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_add_to_cart"
+                            android:textColor="@color/btn_white_add_to_cart"
+                            android:theme="@style/PrimaryButton"
+
+                    />
+
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-            android:id="@+id/addToCartLayoutPrent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-    >
-        <Button
-                android:id="@+id/btnAddToCart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_add_to_cart"
-                android:textColor="@color/btn_white_add_to_cart"
-                android:theme="@style/PrimaryButton"
+    <!--<LinearLayout-->
+    <!--android:id="@+id/addToCartLayoutPrent"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--&gt;-->
+    <!--<Button-->
+    <!--android:id="@+id/btnAddToCart"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/text_add_to_cart"-->
+    <!--android:textColor="@color/btn_white_add_to_cart"-->
+    <!--android:theme="@style/PrimaryButton"-->
 
 
-        />
+    <!--/>-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 </RelativeLayout>

@@ -31,15 +31,24 @@
     <color name="add_cart_img_focused_color">#e67656</color>
 
     <color name="row_product_name_textview">#000000</color>
-    <color name="discount_price_textview">#E42021</color>
-    <color name="price_textview">#54595C</color>
+    <!--<color name="discount_price_textview">#E42021</color>-->
+    <color name="discount_price_textview">#3575d3</color>
+    <color name="product_name_textview">#b8daea</color>
+
+
+    <!--<color name="price_textview">#54595C</color>-->
+    <color name="price_textview">#E10915</color>
+
+    <color name="card_textview">#E10915</color>
 
     <color name="different_address_checkbox">#54595C</color>
+
+    <color name="btn_change_photo">#54595C</color>
 
     <color name="category_label">#ffffff</color>
     <!--Bottom Navigation-->
     <color name="bgBottomNavigation">#E10915</color>
-    <string name="title_shop">Shop</string>
+    <string name="title_shop">Home</string>
     <string name="title_favourite">Favourite(0)</string>
     <string name="title_cart">Cart(0)</string>
     <string name="title_profile">History(0)</string>
@@ -70,6 +79,8 @@
     <color name="in_stock_textview_color">#7ac57a</color>
     <color name="grey_dark_edt">#494949</color>
     <color name="grey_dark_edt_hint">#7A7A7A</color>
+
+    <color name="bottom_navigation_selected">#0182c3</color>
 
     <color name="red_edt_hint">#444444</color>
     <color name="edt_signup_hint">#2B2C2C</color>

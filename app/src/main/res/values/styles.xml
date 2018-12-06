@@ -32,6 +32,11 @@
         <item name="colorControlHighlight">#4a4a4c</item>
     </style>
 
+    <style name="changePhotoButton" parent="Theme.AppCompat">
+        <item name="colorButtonNormal">#ffffff</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+    </style>
+
     <style name="NavigationDrawerStyle" parent="ThemeOverlay.AppCompat.Light">
         <!-- Customize your theme here. -->
         <!--<item name="android:activatedBackgroundIndicator">@drawable/drawer_list_selector</item>-->

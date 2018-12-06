@@ -273,8 +273,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
     }
 
     @Override
-    public void addItemToFavourites(final Favourites favourites, boolean isChecked) {
-
+    public void addItemToFavourites(final Favourites favourites, final boolean isChecked) {
 
         if (isChecked) {
             deleteItem(favourites.getItemName());
@@ -283,6 +282,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             addItem(favourites);
 
         }
+
 //        model.getFavouritesCount(new ShopCardSelectedModel.IFetchFavouritesDetailsList() {
 //            @Override
 //            public void onCartDetailsReceived(List<Favourites> favouritesList) {
@@ -336,7 +336,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
-                    view.showSnackBarShortTime("Item added to favourite.");
+                    view.showToastShortTime("Item added to favourite.");
                     view.enableAddtoFavouriteButton();
                     view.animationAddButton();
 
@@ -344,7 +344,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
                     view.enableAddtoFavouriteButton();
                     view.animationAddButton();
 
-                    view.showSnackBarShortTime("Error while add to favourite.");
+                    view.showToastShortTime("Error while add to favourite.");
 
                 }
             }
@@ -354,7 +354,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
                 view.enableAddtoFavouriteButton();
                 view.animationAddButton();
 
-                view.showSnackBarShortTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -368,12 +368,12 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
                 if (success) {
                     view.enableAddtoFavouriteButton();
                     view.animateFavouriteButton();
-                    view.showSnackBarShortTime("Item removed from favourite.");
+                    view.showToastShortTime("Item removed from favourite.");
                     return;
                 } else {
                     view.enableAddtoFavouriteButton();
                     view.animateFavouriteButton();
-                    view.showSnackBarShortTime("Error while remove to favourite.");
+                    view.showToastShortTime("Error while remove to favourite.");
 
                 }
 

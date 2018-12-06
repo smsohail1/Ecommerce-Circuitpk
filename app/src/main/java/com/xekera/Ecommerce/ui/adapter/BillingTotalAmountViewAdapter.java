@@ -24,11 +24,11 @@ public class BillingTotalAmountViewAdapter extends RecyclerView.Adapter<Recycler
     Context context;
     List<AddToCart> productsItems;
     // IShopDetailAdapter iShopDetailAdapter;
-    BillingTotalAmountViewPresenter billingTotalAmountViewPresenter;
+  //  BillingTotalAmountViewPresenter billingTotalAmountViewPresenter;
 
-    public BillingTotalAmountViewAdapter(List<AddToCart> productsItems, BillingTotalAmountViewPresenter billingTotalAmountViewPresenter) {
+    public BillingTotalAmountViewAdapter(List<AddToCart> productsItems) {
         this.productsItems = productsItems;
-        this.billingTotalAmountViewPresenter = billingTotalAmountViewPresenter;
+      //  this.billingTotalAmountViewPresenter = billingTotalAmountViewPresenter;
     }
 
 

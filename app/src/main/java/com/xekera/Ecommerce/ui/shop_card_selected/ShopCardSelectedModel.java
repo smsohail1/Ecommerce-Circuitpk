@@ -409,6 +409,7 @@ public class ShopCardSelectedModel implements ShopCardSelectedMVP.Model {
     }
 
 
+
     interface ISaveProductDetails {
         void onProductDetailsSaved(boolean isAdded);
 

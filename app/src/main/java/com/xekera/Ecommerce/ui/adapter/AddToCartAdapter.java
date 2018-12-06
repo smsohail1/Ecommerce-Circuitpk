@@ -29,11 +29,12 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     Context context;
     List<AddToCart> productsItems;
     // IShopDetailAdapter iShopDetailAdapter;
-    AddToCartPresenter addToCartPresenter;
+    //  AddToCartPresenter addToCartPresenter;
+    IShopDetailAdapter iShopDetailAdapter;
 
-    public AddToCartAdapter(List<AddToCart> productsItems, AddToCartPresenter addToCartPresenter) {
+    public AddToCartAdapter(List<AddToCart> productsItems, IShopDetailAdapter iShopDetailAdapter) {
         this.productsItems = productsItems;
-        this.addToCartPresenter = addToCartPresenter;
+        this.iShopDetailAdapter = iShopDetailAdapter;
     }
 
 
@@ -153,7 +154,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //                                productsItems.get(getLayoutPosition()).getItemName(),
 //                                productsItems.get(getLayoutPosition()).getItemCutPrice());
 
-                        addToCartPresenter.saveProductDetails(productsItems.get(getLayoutPosition()).getItemQuantity(),
+                        iShopDetailAdapter.incrementDecrement(productsItems.get(getLayoutPosition()).getItemQuantity(),
                                 productPrice,
                                 String.valueOf(productPrice * itemQuantity),
                                 productsItems.get(getLayoutPosition()).getItemName(),
@@ -169,7 +170,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
 
 
-                        addToCartPresenter.saveProductDetails(productsItems.get(getLayoutPosition()).getItemQuantity(),
+                        iShopDetailAdapter.incrementDecrement(productsItems.get(getLayoutPosition()).getItemQuantity(),
                                 productPrice,
                                 String.valueOf(productPrice * itemQuantity),
                                 productsItems.get(getLayoutPosition()).getItemName(),
@@ -193,7 +194,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
 
 
-                    addToCartPresenter.saveProductDetails(productsItems.get(getLayoutPosition()).getItemQuantity(),
+                    iShopDetailAdapter.incrementDecrement(productsItems.get(getLayoutPosition()).getItemQuantity(),
                             productPrice,
                             String.valueOf(productPrice * itemQuantity),
                             productsItems.get(getLayoutPosition()).getItemName(),
@@ -225,7 +226,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         public void onClick(View view) {
                             dialog.dismiss();
                             // productsItems.remove(getLayoutPosition());
-                            addToCartPresenter.removeItemFromCart(productsItems.get(getLayoutPosition()));
+                            // addToCartPresenter.removeItemFromCart(productsItems.get(getLayoutPosition()));
+                            iShopDetailAdapter.removeItemFromCart(productsItems.get(getLayoutPosition()));
                             productsItems.remove(getLayoutPosition());
                             notifyDataSetChanged();
 
@@ -278,9 +280,11 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         void onDecrementButtonClick(AddToCart productItems);
 
+        void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
+                                String cutPrice, byte[] bytes);
+
         void removeItemFromCart(AddToCart productItems);
-
-
     }
+
 }
 

@@ -1,13 +1,23 @@
 package com.xekera.Ecommerce.ui;
 
+import android.Manifest;
 import android.animation.Animator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
@@ -16,6 +26,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -31,6 +42,19 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
+import android.app.AlertDialog;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -50,6 +74,11 @@ import com.xekera.Ecommerce.ui.login.LoginFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import com.xekera.Ecommerce.util.*;
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.toolbar)
@@ -108,6 +137,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     private int itemCounter = 0;
 
+    private static final String IMAGE_DIRECTORY = "/Circuit.pk";
+    private int GALLERY = 1, CAMERA = 2;
+
+    public CircleImageView profilePhoto;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,11 +159,28 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         navigationView.setNavigationItemSelectedListener(this);
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        View headerView = navigationView.getHeaderView(0);
+        Button btnChangePhoto = headerView.findViewById(R.id.btnChangePhoto);
+        //  profilePhoto = headerView.findViewById(R.id.img);
+        profilePhoto = headerView.findViewById(R.id.img);
+
+        btnChangePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestPermissions();
+
+                if (!mPermissionDenied) {
+                    showPictureDialog();
+                }
+
+            }
+        });
         // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
 
         // attaching bottom sheet behaviour - hide / show on scroll
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
-        layoutParams.setBehavior(new BottomNavigationBehavior());
+        // CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
+        //layoutParams.setBehavior(new BottomNavigationBehavior());
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,22 +223,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 //            }
 //        });
 
-        textviewLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                // startActivity(i);
-
-                try {
-                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-                    if (!(fragment instanceof LoginFragment || fragment instanceof SignupFragment)) {
-                        addFragment(new LoginFragment());
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
+//        textviewLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                try {
+//                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+//                    if (!(fragment instanceof LoginFragment || fragment instanceof SignupFragment)) {
+//                        addFragment(new LoginFragment());
+//                    }
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        });
 
         badge2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,7 +337,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         if (fragment instanceof AddToCartFragment || fragment instanceof ShopFragment ||
                 fragment instanceof HistoryFragment ||
                 fragment instanceof FavouritesFragment) {
-            showBottomNavigation();
+            // showBottomNavigation();
             if (fragment instanceof AddToCartFragment) {
                 navigation.setSelectedItemId(R.id.navigation_cart);
             } else if (fragment instanceof ShopFragment) {
@@ -304,7 +352,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     public void navigateToScreen(final int menuId) {
-        showBottomNavigation();
+        //   showBottomNavigation();
         View view = navigation.findViewById(menuId);
         view.performClick();
     }
@@ -407,7 +455,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             // setTitle("Shop");
             //showLoginIcon();
             enableHomeIcon(true);
-            showBottomNavigation();
+            //  showBottomNavigation();
             //hideHumberIcon();
             popBackstack();
             overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
@@ -723,11 +771,30 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 //            enableHomeIcon(false);
 //        }
 
+        Fragment fragmentContainer = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
         if (id == R.id.navShare) {
             shareTextUrl();
-        }
-        if (id == R.id.navLogout) {
+        } else if (id == R.id.navProduct) {
+            if (!(fragmentContainer instanceof ShopFragment)) {
+
+                // replaceFragmentWithContainer(new ShopFragment());
+                navigateToScreen(R.id.navigation_shop);
+                drawer.closeDrawer(GravityCompat.START);
+
+
+                return true;
+
+            }
+        } else if (id == R.id.nav_Favourite) {
+            if (!(fragmentContainer instanceof FavouritesFragment)) {
+                navigateToScreen(R.id.navigation_favourite);
+//                replaceFragmentWithContainer(new FavouritesFragment());
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+
+            }
+        } else if (id == R.id.navLogout) {
             showLogoutDialog(this, "Logout", utils.getStringFromResourceId(R.string.are_you_sure_logout));
         }
 
@@ -814,19 +881,45 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     @Override
     protected void onResume() {
         super.onResume();
-        //  setActionItems();
-//        try {
-//            View headerView = navigationView.getHeaderView(0);
-//            TextView txtCourierName = headerView.findViewById(R.id.txtCourierName);
-//            txtCourierName.setText(sessionManager.getCourierName());
-//            TextView txtCourierDetails = headerView.findViewById(R.id.txtCourierDetails);
-//            txtCourierDetails.setText(sessionManager.getCourierStation() + " | " +
-//                    sessionManager.getCourierRoute());
-//            TextView txtAppVersion = headerView.findViewById(R.id.txtAppVersion);
-//            txtAppVersion.setText("Version " + String.valueOf(BuildConfig.VERSION_NAME));
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
+        setUserDetails();
+    }
+
+    public void setUserDetails() {
+        try {
+            View headerView = navigationView.getHeaderView(0);
+            TextView txtName = headerView.findViewById(R.id.txtUserName);
+            // TextView txtEmail = headerView.findViewById(R.id.txtUserEmail);
+            TextView txtPhoneNo = headerView.findViewById(R.id.txtUserPhoneNo);
+
+            if (!utils.isTextNullOrEmpty(sessionManager.getusername())) {
+                txtName.setText(sessionManager.getusername());
+                txtName.setVisibility(View.VISIBLE);
+
+            } else {
+                txtName.setVisibility(View.GONE);
+            }
+
+            if (!utils.isTextNullOrEmpty(sessionManager.getphoneno())) {
+                txtPhoneNo.setText(sessionManager.getphoneno());
+                txtPhoneNo.setVisibility(View.VISIBLE);
+
+            } else {
+                txtPhoneNo.setVisibility(View.GONE);
+
+            }
+
+//            if (!utils.isTextNullOrEmpty(sessionManager.getEmail())) {
+//                txtEmail.setText(sessionManager.getEmail());
+//                txtEmail.setVisibility(View.VISIBLE);
+//
+//            } else {
+//                txtEmail.setVisibility(View.GONE);
+//
+//            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
 
     @Override
@@ -912,6 +1005,183 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.cart_shake_animation);
         imgShoppingCart.setAnimation(shake);
     }
+
+    // PERMISSIONS CODE
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private boolean mPermissionDenied = false;
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void requestPermissions() {
+        int camera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA);
+        int hasReadPermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        int hasWritePermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+
+        if ((hasReadPermission != PackageManager.PERMISSION_GRANTED) ||
+                (hasWritePermission != PackageManager.PERMISSION_GRANTED) ||
+                (camera != PackageManager.PERMISSION_GRANTED)) {
+            requestPermissions(
+                    new String[]{
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA
+                    },
+                    REQUEST_CODE_ASK_PERMISSIONS);
+            return;
+        } else {
+            mPermissionDenied = false;
+            //permissionsGranted();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if ((grantResults[0] == PackageManager.PERMISSION_GRANTED) &&
+                        (grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                    // Permission Allowed
+                    int camera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA);
+                    int hasReadPermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+                    int hasWritePermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+                    if ((hasReadPermission == PackageManager.PERMISSION_GRANTED) &&
+                            (hasWritePermission == PackageManager.PERMISSION_GRANTED) &&
+                            (camera == PackageManager.PERMISSION_GRANTED)
+                            ) {
+                        //permissionsGranted();
+                        mPermissionDenied = false;
+                    } else {
+                        mPermissionDenied = true;
+                    }
+                } else {
+                    // showMissingPermissionError();
+                    // Permission Denied
+                    mPermissionDenied = true;
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void showPictureDialog() {
+        try {
+
+            AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
+            pictureDialog.setTitle("Select Action");
+            String[] pictureDialogItems = {
+                    "Select photo from gallery",
+                    "Capture photo from camera"};
+            pictureDialog.setItems(pictureDialogItems,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    choosePhotoFromGallary();
+                                    break;
+                                case 1:
+                                    takePhotoFromCamera();
+                                    break;
+                            }
+                        }
+                    });
+            pictureDialog.show();
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void choosePhotoFromGallary() {
+        try {
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+            startActivityForResult(galleryIntent, GALLERY);
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void takePhotoFromCamera() {
+        try {
+            Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, CAMERA);
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == this.RESULT_CANCELED) {
+            return;
+        }
+        if (requestCode == GALLERY) {
+            if (data != null) {
+                Uri contentURI = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    String path = saveImage(bitmap);
+
+                    profilePhoto.setImageBitmap(bitmap);
+                    toastUtil.showToastShortTime("Profile picture updated");
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    toastUtil.showToastShortTime("Failed");
+
+                }
+            }
+
+        } else if (requestCode == CAMERA) {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            profilePhoto.setImageBitmap(thumbnail);
+
+            saveImage(thumbnail);
+            toastUtil.showToastShortTime("Profile pic updated");
+        }
+    }
+
+    public String saveImage(Bitmap myBitmap) {
+        try {
+
+
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+            File wallpaperDirectory = new File(
+                    Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+            // have the object build the directory structure, if needed.
+            if (!wallpaperDirectory.exists()) {
+                wallpaperDirectory.mkdirs();
+            }
+
+            try {
+                File f = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                f.createNewFile();
+                FileOutputStream fo = new FileOutputStream(f);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{f.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+
+                return f.getAbsolutePath();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        } catch (Exception e) {
+
+        }
+        return "";
+
+    }
+
+
 }
 
 

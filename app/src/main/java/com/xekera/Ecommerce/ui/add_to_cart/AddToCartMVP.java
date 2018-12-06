@@ -4,6 +4,8 @@ import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedModel;
 
+import java.util.List;
+
 public interface AddToCartMVP {
     interface View {
 
@@ -42,6 +44,8 @@ public interface AddToCartMVP {
         void setCartCounts(long counts);
 
         void setCartCounterTextview(int counts);
+
+        void setAdapter(List<AddToCart> addToCarts);
     }
 
     interface Presenter {

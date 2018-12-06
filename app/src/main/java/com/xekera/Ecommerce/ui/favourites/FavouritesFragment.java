@@ -70,7 +70,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     public void onResume() {
         super.onResume();
         try {
-            ((BaseActivity) getActivity()).showBottomNavigation();
+            // ((BaseActivity) getActivity()).showBottomNavigation();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -97,7 +97,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         ButterKnife.bind(this, v);
         presenter.setView(this);
 
-        ((BaseActivity) getActivity()).showBottomNavigation();
+        //((BaseActivity) getActivity()).showBottomNavigation();
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 

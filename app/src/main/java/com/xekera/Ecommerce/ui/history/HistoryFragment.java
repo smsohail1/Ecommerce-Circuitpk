@@ -74,7 +74,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     public void onResume() {
         super.onResume();
         try {
-            ((BaseActivity) getActivity()).showBottomNavigation();
+            // ((BaseActivity) getActivity()).showBottomNavigation();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -100,7 +100,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);
-        ((BaseActivity) getActivity()).showBottomNavigation();
+        //  ((BaseActivity) getActivity()).showBottomNavigation();
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 

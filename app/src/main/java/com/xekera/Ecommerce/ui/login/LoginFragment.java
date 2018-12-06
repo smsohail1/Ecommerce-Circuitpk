@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import butterknife.BindView;
@@ -119,7 +120,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         this.presenter.setView(this);
-        ((BaseActivity) getActivity()).hideBottomNavigation();
+        // ((BaseActivity) getActivity()).hideBottomNavigation();
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         btnSignIn.setOnClickListener(this);
         btnCreateAccount.setOnClickListener(this);
@@ -138,7 +141,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                 String userName = edtUsername.getText().toString();
                 String password = customEdtPasswordHideShow.getText().toString();
 
-                presenter.onClickBtnSignIn(userName, password, view);
+                presenter.onClickBtnSignIn(userName, password);
                 break;
             }
             case R.id.btnCreateAccount: {
@@ -202,8 +205,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     }
 
     @Override
+    public void showSnackBarShortTime(String message) {
+        showSnackBarShortTime(message, getView());
+    }
+
+    @Override
     public void loggedInSuccessfully() {
-        showSnackBarShortTime("Logged In successfully.", getView());
+        showToastShortTime("Logged In successfully.");
+        (((BaseActivity) getActivity())).setUserDetails();
+
         final LoginFragment loginFragment = new LoginFragment();
         new Handler().postDelayed(new Runnable() {
             @Override

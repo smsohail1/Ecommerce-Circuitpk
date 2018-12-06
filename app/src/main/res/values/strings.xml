@@ -110,7 +110,7 @@
     <string name="edt_billing_detail_street_address1">House no and street name</string>
     <string name="edt_billing_detail_street_address2">Apartment, suite, unit etc</string>
     <string name="btn_checkout_delivery_address">Submit</string>
-    <string name="btn_confirm_checkout_billing_amount">Confirm CheckOut</string>
+    <string name="btn_confirm_checkout_billing_amount">CheckOut</string>
 
     <string name="btn_submit_delivery_address">Submit</string>
 
@@ -160,7 +160,7 @@
 
 
     <!--Favourites-->
-    <string name="btn_add_to_cart">Add to Cart</string>
+    <string name="btn_add_to_cart">Add to\nCart</string>
     <string name="label_no_favourite_item_found">No items added in Favourite.</string>
 
 </resources>

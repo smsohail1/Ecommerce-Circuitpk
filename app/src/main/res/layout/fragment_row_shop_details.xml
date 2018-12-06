@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
+             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:layout_marginTop="3dp"
              android:orientation="vertical">
@@ -32,11 +32,11 @@
 
             <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     android:orientation="horizontal"
                     android:layout_weight="0.3"
                     android:gravity="center_vertical"
-                    android:padding="5dp">
+            >
 
                 <RelativeLayout android:layout_width="wrap_content"
                                 android:layout_height="match_parent">
@@ -46,7 +46,6 @@
                             android:layout_height="100dp"
                             android:gravity="center_horizontal"
                             android:src="@drawable/ardino"
-                            android:layout_centerInParent="true"
                     />
 
                     <ImageView
@@ -55,7 +54,6 @@
                             android:layout_height="100dp"
                             android:gravity="center_horizontal"
                             android:src="@drawable/ardino"
-                            android:layout_centerInParent="true"
                     />
 
                 </RelativeLayout>
@@ -81,6 +79,7 @@
 
                         <LinearLayout android:layout_width="0dp"
                                       android:layout_weight="0.8"
+                                      android:layout_marginLeft="5dp"
                                       android:layout_height="wrap_content"
                                       android:gravity="center_vertical"
                                       android:orientation="vertical">
@@ -91,7 +90,6 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/row_product_name_textview"
                                     android:layout_marginLeft="5dp"
-                                    android:text="fkjkgkfgfnnngdnmgngmfngmfgmfnmgngmfgmfdn"
                                     android:textSize="@dimen/txt_report_list_item_size"/>
 
                             <LinearLayout android:layout_width="wrap_content"
@@ -145,6 +143,37 @@
                                         android:gravity="center_horizontal"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
                             </LinearLayout>
+
+
+                            <LinearLayout android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
+                                          android:layout_marginTop="3dp"
+                                          android:orientation="horizontal">
+                                <TextView
+                                        android:id="@+id/availabilityLabelTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="5dp"
+
+                                        android:textColor="@color/row_product_name_textview"
+                                        android:text="Stock: "
+                                        android:textSize="@dimen/txt_report_list_item_size"/>
+
+                                <!--<ImageView android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:src="@drawable/icon"/>-->
+
+                                <TextView
+                                        android:id="@+id/availabilitStockTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/in_stock_textview_color"
+                                        android:layout_marginLeft="5dp"
+                                        android:text="In Stock"
+                                        android:textSize="@dimen/txt_report_list_item_size"/>
+
+
+                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
@@ -173,7 +202,7 @@
                                     android:layout_height="29dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="5dp"
-                                    android:clickable="true"
+                                    android:visibility="gone"
                                     android:background="@drawable/icon_share_selector"/>
 
                         </LinearLayout>
@@ -184,7 +213,6 @@
                     <LinearLayout android:layout_width="wrap_content"
                                   android:layout_height="wrap_content"
                                   android:gravity="center_vertical"
-                                  android:layout_marginTop="5dp"
                                   android:weightSum="1.0"
                                   android:layout_gravity="right"
                                   android:layout_marginRight="5dp"

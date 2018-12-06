@@ -59,20 +59,20 @@ public class SignupPresenter : SignupMVP.Presenter {
         viewActivity: View
     ): Boolean {
         if (utils?.isTextNullOrEmpty(username)!!) {
-            view?.showSnackBarShortTime(utils?.getStringFromResourceId(R.string.username_error_login)!!, viewActivity)
+            view?.showToastShortTime(utils?.getStringFromResourceId(R.string.username_error_login)!!)
             return false
         }
         if (utils?.isTextNullOrEmpty(password)!!) {
-            view?.showSnackBarShortTime(utils?.getStringFromResourceId(R.string.password_error_login)!!, viewActivity)
+            view?.showToastShortTime(utils?.getStringFromResourceId(R.string.password_error_login)!!)
             return false
         }
 
         if (utils?.isTextNullOrEmpty(phoneNo)!!) {
-            view?.showSnackBarShortTime(utils?.getStringFromResourceId(R.string.phone_no_error)!!, viewActivity)
+            view?.showToastShortTime(utils?.getStringFromResourceId(R.string.phone_no_error)!!)
             return false
         }
         if (utils?.isTextNullOrEmpty(emailAddress)!!) {
-            view?.showSnackBarShortTime(utils?.getStringFromResourceId(R.string.email_address_error)!!, viewActivity)
+            view?.showToastShortTime(utils?.getStringFromResourceId(R.string.email_address_error)!!)
             return false
         }
 

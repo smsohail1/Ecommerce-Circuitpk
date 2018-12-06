@@ -19,8 +19,8 @@ public interface DeliveyBillingDetailsMVP {
 
         void showBillingAmountDetailView(String flatCharges, String firstName, String lastName, String company, String phone,
                                          String email, String streetAddress1, String streetAddress2,
-                                         String country, String stateCountry, String townCity, String paymode,
-                                         String notes, String postalCode);
+                                         String townCity, String paymode,
+                                         String notes);
 
     }
 
@@ -29,8 +29,8 @@ public interface DeliveyBillingDetailsMVP {
 
         void saveDetails(String firstName, String lastName, String company, String phone, String email,
                          String streetAddress1, String streetAddress2,
-                         String country, String stateCountry, String townCity, String paymode, String notes,
-                         String flatCharges, String postalCode);
+                         String townCity, String paymode, String notes,
+                         String flatCharges);
 
     }
 

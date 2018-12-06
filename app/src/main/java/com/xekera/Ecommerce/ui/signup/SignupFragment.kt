@@ -81,7 +81,7 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
         progressDialogControllerPleaseWait = ProgressCustomDialogController(getActivity(), R.string.please_wait)
 
-        (activity as BaseActivity).hideBottomNavigation()
+        //  (activity as BaseActivity).hideBottomNavigation()
 
         utils?.hideSoftKeyboard(edtUsername)
 
@@ -211,7 +211,8 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
     override fun signUpSuccessfully() {
 
-        this!!.view?.let { showSnackBarShortTime("SignUp successfully.", it) }
+        showToastShortTime("SignUp successfully.");
+//        this!!.view?.let { showSnackBarShortTime("SignUp successfully.", it) }
         Handler().postDelayed({
             (activity as BaseActivity).popBackstack()
         }, 100)

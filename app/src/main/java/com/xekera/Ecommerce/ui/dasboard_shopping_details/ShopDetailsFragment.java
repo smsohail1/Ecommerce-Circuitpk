@@ -120,7 +120,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         super.onResume();
         presenter.setView(this);
 
-        ((BaseActivity) getActivity()).hideBottomNavigation();
+      //  ((BaseActivity) getActivity()).hideBottomNavigation();
         List<String> img;
         img = new ArrayList<>();
         img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
@@ -273,7 +273,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         ButterKnife.bind(this, v);
         presenter.setView(this);
 
-        ((BaseActivity) getActivity()).hideBottomNavigation();
+      //  ((BaseActivity) getActivity()).hideBottomNavigation();
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 

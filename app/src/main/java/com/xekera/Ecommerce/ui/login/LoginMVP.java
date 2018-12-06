@@ -14,13 +14,15 @@ public interface LoginMVP {
         void showSnackBarShortTime(String message, android.view.View view);
         void showSnackBarLongTime(String message, android.view.View view);
         void showHomeScreen();
+        void showSnackBarShortTime(String message);
+
 
         void loggedInSuccessfully();
     }
 
     interface Presenter{
         void setView(LoginMVP.View view);
-        void onClickBtnSignIn(String username, String password, android.view.View view);
+        void onClickBtnSignIn(String username, String password);
         void oncClickBtnSignUp();
     }
 

@@ -89,6 +89,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     protected RecyclerView recyclerViewImageDetails;
     @BindView(R.id.availabilitStockTextView)
     protected TextView availabilitStockTextView;
+    @BindView(R.id.productNameTextview)
+    protected TextView productNameTextview;
 
     @Inject
     protected ShopCardSelectedMVP.Presenter presenter;
@@ -141,7 +143,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         presenter.setView(this);
 
         try {
-            ((BaseActivity) getActivity()).hideBottomNavigation();
+            //  ((BaseActivity) getActivity()).hideBottomNavigation();
             //setProductDetails();
 
 //            placeName = sessionManager.getKeyPlaceName();
@@ -198,6 +200,11 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             if (shoppingDetailModel != null && shoppingDetailModel.getProductName() != null) {
                 productNameLabelTextView.setText(shoppingDetailModel.getProductName());
             }
+
+            if (shoppingDetailModel != null && shoppingDetailModel.getProductName() != null) {
+                productNameTextview.setText(shoppingDetailModel.getProductName());
+            }
+
             if (bitmapImage != null) {
                 imgProduct.setImageBitmap(bitmapImage);
 
@@ -285,7 +292,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         ButterKnife.bind(this, v);
         presenter.setView(this);
 
-        ((BaseActivity) getActivity()).hideBottomNavigation();
+        // ((BaseActivity) getActivity()).hideBottomNavigation();
 
         incrementImageButton.setOnClickListener(this);
         decrementImageButton.setOnClickListener(this);
@@ -415,6 +422,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     public void setIsFavourite(boolean isFavourite) {
         favouriteButton.setChecked(isFavourite);
     }
+
+
 
 
     @Override

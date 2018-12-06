@@ -49,6 +49,7 @@ public interface ShopCardSelectedMVP {
         void animationAddButton();
 
         void setIsFavourite(boolean isFavourite);
+
     }
 
     interface Presenter {
@@ -71,7 +72,7 @@ public interface ShopCardSelectedMVP {
 
         void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice, ImageView imgProductCopy);
 
-        void addItemToFavourites(Favourites favourites,boolean isChecked);
+        void addItemToFavourites(Favourites favourites, boolean isChecked);
 
         void setIsFavourite(String productName);
     }
@@ -103,5 +104,6 @@ public interface ShopCardSelectedMVP {
         void getFavouritesCount(String productName, ShopCardSelectedModel.IFetchFavouritesDetails iFetchFavouritesDetails);
 
         void deleteItem(String itemName, ShopCardSelectedModel.IRemoveFavouriteItemDetails iRemoveFavouriteItemDetails);
+
     }
 }

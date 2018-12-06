@@ -47,6 +47,8 @@ public interface BillingTotalAmountViewMVP {
         void bookingObject(List<Booking> AddToCartList);
 
         void deleteItemsFromCart();
+
+        void setAdapter(List<AddToCart> addToCarts);
     }
 
     interface Presenter {
@@ -60,8 +62,8 @@ public interface BillingTotalAmountViewMVP {
 
         void addItemsToBooking(List<AddToCart> addToCarts, String firstName, String lastName, String company, String phone,
                                String email, String streetAddress1, String streetAddress2,
-                               String country, String stateCountry, String townCity, String paymode,
-                               String notes, String flatCharges, String postalCode);
+                               String townCity, String paymode,
+                               String notes, String flatCharges);
 
     }
 
@@ -77,8 +79,8 @@ public interface BillingTotalAmountViewMVP {
         void addItemsToBooking(List<AddToCart> addToCarts,
                                String firstName, String lastName, String company, String phone,
                                String email, String streetAddress1, String streetAddress2,
-                               String country, String stateCountry, String townCity, String paymode,
-                               String notes, String flatCharges, String postalCode,
+                               String townCity, String paymode,
+                               String notes, String flatCharges,
                                BillingTotalAmountViewModel.IFetchCartBookingDetailsList iFetchCartDetailsList);
 
     }

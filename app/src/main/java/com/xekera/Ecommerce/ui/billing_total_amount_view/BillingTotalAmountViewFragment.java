@@ -21,6 +21,7 @@ import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
 import com.xekera.Ecommerce.ui.adapter.BillingTotalAmountViewAdapter;
+import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
@@ -68,24 +69,24 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     @Inject
     protected SessionManager sessionManager;
 
+
+    BillingTotalAmountViewAdapter adapter;
+
     public static final String KEY_FLAT_CHARGES = "flat_charges";
     public static final String KEY_FIRST_NAME = "first_name";
     public static final String KEY_LAST_NAME = "last_name";
     public static final String KEY_COMPANY_NAME = "company_name";
     public static final String KEY_PHONE_NO = "phone_no";
     public static final String KEY_EMAIL = "email";
-    public static final String KEY_COUNTRY = "country";
     public static final String KEY_STREET_ADDRESS1 = "street_address1";
     public static final String KEY_STREET_ADDRESS2 = "street_address2";
     public static final String KEY_TOWN_CITY = "town_city";
-    public static final String KEY_STATE_COUNTRY = "state_country";
-    public static final String KEY_POSTAL_CODE = "postal_code";
     public static final String KEY_PAYMENT_MODE = "payment_mode";
     public static final String KEY_ORDER_NOTES = "order_notes";
 
 
-    String flatCharges = "", firstName = "", lastName = "", companyName = "", phoneNo = "", email = "", country = "", streetAddress1 = "",
-            streetAddress2 = "", townCity = "", stateCountry = "", postalCode = "", paymentMode = "", orderNotes = "";
+    String flatCharges = "", firstName = "", lastName = "", companyName = "", phoneNo = "", email = "", streetAddress1 = "",
+            streetAddress2 = "", townCity = "", paymentMode = "", orderNotes = "";
     List<String> cartItems;
     List<Booking> cartList;
 
@@ -105,12 +106,9 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         companyName = getArguments().getString(KEY_COMPANY_NAME, "");
         phoneNo = getArguments().getString(KEY_PHONE_NO, "");
         email = getArguments().getString(KEY_EMAIL, "");
-        country = getArguments().getString(KEY_COUNTRY, "");
         streetAddress1 = getArguments().getString(KEY_STREET_ADDRESS1, "");
         streetAddress2 = getArguments().getString(KEY_STREET_ADDRESS2, "");
         townCity = getArguments().getString(KEY_TOWN_CITY, "");
-        stateCountry = getArguments().getString(KEY_STATE_COUNTRY, "");
-        postalCode = getArguments().getString(KEY_POSTAL_CODE, "");
         paymentMode = getArguments().getString(KEY_PAYMENT_MODE, "");
         orderNotes = getArguments().getString(KEY_ORDER_NOTES, "");
 
@@ -120,7 +118,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     @Override
     public void onResume() {
         super.onResume();
-        ((BaseActivity) getActivity()).hideBottomNavigation();
+       // ((BaseActivity) getActivity()).hideBottomNavigation();
 
     }
 
@@ -144,7 +142,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
 
         btnConfirmCheckout.setOnClickListener(this);
-        ((BaseActivity) getActivity()).hideBottomNavigation();
+       // ((BaseActivity) getActivity()).hideBottomNavigation();
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
@@ -221,8 +219,8 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
     public BillingTotalAmountViewFragment newInstance(String flatCharges, String firstName, String lastName, String company, String phone,
                                                       String email, String streetAddress1, String streetAddress2,
-                                                      String country, String stateCountry, String townCity, String paymode,
-                                                      String notes, String postalCode) {
+                                                      String townCity, String paymode,
+                                                      String notes) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_FLAT_CHARGES, flatCharges);
         bundle.putString(KEY_FIRST_NAME, firstName);
@@ -230,14 +228,11 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         bundle.putString(KEY_COMPANY_NAME, company);
         bundle.putString(KEY_PHONE_NO, phone);
         bundle.putString(KEY_EMAIL, email);
-        bundle.putString(KEY_COUNTRY, country);
         bundle.putString(KEY_STREET_ADDRESS1, streetAddress1);
         bundle.putString(KEY_STREET_ADDRESS2, streetAddress2);
-        bundle.putString(KEY_STATE_COUNTRY, stateCountry);
         bundle.putString(KEY_TOWN_CITY, townCity);
         bundle.putString(KEY_PAYMENT_MODE, paymode);
         bundle.putString(KEY_ORDER_NOTES, notes);
-        bundle.putString(KEY_POSTAL_CODE, postalCode);
 
         BillingTotalAmountViewFragment fragment = new BillingTotalAmountViewFragment();
         fragment.setArguments(bundle);
@@ -275,7 +270,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         }
 
         presenter.addItemsToBooking(addToCarts, firstName, lastName, companyName, phoneNo, email, streetAddress1, streetAddress2,
-                country, stateCountry, townCity, paymentMode, orderNotes, flatCharges, postalCode);
+                townCity, paymentMode, orderNotes, flatCharges);
     }
 
 
@@ -304,6 +299,26 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     public void deleteItemsFromCart() {
         presenter.deleteCartItems(cartItems);
 
+    }
+
+    @Override
+    public void setAdapter(List<AddToCart> addToCarts) {
+        adapter = new BillingTotalAmountViewAdapter(addToCarts);
+        showRecylerViewProductsDetail(adapter);
+
+        getSubTotal(addToCarts);
+
+    }
+
+    private void getSubTotal(List<AddToCart> addToCarts) {
+        long price = 0;
+
+        for (AddToCart i : addToCarts) {
+            price = price + Long.valueOf(i.getItemPrice());
+
+        }
+        setSubTotal(String.valueOf(price));
+        //  view.setCartCounts(addToCarts.size());
     }
 
     @Override

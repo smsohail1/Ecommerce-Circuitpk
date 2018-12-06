@@ -96,7 +96,7 @@
                                     android:layout_height="wrap_content"
                                     android:textSize="@dimen/textview_login_height"
                                     android:text="Login"
-                                    android:visibility="visible"
+                                    android:visibility="gone"
                                     android:textColor="@color/textview_login_color"
                             />
                         </RelativeLayout>
@@ -171,26 +171,43 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="45dp"
     />
+
     <FrameLayout
             android:id="@+id/fragmentContainer2"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="45dp"
+
     />
 
 
     <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_gravity="bottom"
-            android:background="?android:attr/windowBackground"
-            app:itemBackground="@color/bgBottomNavigation"
+            app:itemIconTint="#ffffff"
+            app:itemTextColor="#ffffff"
+            android:background="@color/colorPrimary"
+            app:itemBackground="@drawable/activated_background"
             android:foreground="?attr/selectableItemBackground"
-            app:itemIconTint="@android:color/white"
-            app:itemTextColor="@android:color/white"
             app:menu="@menu/dashboard_bottom_navigation_drawer"/>
+
+    <!--<android.support.design.widget.BottomNavigationView-->
+    <!--android:id="@+id/navigation"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="45dp"-->
+    <!--android:layout_gravity="bottom"-->
+    <!--android:background="?android:attr/windowBackground"-->
+    <!--app:itemBackground="@color/bgBottomNavigation"-->
+    <!--android:foreground="?attr/selectableItemBackground"-->
+    <!--app:itemIconTint="@android:color/white"-->
+    <!--app:itemTextColor="@android:color/white"-->
+    <!--app:menu="@menu/dashboard_bottom_navigation_drawer"/>-->
+
 
     <!--<com.TCS.DeliveryAPP.util.CustomView-->
     <!--android:id="@+id/magnifier"-->

@@ -26,42 +26,76 @@
     <!--app:highlightColor="#80fb1743"-->
     <!--app:strokeColor="@color/colorAccent"-->
     <!--app:strokeWidth="2px" />-->
-    <LinearLayout android:layout_width="wrap_content"
+    <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:gravity="center_horizontal"
-                  android:orientation="vertical">
+                  android:weightSum="1.0"
+                  android:orientation="horizontal">
+
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:layout_weight="0.5"
+                      android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/img"
+                    android:layout_width="95dp"
+                    android:layout_height="90dp"
+                    android:src="@drawable/icon_user_profile"
+                    app:civ_border_width="2dp"
+                    android:padding="5dp"
+                    app:civ_border_color="#ffffff"
+            />
+            <Button
+                    android:id="@+id/btnChangePhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btn_atake_photo_height"
+                    android:theme="@style/changePhotoButton"
+                    android:textSize="12sp"
+                    android:textColor="@color/btn_change_photo"
+                    android:layout_marginTop="2dp"
+                    android:textAllCaps="false"
+                    android:text="Change Photo"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_height="match_parent"
+                      android:layout_weight="0.5"
+                      android:gravity="center_vertical"
+
+                      android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/txtUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/txt_drawer_courier_name_size"
+                    android:textColor="#ffffff"
+            />
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/img"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/icon_user_profile"
-                app:civ_border_width="2dp"
-                android:padding="5dp"
-                app:civ_border_color="#ffffff"
-        />
+            <TextView
+                    android:id="@+id/txtUserPhoneNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="#ffffff"
+                    android:layout_marginTop="2dp"
+                    android:textSize="@dimen/txt_drawer_courier_name_size"
+            />
+            <TextView
+                    android:id="@+id/txtUserEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:layout_marginTop="2dp"
+                    android:visibility="gone"
+                    android:textSize="@dimen/txt_drawer_courier_name_size"
+            />
 
 
-        <TextView
-                android:id="@+id/txtCourierName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/nav_header_vertical_spacing"
-                android:textSize="@dimen/txt_drawer_courier_name_size"
-                android:text="Mr.James"
-                android:textColor="#ffffff"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        </LinearLayout>
 
-        <TextView
-                android:id="@+id/txtCourierDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textSize="@dimen/txt_drawer_courier_route_size"
-                android:visibility="gone"
-        />
     </LinearLayout>
 
 </LinearLayout>

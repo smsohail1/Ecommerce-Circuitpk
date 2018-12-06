@@ -72,6 +72,8 @@
                     android:background="@drawable/bg_stroke_sign_in_edt"
                     android:drawableLeft="@drawable/icon_courier_code"
                     android:drawablePadding="7dp"
+                    android:paddingRight="25dp"
+
                     android:fontFamily="@font/titilliu_web_regular"
                     android:hint="@string/employee_code_hint_signup_edt"
                     android:inputType="text"
@@ -114,11 +116,12 @@
                     android:hint="@string/password_hint_signup_edt"
                     android:inputType="textPassword"
                     android:imeOptions="actionDone"
+                    android:paddingRight="25dp"
+
                     android:maxLength="15"
                     android:textColorHint="#ffffff"
                     android:textCursorDrawable="@drawable/cursor_color"
                     android:textSize="14sp"
-                    android:paddingRight="10dp"
 
             />
 
@@ -135,6 +138,8 @@
                     android:hint="@string/phone_no_hint_signup_edt"
                     android:inputType="number"
                     android:maxLength="11"
+                    android:paddingRight="25dp"
+
                     android:layout_marginTop="10dp"
                     android:textColorHint="#ffffff"
                     android:textCursorDrawable="@drawable/cursor_color"/>
@@ -150,8 +155,9 @@
                     android:fontFamily="@font/titilliu_web_regular"
                     android:hint="@string/email_address_hint_signup_edt"
                     android:inputType="textEmailAddress"
-                    android:maxLength="30"
+                    android:maxLength="35"
                     android:layout_marginTop="10dp"
+                    android:paddingRight="25dp"
                     android:textColorHint="#ffffff"
                     android:textCursorDrawable="@drawable/cursor_color"
                     android:textSize="14sp"/>

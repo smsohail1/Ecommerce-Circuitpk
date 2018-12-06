@@ -33,18 +33,12 @@ public class Booking {
     private String phoneNo;
     @ColumnInfo(name = "email_address")
     private String emailAddress;
-    @ColumnInfo(name = "country")
-    private String country;
     @ColumnInfo(name = "street_address1")
     private String streetAddress1;
     @ColumnInfo(name = "street_address2")
     private String streetAddress2;
     @ColumnInfo(name = "town_city")
     private String townCity;
-    @ColumnInfo(name = "state_country")
-    private String stateCountry;
-    @ColumnInfo(name = "postal_code")
-    private String postalCode;
     @ColumnInfo(name = "payment_type")
     private String paymentType;
     @ColumnInfo(name = "order_notes")
@@ -61,8 +55,8 @@ public class Booking {
 
     public Booking(String orderID, String itemName, String itemIndividualPrice, String itemPrice,
                    String itemCutPrice, String itemQuantity, String firstName, String lastName,
-                   String companyName, String phoneNo, String emailAddress, String country,
-                   String streetAddress1, String streetAddress2, String townCity, String stateCountry, String postalCode,
+                   String companyName, String phoneNo, String emailAddress,
+                   String streetAddress1, String streetAddress2, String townCity,
                    String paymentType, String orderNotes, String flatCharges, String createdDate, byte[] itemImage, String transmissionStatus) {
         this.orderID = orderID;
         this.itemName = itemName;
@@ -75,12 +69,9 @@ public class Booking {
         this.companyName = companyName;
         this.phoneNo = phoneNo;
         this.emailAddress = emailAddress;
-        this.country = country;
         this.streetAddress1 = streetAddress1;
         this.streetAddress2 = streetAddress2;
         this.townCity = townCity;
-        this.stateCountry = stateCountry;
-        this.postalCode = postalCode;
         this.paymentType = paymentType;
         this.orderNotes = orderNotes;
         this.flatCharges = flatCharges;
@@ -185,13 +176,6 @@ public class Booking {
         this.emailAddress = emailAddress;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
 
     public String getStreetAddress1() {
         return streetAddress1;
@@ -217,21 +201,6 @@ public class Booking {
         this.townCity = townCity;
     }
 
-    public String getStateCountry() {
-        return stateCountry;
-    }
-
-    public void setStateCountry(String stateCountry) {
-        this.stateCountry = stateCountry;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
 
     public String getPaymentType() {
         return paymentType;

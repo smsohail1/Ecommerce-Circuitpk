@@ -21,6 +21,7 @@ import com.xekera.Ecommerce.ui.login.LoginFragment;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class AddToCartFragment extends Fragment implements AddToCartMVP.View, AddToCartAdapter.IShopDetailAdapter,
         View.OnClickListener {
@@ -57,6 +58,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     @Inject
     protected SessionManager sessionManager;
 
+    AddToCartAdapter adapter;
 
     String latitude = "";
     String longitude = "";
@@ -80,7 +82,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     public void onResume() {
         super.onResume();
         try {
-            ((BaseActivity) getActivity()).showBottomNavigation();
+            // ((BaseActivity) getActivity()).showBottomNavigation();
             // btnCheckout.setClickable(true);
 
 //            placeName = sessionManager.getKeyPlaceName();
@@ -181,7 +183,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);
-        ((BaseActivity) getActivity()).showBottomNavigation();
+        // ((BaseActivity) getActivity()).showBottomNavigation();
 
 
         btnCheckout.setOnClickListener(this);
@@ -275,8 +277,14 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     }
 
     @Override
-    public void removeItemFromCart(AddToCart productItems) {
+    public void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName, String cutPrice, byte[] bytes) {
+        presenter.saveProductDetails(quantity, individualPrice, itemPrice, productName,
+                cutPrice, bytes);
+    }
 
+    @Override
+    public void removeItemFromCart(AddToCart productItems) {
+        presenter.removeItemFromCart(productItems);
     }
 
 
@@ -334,7 +342,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    showSnackBarLongTime("Required SignUp/Login for further proceed. ", getView());
+                    showToastLongTime("Required SignUp/Login for further proceed.");
                     ((BaseActivity) getActivity()).addFragment(new LoginFragment());
 
                 }
@@ -354,6 +362,29 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     @Override
     public void setCartCounterTextview(int counts) {
         ((BaseActivity) getActivity()).showTotalCartsCount(counts);
+
+    }
+
+    @Override
+    public void setAdapter(List<AddToCart> addToCarts) {
+        adapter = new AddToCartAdapter(addToCarts, this);
+        showRecylerViewProductsDetail(adapter);
+
+
+        getSubTotal(addToCarts);
+    }
+
+    private void getSubTotal(List<AddToCart> addToCarts) {
+        long price = 0;
+
+        for (AddToCart i : addToCarts) {
+            price = price + Long.valueOf(i.getItemPrice());
+            // price = price + (Long.valueOf(i.getItemPrice()) * Long.valueOf(i.getItemQuantity()));
+
+        }
+        setSubTotal(String.valueOf(price));
+        setCartCounts(addToCarts.size());
+        setCartCounterTextview(addToCarts.size());
 
     }
 

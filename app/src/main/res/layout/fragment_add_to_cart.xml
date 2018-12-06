@@ -59,7 +59,7 @@
                                     android:id="@+id/subTotalLabelTextView"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/discount_price_textview"
+                                    android:textColor="@color/card_textview"
                                     android:text="Sub Total"
                                     android:textSize="@dimen/txt_report_list_item_size"/>
                             <RelativeLayout android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
                                     android:id="@+id/shippingLabelTextView"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/discount_price_textview"
+                                    android:textColor="@color/card_textview"
                                     android:text="Shipping Flat Rate"
                                     android:textSize="@dimen/txt_report_list_item_size"/>
 
@@ -128,7 +128,7 @@
                                     android:id="@+id/totalLabelTextView"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/discount_price_textview"
+                                    android:textColor="@color/card_textview"
                                     android:text="Total"
                                     android:textSize="@dimen/txt_report_list_item_size"/>
 
@@ -168,7 +168,7 @@
                                     android:id="@+id/btnCheckout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Checkout"
+                                    android:text="Confirm Checkout"
                                     android:textColor="@color/btn_white_add_to_cart"
                                     android:theme="@style/PrimaryButton"
                                     android:clickable="true"
@@ -220,7 +220,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="3dp"
                                 android:gravity="center_horizontal"
-                                android:textColor="@color/discount_price_textview"
+                                android:textColor="@color/card_textview"
                                 android:textSize="@dimen/no_item_found_txt_size"
                                 android:text="@string/no_item_found"
                                 android:visibility="gone"

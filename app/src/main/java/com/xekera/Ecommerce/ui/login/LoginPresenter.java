@@ -28,8 +28,8 @@ public class LoginPresenter implements LoginMVP.Presenter {
     }
 
     @Override
-    public void onClickBtnSignIn(final String username, String password, View activity) {
-        if (validateInputFields(username, password, activity)) {
+    public void onClickBtnSignIn(final String username, String password) {
+        if (validateInputFields(username, password)) {
             // if (utils.isInternetAvailable()) {
             if (sessionManager.getusername().equalsIgnoreCase(username) &&
                     sessionManager.getuserPassword().equals(password)) {
@@ -48,13 +48,13 @@ public class LoginPresenter implements LoginMVP.Presenter {
     }
 
 
-    private boolean validateInputFields(String username, String password, View viewActivity) {
+    private boolean validateInputFields(String username, String password) {
         if (utils.isTextNullOrEmpty(username)) {
-            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.username_error_login), viewActivity);
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.username_error_login));
             return false;
         }
         if (utils.isTextNullOrEmpty(password)) {
-            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.password_error_login), viewActivity);
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.password_error_login));
             return false;
         }
         return true;

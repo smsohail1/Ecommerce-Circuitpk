@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 import butterknife.BindView;
@@ -49,16 +50,10 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     protected EditText edtStreetAddress1;
     @BindView(R.id.edtStreetAddress2)
     protected EditText edtStreetAddress2;
-    @BindView(R.id.edtPostalCode)
-    protected EditText edtPostalCode;
     @BindView(R.id.edtNotes)
     protected EditText edtNotes;
-    @BindView(R.id.spinnerCountry)
-    protected Spinner spinnerCountry;
     @BindView(R.id.spinnerTownCity)
     protected Spinner spinnerTownCity;
-    @BindView(R.id.spinnerStateCountry)
-    protected Spinner spinnerStateCountry;
 
     @BindView(R.id.edtFirstnameDiffAddress)
     protected EditText edtFirstnameDiffAddress;
@@ -74,14 +69,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     protected EditText edtStreetAddress1DiffAddress;
     @BindView(R.id.edtStreetAddress2DiffAddress)
     protected EditText edtStreetAddress2DiffAddress;
-    @BindView(R.id.edtPostalCodeDiffAddress)
-    protected EditText edtPostalCodeDiffAddress;
-    @BindView(R.id.spinnerCountryDiffAddress)
-    protected Spinner spinnerCountryDiffAddress;
     @BindView(R.id.spinnerTownCityDiffAddress)
     protected Spinner spinnerTownCityDiffAddress;
-    @BindView(R.id.spinnerStateCountryDiffAddress)
-    protected Spinner spinnerStateCountryDiffAddress;
 
     @BindView(R.id.radioGroup)
     protected RadioGroup radioGroup;
@@ -103,13 +92,11 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     protected SessionManager sessionManager;
 
 
-    String selectedSpinnerCountry = "", selectedSpinnerStateCountry = "", selectedSpinnerTownCity = "";
-    String selectedSpinnerCountryDiffAddress = "", selectedSpinnerStateCountryDiffAddress = "", selectedSpinnerTownCityDiffAddress = "";
+    String selectedSpinnerTownCity = "";
+    String selectedSpinnerTownCityDiffAddress = "";
     String selectedPaymentMode = "", selectedPaymentModeDiffAddress = "";
 
-    List<String> country;
     List<String> cityTown;
-    List<String> stateCountry;
 
 
     public DeliveyBillingDetailsFragment() {
@@ -127,7 +114,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     public void onResume() {
         super.onResume();
         presenter.setView(this);
-        ((BaseActivity) getActivity()).hideBottomNavigation();
+        // ((BaseActivity) getActivity()).hideBottomNavigation();
 
     }
 
@@ -151,40 +138,28 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
         btnCheckout.setOnClickListener(this);
 
-        ((BaseActivity) getActivity()).hideBottomNavigation();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        // ((BaseActivity) getActivity()).hideBottomNavigation();
 
 
         edtFirstname.setText(sessionManager.getusername());
         edtPhoneNo.setText(sessionManager.getphoneno());
         edtEmail.setText(sessionManager.getEmail());
 
-        country = Arrays.asList(getResources().getStringArray(R.array.country));
+//        country = Arrays.asList(getResources().getStringArray(R.array.country));
         cityTown = Arrays.asList(getResources().getStringArray(R.array.town_city));
-        stateCountry = Arrays.asList(getResources().getStringArray(R.array.state_country));
+        //      stateCountry = Arrays.asList(getResources().getStringArray(R.array.state_country));
 
-
-        // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, country);
-
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
-        spinnerCountry.setAdapter(new RelationAdapter(country));
-        spinnerStateCountry.setAdapter(new RelationAdapter(stateCountry));
         spinnerTownCity.setAdapter(new RelationAdapter(cityTown));
 
 
-        spinnerCountry.setSelection(0);
-        spinnerStateCountry.setSelection(0);
         spinnerTownCity.setSelection(0);
 
-        spinnerCountryDiffAddress.setAdapter(new RelationAdapter(country));
-        spinnerStateCountryDiffAddress.setAdapter(new RelationAdapter(stateCountry));
         spinnerTownCityDiffAddress.setAdapter(new RelationAdapter(cityTown));
 
-        spinnerCountryDiffAddress.setSelection(0);
-        spinnerStateCountryDiffAddress.setSelection(0);
         spinnerTownCityDiffAddress.setSelection(0);
 
         radioGroup.clearCheck();
@@ -361,8 +336,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     public void showBillingAmountDetailView(final String flatCharges, final String firstName, final String lastName,
                                             final String company, final String phone,
                                             final String email, final String streetAddress1, final String streetAddress2,
-                                            final String country, final String stateCountry, final String townCity, final String paymode,
-                                            final String notes, final String postalCode) {
+                                            final String townCity, final String paymode,
+                                            final String notes) {
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -370,7 +345,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                 BillingTotalAmountViewFragment billingTotalAmountViewFragment = new BillingTotalAmountViewFragment();
                 ((BaseActivity) getActivity()).addFragment
                         (billingTotalAmountViewFragment.newInstance(flatCharges, firstName, lastName, company, phone,
-                                email, streetAddress1, streetAddress2, country, stateCountry, townCity, paymode, notes, postalCode));
+                                email, streetAddress1, streetAddress2, townCity, paymode, notes));
 
             }
         }, 200);
@@ -394,7 +369,6 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                 utils.hideSoftKeyboard(edtEmail);
                 utils.hideSoftKeyboard(edtStreetAddress1);
                 utils.hideSoftKeyboard(edtStreetAddress2);
-                utils.hideSoftKeyboard(edtPostalCode);
 
                 utils.hideSoftKeyboard(edtFirstnameDiffAddress);
                 utils.hideSoftKeyboard(edtLastnameDiffAddress);
@@ -403,15 +377,11 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                 utils.hideSoftKeyboard(edtEmailDiffAddress);
                 utils.hideSoftKeyboard(edtStreetAddress1DiffAddress);
                 utils.hideSoftKeyboard(edtStreetAddress2DiffAddress);
-                utils.hideSoftKeyboard(edtPostalCodeDiffAddress);
                 utils.hideSoftKeyboard(edtNotes);
 
 
                 if (shipToDiffAddressCheckBox.isChecked()) {
 
-                    selectedSpinnerCountryDiffAddress = country.get(spinnerCountryDiffAddress.getSelectedItemPosition());
-
-                    selectedSpinnerStateCountryDiffAddress = stateCountry.get(spinnerStateCountryDiffAddress.getSelectedItemPosition());
 
                     String flatChargesAmount = "250";
                     selectedSpinnerTownCityDiffAddress = cityTown.get(spinnerTownCityDiffAddress.getSelectedItemPosition());
@@ -426,13 +396,10 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                     presenter.saveDetails(edtFirstnameDiffAddress.getText().toString(), edtLastnameDiffAddress.getText().toString(),
                             edtCompanyNameDiffAddress.getText().toString(), edtPhoneNoDiffAddress.getText().toString(),
                             edtEmailDiffAddress.getText().toString(), edtStreetAddress1DiffAddress.getText().toString(),
-                            edtStreetAddress2DiffAddress.getText().toString(), selectedSpinnerCountryDiffAddress, selectedSpinnerStateCountryDiffAddress,
+                            edtStreetAddress2DiffAddress.getText().toString(),
                             selectedSpinnerTownCityDiffAddress, selectedPaymentModeDiffAddress, edtNotes.getText().toString(),
-                            flatChargesAmount, edtPostalCodeDiffAddress.getText().toString());
+                            flatChargesAmount);
                 } else {
-                    selectedSpinnerCountry = country.get(spinnerCountry.getSelectedItemPosition());
-
-                    selectedSpinnerStateCountry = stateCountry.get(spinnerStateCountry.getSelectedItemPosition());
 
                     selectedSpinnerTownCity = cityTown.get(spinnerTownCity.getSelectedItemPosition());
 
@@ -446,9 +413,9 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                     presenter.saveDetails(edtFirstname.getText().toString(), edtLastname.getText().toString(),
                             edtCompanyName.getText().toString(), edtPhoneNo.getText().toString(),
                             edtEmail.getText().toString(), edtStreetAddress1.getText().toString(),
-                            edtStreetAddress2.getText().toString(), selectedSpinnerCountry, selectedSpinnerStateCountry,
+                            edtStreetAddress2.getText().toString(),
                             selectedSpinnerTownCity, selectedPaymentMode, edtNotes.getText().toString(),
-                            flatChargesAmount, edtPostalCode.getText().toString());
+                            flatChargesAmount);
                 }
 
 

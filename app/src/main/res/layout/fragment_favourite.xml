@@ -69,7 +69,7 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="3dp"
                             android:gravity="center_horizontal"
-                            android:textColor="@color/discount_price_textview"
+                            android:textColor="@color/card_textview"
                             android:textSize="@dimen/no_item_found_txt_size"
                             android:text="@string/label_no_favourite_item_found"
                     />

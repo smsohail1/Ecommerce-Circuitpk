@@ -59,10 +59,6 @@
                             android:layout_marginRight="3dp"
                             android:layout_marginTop="2dp"
                             app:cardCornerRadius="5dp"
-                            android:clickable="true"
-
-                            android:foreground="?android:attr/selectableItemBackground"
-
                             app:cardElevation="2dp">
                         <LinearLayout
                                 android:layout_width="match_parent"
@@ -326,10 +322,6 @@
                             android:layout_marginRight="3dp"
                             android:layout_marginTop="2dp"
                             app:cardCornerRadius="5dp"
-                            android:clickable="true"
-
-                            android:foreground="?android:attr/selectableItemBackground"
-
                             app:cardElevation="2dp">
                         <LinearLayout
                                 android:layout_width="match_parent"
@@ -354,56 +346,56 @@
 
                             </LinearLayout>
 
-                            <LinearLayout android:layout_width="match_parent"
-                                          android:layout_height="wrap_content"
-                                          android:layout_marginTop="10dp"
-                                          android:weightSum="1.0"
-                                          android:orientation="horizontal">
-                                <LinearLayout android:layout_width="0dp"
-                                              android:layout_height="wrap_content"
-                                              android:layout_gravity="center_vertical"
-                                              android:layout_weight="0.25"
-                                              android:orientation="horizontal">
+                            <!--<LinearLayout android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="10dp"-->
+                            <!--android:weightSum="1.0"-->
+                            <!--android:orientation="horizontal">-->
+                            <!--<LinearLayout android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="center_vertical"-->
+                            <!--android:layout_weight="0.25"-->
+                            <!--android:orientation="horizontal">-->
 
-                                    <TextView
-                                            android:id="@+id/deliveryAddressLabelTextView"
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:textColor="@color/discount_price_textview"
-                                            android:text="@string/edt_billing_detail_country"
-                                            android:textStyle="bold"
-                                            android:layout_weight="0.8"
+                            <!--<TextView-->
+                            <!--android:id="@+id/deliveryAddressLabelTextView"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:textColor="@color/discount_price_textview"-->
+                            <!--android:text="@string/edt_billing_detail_country"-->
+                            <!--android:textStyle="bold"-->
+                            <!--android:layout_weight="0.8"-->
 
-                                            android:textSize="@dimen/txt_report_list_item_size"/>
+                            <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
 
-                                    <ImageView
-                                            android:layout_width="0dp"
-                                            android:layout_weight="0.2"
+                            <!--<ImageView-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_weight="0.2"-->
 
-                                            android:layout_height="15dp"
-                                            android:src="@drawable/icon_asterik"/>
+                            <!--android:layout_height="15dp"-->
+                            <!--android:src="@drawable/icon_asterik"/>-->
 
-                                </LinearLayout>
-                                <!--<EditText-->
-                                <!--android:id="@+id/edtCountry"-->
-                                <!--android:layout_width="0dp"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:textColor="@color/availibility_textview"-->
-                                <!--android:layout_weight="0.75"-->
-                                <!--android:layout_marginLeft="5dp"-->
-                                <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
+                            <!--</LinearLayout>-->
+                            <!--&lt;!&ndash;<EditText&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:id="@+id/edtCountry"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:textColor="@color/availibility_textview"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_weight="0.75"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_marginLeft="5dp"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:textSize="@dimen/txt_report_list_item_size"/>&ndash;&gt;-->
 
-                                <Spinner
-                                        android:id="@+id/spinnerCountry"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:background="@drawable/bg_spinner_receiver_name"
-                                        android:textColor="@color/availibility_textview"
-                                        android:layout_weight="0.75"
-                                        android:layout_marginLeft="10dp"
-                                        android:textSize="@dimen/txt_report_list_item_size"/>
+                            <!--<Spinner-->
+                            <!--android:id="@+id/spinnerCountry"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="@drawable/bg_spinner_receiver_name"-->
+                            <!--android:textColor="@color/availibility_textview"-->
+                            <!--android:layout_weight="0.75"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
 
-                            </LinearLayout>
+                            <!--</LinearLayout>-->
 
 
                             <LinearLayout android:layout_width="match_parent"
@@ -524,101 +516,101 @@
                             </LinearLayout>
 
 
-                            <LinearLayout android:layout_width="match_parent"
-                                          android:layout_height="wrap_content"
-                                          android:layout_marginTop="10dp"
+                            <!--<LinearLayout android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="10dp"-->
 
-                                          android:weightSum="1.0"
-                                          android:orientation="horizontal">
-                                <LinearLayout android:layout_width="0dp"
-                                              android:layout_height="wrap_content"
-                                              android:layout_gravity="center_vertical"
-                                              android:layout_weight="0.25"
-                                              android:orientation="horizontal">
+                            <!--android:weightSum="1.0"-->
+                            <!--android:orientation="horizontal">-->
+                            <!--<LinearLayout android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="center_vertical"-->
+                            <!--android:layout_weight="0.25"-->
+                            <!--android:orientation="horizontal">-->
 
-                                    <TextView
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:textColor="@color/discount_price_textview"
-                                            android:text="@string/edt_billing_detail_state_country"
-                                            android:textStyle="bold"
-                                            android:layout_weight="0.8"
+                            <!--<TextView-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:textColor="@color/discount_price_textview"-->
+                            <!--android:text="@string/edt_billing_detail_state_country"-->
+                            <!--android:textStyle="bold"-->
+                            <!--android:layout_weight="0.8"-->
 
-                                            android:textSize="@dimen/txt_report_list_item_size"/>
+                            <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
 
-                                    <ImageView
-                                            android:layout_width="0dp"
-                                            android:layout_height="15dp"
-                                            android:layout_weight="0.2"
+                            <!--<ImageView-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="15dp"-->
+                            <!--android:layout_weight="0.2"-->
 
-                                            android:src="@drawable/icon_asterik"/>
+                            <!--android:src="@drawable/icon_asterik"/>-->
 
-                                </LinearLayout>
-                                <!--<EditText-->
-                                <!--android:id="@+id/edtState"-->
-                                <!--android:layout_width="0dp"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:textColor="@color/availibility_textview"-->
-                                <!--android:layout_weight="0.75"-->
-                                <!--android:layout_marginLeft="5dp"-->
-                                <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
-
-
-                                <Spinner
-                                        android:id="@+id/spinnerStateCountry"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:background="@drawable/bg_spinner_receiver_name"
-                                        android:textColor="@color/availibility_textview"
-                                        android:layout_weight="0.75"
-                                        android:layout_marginLeft="10dp"
-                                        android:textSize="@dimen/txt_report_list_item_size"/>
-                            </LinearLayout>
+                            <!--</LinearLayout>-->
+                            <!--&lt;!&ndash;<EditText&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:id="@+id/edtState"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:textColor="@color/availibility_textview"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_weight="0.75"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_marginLeft="5dp"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:textSize="@dimen/txt_report_list_item_size"/>&ndash;&gt;-->
 
 
-                            <LinearLayout android:layout_width="match_parent"
-                                          android:layout_height="wrap_content"
-                                          android:weightSum="1.0"
-                                          android:layout_marginTop="5dp"
+                            <!--<Spinner-->
+                            <!--android:id="@+id/spinnerStateCountry"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="@drawable/bg_spinner_receiver_name"-->
+                            <!--android:textColor="@color/availibility_textview"-->
+                            <!--android:layout_weight="0.75"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
+                            <!--</LinearLayout>-->
 
-                                          android:orientation="horizontal">
-                                <LinearLayout android:layout_width="0dp"
-                                              android:layout_height="wrap_content"
-                                              android:layout_gravity="center_vertical"
-                                              android:layout_weight="0.25"
-                                              android:orientation="horizontal">
 
-                                    <TextView
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:textColor="@color/discount_price_textview"
-                                            android:text="@string/edt_billing_detail_postal_code"
-                                            android:textStyle="bold"
-                                            android:layout_weight="0.8"
+                            <!--<LinearLayout android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:weightSum="1.0"-->
+                            <!--android:layout_marginTop="5dp"-->
 
-                                            android:textSize="@dimen/txt_report_list_item_size"/>
+                            <!--android:orientation="horizontal">-->
+                            <!--<LinearLayout android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_gravity="center_vertical"-->
+                            <!--android:layout_weight="0.25"-->
+                            <!--android:orientation="horizontal">-->
 
-                                    <ImageView
-                                            android:layout_width="0dp"
-                                            android:layout_height="15dp"
-                                            android:layout_weight="0.2"
+                            <!--<TextView-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:textColor="@color/discount_price_textview"-->
+                            <!--android:text="@string/edt_billing_detail_postal_code"-->
+                            <!--android:textStyle="bold"-->
+                            <!--android:layout_weight="0.8"-->
 
-                                            android:src="@drawable/icon_asterik"/>
+                            <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
 
-                                </LinearLayout>
-                                <EditText
-                                        android:id="@+id/edtPostalCode"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/availibility_textview"
-                                        android:layout_weight="0.75"
-                                        android:layout_marginLeft="5dp"
-                                        android:textSize="@dimen/txt_report_list_item_size"
-                                        android:maxLength="15"
-                                        android:textCursorDrawable="@drawable/cursor_color"
-                                        android:maxLines="1"
-                                        android:inputType="text"/>
-                            </LinearLayout>
+                            <!--<ImageView-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="15dp"-->
+                            <!--android:layout_weight="0.2"-->
+
+                            <!--android:src="@drawable/icon_asterik"/>-->
+
+                            <!--</LinearLayout>-->
+                            <!--<EditText-->
+                            <!--android:id="@+id/edtPostalCode"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:textColor="@color/availibility_textview"-->
+                            <!--android:layout_weight="0.75"-->
+                            <!--android:layout_marginLeft="5dp"-->
+                            <!--android:textSize="@dimen/txt_report_list_item_size"-->
+                            <!--android:maxLength="15"-->
+                            <!--android:textCursorDrawable="@drawable/cursor_color"-->
+                            <!--android:maxLines="1"-->
+                            <!--android:inputType="text"/>-->
+                            <!--</LinearLayout>-->
 
 
                         </LinearLayout>
@@ -643,8 +635,6 @@
                             android:layout_marginRight="3dp"
                             android:layout_marginTop="2dp"
                             app:cardCornerRadius="5dp"
-                            android:clickable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
                             app:cardElevation="2dp">
 
                         <LinearLayout
@@ -764,8 +754,6 @@
                                     android:layout_marginRight="3dp"
                                     android:layout_marginTop="2dp"
                                     app:cardCornerRadius="5dp"
-                                    android:foreground="?android:attr/selectableItemBackground"
-                                    android:clickable="true"
 
                                     app:cardElevation="2dp">
                                 <LinearLayout
@@ -1030,8 +1018,6 @@
                                     android:layout_marginRight="3dp"
                                     android:layout_marginTop="2dp"
                                     app:cardCornerRadius="5dp"
-                                    android:foreground="?android:attr/selectableItemBackground"
-                                    android:clickable="true"
 
                                     app:cardElevation="2dp">
                                 <LinearLayout
@@ -1055,57 +1041,6 @@
                                         />
 
 
-                                    </LinearLayout>
-
-                                    <LinearLayout android:layout_width="match_parent"
-                                                  android:layout_height="wrap_content"
-                                                  android:layout_marginTop="10dp"
-                                                  android:weightSum="1.0"
-                                                  android:orientation="horizontal">
-                                        <LinearLayout android:layout_width="0dp"
-                                                      android:layout_height="wrap_content"
-                                                      android:layout_gravity="center_vertical"
-                                                      android:layout_weight="0.25"
-                                                      android:orientation="horizontal">
-
-                                            <TextView
-                                                    android:id="@+id/deliveryAddressLabelTextViewDiffAddress"
-                                                    android:layout_width="0dp"
-                                                    android:layout_height="wrap_content"
-                                                    android:textColor="@color/discount_price_textview"
-                                                    android:text="@string/edt_billing_detail_country"
-                                                    android:textStyle="bold"
-                                                    android:layout_weight="0.8"
-
-                                                    android:textSize="@dimen/txt_report_list_item_size"/>
-
-                                            <ImageView
-                                                    android:layout_width="0dp"
-                                                    android:layout_weight="0.2"
-
-                                                    android:layout_height="15dp"
-                                                    android:src="@drawable/icon_asterik"/>
-
-                                        </LinearLayout>
-                                        <!--<EditText-->
-                                        <!--android:id="@+id/edtCountryDiffAddress"-->
-                                        <!--android:layout_width="0dp"-->
-                                        <!--android:layout_height="wrap_content"-->
-                                        <!--android:textColor="@color/availibility_textview"-->
-                                        <!--android:layout_weight="0.75"-->
-                                        <!--android:layout_marginLeft="5dp"-->
-                                        <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
-
-
-                                        <Spinner
-                                                android:id="@+id/spinnerCountryDiffAddress"
-                                                android:layout_width="0dp"
-                                                android:layout_height="wrap_content"
-                                                android:background="@drawable/bg_spinner_receiver_name"
-                                                android:textColor="@color/availibility_textview"
-                                                android:layout_weight="0.75"
-                                                android:layout_marginLeft="10dp"
-                                                android:textSize="@dimen/txt_report_list_item_size"/>
                                     </LinearLayout>
 
 
@@ -1227,104 +1162,6 @@
                                     </LinearLayout>
 
 
-                                    <LinearLayout android:layout_width="match_parent"
-                                                  android:layout_height="wrap_content"
-                                                  android:layout_marginTop="10dp"
-
-                                                  android:weightSum="1.0"
-                                                  android:orientation="horizontal">
-                                        <LinearLayout android:layout_width="0dp"
-                                                      android:layout_height="wrap_content"
-                                                      android:layout_gravity="center_vertical"
-                                                      android:layout_weight="0.25"
-                                                      android:orientation="horizontal">
-
-                                            <TextView
-                                                    android:layout_width="0dp"
-                                                    android:layout_height="wrap_content"
-                                                    android:textColor="@color/discount_price_textview"
-                                                    android:text="@string/edt_billing_detail_state_country"
-                                                    android:textStyle="bold"
-                                                    android:layout_weight="0.8"
-
-                                                    android:textSize="@dimen/txt_report_list_item_size"/>
-
-                                            <ImageView
-                                                    android:layout_width="0dp"
-                                                    android:layout_height="15dp"
-                                                    android:layout_weight="0.2"
-
-                                                    android:src="@drawable/icon_asterik"/>
-
-                                        </LinearLayout>
-                                        <!--<EditText-->
-                                        <!--android:id="@+id/edtStateDiffAddress"-->
-                                        <!--android:layout_width="0dp"-->
-                                        <!--android:layout_height="wrap_content"-->
-                                        <!--android:textColor="@color/availibility_textview"-->
-                                        <!--android:layout_weight="0.75"-->
-                                        <!--android:layout_marginLeft="5dp"-->
-                                        <!--android:textSize="@dimen/txt_report_list_item_size"/>-->
-
-
-                                        <Spinner
-                                                android:id="@+id/spinnerStateCountryDiffAddress"
-                                                android:layout_width="0dp"
-                                                android:layout_height="wrap_content"
-                                                android:background="@drawable/bg_spinner_receiver_name"
-                                                android:textColor="@color/availibility_textview"
-                                                android:layout_weight="0.75"
-                                                android:layout_marginLeft="10dp"
-
-                                                android:textSize="@dimen/txt_report_list_item_size"/>
-                                    </LinearLayout>
-
-
-                                    <LinearLayout android:layout_width="match_parent"
-                                                  android:layout_height="wrap_content"
-                                                  android:weightSum="1.0"
-                                                  android:layout_marginTop="5dp"
-
-                                                  android:orientation="horizontal">
-                                        <LinearLayout android:layout_width="0dp"
-                                                      android:layout_height="wrap_content"
-                                                      android:layout_gravity="center_vertical"
-                                                      android:layout_weight="0.25"
-                                                      android:orientation="horizontal">
-
-                                            <TextView
-                                                    android:layout_width="0dp"
-                                                    android:layout_height="wrap_content"
-                                                    android:textColor="@color/discount_price_textview"
-                                                    android:text="@string/edt_billing_detail_postal_code"
-                                                    android:textStyle="bold"
-                                                    android:layout_weight="0.8"
-
-                                                    android:textSize="@dimen/txt_report_list_item_size"/>
-
-                                            <ImageView
-                                                    android:layout_width="0dp"
-                                                    android:layout_height="15dp"
-                                                    android:layout_weight="0.2"
-
-                                                    android:src="@drawable/icon_asterik"/>
-
-                                        </LinearLayout>
-                                        <EditText
-                                                android:id="@+id/edtPostalCodeDiffAddress"
-                                                android:layout_width="0dp"
-                                                android:layout_height="wrap_content"
-                                                android:textColor="@color/availibility_textview"
-                                                android:layout_weight="0.75"
-                                                android:layout_marginLeft="5dp"
-                                                android:textSize="@dimen/txt_report_list_item_size"
-                                                android:maxLength="15"
-                                                android:textCursorDrawable="@drawable/cursor_color"
-                                                android:maxLines="1"
-                                                android:inputType="text"/>
-                                    </LinearLayout>
-
-
                                 </LinearLayout>
 
                             </android.support.v7.widget.CardView>
@@ -1347,8 +1184,6 @@
                                     android:layout_marginRight="3dp"
                                     android:layout_marginTop="2dp"
                                     app:cardCornerRadius="5dp"
-                                    android:clickable="true"
-                                    android:foreground="?android:attr/selectableItemBackground"
                                     app:cardElevation="2dp">
 
                                 <LinearLayout
@@ -1450,7 +1285,7 @@
                     <EditText
                             android:id="@+id/edtNotes"
                             android:layout_width="match_parent"
-                            android:layout_height="150dp"
+                            android:layout_height="90dp"
                             android:textColor="@color/availibility_textview"
                             android:hint="Notes about your order,e.g special notes for delivery."
                             android:gravity="top"
