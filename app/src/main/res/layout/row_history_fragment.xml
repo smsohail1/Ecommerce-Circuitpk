@@ -41,8 +41,8 @@
                         android:id="@+id/orderDateTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:textColor="@color/discount_price_textview"
-                        android:text="dfdfdfd"
                         android:textSize="@dimen/txt_report_list_item_size"/>
                 <ImageView
                         android:id="@+id/imgProduct"
