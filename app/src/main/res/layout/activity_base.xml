@@ -36,11 +36,13 @@
                         android:visibility="gone"
                 />
 
+                <!--android:src="@drawable/company_logo"-->
+
                 <ImageView
                         android:id="@+id/imgCompanyLogo"
-                        android:layout_width="@dimen/width_company_logo"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/company_logo"
+                        android:src="@drawable/company_logo_update"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"
                 />

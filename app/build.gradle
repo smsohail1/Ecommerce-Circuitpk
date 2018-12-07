@@ -73,10 +73,10 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
+    implementation 'com.facebook.android:facebook-android-sdk:4.31.0'
 
 
     implementation project(":library")
     implementation project(':sparkbutton')
-
 
 }

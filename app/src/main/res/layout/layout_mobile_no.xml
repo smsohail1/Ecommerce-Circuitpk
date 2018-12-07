@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+        <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:fontFamily="@font/titilliu_web_semi_bold"
+                android:gravity="center_horizontal"
+                android:padding="6dp"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_dp_user_pop_up_heading_size"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtMessage"
+                    android:orientation="vertical"
+                    android:gravity="center"
+
+            >
+
+
+                <TextView
+                        android:id="@+id/txtMobileNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/button_height"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:maxLength="13"
+                        android:paddingLeft="8dp"
+                        android:textAlignment="center"
+
+                        android:textColor="@color/copied_color"
+                        android:background="@drawable/copied_dialog"
+                        android:text="03122346588"
+                        android:textStyle="bold"/>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtMessage"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                >
+                    <Button
+                            android:id="@+id/txtCopied"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/button_height"
+                            android:text="Copy"
+                            android:theme="@style/PrimaryButton"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:layout_marginLeft="10dp"
+                            android:paddingLeft="25dp"
+                            android:gravity="center_vertical"
+                            android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="1.0"-->
+        <!--android:padding="30dp"-->
+        <!--&gt;-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/txtMobileNo"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="35dp"-->
+        <!--android:layout_weight="0.7"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:maxLines="1"-->
+        <!--android:maxLength="13"-->
+        <!--android:paddingLeft="8dp"-->
+        <!--android:textColor="@color/copied_color"-->
+        <!--android:background="@drawable/copied_dialog"-->
+        <!--android:text="03122346588"-->
+        <!--android:textStyle="bold"/>-->
+        <!--<TextView android:layout_width="0dp"-->
+        <!--android:layout_height="35dp"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:layout_weight="0.1"/>-->
+
+        <!--<Button-->
+        <!--android:id="@+id/txtCopied"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="@dimen/copied_height"-->
+        <!--android:layout_weight="0.2"-->
+        <!--android:text="Copy"-->
+        <!--android:theme="@style/PrimaryButton"-->
+        <!--android:textAllCaps="false"-->
+        <!--android:textColor="@color/white"-->
+
+        <!--android:paddingLeft="20dp"-->
+
+        <!--android:gravity="center_vertical"-->
+        <!--android:textStyle="bold"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/txtMessage"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:gravity="center"-->
+        <!--&gt;-->
+
+
+        <!--<Button-->
+        <!--android:id="@+id/submit"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="@dimen/button_height"-->
+        <!--android:layout_margin="2dp"-->
+        <!--android:text="ok"-->
+        <!--android:padding="5dp"-->
+        <!--android:theme="@style/PrimaryButton"-->
+        <!--android:textColor="@color/white"/>-->
+        <!--</LinearLayout>-->
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+
+
+
+
+
+

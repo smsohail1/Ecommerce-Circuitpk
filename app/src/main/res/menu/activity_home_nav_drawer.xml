@@ -8,7 +8,7 @@
         <item
                 android:id="@+id/navProduct"
                 android:title="@string/product_nav"
-                android:icon="@drawable/icon_nav_product"/>
+                android:icon="@drawable/icon_home_drawer"/>
         <item
                 android:id="@+id/nav_Favourite"
                 android:title="@string/favourite_nav"
@@ -19,15 +19,20 @@
                 android:icon="@drawable/nav_icon_profile"/>
 
         <item
+                android:id="@+id/nav_login"
+                android:title="@string/login_nav"
+                android:icon="@drawable/icon_nav_login"/>
+
+        <item
                 android:id="@+id/nav_Setting"
                 android:title="@string/setting_nav"
                 android:icon="@drawable/nav_icon_settings"/>
 
 
-        <item
-                android:id="@+id/navFeedback"
-                android:title="@string/feedback_nav"
-                android:icon="@drawable/icon_feedback"/>
+        <!--<item-->
+        <!--android:id="@+id/navFeedback"-->
+        <!--android:title="@string/feedback_nav"-->
+        <!--android:icon="@drawable/icon_feedback"/>-->
 
         <item
                 android:id="@+id/navShare"

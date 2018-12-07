@@ -16,6 +16,9 @@
     <color name="black">@android:color/black</color>
     <color name="grey_dark_report_list_item">#54595C</color>
 
+    <color name="copied_color">#54595C</color>
+
+
     <color name="btn_white_add_to_cart">#ffffff</color>
 
     <color name="textview_login_color">#ffffff</color>
@@ -48,10 +51,11 @@
     <color name="category_label">#ffffff</color>
     <!--Bottom Navigation-->
     <color name="bgBottomNavigation">#E10915</color>
-    <string name="title_shop">Home</string>
-    <string name="title_favourite">Favourite(0)</string>
-    <string name="title_cart">Cart(0)</string>
-    <string name="title_profile">History(0)</string>
+    <string name="title_shop"></string>
+    <string name="title_favourite"></string>
+    <string name="title_cart"></string>
+    <string name="title_profile"></string>
+    <string name="title_setting"></string>
 
     <color name="light_grey_add_cart_border_color">#545454</color>
 

@@ -83,10 +83,11 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     public static final String KEY_TOWN_CITY = "town_city";
     public static final String KEY_PAYMENT_MODE = "payment_mode";
     public static final String KEY_ORDER_NOTES = "order_notes";
+    public static final String KEY_SELF_PICKUP = "self_pickup";
 
 
     String flatCharges = "", firstName = "", lastName = "", companyName = "", phoneNo = "", email = "", streetAddress1 = "",
-            streetAddress2 = "", townCity = "", paymentMode = "", orderNotes = "";
+            streetAddress2 = "", townCity = "", paymentMode = "", orderNotes = "", selfPikup = "";
     List<String> cartItems;
     List<Booking> cartList;
 
@@ -111,6 +112,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         townCity = getArguments().getString(KEY_TOWN_CITY, "");
         paymentMode = getArguments().getString(KEY_PAYMENT_MODE, "");
         orderNotes = getArguments().getString(KEY_ORDER_NOTES, "");
+        selfPikup = getArguments().getString(KEY_SELF_PICKUP, "");
 
 
     }
@@ -118,7 +120,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     @Override
     public void onResume() {
         super.onResume();
-       // ((BaseActivity) getActivity()).hideBottomNavigation();
+        // ((BaseActivity) getActivity()).hideBottomNavigation();
 
     }
 
@@ -142,7 +144,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
 
         btnConfirmCheckout.setOnClickListener(this);
-       // ((BaseActivity) getActivity()).hideBottomNavigation();
+        // ((BaseActivity) getActivity()).hideBottomNavigation();
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
@@ -217,22 +219,22 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     }
 
 
-    public BillingTotalAmountViewFragment newInstance(String flatCharges, String firstName, String lastName, String company, String phone,
-                                                      String email, String streetAddress1, String streetAddress2,
+    public BillingTotalAmountViewFragment newInstance(String flatCharges, String firstName, String company, String phone,
+                                                      String email, String streetAddress1,
                                                       String townCity, String paymode,
-                                                      String notes) {
+                                                      String notes, String selfPickup) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_FLAT_CHARGES, flatCharges);
         bundle.putString(KEY_FIRST_NAME, firstName);
-        bundle.putString(KEY_LAST_NAME, lastName);
         bundle.putString(KEY_COMPANY_NAME, company);
         bundle.putString(KEY_PHONE_NO, phone);
         bundle.putString(KEY_EMAIL, email);
         bundle.putString(KEY_STREET_ADDRESS1, streetAddress1);
-        bundle.putString(KEY_STREET_ADDRESS2, streetAddress2);
         bundle.putString(KEY_TOWN_CITY, townCity);
         bundle.putString(KEY_PAYMENT_MODE, paymode);
         bundle.putString(KEY_ORDER_NOTES, notes);
+        bundle.putString(KEY_SELF_PICKUP, selfPickup);
+
 
         BillingTotalAmountViewFragment fragment = new BillingTotalAmountViewFragment();
         fragment.setArguments(bundle);
@@ -269,8 +271,8 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
             cartItems.add(addToCart.getItemName());
         }
 
-        presenter.addItemsToBooking(addToCarts, firstName, lastName, companyName, phoneNo, email, streetAddress1, streetAddress2,
-                townCity, paymentMode, orderNotes, flatCharges);
+        presenter.addItemsToBooking(addToCarts, firstName, companyName, phoneNo, email, streetAddress1,
+                townCity, paymentMode, orderNotes, flatCharges,selfPikup);
     }
 
 

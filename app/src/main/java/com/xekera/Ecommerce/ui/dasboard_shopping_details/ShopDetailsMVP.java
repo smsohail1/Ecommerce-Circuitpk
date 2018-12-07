@@ -4,9 +4,12 @@ package com.xekera.Ecommerce.ui.dasboard_shopping_details;
 import android.content.Context;
 import android.widget.ImageView;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
+import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
+import com.xekera.Ecommerce.ui.favourites.FavouritesModel;
+import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedModel;
 
 import java.util.List;
 
@@ -33,6 +36,12 @@ public interface ShopDetailsMVP {
         void setDecrementCount(int counts);
 
         void showSnackBarShortTime(String message);
+
+        void setFavouriteButtonStatus(boolean status, int position);
+
+        void setFavouriteList(List<Favourites> favourites);
+
+        void setUI(List<Favourites> favList);
     }
 
     interface Presenter {
@@ -53,6 +62,14 @@ public interface ShopDetailsMVP {
         void setActionListener(ShopDetailsPresenter.ProductItemActionListener actionListener);
 
         void removeItem(ShoppingDetailModel shoppingDetailModel);
+
+
+        void removeItem(String productName, int position);
+
+        void addItemToFavourites(Favourites favourites, boolean isChecked);
+
+        void getFavouritesList();
+
     }
 
     interface Model {
@@ -68,6 +85,13 @@ public interface ShopDetailsMVP {
 
         void getCartDetails(ShopDetailsModel.IFetchCartDetailsList iFetchCartDetailsList);
 
+        void removeFromFavourite(String productName, ShopDetailsModel.IRemoveSelectedItemDetails iRemoveSelectedItemDetails);
+
+        void addItemToFavourites(Favourites favourites, ShopDetailsModel.ISaveProductDetails iSaveProductDetails);
+
+        void checkItemAlreadyAddedOrNot(String itemName, ShopDetailsModel.IFetchFavDetailsList iFetchCartDetailsList);
+
+        void getFavouriteDetailsList(ShopDetailsModel.IFetchOrderDetailsList iFetchOrderDetailsList);
 
     }
 }

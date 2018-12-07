@@ -1,11 +1,13 @@
 package com.xekera.Ecommerce.ui.favourites;
 
+import android.widget.ImageView;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.adapter.FavoritesAdapter;
 import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsPresenter;
 import com.xekera.Ecommerce.ui.history.HistoryMVP;
 import com.xekera.Ecommerce.ui.history.HistoryModel;
 
@@ -52,8 +54,12 @@ public interface FavouritesMVP {
 
         void fetchFavouritesDetails();
 
-        void insertSelectedFavouritesToCart(AddToCart addToCart, int position);
+        void insertSelectedFavouritesToCart(AddToCart addToCart, int position, ImageView imageView);
 
+
+        void setActionListener(FavouritesPresenter.ProductItemActionListener actionListener);
+
+        void removeFromFavourites(Favourites favourites, int position);
     }
 
     interface Model {
@@ -67,5 +73,10 @@ public interface FavouritesMVP {
 
 
         void getTotalCounts(FavouritesModel.IFetchOrderDetailsList iFetchOrderDetailsList);
+
+        void getCartDetails(FavouritesModel.IFetchCartDetailsList iFetchCartDetailsList);
+
+        void getCartDetails(FavouritesModel.IFetchOrderDetailsList iFetchOrderDetailsList);
+
     }
 }

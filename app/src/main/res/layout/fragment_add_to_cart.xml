@@ -125,6 +125,42 @@
                                         android:layout_marginTop="3dp"
                         >
                             <TextView
+                                    android:id="@+id/gstLabelTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/card_textview"
+                                    android:text="GST"
+                                    android:textSize="@dimen/txt_report_list_item_size"/>
+
+                            <RelativeLayout android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true">
+
+                                <TextView
+                                        android:id="@+id/gstLableTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/availibility_textview"
+                                        android:text="Rs "
+                                        android:textSize="@dimen/txt_report_list_item_size"/>
+
+                                <TextView
+                                        android:id="@+id/gstValueTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/availibility_textview"
+                                        android:layout_toRightOf="@+id/gstLableTextView"
+                                        android:text="0"
+                                        android:textSize="@dimen/txt_report_list_item_size"/>
+                            </RelativeLayout>
+                        </RelativeLayout>
+
+
+                        <RelativeLayout android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginTop="3dp"
+                        >
+                            <TextView
                                     android:id="@+id/totalLabelTextView"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

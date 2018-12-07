@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+        <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:fontFamily="@font/titilliu_web_semi_bold"
+                android:gravity="center_horizontal"
+                android:padding="6dp"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_dp_user_pop_up_heading_size"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/track_order_textview"
+                android:padding="20dp">
+
+            <TextView
+                    android:id="@+id/txtTrackOrderDeatils"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Your order is in process."
+                    android:background="@drawable/rounded_edit_text"
+                    android:textColor="@color/availibility_textview"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:padding="8dp"
+
+                    android:textSize="@dimen/txt_report_list_item_size"
+
+                    android:textStyle="bold"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+
+
+
+
+
+

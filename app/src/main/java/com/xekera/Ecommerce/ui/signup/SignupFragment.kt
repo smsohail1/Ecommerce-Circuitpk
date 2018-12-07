@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import com.xekera.Ecommerce.App
 import com.xekera.Ecommerce.R
 import com.xekera.Ecommerce.ui.BaseActivity
@@ -82,6 +83,8 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
         progressDialogControllerPleaseWait = ProgressCustomDialogController(getActivity(), R.string.please_wait)
 
         //  (activity as BaseActivity).hideBottomNavigation()
+
+        activity?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         utils?.hideSoftKeyboard(edtUsername)
 
@@ -215,6 +218,8 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 //        this!!.view?.let { showSnackBarShortTime("SignUp successfully.", it) }
         Handler().postDelayed({
             (activity as BaseActivity).popBackstack()
+            //    var signupFrag = SignupFragment();
+            (activity as BaseActivity).popBackstack();
         }, 100)
 
 

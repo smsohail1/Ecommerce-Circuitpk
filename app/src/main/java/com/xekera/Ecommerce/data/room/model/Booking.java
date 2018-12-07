@@ -25,8 +25,6 @@ public class Booking {
     private String itemQuantity;
     @ColumnInfo(name = "first_name")
     private String firstName;
-    @ColumnInfo(name = "last_name")
-    private String lastName;
     @ColumnInfo(name = "company_name")
     private String companyName;
     @ColumnInfo(name = "phone_no")
@@ -35,8 +33,6 @@ public class Booking {
     private String emailAddress;
     @ColumnInfo(name = "street_address1")
     private String streetAddress1;
-    @ColumnInfo(name = "street_address2")
-    private String streetAddress2;
     @ColumnInfo(name = "town_city")
     private String townCity;
     @ColumnInfo(name = "payment_type")
@@ -51,13 +47,15 @@ public class Booking {
     private byte[] itemImage;
     @ColumnInfo(name = "transmission_status")
     private String transmissionStatus;
+    @ColumnInfo(name = "self_pickup")
+    private String selfPickUp;
 
 
     public Booking(String orderID, String itemName, String itemIndividualPrice, String itemPrice,
-                   String itemCutPrice, String itemQuantity, String firstName, String lastName,
+                   String itemCutPrice, String itemQuantity, String firstName,
                    String companyName, String phoneNo, String emailAddress,
-                   String streetAddress1, String streetAddress2, String townCity,
-                   String paymentType, String orderNotes, String flatCharges, String createdDate, byte[] itemImage, String transmissionStatus) {
+                   String streetAddress1, String townCity,
+                   String paymentType, String orderNotes, String flatCharges, String createdDate, byte[] itemImage, String transmissionStatus, String selfPickUp) {
         this.orderID = orderID;
         this.itemName = itemName;
         this.itemIndividualPrice = itemIndividualPrice;
@@ -65,12 +63,10 @@ public class Booking {
         this.itemCutPrice = itemCutPrice;
         this.itemQuantity = itemQuantity;
         this.firstName = firstName;
-        this.lastName = lastName;
         this.companyName = companyName;
         this.phoneNo = phoneNo;
         this.emailAddress = emailAddress;
         this.streetAddress1 = streetAddress1;
-        this.streetAddress2 = streetAddress2;
         this.townCity = townCity;
         this.paymentType = paymentType;
         this.orderNotes = orderNotes;
@@ -78,6 +74,7 @@ public class Booking {
         this.createdDate = createdDate;
         this.itemImage = itemImage;
         this.transmissionStatus = transmissionStatus;
+        this.selfPickUp = selfPickUp;
     }
 
     public int getId() {
@@ -144,14 +141,6 @@ public class Booking {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getCompanyName() {
         return companyName;
     }
@@ -185,13 +174,6 @@ public class Booking {
         this.streetAddress1 = streetAddress1;
     }
 
-    public String getStreetAddress2() {
-        return streetAddress2;
-    }
-
-    public void setStreetAddress2(String streetAddress2) {
-        this.streetAddress2 = streetAddress2;
-    }
 
     public String getTownCity() {
         return townCity;
@@ -228,6 +210,15 @@ public class Booking {
 
     public byte[] getItemImage() {
         return itemImage;
+    }
+
+
+    public String getSelfPickUp() {
+        return selfPickUp;
+    }
+
+    public void setSelfPickUp(String selfPickUp) {
+        this.selfPickUp = selfPickUp;
     }
 
     public void setItemImage(byte[] itemImage) {

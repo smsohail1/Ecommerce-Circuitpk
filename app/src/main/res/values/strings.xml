@@ -42,8 +42,9 @@
     <string name="logout">Logout</string>
     <string name="logout_nav">Logout</string>
     <string name="product_nav">Products</string>
+    <string name="login_nav">Login</string>
     <string name="favourite_nav">Favourite</string>
-    <string name="profile_nav">Profile</string>
+    <string name="profile_nav">Account</string>
     <string name="feedback_nav">Feedback</string>
     <string name="setting_nav">Setting</string>
 
@@ -141,6 +142,11 @@
     <string name="easy_paisa">Easypay PK</string>
     <string name="jazzcash">JazzCash</string>
     <string name="credit_card_stripe">Credit Card (Stripe)</string>
+    <string name="card_payment">Card Payment</string>
+
+    <string name="textview_self_pickup">Self Pickup</string>
+
+
     <string name="firstname_error">First name is required</string>
     <string name="lastname_error">Last name name is required</string>
     <string name="phone_error">Phone no is required</string>
@@ -162,5 +168,8 @@
     <!--Favourites-->
     <string name="btn_add_to_cart">Add to\nCart</string>
     <string name="label_no_favourite_item_found">No items added in Favourite.</string>
+
+    <string name="facebook_app_id">295767961056627</string>
+    <string name="fb_login_protocol_scheme">ga0RGNYHvNM5d0SLGQfpQWAPGJ8=</string>
 
 </resources>

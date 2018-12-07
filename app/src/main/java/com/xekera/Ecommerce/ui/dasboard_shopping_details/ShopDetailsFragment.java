@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ import com.varunest.sparkbutton.SparkButton;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.AppDatabase;
+import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
@@ -48,7 +50,9 @@ import io.reactivex.schedulers.Schedulers;
 import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -88,6 +92,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
 
+    List<Favourites> favList;
 
     public ShopDetailsFragment() {
         // Required empty public constructor
@@ -120,97 +125,108 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         super.onResume();
         presenter.setView(this);
 
-      //  ((BaseActivity) getActivity()).hideBottomNavigation();
-        List<String> img;
-        img = new ArrayList<>();
-        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
-        img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
-        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
-        img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_hidden_gsm_supported_voice_recorder_black.jpg");
-        img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_usb_range_extender_black.jpg");
-        img.add("https://www.bhphotovideo.com/images/images2000x2000/kingston_dt100g3_16gb_16gb_data_traveler_100_964342.jpg");
-        img.add("https://a.pololu-files.com/picture/0J1479.1200.jpg?6d28c13f103617525228f0936ec16321");
+        presenter.getFavouritesList();
+        //  ((BaseActivity) getActivity()).hideBottomNavigation();
 
-        edtSearchProduct.setText("");
-        shopDetails.clear();
-        final byte[][] byteArray = {new byte[0]};
-
-
-        try {
-            Observable.just(appDatabase)
-                    .map(new Function<AppDatabase, Boolean>() {
-                        @Override
-                        public Boolean apply(AppDatabase appDatabase) throws Exception {
-
-                            Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
-                                    R.drawable.ardino);
-
-                            if (icon != null) {
-                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-                                icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                byteArray[0] = stream.toByteArray();
-
-                            }
-                            return true;
-                        }
-                    })
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Boolean>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(Boolean success) {
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-        } catch (Exception ex) {
-        }
-
-
-        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0, img, byteArray[0], 30));
-
-        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 0, img, byteArray[0], 10));
-
-        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 0, img, byteArray[0], 40));
-
-        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 0, img, byteArray[0], 33));
-
-        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 0, img, byteArray[0], 54));
-
-        shopDetails.add(new ShoppingDetailModel("Telivision", "30000", false, 0, img, byteArray[0], 40));
-
-        shopDetails.add(new ShoppingDetailModel("Seven Segment", "800", false, 0, img, byteArray[0], 33));
-
-        shopDetails.add(new ShoppingDetailModel("Capacitor", "200", false, 0, img, byteArray[0], 54));
-
-
-        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this);
-        showRecylerViewProductsDetail(shopDetailsAdapter);
-
-        presenter.setActionListener(new ShopDetailsPresenter.ProductItemActionListener() {
-            @Override
-            public void onItemTap(ImageView imageView, int cartsCount) {
-                if (imageView != null) {
-                    ((BaseActivity) getActivity()).makeFlyAnimation(imageView, cartsCount);
-                    ((BaseActivity) getActivity()).addItemToCart(cartsCount);
-
-                }
-            }
-        });
+//
+//        List<String> img;
+//        img = new ArrayList<>();
+//        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+//        img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
+//        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
+//        img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_hidden_gsm_supported_voice_recorder_black.jpg");
+//        img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_usb_range_extender_black.jpg");
+//        img.add("https://www.bhphotovideo.com/images/images2000x2000/kingston_dt100g3_16gb_16gb_data_traveler_100_964342.jpg");
+//        img.add("https://a.pololu-files.com/picture/0J1479.1200.jpg?6d28c13f103617525228f0936ec16321");
+//
+//        edtSearchProduct.setText("");
+//        shopDetails.clear();
+//        final byte[][] byteArray = {new byte[0]};
+//
+//
+//        try {
+//            Observable.just(appDatabase)
+//                    .map(new Function<AppDatabase, Boolean>() {
+//                        @Override
+//                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+//
+//                            Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
+//                                    R.drawable.ardino);
+//
+//                            if (icon != null) {
+//                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//
+//                                icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                                byteArray[0] = stream.toByteArray();
+//
+//                            }
+//                            return true;
+//                        }
+//                    })
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<Boolean>() {
+//                        @Override
+//                        public void onSubscribe(Disposable d) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onNext(Boolean success) {
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onComplete() {
+//
+//                        }
+//                    });
+//        } catch (Exception ex) {
+//        }
+//
+//
+//        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0, img,
+//                byteArray[0], 30, favList));
+//
+//        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 0, img,
+//                byteArray[0], 10, favList));
+//
+//        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 0, img, byteArray[0],
+//                40, favList));
+//
+//        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 0, img,
+//                byteArray[0], 33, favList));
+//
+//        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 0, img,
+//                byteArray[0], 54, favList));
+//
+//        shopDetails.add(new ShoppingDetailModel("Telivision", "30000", false, 0,
+//                img, byteArray[0], 40, favList));
+//
+//        shopDetails.add(new ShoppingDetailModel("Seven Segment", "800", false, 0, img,
+//                byteArray[0], 33, favList));
+//
+//        shopDetails.add(new ShoppingDetailModel("Capacitor", "200", false, 0,
+//                img, byteArray[0], 54, favList));
+//
+//
+//        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this);
+//        showRecylerViewProductsDetail(shopDetailsAdapter);
+//
+//        presenter.setActionListener(new ShopDetailsPresenter.ProductItemActionListener() {
+//            @Override
+//            public void onItemTap(ImageView imageView, int cartsCount) {
+//                if (imageView != null) {
+//                    ((BaseActivity) getActivity()).makeFlyAnimation(imageView, cartsCount);
+//                    ((BaseActivity) getActivity()).addItemToCart(cartsCount);
+//
+//                }
+//            }
+//        });
 
 
         try {
@@ -273,7 +289,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         ButterKnife.bind(this, v);
         presenter.setView(this);
 
-      //  ((BaseActivity) getActivity()).hideBottomNavigation();
+        //  ((BaseActivity) getActivity()).hideBottomNavigation();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
@@ -403,6 +420,120 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         showSnackBarShortTime(message, getView());
     }
 
+    @Override
+    public void setFavouriteButtonStatus(boolean status, int position) {
+        shopDetailsAdapter.removeAll(status, position);
+    }
+
+    @Override
+    public void setFavouriteList(List<Favourites> favourites) {
+        favList = favourites;
+        setUI(favList);
+    }
+
+    @Override
+    public void setUI(List<Favourites> favList) {
+
+        List<String> img;
+        img = new ArrayList<>();
+        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+        img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
+        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
+        img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_hidden_gsm_supported_voice_recorder_black.jpg");
+        img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_usb_range_extender_black.jpg");
+        img.add("https://www.bhphotovideo.com/images/images2000x2000/kingston_dt100g3_16gb_16gb_data_traveler_100_964342.jpg");
+        img.add("https://a.pololu-files.com/picture/0J1479.1200.jpg?6d28c13f103617525228f0936ec16321");
+
+        edtSearchProduct.setText("");
+        shopDetails.clear();
+        final byte[][] byteArray = {new byte[0]};
+
+
+        try {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
+                        @Override
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+
+                            Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                                    R.drawable.ardino);
+
+                            if (icon != null) {
+                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                                icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                byteArray[0] = stream.toByteArray();
+
+                            }
+                            return true;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean success) {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception ex) {
+        }
+
+        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0, img,
+                byteArray[0], 30, favList));
+
+        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 0, img,
+                byteArray[0], 10, favList));
+
+        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 0, img, byteArray[0],
+                40, favList));
+
+        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 0, img,
+                byteArray[0], 33, favList));
+
+        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 0, img,
+                byteArray[0], 54, favList));
+
+        shopDetails.add(new ShoppingDetailModel("Telivision", "30000", false, 0,
+                img, byteArray[0], 40, favList));
+
+        shopDetails.add(new ShoppingDetailModel("Seven Segment", "800", false, 0, img,
+                byteArray[0], 33, favList));
+
+        shopDetails.add(new ShoppingDetailModel("Capacitor", "200", false, 0,
+                img, byteArray[0], 54, favList));
+
+
+        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this);
+        showRecylerViewProductsDetail(shopDetailsAdapter);
+
+        presenter.setActionListener(new ShopDetailsPresenter.ProductItemActionListener() {
+            @Override
+            public void onItemTap(ImageView imageView, int cartsCount) {
+                if (imageView != null) {
+                    ((BaseActivity) getActivity()).makeFlyAnimation(imageView, cartsCount);
+                    ((BaseActivity) getActivity()).addItemToCart(cartsCount);
+
+                }
+            }
+        });
+
+    }
+
 
     public ShopDetailsFragment newInstance(String ProductName) {
         Bundle bundle = new Bundle();
@@ -422,6 +553,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     }
 
+
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy) {
 
@@ -435,18 +567,36 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     }
 
-//    @Override
-//    public void onFavouriteButtonClick(ShoppingDetailModel productItems) {
-//        String dd;
-//        dd = "";
-//        if (productItems.isFavourite()) {
-//            showSnackBarShortTime("Add item to favourites.", getView());
-//        } else {
-//            showSnackBarShortTime("Remove item from favourites.", getView());
-//
-//        }
-//
-//    }
+    @Override
+    public void onFavouriteButtonClick(ShoppingDetailModel productItems, int position) {
+
+        if (!productItems.isFavourite()) {
+            presenter.removeItem(productItems.getProductName(), position);
+        } else {
+            //    showSnackBarShortTime("Remove item from favourites.", getView());
+
+            String formattedDate = "";
+            formattedDate = getCurrentDate();
+
+            Favourites favourites = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
+                    String.valueOf(productItems.getCutPrice()), "1", formattedDate,
+                    productItems.getByteImage(), String.valueOf(productItems.getItemQuantity()));
+            presenter.addItemToFavourites(favourites, true);
+        }
+
+    }
+
+
+    private String getCurrentDate() {
+        try {
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat(AppConstants.DATE_TIME_FORMAT_TWO);
+            return df.format(c.getTime());
+        } catch (Exception e) {
+            return "";
+        }
+    }
 
 //    @Override
 //    public void onIncrementButtonClick(ShoppingDetailModel productItems) {

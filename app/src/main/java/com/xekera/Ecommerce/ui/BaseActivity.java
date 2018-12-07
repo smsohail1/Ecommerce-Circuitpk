@@ -63,6 +63,8 @@ import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.AppDatabase;
+import com.xekera.Ecommerce.ui.about.AboutFragment;
+import com.xekera.Ecommerce.ui.account.AccountFragment;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.dashboard.BottomNavigationBehavior;
@@ -71,6 +73,7 @@ import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.favourites.FavouritesFragment;
 import com.xekera.Ecommerce.ui.history.HistoryFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
+import com.xekera.Ecommerce.ui.setting.SettingFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import com.xekera.Ecommerce.util.*;
@@ -245,8 +248,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                 Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
                 if (!(fragment instanceof AddToCartFragment)) {
-                    navigation.setSelectedItemId(R.id.navigation_cart);
-                    // replaceFragmentWithContainer(new AddToCartFragment());
+                    //    navigation.setSelectedItemId(R.id.navigation_cart);
+                    replaceFragmentWithContainer(new AddToCartFragment());
                 }
 
 
@@ -296,11 +299,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         replaceFragmentWithContainer(fragment);
                     }
                     return true;
-                case R.id.navigation_cart:
+                case R.id.navigation_setting:
 
-                    if (!(fragmentContainer instanceof AddToCartFragment)) {
+                    if (!(fragmentContainer instanceof SettingFragment)) {
 
-                        fragment = new AddToCartFragment();
+                        fragment = new SettingFragment();
                         replaceFragmentWithContainer(fragment);
                     }
                     //  navigation.setSelectedItemId(R.id.navigation_History);
@@ -334,12 +337,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         getSupportFragmentManager().popBackStackImmediate();
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-        if (fragment instanceof AddToCartFragment || fragment instanceof ShopFragment ||
+        if (fragment instanceof SettingFragment || fragment instanceof ShopFragment ||
                 fragment instanceof HistoryFragment ||
                 fragment instanceof FavouritesFragment) {
             // showBottomNavigation();
-            if (fragment instanceof AddToCartFragment) {
-                navigation.setSelectedItemId(R.id.navigation_cart);
+            if (fragment instanceof SettingFragment) {
+                navigation.setSelectedItemId(R.id.navigation_setting);
             } else if (fragment instanceof ShopFragment) {
                 navigation.setSelectedItemId(R.id.navigation_shop);
             } else if (fragment instanceof HistoryFragment) {
@@ -790,6 +793,34 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             if (!(fragmentContainer instanceof FavouritesFragment)) {
                 navigateToScreen(R.id.navigation_favourite);
 //                replaceFragmentWithContainer(new FavouritesFragment());
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+
+            }
+        } else if (id == R.id.nav_Profile) {
+            if (!(fragmentContainer instanceof AccountFragment)) {
+                replaceFragmentWithContainer(new AccountFragment());
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+
+            }
+        } else if (id == R.id.nav_Setting) {
+            if (!(fragmentContainer instanceof SettingFragment)) {
+                navigateToScreen(R.id.navigation_setting);
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+
+            }
+        } else if (id == R.id.nav_login) {
+            if (!(fragmentContainer instanceof LoginFragment)) {
+                replaceFragmentWithContainer(new LoginFragment());
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+
+            }
+        } else if (id == R.id.navAbout) {
+            if (!(fragmentContainer instanceof AboutFragment)) {
+                replaceFragmentWithContainer(new AboutFragment());
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
 

@@ -15,6 +15,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.facebook.*;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.squareup.picasso.Picasso;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
@@ -37,6 +42,13 @@ import com.xekera.Ecommerce.util.ToastUtil;
 import com.xekera.Ecommerce.util.Utils;
 
 import javax.inject.Inject;
+
+import com.facebook.appevents.AppEventsLogger;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,7 +64,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     protected Button btnSignIn;
     @BindView(R.id.btnCreateAccount)
     protected Button btnCreateAccount;
+    @BindView(R.id.fb_button)
+    protected LoginButton fb_button;
 
+    CallbackManager callbackManager;
 
     @Inject
     Utils utils;
@@ -131,7 +146,90 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
 
         utils.showSoftKeyboard(edtUsername);
 
+        callFacebook();
+
+
     }
+
+
+    private void callFacebook() {
+        boolean loggedOut = AccessToken.getCurrentAccessToken() == null;
+
+        if (!loggedOut) {
+            //  Picasso.with(getActivity()).load(Profile.getCurrentProfile().getProfilePictureUri(200, 200)).into(imageView);
+            // Log.d("TAG", "Username is: " + Profile.getCurrentProfile().getName());
+
+            //Using Graph API
+            getUserProfile(AccessToken.getCurrentAccessToken());
+        }
+
+        fb_button.setReadPermissions(Arrays.asList("email", "public_profile"));
+        callbackManager = CallbackManager.Factory.create();
+
+        fb_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+                //loginResult.getAccessToken();
+                //loginResult.getRecentlyDeniedPermissions()
+                //loginResult.getRecentlyGrantedPermissions()
+                boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
+                Log.d("API123", loggedIn + " ??");
+
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
+
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void getUserProfile(AccessToken currentAccessToken) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                currentAccessToken, new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        Log.d("TAG", object.toString());
+                        try {
+                            String first_name = object.getString("first_name");
+                            String last_name = object.getString("last_name");
+                            String email = object.getString("email");
+                            String id = object.getString("id");
+                            String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
+
+                            // txtUsername.setText("First Name: " + first_name + "\nLast Name: " + last_name);
+                            //txtEmail.setText(email);
+                            //Picasso.with(MainActivity.this).load(image_url).into(imageView);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "first_name,last_name,email,id");
+        request.setParameters(parameters);
+        request.executeAsync();
+
+    }
+
 
     @Override
     public void onClick(View view) {

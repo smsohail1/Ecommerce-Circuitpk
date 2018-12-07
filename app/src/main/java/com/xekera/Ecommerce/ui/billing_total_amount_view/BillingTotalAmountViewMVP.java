@@ -60,10 +60,10 @@ public interface BillingTotalAmountViewMVP {
 
         void insertBooking(List<Booking> addToCart, String dateTime);
 
-        void addItemsToBooking(List<AddToCart> addToCarts, String firstName, String lastName, String company, String phone,
-                               String email, String streetAddress1, String streetAddress2,
+        void addItemsToBooking(List<AddToCart> addToCarts, String firstName, String company, String phone,
+                               String email, String streetAddress1,
                                String townCity, String paymode,
-                               String notes, String flatCharges);
+                               String notes, String flatCharges, String selfPickup);
 
     }
 
@@ -77,10 +77,10 @@ public interface BillingTotalAmountViewMVP {
         void insertBooking(List<Booking> addToCart, String dateTime, BillingTotalAmountViewModel.IBookingInsert iBookingInsert);
 
         void addItemsToBooking(List<AddToCart> addToCarts,
-                               String firstName, String lastName, String company, String phone,
-                               String email, String streetAddress1, String streetAddress2,
+                               String firstName, String company, String phone,
+                               String email, String streetAddress1,
                                String townCity, String paymode,
-                               String notes, String flatCharges,
+                               String notes, String flatCharges, String selfPickup,
                                BillingTotalAmountViewModel.IFetchCartBookingDetailsList iFetchCartDetailsList);
 
     }

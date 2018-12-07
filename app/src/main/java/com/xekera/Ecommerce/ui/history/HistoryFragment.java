@@ -217,7 +217,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
             price = price + Long.valueOf(i.getItemPrice()) + Long.valueOf(i.getFlatCharges());
         }
         setSubTotal(String.valueOf(price));
-        setCartCounts(addToCarts.size());
+        //   setCartCounts(addToCarts.size());
 
     }
 
@@ -249,6 +249,26 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
             }, 200);
         }
     }
+
+    @Override
+    public void trackOrder(String orderID) {
+        showDialog(getActivity(), "Track Order Details");
+    }
+
+
+    private void showDialog(Context context, String title) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_track_order);
+
+        TextView txtTrackOrderDeatils = dialog.findViewById(R.id.txtTrackOrderDeatils);
+        TextView txtTitle = dialog.findViewById(R.id.txtTitle);
+
+        txtTitle.setText("" + title);
+
+        dialog.show();
+    }
+
 
     private void showCancelDialog(Context context, String title, String message) {
         final Dialog dialog = new Dialog(context);

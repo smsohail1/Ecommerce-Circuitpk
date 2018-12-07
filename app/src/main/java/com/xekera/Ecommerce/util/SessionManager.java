@@ -18,6 +18,8 @@ public class SessionManager {
     private static final String KEY_USER_PHONE = "user_phon";
     private static final String KEY_USER_EMAIL = "user_email";
 
+    private static final String KEY_IS_SIGNUP = "is_signup";
+
     private static final String KEY_LATITUDE = "delivery_latitude";
     private static final String KEY_LONGITUDE = "delivery_longitude";
     private static final String KEY_PLACE_NAME = "delivery_place_name";
@@ -31,12 +33,14 @@ public class SessionManager {
     }
 
 
-    public void createLoginSession(String username, String phoneno, String userPassword, String email) {
+    public void createLoginSession(String username, String phoneno, String userPassword, String email, boolean isSignUp) {
         //editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_USER_NAME, username);
         editor.putString(KEY_USER_PHONE, phoneno);
         editor.putString(KEY_USER_PASSWORD, userPassword);
         editor.putString(KEY_USER_EMAIL, email);
+        editor.putBoolean(KEY_IS_SIGNUP, isSignUp);
+
         editor.commit();
     }
 
@@ -84,6 +88,14 @@ public class SessionManager {
         editor.commit();
     }
 
+    public boolean getKeyIsSignUp() {
+        return pref.getBoolean(KEY_IS_SIGNUP, false);
+    }
+
+    public void setIsSignUp(boolean isSignUp) {
+        editor.putBoolean(KEY_IS_SIGNUP, isSignUp);
+        editor.commit();
+    }
 
     public void setLongitude(String longitude) {
         editor.putString(KEY_LONGITUDE, longitude);
@@ -122,6 +134,10 @@ public class SessionManager {
 
     public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
+    }
+
+    public boolean isSignUp() {
+        return pref.getBoolean(KEY_IS_SIGNUP, false);
     }
 
 

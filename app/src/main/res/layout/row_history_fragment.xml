@@ -152,7 +152,7 @@
                                         android:textColor="@color/price_textview"
                                         android:layout_marginLeft="5dp"
                                         android:textStyle="bold"
-                                        android:text="Quantity: "
+                                        android:text="Qty: "
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
                                 <TextView
@@ -220,6 +220,16 @@
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/btn_cancel_order_txt_size"
                                     android:visibility="gone"
+                            />
+                            <Button
+                                    android:id="@+id/btnTrackOrder"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/btn_cancel_order_height"
+                                    android:theme="@style/PrimaryButton"
+                                    android:text="Track Order"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/btn_cancel_order_txt_size"
                             />
 
                         </LinearLayout>

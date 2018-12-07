@@ -1,14 +1,13 @@
 package com.xekera.Ecommerce.ui.delivery_billing_details;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.*;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 import butterknife.BindView;
@@ -34,12 +33,21 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
     @BindView(R.id.shipToDiffAddressCheckBox)
     protected CheckBox shipToDiffAddressCheckBox;
+
+    @BindView(R.id.checkboxSelfPickUpDiffAddress)
+    protected CheckBox checkboxSelfPickUpDiffAddress;
+    @BindView(R.id.flatRateTextview)
+    protected TextView flatRateTextview;
+    @BindView(R.id.flatRateTextviewDiffAddress)
+    protected TextView flatRateTextviewDiffAddress;
+
+    @BindView(R.id.checkboxSelfPickUp)
+    protected CheckBox checkboxSelfPickUp;
     @BindView(R.id.DiffAddressLayout)
     protected LinearLayout DiffAddressLayout;
-    @BindView(R.id.edtFirstname)
-    protected EditText edtFirstname;
-    @BindView(R.id.edtLastname)
-    protected EditText edtLastname;
+    @BindView(R.id.edtUsername)
+    protected EditText edtUsername;
+
     @BindView(R.id.edtCompanyName)
     protected EditText edtCompanyName;
     @BindView(R.id.edtPhoneNo)
@@ -48,17 +56,13 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     protected EditText edtEmail;
     @BindView(R.id.edtStreetAddress1)
     protected EditText edtStreetAddress1;
-    @BindView(R.id.edtStreetAddress2)
-    protected EditText edtStreetAddress2;
     @BindView(R.id.edtNotes)
     protected EditText edtNotes;
     @BindView(R.id.spinnerTownCity)
     protected Spinner spinnerTownCity;
 
-    @BindView(R.id.edtFirstnameDiffAddress)
-    protected EditText edtFirstnameDiffAddress;
-    @BindView(R.id.edtLastnameDiffAddress)
-    protected EditText edtLastnameDiffAddress;
+    @BindView(R.id.edtUsernameDiffAddress)
+    protected EditText edtUsernameDiffAddress;
     @BindView(R.id.edtCompanyNameDiffAddress)
     protected EditText edtCompanyNameDiffAddress;
     @BindView(R.id.edtPhoneNoDiffAddress)
@@ -67,8 +71,6 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     protected EditText edtEmailDiffAddress;
     @BindView(R.id.edtStreetAddress1DiffAddress)
     protected EditText edtStreetAddress1DiffAddress;
-    @BindView(R.id.edtStreetAddress2DiffAddress)
-    protected EditText edtStreetAddress2DiffAddress;
     @BindView(R.id.spinnerTownCityDiffAddress)
     protected Spinner spinnerTownCityDiffAddress;
 
@@ -79,6 +81,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
     @BindView(R.id.btnCheckout)
     protected Button btnCheckout;
+
+    final boolean[] isShipToDifferent = {false};
 
     @Inject
     protected DeliveyBillingDetailsMVP.Presenter presenter;
@@ -95,6 +99,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     String selectedSpinnerTownCity = "";
     String selectedSpinnerTownCityDiffAddress = "";
     String selectedPaymentMode = "", selectedPaymentModeDiffAddress = "";
+    String selfPickup = "", selfPickupDiffAddress;
 
     List<String> cityTown;
 
@@ -143,7 +148,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
         // ((BaseActivity) getActivity()).hideBottomNavigation();
 
 
-        edtFirstname.setText(sessionManager.getusername());
+        edtUsername.setText(sessionManager.getusername());
         edtPhoneNo.setText(sessionManager.getphoneno());
         edtEmail.setText(sessionManager.getEmail());
 
@@ -165,6 +170,30 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
         radioGroup.clearCheck();
         radioGroupDiffAddress.clearCheck();
 
+//        spinnerTownCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                String city = spinnerTownCity.getItemAtPosition(i).toString();
+//                if (isShipToDifferent[0]) {
+//
+//                    if (city.equalsIgnoreCase("Islamabad") || city.equalsIgnoreCase("Rawalpindi")) {
+//                        flatRateTextviewDiffAddress.setText("RS100");
+//
+//                    } else {
+//                        flatRateTextviewDiffAddress.setText("RS250");
+//
+//                    }
+//                } else {
+//                    if (city.equalsIgnoreCase("Islamabad") || city.equalsIgnoreCase("Rawalpindi")) {
+//                        flatRateTextview.setText("RS100");
+//
+//                    } else {
+//                        flatRateTextview.setText("RS250");
+//
+//                    }
+//                }
+//            }
+//        });
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -172,6 +201,10 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                 RadioButton rb = (RadioButton) group.findViewById(checkedId);
                 if (null != rb) {
                     selectedPaymentMode = rb.getText().toString();
+                    if (selectedPaymentMode.equalsIgnoreCase("Easypay PK") ||
+                            selectedPaymentMode.equalsIgnoreCase("JazzCash")) {
+                        showDialog(getActivity(), "Cash Transfer Mobile No");
+                    }
                     // Toast.makeText(getActivity(), rb.getText(), Toast.LENGTH_SHORT).show();
                 } else {
                     selectedPaymentMode = "";
@@ -182,6 +215,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
             }
         });
+
+
         radioGroupDiffAddress.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -199,105 +234,106 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
             }
         });
 
-
-//        spinnerCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                selectedSpinnerCountry = spinnerCountry.getItemAtPosition(i).toString();
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-//
-//
-//        spinnerStateCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                selectedSpinnerStateCountry = spinnerStateCountry.getItemAtPosition(i).toString();
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-//
-//
-//        spinnerTownCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                selectedSpinnerTownCity = spinnerTownCity.getItemAtPosition(i).toString();
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-//
-//
-//        spinnerCountryDiffAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                selectedSpinnerCountryDiffAddress = spinnerCountryDiffAddress.getItemAtPosition(i).toString();
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-//
-//        spinnerStateCountryDiffAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                selectedSpinnerStateCountryDiffAddress = spinnerStateCountryDiffAddress.getItemAtPosition(i).toString();
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-//
-//
-//        spinnerTownCityDiffAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                selectedSpinnerTownCityDiffAddress = spinnerTownCityDiffAddress.getItemAtPosition(i).toString();
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-
-
         shipToDiffAddressCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                                                                  @Override
                                                                  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                                                      if (isChecked) {
+                                                                         isShipToDifferent[0] = isChecked;
                                                                          DiffAddressLayout.setVisibility(View.VISIBLE);
                                                                      } else {
                                                                          DiffAddressLayout.setVisibility(View.GONE);
+                                                                         isShipToDifferent[0] = isChecked;
+
 
                                                                      }
                                                                  }
                                                              }
         );
+        checkboxSelfPickUp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                                                          @Override
+                                                          public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                              if (isChecked) {
+                                                                  selfPickup = checkboxSelfPickUp.getText().toString();
+                                                                  edtStreetAddress1.setText("");
+                                                                  edtStreetAddress1.setVisibility(View.GONE);
+                                                                  flatRateTextview.setText("RS0");
+                                                              } else {
+                                                                  selfPickup = "";
+                                                                  edtStreetAddress1.setVisibility(View.VISIBLE);
+                                                                  flatRateTextview.setText("");
+
+
+                                                              }
+                                                          }
+                                                      }
+        );
+        checkboxSelfPickUpDiffAddress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                                                                     @Override
+                                                                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                                         if (isChecked) {
+                                                                             selfPickupDiffAddress = checkboxSelfPickUpDiffAddress.getText().toString();
+                                                                             edtStreetAddress1.setText("");
+                                                                             edtStreetAddress1.setVisibility(View.GONE);
+                                                                             flatRateTextviewDiffAddress.setText("RS0");
+
+
+                                                                         } else {
+                                                                             selfPickupDiffAddress = "";
+                                                                             edtStreetAddress1.setVisibility(View.VISIBLE);
+                                                                             flatRateTextviewDiffAddress.setText("");
+
+
+                                                                         }
+                                                                     }
+                                                                 }
+        );
+
 
     }
+
+
+    private void showDialog(Context context, String title) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_mobile_no);
+
+        // Button submit = dialog.findViewById(R.id.submit);
+        final TextView txtMobileNo = dialog.findViewById(R.id.txtMobileNo);
+        Button txtCopied = dialog.findViewById(R.id.txtCopied);
+        TextView txtTitle = dialog.findViewById(R.id.txtTitle);
+
+        // txtMessage.setText("" + message);
+        txtTitle.setText("" + title);
+
+//        submit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //sessionManager.logoutUser();
+//                //  startActivity(new Intent(BaseActivity.this, LoginActivity.class));
+//                dialog.dismiss();
+//            }
+//        });
+        txtCopied.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showToastShortTime("Copied");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                    }
+                }, 300);
+            }
+        });
+
+
+        dialog.show();
+    }
+
 
     public void onClear(View v) {
         /* Clears all selected radio buttons to default */
@@ -333,19 +369,19 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     }
 
     @Override
-    public void showBillingAmountDetailView(final String flatCharges, final String firstName, final String lastName,
+    public void showBillingAmountDetailView(final String flatCharges, final String firstName,
                                             final String company, final String phone,
-                                            final String email, final String streetAddress1, final String streetAddress2,
+                                            final String email, final String streetAddress1,
                                             final String townCity, final String paymode,
-                                            final String notes) {
+                                            final String notes, final String selfPickup) {
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 BillingTotalAmountViewFragment billingTotalAmountViewFragment = new BillingTotalAmountViewFragment();
                 ((BaseActivity) getActivity()).addFragment
-                        (billingTotalAmountViewFragment.newInstance(flatCharges, firstName, lastName, company, phone,
-                                email, streetAddress1, streetAddress2, townCity, paymode, notes));
+                        (billingTotalAmountViewFragment.newInstance(flatCharges, firstName, company, phone,
+                                email, streetAddress1, townCity, paymode, notes, selfPickup));
 
             }
         }, 200);
@@ -362,21 +398,17 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
         switch (view.getId()) {
             case R.id.btnCheckout:
 
-                utils.hideSoftKeyboard(edtFirstname);
-                utils.hideSoftKeyboard(edtLastname);
+                utils.hideSoftKeyboard(edtUsername);
                 utils.hideSoftKeyboard(edtCompanyName);
                 utils.hideSoftKeyboard(edtPhoneNo);
                 utils.hideSoftKeyboard(edtEmail);
                 utils.hideSoftKeyboard(edtStreetAddress1);
-                utils.hideSoftKeyboard(edtStreetAddress2);
 
-                utils.hideSoftKeyboard(edtFirstnameDiffAddress);
-                utils.hideSoftKeyboard(edtLastnameDiffAddress);
+                utils.hideSoftKeyboard(edtUsernameDiffAddress);
                 utils.hideSoftKeyboard(edtCompanyNameDiffAddress);
                 utils.hideSoftKeyboard(edtPhoneNoDiffAddress);
                 utils.hideSoftKeyboard(edtEmailDiffAddress);
                 utils.hideSoftKeyboard(edtStreetAddress1DiffAddress);
-                utils.hideSoftKeyboard(edtStreetAddress2DiffAddress);
                 utils.hideSoftKeyboard(edtNotes);
 
 
@@ -386,36 +418,41 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                     String flatChargesAmount = "250";
                     selectedSpinnerTownCityDiffAddress = cityTown.get(spinnerTownCityDiffAddress.getSelectedItemPosition());
 
-                    if (selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Islamabad") ||
-                            selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Rawalpindi")) {
+                    if ((selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Islamabad") ||
+                            selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Rawalpindi"))
+                            && utils.isTextNullOrEmpty(selfPickupDiffAddress)
+                            ) {
                         flatChargesAmount = "100";
+                    } else if (selfPickupDiffAddress.equalsIgnoreCase("Self Pickup")) {
+                        flatChargesAmount = "0";
                     } else {
                         flatChargesAmount = "250";
                     }
 
-                    presenter.saveDetails(edtFirstnameDiffAddress.getText().toString(), edtLastnameDiffAddress.getText().toString(),
+                    presenter.saveDetails(edtUsernameDiffAddress.getText().toString(),
                             edtCompanyNameDiffAddress.getText().toString(), edtPhoneNoDiffAddress.getText().toString(),
                             edtEmailDiffAddress.getText().toString(), edtStreetAddress1DiffAddress.getText().toString(),
-                            edtStreetAddress2DiffAddress.getText().toString(),
                             selectedSpinnerTownCityDiffAddress, selectedPaymentModeDiffAddress, edtNotes.getText().toString(),
-                            flatChargesAmount);
+                            flatChargesAmount, selfPickupDiffAddress);
                 } else {
 
                     selectedSpinnerTownCity = cityTown.get(spinnerTownCity.getSelectedItemPosition());
 
                     String flatChargesAmount = "250";
-                    if (selectedSpinnerTownCity.equalsIgnoreCase("Islamabad") ||
-                            selectedSpinnerTownCity.equalsIgnoreCase("Rawalpindi")) {
+                    if ((selectedSpinnerTownCity.equalsIgnoreCase("Islamabad") ||
+                            selectedSpinnerTownCity.equalsIgnoreCase("Rawalpindi"))
+                            && utils.isTextNullOrEmpty(selfPickup)) {
                         flatChargesAmount = "100";
+                    } else if (selfPickup.equalsIgnoreCase("Self Pickup")) {
+                        flatChargesAmount = "0";
                     } else {
                         flatChargesAmount = "250";
                     }
-                    presenter.saveDetails(edtFirstname.getText().toString(), edtLastname.getText().toString(),
+                    presenter.saveDetails(edtUsername.getText().toString(),
                             edtCompanyName.getText().toString(), edtPhoneNo.getText().toString(),
                             edtEmail.getText().toString(), edtStreetAddress1.getText().toString(),
-                            edtStreetAddress2.getText().toString(),
                             selectedSpinnerTownCity, selectedPaymentMode, edtNotes.getText().toString(),
-                            flatChargesAmount);
+                            flatChargesAmount, selfPickup);
                 }
 
 

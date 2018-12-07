@@ -20,7 +20,6 @@ public interface FavouritesDao {
     @Query("SELECT * FROM favourites order by created_date desc")
     List<Favourites> getAllFavouritesDetails();
 
-
     @Query("SELECT * FROM favourites")
     List<Favourites> getAllFavourites();
 

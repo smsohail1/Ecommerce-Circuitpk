@@ -103,11 +103,11 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
 
 
     @Override
-    public void addItemsToBooking(List<AddToCart> addToCarts, String firstName, String lastName, String company, String phone,
-                                  String email, String streetAddress1, String streetAddress2,
+    public void addItemsToBooking(List<AddToCart> addToCarts, String firstName, String company, String phone,
+                                  String email, String streetAddress1,
                                   String townCity, String paymode,
-                                  String notes, String flatCharges) {
-        model.addItemsToBooking(addToCarts, firstName, lastName, company, phone, email, streetAddress1, streetAddress2, townCity, paymode, notes, flatCharges, new BillingTotalAmountViewModel.IFetchCartBookingDetailsList() {
+                                  String notes, String flatCharges,String selfPickup) {
+        model.addItemsToBooking(addToCarts, firstName, company, phone, email, streetAddress1, townCity, paymode, notes, flatCharges,selfPickup, new BillingTotalAmountViewModel.IFetchCartBookingDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Booking> AddToCartList) {
                 if (AddToCartList == null || AddToCartList.size() == 0) {

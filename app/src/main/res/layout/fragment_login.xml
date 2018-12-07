@@ -81,7 +81,7 @@
                         android:textColorHint="#ffffff"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="14sp"
-                        android:layout_marginBottom="20dp"/>
+                        android:layout_marginBottom="10dp"/>
                 <!--<EditText-->
                 <!--android:id="@+id/edtPassword"-->
                 <!--android:layout_width="260dp"-->
@@ -103,7 +103,7 @@
                 <Button
                         android:id="@+id/btnSignIn"
                         android:layout_width="@dimen/btn_login_width"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/btn_login_height"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center_horizontal"
                         android:text="@string/login_btn"
@@ -111,6 +111,17 @@
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/btn_login_txt_size"/>
+
+                <com.facebook.login.widget.LoginButton
+                        android:id="@+id/fb_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="5dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
 
 
                 <!--<Button-->
@@ -137,20 +148,19 @@
                   android:layout_height="wrap_content"
                   android:textColor="@color/red_edt_account"
                   android:layout_gravity="center_horizontal"
-                  android:padding="5dp"
                   android:text="@string/signup_label"/>
         <!--android:background="@drawable/btn_rounded_corners_login"-->
 
         <Button
                 android:id="@+id/btnCreateAccount"
                 android:layout_width="@dimen/btn_login_width"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/btn_login_height"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/signup_btn"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="1dp"
                 android:theme="@style/PrimaryButton"
                 android:textSize="@dimen/btn_login_txt_size"/>
 

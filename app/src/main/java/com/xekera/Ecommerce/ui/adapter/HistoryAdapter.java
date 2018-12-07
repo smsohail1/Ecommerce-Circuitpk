@@ -96,12 +96,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView quantityTextView;
         @BindView(R.id.btnCancel)
         public Button btnCancel;
+        @BindView(R.id.btnTrackOrder)
+        public Button btnTrackOrder;
+
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
             itemView.findViewById(R.id.btnCancel).setOnClickListener(this);
+            itemView.findViewById(R.id.btnTrackOrder).setOnClickListener(this);
 
         }
 
@@ -110,6 +114,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             switch (v.getId()) {
                 case R.id.btnCancel:
                     iHistoryCancelOrderAdapter.cancelOrder(productsItems.get(getLayoutPosition()).getOrderID());
+                    break;
+                case R.id.btnTrackOrder:
+                    iHistoryCancelOrderAdapter.trackOrder(productsItems.get(getLayoutPosition()).getOrderID());
                     break;
 
             }
@@ -143,6 +150,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public interface IHistoryCancelOrderAdapter {
         void cancelOrder(String orderID);
+
+        void trackOrder(String orderID);
     }
 }
 

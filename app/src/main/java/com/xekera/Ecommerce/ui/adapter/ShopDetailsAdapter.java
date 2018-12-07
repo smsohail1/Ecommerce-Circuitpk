@@ -67,6 +67,27 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             productDetailsDataListViewHolder.productNameLabelTextView.setText(shoppingDetailModel.getProductName());
             productDetailsDataListViewHolder.priceTextView.setText(shoppingDetailModel.getProductPrice());
             productDetailsDataListViewHolder.counterTextview.setText(shoppingDetailModel.getItemQuantity() + "");
+//            if (shoppingDetailModel.getFavourites().size() > 0) {
+////                if (shoppingDetailModel.getFavourites().contains(shoppingDetailModel.getProductName())) {
+//                if (productsItems.get(position).getFavourites().contains(shoppingDetailModel.getProductName())) {
+//
+//                    productDetailsDataListViewHolder.favouriteButton.setChecked(true);
+//                } else {
+//                    productDetailsDataListViewHolder.favouriteButton.setChecked(false);
+//
+//                }
+//            } else {
+//                productDetailsDataListViewHolder.favouriteButton.setChecked(false);
+//            }
+
+
+            if (productsItems.get(position).isFavourite()) {
+                productDetailsDataListViewHolder.favouriteButton.setChecked(true);
+            } else {
+                productDetailsDataListViewHolder.favouriteButton.setChecked(false);
+
+            }
+
 
             //            if (shoppingDetailModel.isFavourite()) {
 //                productDetailsDataListViewHolder.favouriteButton.setChecked(true);
@@ -112,8 +133,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public ImageView imgProduct;
         @BindView(R.id.imgProductCopy)
         public ImageView imgProductCopy;
-        //  @BindView(R.id.favouriteButton)
-//        public SparkButton favouriteButton;
+        @BindView(R.id.favouriteButton)
+        public SparkButton favouriteButton;
         @BindView(R.id.decrementImageButton)
         public ImageView decrementImageButton;
         @BindView(R.id.incrementImageButton)
@@ -133,13 +154,13 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             // itemView.findViewById(R.id.AddImageView).setOnClickListener(this);
             // itemView.findViewById(R.id.viewDetailsImageView).setOnClickListener(this);
 
-            // itemView.findViewById(R.id.favouriteButton).setOnClickListener(this);
             cardViewParent.setClickable(true);
 
             itemView.findViewById(R.id.decrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.incrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.cardViewParent).setOnClickListener(this);
             itemView.findViewById(R.id.imgShareProductDetails).setOnClickListener(this);
+            itemView.findViewById(R.id.favouriteButton).setOnClickListener(this);
 
         }
 
@@ -163,20 +184,20 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     iShopDetailAdapter.onViewDetailsButtonClick(productsItems.get(getLayoutPosition()));
                     break;
 
-//                case R.id.favouriteButton:
-//                    if (((SparkButton) v.findViewById(R.id.favouriteButton)).isChecked()) {
-//                        ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(false);
-//                        productsItems.get(getLayoutPosition()).setFavourite(false);
-//
-//                    } else {
-//                        ((SparkButton) v.findViewById(R.id.favouriteButton)).playAnimation();
-//                        ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(true);
-//
-//                        productsItems.get(getLayoutPosition()).setFavourite(true);
-//                    }
-//
-//                    iShopDetailAdapter.onFavouriteButtonClick(productsItems.get(getLayoutPosition()));
-//                    break;
+                case R.id.favouriteButton:
+                    if (((SparkButton) v.findViewById(R.id.favouriteButton)).isChecked()) {
+                        ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(false);
+                        productsItems.get(getLayoutPosition()).setFavourite(false);
+
+                    } else {
+                        ((SparkButton) v.findViewById(R.id.favouriteButton)).playAnimation();
+                        ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(true);
+
+                        productsItems.get(getLayoutPosition()).setFavourite(true);
+                    }
+
+                    iShopDetailAdapter.onFavouriteButtonClick(productsItems.get(getLayoutPosition()), getLayoutPosition());
+                    break;
                 case R.id.decrementImageButton:
                     //  decrementCounter = decrementCounter - 1;
                     //productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
@@ -268,6 +289,11 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         notifyDataSetChanged();
     }
 
+    public void removeAll(boolean status, int position) {
+        productsItems.get(position).setFavourite(status);
+        notifyDataSetChanged();
+    }
+
     public void refreshProduct() {
         notifyDataSetChanged();
 
@@ -278,7 +304,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void onViewDetailsButtonClick(ShoppingDetailModel productItems);
 
-        //   void onFavouriteButtonClick(ShoppingDetailModel productItems);
+        void onFavouriteButtonClick(ShoppingDetailModel productItems, int position);
 
         void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
                                     long cutPrice, byte[] byteImage, ImageView imgProductCopy);

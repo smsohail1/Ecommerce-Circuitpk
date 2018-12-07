@@ -29,59 +29,51 @@ public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.
     }
 
     @Override
-    public void saveDetails(String firstName, String lastName, String company, String phone,
-                            String email, String streetAddress1, String streetAddress2,
+    public void saveDetails(String firstName, String company, String phone,
+                            String email, String streetAddress1,
                             String townCity, String paymode,
-                            String notes, String flatCharges) {
+                            String notes, String flatCharges, String selfPickup) {
 
-        if (validateInputFields(firstName, lastName, company, phone, email, streetAddress1,
-                streetAddress2, townCity, paymode, notes, flatCharges)) {
+        if (validateInputFields(firstName, company, phone, email, streetAddress1,
+                townCity, paymode, notes, flatCharges, selfPickup)) {
 
-            view.showBillingAmountDetailView(flatCharges, firstName, lastName, company, phone, email, streetAddress1, streetAddress2,
-                    townCity, paymode, notes);
+            view.showBillingAmountDetailView(flatCharges, firstName, company, phone, email, streetAddress1,
+                    townCity, paymode, notes, selfPickup);
         }
 
     }
 
 
-    private boolean validateInputFields(String firstName, String lastName, String company, String phone,
-                                        String email, String streetAddress1, String streetAddress2,
+    private boolean validateInputFields(String firstName, String company, String phone,
+                                        String email, String streetAddress1,
                                         String townCity,
-                                        String paymode, String notes, String flatCharges) {
+                                        String paymode, String notes, String flatCharges, String selfPickup) {
         if (utils.isTextNullOrEmpty(firstName)) {
-            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.firstname_error));
-            return false;
-        }
-        if (utils.isTextNullOrEmpty(lastName)) {
-            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.lastname_error));
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.firstname_error));
             return false;
         }
 
         if (utils.isTextNullOrEmpty(phone)) {
-            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.phone_error));
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.phone_error));
             return false;
         }
         if (utils.isTextNullOrEmpty(email)) {
-            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.email_error));
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.email_error));
             return false;
         }
 
         if (utils.isTextNullOrEmpty(streetAddress1)) {
-            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.house_no_error));
-            return false;
-        }
-        if (utils.isTextNullOrEmpty(streetAddress2)) {
-            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.house_no_error));
-            return false;
-        }
-        if (utils.isTextNullOrEmpty(townCity) || townCity.equalsIgnoreCase("Select")) {
-            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.town_city_error));
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.house_no_error));
             return false;
         }
 
+        if (utils.isTextNullOrEmpty(townCity) || townCity.equalsIgnoreCase("Select")) {
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.town_city_error));
+            return false;
+        }
 
         if (utils.isTextNullOrEmpty(paymode)) {
-            view.showSnackBarShortTime(utils.getStringFromResourceId(R.string.paymode_error));
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.paymode_error));
             return false;
         }
 

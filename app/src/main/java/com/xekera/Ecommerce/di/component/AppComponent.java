@@ -3,6 +3,8 @@ package com.xekera.Ecommerce.di.component;
 import com.xekera.Ecommerce.di.module.*;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.LoginBaseActivity;
+import com.xekera.Ecommerce.ui.about.AboutFragment;
+import com.xekera.Ecommerce.ui.account.AccountFragment;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
 import com.xekera.Ecommerce.ui.billing_total_amount_view.BillingTotalAmountViewFragment;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
@@ -14,6 +16,7 @@ import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFra
 import com.xekera.Ecommerce.ui.favourites.FavouritesFragment;
 import com.xekera.Ecommerce.ui.history.HistoryFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
+import com.xekera.Ecommerce.ui.setting.SettingFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import dagger.Component;
@@ -74,6 +77,12 @@ public interface AppComponent {
     void inject(HistoryFragment historyFragment);
 
     void inject(FavouritesFragment favouritesFragment);
+
+    void inject(AccountFragment accountFragment);
+
+    void inject(AboutFragment aboutFragment);
+
+    void inject(SettingFragment settingFragment);
 
 }
 

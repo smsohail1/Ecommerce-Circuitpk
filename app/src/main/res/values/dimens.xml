@@ -11,7 +11,10 @@
     <dimen name="edit_height_show_hide">50dp</dimen>
     <dimen name="width_company_logo">100dp</dimen>
 
+    <dimen name="width_edt">250dp</dimen>
+
     <dimen name="btn_login_width">150dp</dimen>
+    <dimen name="btn_login_height">50dp</dimen>
 
     <dimen name="btn_cancel_order_width">69dp</dimen>
     <dimen name="btn_cancel_order_height">40dp</dimen>
@@ -66,8 +69,12 @@
     <dimen name="btn_add_update_width">130dp</dimen>
     <dimen name="textview_billing_details_width">130dp</dimen>
 
+    <dimen name="track_order_textview">150dp</dimen>
+
     <dimen name="btn_add_update_height">28dp</dimen>
     <dimen name="btn_atake_photo_height">40dp</dimen>
+    <dimen name="copied_height">35dp</dimen>
+    <dimen name="checbox_width">180dp</dimen>
 
     <dimen name="payment_mode_textview_size">14sp</dimen>
 

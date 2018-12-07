@@ -1,0 +1,7 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/icon_unpress_delete_fav"/>
+    <item android:state_checked="true" android:drawable="@drawable/icon_unpress_delete_fav"/>
+    <item android:state_focused="true" android:drawable="@drawable/icon_unpress_delete_fav"/>
+    <item android:state_activated="true" android:drawable="@drawable/icon_unpress_delete_fav"/>
+    <item android:drawable="@drawable/icon_press_delete_fav"/>
+</selector>

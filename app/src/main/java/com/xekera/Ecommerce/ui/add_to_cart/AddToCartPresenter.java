@@ -40,7 +40,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                     view.hideRecyclerView();
                     view.setParentFields();
                     view.txtNoCartItemFound();
-                    view.setCartCounts(0);
+                    // view.setCartCounts(0);
                     return;
                 } else {
                     view.hideNoCartItemFound();
@@ -55,7 +55,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                 ex.printStackTrace();
                 view.setParentFields();
                 view.hideRecyclerView();
-                view.setCartCounts(0);
+                //view.setCartCounts(0);
 
                 view.showToastShortTime(ex.getMessage());
             }
@@ -72,7 +72,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                     view.hideRecyclerView();
                     view.setParentFields();
                     view.txtNoCartItemFound();
-                    view.setCartCounts(0);
+                    // view.setCartCounts(0);
                     return;
                 } else {
                     view.hideNoCartItemFound();
@@ -86,7 +86,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                 ex.printStackTrace();
                 view.setParentFields();
                 view.hideRecyclerView();
-                view.setCartCounts(0);
+                //  view.setCartCounts(0);
 
                 view.showToastShortTime(ex.getMessage());
             }
@@ -122,7 +122,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                     view.hideRecyclerView();
                     view.setParentFields();
                     view.txtNoCartItemFound();
-                    view.setCartCounts(0);
+                    // view.setCartCounts(0);
                     view.setCartCounterTextview(0);
                     return;
                 } else {
@@ -136,7 +136,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                 ex.printStackTrace();
                 view.setParentFields();
                 view.hideRecyclerView();
-                view.setCartCounts(0);
+                // view.setCartCounts(0);
                 view.showToastShortTime(ex.getMessage());
             }
         });
@@ -176,7 +176,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
 
         }
         view.setSubTotal(String.valueOf(price));
-        view.setCartCounts(addToCarts.size());
+        //  view.setCartCounts(addToCarts.size());
         view.setCartCounterTextview(addToCarts.size());
 
     }

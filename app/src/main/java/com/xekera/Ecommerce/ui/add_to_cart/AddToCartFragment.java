@@ -328,7 +328,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 //            }
 //        }, 100);
 
-        if (sessionManager.isLoggedIn()) {
+        if (sessionManager.isSignUp()) {
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -383,7 +383,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
         }
         setSubTotal(String.valueOf(price));
-        setCartCounts(addToCarts.size());
+        //  setCartCounts(addToCarts.size());
         setCartCounterTextview(addToCarts.size());
 
     }

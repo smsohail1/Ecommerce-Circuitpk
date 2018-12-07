@@ -159,10 +159,10 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
     }
 
     @Override
-    public void addItemsToBooking(final List<AddToCart> addToCarts, final String firstName, final String lastName, final String company, final String phone,
-                                  final String email, final String streetAddress1, final String streetAddress2,
+    public void addItemsToBooking(final List<AddToCart> addToCarts, final String firstName, final String company, final String phone,
+                                  final String email, final String streetAddress1,
                                   final String townCity, final String paymode,
-                                  final String notes, final String flatCharges, final IFetchCartBookingDetailsList iFetchCartBookingDetailsList) {
+                                  final String notes, final String flatCharges, final String selfPickup, final IFetchCartBookingDetailsList iFetchCartBookingDetailsList) {
 
         try {
             Observable.just(appDatabase.getBookingDao()).
@@ -175,7 +175,8 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
                                 Booking booking = new Booking("44", addToCart.getItemName(),
                                         addToCart.getItemIndividualPrice(), addToCart.getItemPrice(),
                                         addToCart.getItemCutPrice(), addToCart.getItemQuantity(),
-                                        firstName, lastName, company, phone, email, streetAddress1, streetAddress2, townCity, paymode, notes, flatCharges, "", addToCart.getItemImage(), "N");
+                                        firstName, company, phone, email, streetAddress1, townCity, paymode, notes, flatCharges, "", addToCart.getItemImage(),
+                                        "N",selfPickup);
                                 bookingList.add(booking);
                             }
                             return bookingList;

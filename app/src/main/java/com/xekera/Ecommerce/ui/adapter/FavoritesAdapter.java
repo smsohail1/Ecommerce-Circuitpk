@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -86,6 +87,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public TextView priceTextView;
         @BindView(R.id.imgProduct)
         public ImageView imgProduct;
+        @BindView(R.id.imgProductCopy)
+        public ImageView imgProductCopy;
         @BindView(R.id.cardViewParent)
         public CardView cardViewParent;
         @BindView(R.id.availabilitStockTextView)
@@ -108,7 +111,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btnAddToCart:
-                    iFvaouritesAddToCartAdapter.addToCartFavourites(productsItems.get(getLayoutPosition()), getLayoutPosition());
+                    iFvaouritesAddToCartAdapter.addToCartFavourites(productsItems.get(getLayoutPosition()), getLayoutPosition(),
+                            imgProductCopy);
+                    break;
+
+                case R.id.imgRemove:
+                    iFvaouritesAddToCartAdapter.removeFavourites(productsItems.get(getLayoutPosition()), getLayoutPosition());
                     break;
 
             }
@@ -147,7 +155,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     public interface IFvaouritesAddToCartAdapter {
-        void addToCartFavourites(Favourites favourites, int position);
+        void addToCartFavourites(Favourites favourites, int position, ImageView img);
+
+        void removeFavourites(Favourites favourites, int position);
     }
 }
 

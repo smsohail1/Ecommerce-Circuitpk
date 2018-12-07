@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -25,6 +26,7 @@ import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.FavoritesAdapter;
 import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsPresenter;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
@@ -101,6 +103,25 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        presenter.setActionListener(new FavouritesPresenter.ProductItemActionListener() {
+            @Override
+            public void onItemTap(ImageView imageView, int cartsCount, final int position) {
+                if (imageView != null) {
+                    ((BaseActivity) getActivity()).makeFlyAnimation(imageView, cartsCount);
+                    ((BaseActivity) getActivity()).addItemToCart(cartsCount);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            removeItemFromFavourites(position);
+
+                        }
+                    }, 700);
+
+                }
+            }
+        });
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -108,6 +129,8 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
             }
         }, 600);
+
+
     }
 
 
@@ -174,7 +197,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         adapter = new FavoritesAdapter(getActivity(), addToCarts, this);
         showRecylerViewProductsDetail(adapter);
 
-        setCartCounts(addToCarts.size());
+        //  setCartCounts(addToCarts.size());
 
     }
 
@@ -197,7 +220,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     boolean isShowing = true;
 
     @Override
-    public void addToCartFavourites(final Favourites favourites, final int position) {
+    public void addToCartFavourites(final Favourites favourites, final int position, final ImageView img) {
         if (isShowing) {
             isShowing = false;
             new Handler().postDelayed(new Runnable() {
@@ -211,11 +234,16 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                             , favourites.getItemQuantity(),
                             "N", favourites.getItemImage(), favourites.getItemCutPrice(), favourites.getItemIndividualPrice(),
                             formattedDate);
-                    presenter.insertSelectedFavouritesToCart(addToCart, position);
+                    presenter.insertSelectedFavouritesToCart(addToCart, position, img);
                     isShowing = true;
                 }
             }, 200);
         }
+    }
+
+    @Override
+    public void removeFavourites(Favourites favourites, int position) {
+        presenter.removeFromFavourites(favourites, position);
     }
 
 

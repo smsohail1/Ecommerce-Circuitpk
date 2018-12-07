@@ -196,6 +196,16 @@
                             <!--app:sparkbutton_inActiveImage="@drawable/ic_star_off"-->
                             <!--android:clickable="true"/>-->
 
+                            <com.varunest.sparkbutton.SparkButton
+                                    android:id="@+id/favouriteButton"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    app:sparkbutton_activeImage="@drawable/icon_heart_on"
+                                    app:sparkbutton_animationSpeed=".85"
+                                    app:sparkbutton_iconSize="20dp"
+                                    app:sparkbutton_inActiveImage="@drawable/heart"
+                                    android:clickable="true"/>
+
                             <ImageView
                                     android:id="@+id/imgShareProductDetails"
                                     android:layout_width="22dp"
