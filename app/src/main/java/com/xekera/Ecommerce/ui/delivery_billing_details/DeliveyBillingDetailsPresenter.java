@@ -62,10 +62,17 @@ public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.
             return false;
         }
 
-        if (utils.isTextNullOrEmpty(streetAddress1)) {
-            view.showToastShortTime(utils.getStringFromResourceId(R.string.house_no_error));
-            return false;
+        if (utils.isTextNullOrEmpty(selfPickup)) {
+
+            if (utils.isTextNullOrEmpty(streetAddress1)) {
+                view.showToastShortTime(utils.getStringFromResourceId(R.string.house_no_error));
+                return false;
+            }
         }
+//        if (utils.isTextNullOrEmpty(streetAddress1)) {
+//            view.showToastShortTime(utils.getStringFromResourceId(R.string.house_no_error));
+//            return false;
+//        }
 
         if (utils.isTextNullOrEmpty(townCity) || townCity.equalsIgnoreCase("Select")) {
             view.showToastShortTime(utils.getStringFromResourceId(R.string.town_city_error));

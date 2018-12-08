@@ -84,7 +84,7 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
         //  (activity as BaseActivity).hideBottomNavigation()
 
-        activity?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        //activity?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         utils?.hideSoftKeyboard(edtUsername)
 

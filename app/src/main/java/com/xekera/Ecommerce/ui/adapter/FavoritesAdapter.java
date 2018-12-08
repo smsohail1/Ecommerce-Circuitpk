@@ -97,6 +97,11 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public TextView discountPriceTextView;
         @BindView(R.id.btnAddToCart)
         public ImageView btnAddToCart;
+        @BindView(R.id.imgRemove)
+        public ImageView imgRemove;
+
+
+
 
 
         public productDetailsDataListViewHolder(View itemView) {
@@ -104,6 +109,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
             itemView.findViewById(R.id.btnAddToCart).setOnClickListener(this);
+            itemView.findViewById(R.id.imgRemove).setOnClickListener(this);
 
         }
 

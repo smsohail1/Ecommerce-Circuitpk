@@ -15,8 +15,8 @@ import dagger.Provides;
 public class ShopDetailsModule {
 
     @Provides
-    public ShopDetailsMVP.Presenter provideShopDetailsPresenter(ShopDetailsMVP.Model model, SessionManager sessionManager, Utils utils) {
-        return new ShopDetailsPresenter(model, sessionManager, utils);
+    public ShopDetailsMVP.Presenter provideShopDetailsPresenter(ShopDetailsMVP.Model model, SessionManager sessionManager, Utils utils,AppDatabase appDatabase) {
+        return new ShopDetailsPresenter(model, sessionManager, utils,appDatabase);
     }
 
     @Provides

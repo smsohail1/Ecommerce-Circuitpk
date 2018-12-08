@@ -217,8 +217,10 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
             price = price + Long.valueOf(i.getItemPrice()) + Long.valueOf(i.getFlatCharges());
         }
         setSubTotal(String.valueOf(price));
+        // setCartCounterTextview(addToCarts.size());
         //   setCartCounts(addToCarts.size());
 
+        presenter.fetchCartsCount();
     }
 
 

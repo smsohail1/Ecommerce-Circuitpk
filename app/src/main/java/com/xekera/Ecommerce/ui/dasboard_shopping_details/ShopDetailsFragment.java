@@ -51,10 +51,7 @@ import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -492,6 +489,10 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                     });
         } catch (Exception ex) {
         }
+        List<String> tasksList;
+        Set<String> list = sessionManager.getIsFavouriteList();
+        tasksList = new ArrayList<String>(list);
+
 
         shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0, img,
                 byteArray[0], 30, favList));
@@ -518,7 +519,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                 img, byteArray[0], 54, favList));
 
 
-        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this);
+        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this, sessionManager, tasksList);
         showRecylerViewProductsDetail(shopDetailsAdapter);
 
         presenter.setActionListener(new ShopDetailsPresenter.ProductItemActionListener() {
@@ -532,6 +533,11 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
             }
         });
 
+    }
+
+    @Override
+    public void setIsFavourites(boolean isFavourites, int position) {
+        shopDetailsAdapter.setIsfavourite(isFavourites, position);
     }
 
 
@@ -666,6 +672,11 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         showSnackBarShortTime("Please select atleast one item", getView());
         presenter.removeItem(shoppingDetailModel);
 
+    }
+
+    @Override
+    public void getIsFavourites(String productName, int position) {
+        presenter.getFavouritesListByProductName(productName, position);
     }
 
 

@@ -1,10 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_centerInParent="true"
-              android:text="Account Screen"
-              android:textSize="40sp"/>
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+
+                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true">
+    <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/header"
+            android:fillViewport="true">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical">
+
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:gravity="center_horizontal"
+                          android:background="#333333"
+                          android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/imgProfile"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/icon_user_profile"
+                        app:civ_border_width="2dp"
+                        android:padding="8dp"
+                        app:civ_border_color="#ffffff"
+                />
+            </LinearLayout>
+
+
+            <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="5dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardElevation="5dp">
+
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:gravity="center_horizontal"
+                              android:layout_gravity="center_vertical"
+                              android:orientation="vertical">
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Account details"
+                              android:textSize="@dimen/textview_user_update_height"
+                              android:layout_marginTop="3dp"
+                              android:textColor="@color/light_grey_delivey_screen_color"
+                    />
+
+
+                    <EditText
+                            android:id="@+id/edtUsername"
+                            android:layout_width="260dp"
+                            android:layout_height="@dimen/edit_height"
+                            android:background="@drawable/bg_delivery_details_edt"
+                            android:fontFamily="@font/titilliu_web_regular"
+                            android:hint="Username"
+                            android:inputType="text"
+                            android:drawableLeft="@drawable/icon_user_account"
+                            android:drawablePadding="7dp"
+                            android:paddingRight="20dp"
+
+                            android:maxLength="20"
+                            android:layout_marginTop="10dp"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textColor="@color/availibility_textview"
+                            android:textSize="14sp"
+
+                    />
+
+                    <EditText
+                            android:id="@+id/edtCompanyName"
+                            android:layout_width="260dp"
+                            android:layout_height="@dimen/edit_height"
+                            android:background="@drawable/bg_delivery_details_edt"
+                            android:fontFamily="@font/titilliu_web_regular"
+                            android:hint="Company name"
+                            android:layout_marginTop="8dp"
+                            android:maxLength="50"
+                            android:drawableLeft="@drawable/icon_company_name"
+                            android:drawablePadding="7dp"
+                            android:paddingRight="20dp"
+
+                            android:textColor="@color/availibility_textview"
+                            android:maxLines="1"
+                            android:inputType="text"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textSize="14sp"
+
+                    />
+
+                    <EditText
+                            android:id="@+id/edtAddress"
+                            android:layout_width="260dp"
+                            android:layout_height="@dimen/edit_height"
+                            android:background="@drawable/bg_delivery_details_edt"
+                            android:fontFamily="@font/titilliu_web_regular"
+                            android:hint="Apartment name,House no and street name etc."
+                            android:layout_marginTop="8dp"
+                            android:drawableLeft="@drawable/icon_delivery_account"
+                            android:drawablePadding="7dp"
+                            android:paddingRight="20dp"
+
+                            android:maxLength="60"
+                            android:textColor="@color/availibility_textview"
+                            android:maxLines="1"
+                            android:inputType="text"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textSize="13sp"
+
+                    />
+                    <EditText
+                            android:id="@+id/edtPhoneNo"
+                            android:layout_width="260dp"
+                            android:layout_height="@dimen/edit_height"
+                            android:background="@drawable/bg_delivery_details_edt"
+                            android:fontFamily="@font/titilliu_web_regular"
+                            android:hint="Mobile no"
+                            android:layout_marginTop="8dp"
+                            android:textColor="@color/availibility_textview"
+                            android:maxLines="1"
+                            android:drawableLeft="@drawable/icon_mobile_account"
+                            android:drawablePadding="7dp"
+                            android:maxLength="11"
+                            android:paddingRight="20dp"
+
+                            android:inputType="number"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textSize="14sp"
+
+                    />
+                    <EditText
+                            android:id="@+id/edtEmail"
+                            android:layout_width="260dp"
+                            android:layout_height="@dimen/edit_height"
+                            android:background="@drawable/bg_delivery_details_edt"
+                            android:maxLength="40"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:maxLines="1"
+                            android:drawableLeft="@drawable/icon_email_account"
+                            android:drawablePadding="7dp"
+                            android:paddingRight="20dp"
+
+                            android:layout_marginTop="8dp"
+                            android:inputType="textEmailAddress"
+                            android:fontFamily="@font/titilliu_web_regular"
+                            android:hint="Email address"
+                            android:textSize="14sp"
+
+                    />
+
+
+                    <Button
+                            android:id="@+id/btnSaveChanges"
+                            android:layout_width="@dimen/btn_login_width"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@string/btn_save_chnages"
+                            android:theme="@style/PrimaryButton"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="10dp"
+                            android:textSize="@dimen/btn_confirm_checkout_txt_size"
+                            android:layout_marginBottom="5dp"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

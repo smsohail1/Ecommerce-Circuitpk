@@ -4,6 +4,7 @@ import com.xekera.Ecommerce.data.room.model.Favourites;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 public class ShoppingDetailModel implements Serializable {
 
@@ -19,13 +20,13 @@ public class ShoppingDetailModel implements Serializable {
     private long itemTotalFetchQuantity;
     private List<Favourites> favourites;
 
-
     public ShoppingDetailModel() {
 
     }
 
     public ShoppingDetailModel(String productName, String productPrice, boolean isFavourite, long itemQuantity,
-                               List<String> image, byte[] byteArray, long itemTotalFetchQuantity, List<Favourites> favourites) {
+                               List<String> image, byte[] byteArray, long itemTotalFetchQuantity,
+                               List<Favourites> favourites) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.isFavourite = isFavourite;
@@ -48,6 +49,7 @@ public class ShoppingDetailModel implements Serializable {
         return productPrice;
     }
 
+
     public void setProductPrice(String productPrice) {
         this.productPrice = productPrice;
     }
@@ -55,6 +57,7 @@ public class ShoppingDetailModel implements Serializable {
     public boolean isFavourite() {
         return isFavourite;
     }
+
     public List<Favourites> getFavourites() {
         return favourites;
     }

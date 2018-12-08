@@ -403,6 +403,44 @@ public class ShopDetailsModel implements ShopDetailsMVP.Model {
         }
     }
 
+    @Override
+    public void getFavouriteDetailsListByName(final String productName, final IFetchOrderDetailsList iFetchOrderDetailsList) {
+        try {
+            Observable.just(appDatabase.getFavouritesDao()).
+                    map(new Function<FavouritesDao, List<Favourites>>() {
+                        @Override
+                        public List<Favourites> apply(FavouritesDao favouritesDao) throws Exception {
+                            return favouritesDao.getFavouritesByName(productName);
+                        }
+                    }).
+                    subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Observer<List<Favourites>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<Favourites> bookings) {
+                            iFetchOrderDetailsList.onCartDetailsReceived(bookings);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            iFetchOrderDetailsList.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception e) {
+            iFetchOrderDetailsList.onErrorReceived(e);
+        }
+    }
+
 
     interface IFetchCartDetailsList {
         void onCartDetailsReceived(List<AddToCart> AddToCartList);

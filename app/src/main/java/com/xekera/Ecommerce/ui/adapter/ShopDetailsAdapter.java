@@ -16,18 +16,17 @@ import com.bumptech.glide.Glide;
 import com.varunest.sparkbutton.SparkButton;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
+import com.xekera.Ecommerce.util.SessionManager;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     List<ShoppingDetailModel> productsItems;
     List<ShoppingDetailModel> productsItemsSearch;
     IShopDetailAdapter iShopDetailAdapter;
-
+    SessionManager sessionManager;
+    List<String> favList;
 
 //    private ProductItemActionListener actionListener;
 
@@ -35,12 +34,16 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
-    public ShopDetailsAdapter(Context context, List<ShoppingDetailModel> productsItems, IShopDetailAdapter iShopDetailAdapter) {
+    public ShopDetailsAdapter(Context context, List<ShoppingDetailModel> productsItems, IShopDetailAdapter iShopDetailAdapter,
+                              SessionManager sessionManager, List<String> favList) {
         this.context = context;
         this.productsItems = productsItems;
         this.iShopDetailAdapter = iShopDetailAdapter;
         this.productsItemsSearch = new ArrayList<>();
         this.productsItemsSearch.addAll(productsItems);
+        this.sessionManager = sessionManager;
+        this.favList = favList;
+
     }
 
 
@@ -58,15 +61,21 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
 
+    List<String> tasksList;
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ShoppingDetailModel shoppingDetailModel = productsItems.get(position);
+//        Set<String> list = sessionManager.getIsFavouriteList();
+//        tasksList = new ArrayList<String>(list);
+
         if (holder instanceof productDetailsDataListViewHolder) {
             productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
             productDetailsDataListViewHolder.productNameLabelTextView.setText(shoppingDetailModel.getProductName());
             productDetailsDataListViewHolder.priceTextView.setText(shoppingDetailModel.getProductPrice());
             productDetailsDataListViewHolder.counterTextview.setText(shoppingDetailModel.getItemQuantity() + "");
+
 //            if (shoppingDetailModel.getFavourites().size() > 0) {
 ////                if (shoppingDetailModel.getFavourites().contains(shoppingDetailModel.getProductName())) {
 //                if (productsItems.get(position).getFavourites().contains(shoppingDetailModel.getProductName())) {
@@ -81,13 +90,38 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //            }
 
 
-            if (productsItems.get(position).isFavourite()) {
-                productDetailsDataListViewHolder.favouriteButton.setChecked(true);
-            } else {
-                productDetailsDataListViewHolder.favouriteButton.setChecked(false);
+            //  iShopDetailAdapter.getIsFavourites(shoppingDetailModel.getProductName(), position);
+
+            for (String items : favList) {
+                if (shoppingDetailModel.getProductName().equalsIgnoreCase(items)) {
+                    productDetailsDataListViewHolder.favouriteButton.setChecked(true);
+
+                } else {
+                    productDetailsDataListViewHolder.favouriteButton.setChecked(false);
+
+                }
 
             }
+            // if(productsItems.get(position).getList().)
 
+//            for (String item : tasksList) {
+//                if (shoppingDetailModel.getProductName().equalsIgnoreCase(item.toString())) {
+//                    productDetailsDataListViewHolder.favouriteButton.setChecked(true);
+//
+//
+//                } else {
+//                    productDetailsDataListViewHolder.favouriteButton.setChecked(false);
+//
+//                }
+//            }
+
+
+//            if (productsItems.get(position).isFavourite()) {
+//                productDetailsDataListViewHolder.favouriteButton.setChecked(true);
+//            } else {
+//                productDetailsDataListViewHolder.favouriteButton.setChecked(false);
+//
+//            }
 
             //            if (shoppingDetailModel.isFavourite()) {
 //                productDetailsDataListViewHolder.favouriteButton.setChecked(true);
@@ -294,6 +328,11 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         notifyDataSetChanged();
     }
 
+    public void setIsfavourite(boolean status, int position) {
+        productsItems.get(position).setFavourite(status);
+        notifyDataSetChanged();
+    }
+
     public void refreshProduct() {
         notifyDataSetChanged();
 
@@ -318,6 +357,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         void shareItemsDetails(ShoppingDetailModel productItems, Bitmap bitmapImg);
 
         void removeItemFromCart(ShoppingDetailModel shoppingDetailModel);
+
+        void getIsFavourites(String productName, int position);
     }
 
 

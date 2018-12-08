@@ -76,6 +76,9 @@
     <dimen name="copied_height">35dp</dimen>
     <dimen name="checbox_width">180dp</dimen>
 
+    <dimen name="delete_width">20dp</dimen>
+    <dimen name="delete_height">20dp</dimen>
+
     <dimen name="payment_mode_textview_size">14sp</dimen>
 
     <dimen name="textview_login_height">16dp</dimen>

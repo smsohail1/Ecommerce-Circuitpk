@@ -2,8 +2,11 @@ package com.xekera.Ecommerce.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 
 import javax.inject.Inject;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class SessionManager {
@@ -18,12 +21,22 @@ public class SessionManager {
     private static final String KEY_USER_PHONE = "user_phon";
     private static final String KEY_USER_EMAIL = "user_email";
 
+    private static final String KEY_USER_TAKE_PHOTO = "img_take_photo";
     private static final String KEY_IS_SIGNUP = "is_signup";
+    private static final String KEY_IS_FACEBOOK_LOGIN = "is_facebook_login";
+
+    private static final String KEY_PICTURE = "picture";
+    private static final String KEY_IS_FAVOURITE_LIST = "favourite_list";
+
 
     private static final String KEY_LATITUDE = "delivery_latitude";
     private static final String KEY_LONGITUDE = "delivery_longitude";
     private static final String KEY_PLACE_NAME = "delivery_place_name";
 
+
+    private static final String KEY_COMPANY_NAME = "company_name";
+
+    private static final String KEY_ADDRESS = "address";
 
     @Inject
     public SessionManager(Context context) {
@@ -33,13 +46,16 @@ public class SessionManager {
     }
 
 
-    public void createLoginSession(String username, String phoneno, String userPassword, String email, boolean isSignUp) {
+    public void createLoginSession(String username, String phoneno, String userPassword, String email, boolean isSignUp,
+                                   boolean isLoginViaFacebook, String fbImageUrl) {
         //editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_USER_NAME, username);
         editor.putString(KEY_USER_PHONE, phoneno);
         editor.putString(KEY_USER_PASSWORD, userPassword);
         editor.putString(KEY_USER_EMAIL, email);
         editor.putBoolean(KEY_IS_SIGNUP, isSignUp);
+        editor.putBoolean(KEY_IS_FACEBOOK_LOGIN, isLoginViaFacebook);
+        editor.putString(KEY_PICTURE, fbImageUrl);
 
         editor.commit();
     }
@@ -48,6 +64,16 @@ public class SessionManager {
         editor.putString(KEY_LATITUDE, latitude);
         editor.putString(KEY_LONGITUDE, longitude);
         editor.putString(KEY_PLACE_NAME, placeName);
+        editor.commit();
+    }
+
+
+    public void createAccountDetails(String username, String companyName, String address, String phoneNo, String email) {
+        editor.putString(KEY_USER_NAME, username);
+        editor.putString(KEY_COMPANY_NAME, companyName);
+        editor.putString(KEY_ADDRESS, address);
+        editor.putString(KEY_USER_PHONE, phoneNo);
+        editor.putString(KEY_USER_EMAIL, email);
         editor.commit();
     }
 
@@ -79,6 +105,17 @@ public class SessionManager {
 
     }
 
+    public String getKeyPicture() {
+        return pref.getString(KEY_PICTURE, "");
+
+    }
+
+    public void setKeyPicture(String picture) {
+        editor.putString(KEY_PICTURE, picture);
+        editor.commit();
+    }
+
+
     public String getKeyPlaceName() {
         return pref.getString(KEY_PLACE_NAME, "");
     }
@@ -94,6 +131,16 @@ public class SessionManager {
 
     public void setIsSignUp(boolean isSignUp) {
         editor.putBoolean(KEY_IS_SIGNUP, isSignUp);
+        editor.commit();
+    }
+
+
+    public boolean getKeyIsFacebookLogin() {
+        return pref.getBoolean(KEY_IS_FACEBOOK_LOGIN, false);
+    }
+
+    public void setIsFacebookLogin(boolean isFacebookLogin) {
+        editor.putBoolean(KEY_IS_FACEBOOK_LOGIN, isFacebookLogin);
         editor.commit();
     }
 
@@ -117,12 +164,17 @@ public class SessionManager {
         editor.commit();
     }
 
-    public void clearData() {
+
+    public void clearAll() {
         editor.remove(IS_LOGIN);
         editor.remove(KEY_USER_NAME);
         editor.remove(KEY_USER_PHONE);
         editor.remove(KEY_USER_PASSWORD);
         editor.remove(KEY_USER_EMAIL);
+        editor.remove(KEY_USER_TAKE_PHOTO);
+        editor.remove(KEY_IS_SIGNUP);
+        editor.remove(KEY_IS_FACEBOOK_LOGIN);
+        editor.remove(KEY_PICTURE);
         editor.apply();
         editor.commit();
     }
@@ -145,6 +197,7 @@ public class SessionManager {
         return pref.getString(KEY_USER_NAME, "");
     }
 
+
     public String getphoneno() {
         return pref.getString(KEY_USER_PHONE, "");
     }
@@ -159,8 +212,47 @@ public class SessionManager {
         editor.commit();
     }
 
+    public void setTakePhoto(String img) {
+        editor.putString(KEY_USER_TAKE_PHOTO, img);
+        editor.commit();
+    }
+
+    public String getTakePhoto() {
+        return pref.getString(KEY_USER_TAKE_PHOTO, "");
+    }
+
     public String getEmail() {
         return pref.getString(KEY_USER_EMAIL, "");
+    }
+
+    public String getCompanyName() {
+        return pref.getString(KEY_COMPANY_NAME, "");
+    }
+
+
+    public void setCompanyName(String companyName) {
+        editor.putString(KEY_COMPANY_NAME, companyName);
+        editor.commit();
+    }
+
+    public String getDeliveryAddress() {
+        return pref.getString(KEY_ADDRESS, "");
+    }
+
+
+    public void setDeliveryAddress(String address) {
+        editor.putString(KEY_ADDRESS, address);
+        editor.commit();
+    }
+
+    public void setIsFavouriteList(Set<String> list) {
+        editor.putStringSet(KEY_IS_FAVOURITE_LIST, list)
+                .commit();
+
+    }
+
+    public Set<String> getIsFavouriteList() {
+        return pref.getStringSet(KEY_IS_FAVOURITE_LIST, new HashSet<String>());
     }
 
 

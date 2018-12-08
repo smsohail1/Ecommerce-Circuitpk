@@ -424,8 +424,6 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     }
 
 
-
-
     @Override
     public void showSnackBarLongTime(String message, View view) {
         snackUtil.showSnackBarLongTime(view, message);

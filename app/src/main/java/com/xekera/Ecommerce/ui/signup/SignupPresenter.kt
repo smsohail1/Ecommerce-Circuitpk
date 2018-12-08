@@ -42,7 +42,7 @@ public class SignupPresenter : SignupMVP.Presenter {
     ) {
 
         if (validateInputFields(userName, password, phoneNo, emailID, viewActivity)) {
-            sessionManager?.createLoginSession(userName, phoneNo, password, emailID,true)
+            sessionManager?.createLoginSession(userName, phoneNo, password, emailID, true, false, "")
             view?.signUpSuccessfully();
 //            if (utils?.isInternetAvailable()!!) {
 //

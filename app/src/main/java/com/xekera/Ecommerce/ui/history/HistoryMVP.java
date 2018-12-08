@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.history;
 import android.content.Context;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
+import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 
 import java.util.List;
 
@@ -49,11 +50,15 @@ public interface HistoryMVP {
 
         void fetchOrderDetails();
 
+        void fetchCartsCount();
+
 
     }
 
     interface Model {
 
         void getOrderDetailsList(HistoryModel.IFetchOrderDetailsList iFetchOrderDetailsList);
+        void getCartDetailsList(HistoryModel.IFetchCartDetailsList iFetchCartDetailsList);
+
     }
 }

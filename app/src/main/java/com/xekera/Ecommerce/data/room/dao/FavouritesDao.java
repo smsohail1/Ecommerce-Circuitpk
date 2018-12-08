@@ -33,4 +33,6 @@ public interface FavouritesDao {
 
     @Query("DELETE FROM favourites where item_name = :itemName")
     void deleteItem(String itemName);
+
+
 }

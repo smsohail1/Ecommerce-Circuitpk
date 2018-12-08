@@ -74,6 +74,11 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     @BindView(R.id.spinnerTownCityDiffAddress)
     protected Spinner spinnerTownCityDiffAddress;
 
+    @BindView(R.id.deliveryAddressSelfPickupLayout)
+    protected LinearLayout deliveryAddressSelfPickupLayout;
+    @BindView(R.id.deliveryAddressSelfPickupLayoutDiffAddress)
+    protected LinearLayout deliveryAddressSelfPickupLayoutDiffAddress;
+
     @BindView(R.id.radioGroup)
     protected RadioGroup radioGroup;
     @BindView(R.id.radioGroupDiffAddress)
@@ -143,7 +148,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
         btnCheckout.setOnClickListener(this);
 
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         // ((BaseActivity) getActivity()).hideBottomNavigation();
 
@@ -151,6 +156,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
         edtUsername.setText(sessionManager.getusername());
         edtPhoneNo.setText(sessionManager.getphoneno());
         edtEmail.setText(sessionManager.getEmail());
+        edtCompanyName.setText(sessionManager.getCompanyName());
+        edtStreetAddress1.setText(sessionManager.getDeliveryAddress());
 
 //        country = Arrays.asList(getResources().getStringArray(R.array.country));
         cityTown = Arrays.asList(getResources().getStringArray(R.array.town_city));
@@ -257,11 +264,11 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                                                               if (isChecked) {
                                                                   selfPickup = checkboxSelfPickUp.getText().toString();
                                                                   edtStreetAddress1.setText("");
-                                                                  edtStreetAddress1.setVisibility(View.GONE);
+                                                                  deliveryAddressSelfPickupLayout.setVisibility(View.GONE);
                                                                   flatRateTextview.setText("RS0");
                                                               } else {
                                                                   selfPickup = "";
-                                                                  edtStreetAddress1.setVisibility(View.VISIBLE);
+                                                                  deliveryAddressSelfPickupLayout.setVisibility(View.VISIBLE);
                                                                   flatRateTextview.setText("");
 
 
@@ -275,14 +282,14 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                                                                      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                                                          if (isChecked) {
                                                                              selfPickupDiffAddress = checkboxSelfPickUpDiffAddress.getText().toString();
-                                                                             edtStreetAddress1.setText("");
-                                                                             edtStreetAddress1.setVisibility(View.GONE);
+                                                                             edtStreetAddress1DiffAddress.setText("");
+                                                                             deliveryAddressSelfPickupLayoutDiffAddress.setVisibility(View.GONE);
                                                                              flatRateTextviewDiffAddress.setText("RS0");
 
 
                                                                          } else {
                                                                              selfPickupDiffAddress = "";
-                                                                             edtStreetAddress1.setVisibility(View.VISIBLE);
+                                                                             deliveryAddressSelfPickupLayoutDiffAddress.setVisibility(View.VISIBLE);
                                                                              flatRateTextviewDiffAddress.setText("");
 
 

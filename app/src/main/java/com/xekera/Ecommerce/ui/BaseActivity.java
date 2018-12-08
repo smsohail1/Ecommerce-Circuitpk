@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -32,11 +33,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
+import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -60,6 +59,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.AppDatabase;
@@ -79,9 +80,6 @@ import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import com.xekera.Ecommerce.util.*;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.toolbar)
@@ -179,6 +177,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
             }
         });
+
+        //   getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
 
         // attaching bottom sheet behaviour - hide / show on scroll
@@ -921,23 +922,45 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             TextView txtName = headerView.findViewById(R.id.txtUserName);
             // TextView txtEmail = headerView.findViewById(R.id.txtUserEmail);
             TextView txtPhoneNo = headerView.findViewById(R.id.txtUserPhoneNo);
+            CircleImageView circleImageView = headerView.findViewById(R.id.img);
 
-            if (!utils.isTextNullOrEmpty(sessionManager.getusername())) {
-                txtName.setText(sessionManager.getusername());
-                txtName.setVisibility(View.VISIBLE);
+            if (sessionManager.getKeyIsFacebookLogin()) {
+                if (!utils.isTextNullOrEmpty(sessionManager.getusername())) {
+                    txtName.setText(sessionManager.getusername());
+                    txtName.setVisibility(View.VISIBLE);
 
-            } else {
-                txtName.setVisibility(View.GONE);
-            }
+                } else {
+                    txtName.setVisibility(View.GONE);
+                }
 
-            if (!utils.isTextNullOrEmpty(sessionManager.getphoneno())) {
-                txtPhoneNo.setText(sessionManager.getphoneno());
-                txtPhoneNo.setVisibility(View.VISIBLE);
+                if (!utils.isTextNullOrEmpty(sessionManager.getphoneno())) {
+                    txtPhoneNo.setText(sessionManager.getphoneno());
+                    txtPhoneNo.setVisibility(View.VISIBLE);
 
-            } else {
-                txtPhoneNo.setVisibility(View.GONE);
+                } else {
+                    txtPhoneNo.setVisibility(View.GONE);
 
-            }
+                }
+
+                if (!utils.isTextNullOrEmpty(sessionManager.getKeyPicture())) {
+                    //  Bitmap img = stringToBitMap(sessionManager.getKeyPicture());
+                    // circleImageView.setImageBitmap(sessionManager.getKeyPicture());
+//                    Glide.with(getApplicationContext()).load(sessionManager.getKeyPicture())
+//                            .placeholder(R.drawable.icon_user_profile)
+//                            .error(R.drawable.icon_user_profile)
+//                            .into(circleImageView);
+                    Picasso.with(getApplicationContext()).load(sessionManager.getKeyPicture()).into(circleImageView);
+
+
+                    txtPhoneNo.setVisibility(View.VISIBLE);
+
+                } else {
+                    txtPhoneNo.setVisibility(View.VISIBLE);
+
+                    circleImageView.setImageResource(R.drawable.icon_user_profile);
+
+                }
+
 
 //            if (!utils.isTextNullOrEmpty(sessionManager.getEmail())) {
 //                txtEmail.setText(sessionManager.getEmail());
@@ -947,11 +970,105 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 //                txtEmail.setVisibility(View.GONE);
 //
 //            }
+
+            } else {
+                if (!utils.isTextNullOrEmpty(sessionManager.getusername())) {
+                    txtName.setText(sessionManager.getusername());
+                    txtName.setVisibility(View.VISIBLE);
+
+                } else {
+                    txtName.setVisibility(View.GONE);
+                }
+
+                if (!utils.isTextNullOrEmpty(sessionManager.getphoneno())) {
+                    txtPhoneNo.setText(sessionManager.getphoneno());
+                    txtPhoneNo.setVisibility(View.VISIBLE);
+
+                } else {
+                    txtPhoneNo.setVisibility(View.GONE);
+
+                }
+                if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
+                    Bitmap img = stringToBitMap(sessionManager.getTakePhoto());
+                    circleImageView.setImageBitmap(img);
+
+                    txtPhoneNo.setVisibility(View.VISIBLE);
+
+                } else {
+                    txtPhoneNo.setVisibility(View.VISIBLE);
+
+                    circleImageView.setImageResource(R.drawable.icon_user_profile);
+
+                }
+
+
+//            if (!utils.isTextNullOrEmpty(sessionManager.getEmail())) {
+//                txtEmail.setText(sessionManager.getEmail());
+//                txtEmail.setVisibility(View.VISIBLE);
+//
+//            } else {
+//                txtEmail.setVisibility(View.GONE);
+//
+//            }
+
+            }
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
     }
+
+    public Bitmap stringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
+
+//    public void setUserDetails(String firstName, String lastName, String imgURL) {
+//        try {
+//            View headerView = navigationView.getHeaderView(0);
+//            TextView txtName = headerView.findViewById(R.id.txtUserName);
+//            // TextView txtEmail = headerView.findViewById(R.id.txtUserEmail);
+//            TextView txtPhoneNo = headerView.findViewById(R.id.txtUserPhoneNo);
+//
+//            if (!utils.isTextNullOrEmpty(firstName)) {
+//                txtName.setText(firstName);
+//                txtName.setVisibility(View.VISIBLE);
+//
+//            } else {
+//                txtName.setVisibility(View.GONE);
+//            }
+//
+//            if (!utils.isTextNullOrEmpty(sessionManager.getphoneno())) {
+//                txtPhoneNo.setText(sessionManager.getphoneno());
+//                txtPhoneNo.setVisibility(View.VISIBLE);
+//
+//            } else {
+//                txtPhoneNo.setVisibility(View.GONE);
+//
+//            }
+//
+////            if (!utils.isTextNullOrEmpty(sessionManager.getEmail())) {
+////                txtEmail.setText(sessionManager.getEmail());
+////                txtEmail.setVisibility(View.VISIBLE);
+////
+////            } else {
+////                txtEmail.setVisibility(View.GONE);
+////
+////            }
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//
+//    }
+
 
     @Override
     protected void onPause() {
@@ -1160,6 +1277,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                     profilePhoto.setImageBitmap(bitmap);
                     toastUtil.showToastShortTime("Profile picture updated");
+                    String strImg = bitMapToString(bitmap);
+                    sessionManager.setTakePhoto(strImg);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -1172,10 +1291,22 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             profilePhoto.setImageBitmap(thumbnail);
 
+            String strImg = bitMapToString(thumbnail);
+            sessionManager.setTakePhoto(strImg);
+
             saveImage(thumbnail);
             toastUtil.showToastShortTime("Profile pic updated");
         }
     }
+
+    public String bitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
 
     public String saveImage(Bitmap myBitmap) {
         try {

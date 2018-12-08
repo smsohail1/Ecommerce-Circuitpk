@@ -2,8 +2,10 @@ package com.xekera.Ecommerce.ui.history;
 
 import android.app.Dialog;
 import android.content.Context;
+import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
+import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 
@@ -41,7 +43,8 @@ public class HistoryPresenter implements HistoryMVP.Presenter {
                     view.hideRecyclerView();
                     view.setParentFields();
                     view.txtNoCartItemFound();
-                    // view.setCartCounts(0);
+                    //  view.setCartCounterTextview(0);
+                    //view.setCartCounts(0);
                     return;
                 } else {
                     view.hideNoCartItemFound();
@@ -61,6 +64,34 @@ public class HistoryPresenter implements HistoryMVP.Presenter {
             }
         });
     }
+
+    @Override
+    public void fetchCartsCount() {
+        model.getCartDetailsList(new HistoryModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+
+                    view.setCartCounterTextview(0);
+                    return;
+                } else {
+                    view.setCartCounterTextview(addToCarts.size());
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+                view.setParentFields();
+                view.hideRecyclerView();
+                //view.setCartCounts(0);
+
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
+    }
+
 
 //    private void setAdapter(List<Booking> bookings) {
 //        if (adapter == null) {

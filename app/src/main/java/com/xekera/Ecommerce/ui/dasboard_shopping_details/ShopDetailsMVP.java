@@ -42,6 +42,8 @@ public interface ShopDetailsMVP {
         void setFavouriteList(List<Favourites> favourites);
 
         void setUI(List<Favourites> favList);
+
+        void setIsFavourites(boolean isFavourites, int position);
     }
 
     interface Presenter {
@@ -70,6 +72,8 @@ public interface ShopDetailsMVP {
 
         void getFavouritesList();
 
+        void getFavouritesListByProductName(String productName, int position);
+
     }
 
     interface Model {
@@ -92,6 +96,9 @@ public interface ShopDetailsMVP {
         void checkItemAlreadyAddedOrNot(String itemName, ShopDetailsModel.IFetchFavDetailsList iFetchCartDetailsList);
 
         void getFavouriteDetailsList(ShopDetailsModel.IFetchOrderDetailsList iFetchOrderDetailsList);
+
+        void getFavouriteDetailsListByName(String productName, ShopDetailsModel.IFetchOrderDetailsList iFetchOrderDetailsList);
+
 
     }
 }

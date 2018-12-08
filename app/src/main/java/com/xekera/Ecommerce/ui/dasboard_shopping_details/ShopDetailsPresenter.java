@@ -1,7 +1,11 @@
 package com.xekera.Ecommerce.ui.dasboard_shopping_details;
 
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Query;
 import android.content.Context;
 import android.widget.ImageView;
+import com.xekera.Ecommerce.data.room.AppDatabase;
+import com.xekera.Ecommerce.data.room.dao.FavouritesDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.BaseActivity;
@@ -13,10 +17,15 @@ import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedModel;
 import com.xekera.Ecommerce.util.AppConstants;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     private ShopDetailsMVP.View view;
@@ -25,12 +34,13 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     private ShopDetailsAdapter shopDetailsAdapter;
     private Utils utils;
     private ProductItemActionListener actionListener;
+    AppDatabase appDatabase;
 
-
-    public ShopDetailsPresenter(ShopDetailsMVP.Model model, SessionManager sessionManager, Utils utils) {
+    public ShopDetailsPresenter(ShopDetailsMVP.Model model, SessionManager sessionManager, Utils utils, AppDatabase appDatabase) {
         this.model = model;
         this.sessionManager = sessionManager;
         this.utils = utils;
+        this.appDatabase = appDatabase;
     }
 
     @Override
@@ -115,6 +125,31 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
         });
     }
 
+    @Override
+    public void getFavouritesListByProductName(String productName, final int position) {
+        // isFavourite(productName, position);
+        model.getFavouriteDetailsListByName(productName, new ShopDetailsModel.IFetchOrderDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<Favourites> favourites) {
+                if (favourites == null || favourites.size() == 0) {
+                    view.setIsFavourites(false, position);
+                    // view.setFavouriteList(favourites);
+                    return;
+                } else {
+                    view.setIsFavourites(true, position);
+                    //view.setFavouriteList(favourites);
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
+    }
+
+
     public void insertSelectedFavourites(final Favourites favourites) {
 
         model.checkItemAlreadyAddedOrNot(favourites.getItemName(), new ShopDetailsModel.IFetchFavDetailsList() {
@@ -139,13 +174,23 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     }
 
 
-    private void addItem(Favourites favourites) {
+    private void addItem(final Favourites favourites) {
 
         model.addItemToFavourites(favourites, new ShopDetailsModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
+                  //  List<String> listFavourite = new ArrayList<>();
+//                    listFavourite.add(favourites.getItemName());
+//
+//                    Set<String> favouriteSet = new HashSet<String>(listFavourite);
+//
+//                    sessionManager.setIsFavouriteList(favouriteSet);
+
+
                     view.showToastShortTime("Item added to favourite.");
+
+                    getFavourites();
                     //  view.enableAddtoFavouriteButton();
                     // view.animationAddButton();
 
@@ -165,6 +210,45 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
                 view.showToastShortTime("Error while saving data.");
 
+            }
+        });
+    }
+
+    public void getFavourites() {
+        model.getFavouriteDetailsList(new ShopDetailsModel.IFetchOrderDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<Favourites> favourites) {
+
+                if (favourites == null || favourites.size() == 0) {
+                    List<String> listFavourite = new ArrayList<>();
+
+                    for (Favourites fav : favourites) {
+                        listFavourite.add(fav.getItemName());
+                    }
+                    Set<String> favouriteSet = new HashSet<String>(listFavourite);
+
+                    sessionManager.setIsFavouriteList(favouriteSet);
+
+                    return;
+                } else {
+                    List<String> listFavourite = new ArrayList<>();
+
+                    for (Favourites fav : favourites) {
+                        listFavourite.add(fav.getItemName());
+                    }
+                    Set<String> favouriteSet = new HashSet<String>(listFavourite);
+
+                    sessionManager.setIsFavouriteList(favouriteSet);
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+
+
+                view.showToastShortTime(ex.getMessage());
             }
         });
     }

@@ -8,7 +8,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.xekera.Ecommerce"
-        minSdkVersion 19
+        minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -22,7 +22,9 @@ android {
         }
     }
 }
-
+repositories {
+    mavenCentral()
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -73,8 +75,9 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
-    implementation 'com.facebook.android:facebook-android-sdk:4.31.0'
+   // implementation 'com.facebook.android:facebook-android-sdk:4.31.0'
 
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     implementation project(":library")
     implementation project(':sparkbutton')

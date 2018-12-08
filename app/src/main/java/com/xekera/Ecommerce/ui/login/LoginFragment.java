@@ -25,6 +25,7 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.facebook.*;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
@@ -36,14 +37,11 @@ import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.dashboard.DashboardActivity;
 import com.xekera.Ecommerce.ui.signup.SignUpActivity;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
-import com.xekera.Ecommerce.util.ProgressCustomDialogController;
-import com.xekera.Ecommerce.util.SnackUtil;
-import com.xekera.Ecommerce.util.ToastUtil;
-import com.xekera.Ecommerce.util.Utils;
+import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
 
-import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,6 +73,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     ToastUtil toastUtil;
     @Inject
     SnackUtil snackUtil;
+    @Inject
+    SessionManager sessionManager;
+
     @Inject
     protected LoginMVP.Presenter presenter;
 
@@ -110,6 +111,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // FacebookSdk.sdkInitialize(getActivity());
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
 
@@ -137,7 +139,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         this.presenter.setView(this);
         // ((BaseActivity) getActivity()).hideBottomNavigation();
 
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         btnSignIn.setOnClickListener(this);
         btnCreateAccount.setOnClickListener(this);
@@ -146,48 +148,125 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
 
         utils.showSoftKeyboard(edtUsername);
 
-        callFacebook();
+        fb_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                utils.hideSoftKeyboard(edtUsername);
+                utils.hideSoftKeyboard(customEdtPasswordHideShow);
+                callFacebook();
+
+            }
+        });
 
 
     }
+
+//    private static final String EMAIL = "email";
+//
+//    private void callFacebook() {
+//        fb_button.setReadPermissions(Arrays.asList(EMAIL));
+//        fb_button.setFragment(this);
+//        callbackManager = CallbackManager.Factory.create();
+//
+//        // Callback registration
+//        fb_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+//            @Override
+//            public void onSuccess(LoginResult loginResult) {
+//                // App code
+//                int i = 0;
+//                Log.d("facebook s", loginResult.getAccessToken().getUserId());
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                // App code
+//                int k = 0;
+//            }
+//
+//            @Override
+//            public void onError(FacebookException exception) {
+//                // App code
+//                int j = 0;
+//            }
+//        });
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        callbackManager.onActivityResult(requestCode, resultCode, data);
+//        //super.onActivityResult(requestCode, resultCode, data);
+//    }
 
 
     private void callFacebook() {
         boolean loggedOut = AccessToken.getCurrentAccessToken() == null;
 
-        if (!loggedOut) {
-            //  Picasso.with(getActivity()).load(Profile.getCurrentProfile().getProfilePictureUri(200, 200)).into(imageView);
-            // Log.d("TAG", "Username is: " + Profile.getCurrentProfile().getName());
 
-            //Using Graph API
-            getUserProfile(AccessToken.getCurrentAccessToken());
+//        if (!loggedOut) {
+//            //  Picasso.with(getActivity()).load(Profile.getCurrentProfile().getProfilePictureUri(200, 200)).into(imageView);
+//            // Log.d("TAG", "Username is: " + Profile.getCurrentProfile().getName());
+//
+//            //Using Graph API
+//          //  getUserProfile(AccessToken.getCurrentAccessToken());
+//        }
+
+        //Profile fbProfile = Profile.getCurrentProfile();
+
+//        fb_button.setReadPermissions(Arrays.asList("email", "public_profile"));
+//        fb_button.setFragment(this);
+
+        // callbackManager = CallbackManager.Factory.create();
+
+        AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
+                                                       AccessToken currentAccessToken) {
+                if (currentAccessToken == null) {
+                    //  Log.d(TAG, "onLogout catched");
+                    // deleteContact();//This is my code
+                    sessionManager.clearAll();
+                    (((BaseActivity) getActivity())).setUserDetails();
+
+
+                }
+            }
+        };
+        accessTokenTracker.startTracking();
+
+        if (!sessionManager.getKeyIsFacebookLogin()) {
+            fb_button.setReadPermissions(Arrays.asList("email", "public_profile"));
+            fb_button.setFragment(this);
+
+            callbackManager = CallbackManager.Factory.create();
+
+            fb_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    // App code
+                    //loginResult.getAccessToken();
+                    //loginResult.getRecentlyDeniedPermissions()
+                    //loginResult.getRecentlyGrantedPermissions()
+
+                    boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
+
+                    getUserProfile(AccessToken.getCurrentAccessToken());
+
+                }
+
+                @Override
+                public void onCancel() {
+                    // App code
+                    int d = 0;
+                }
+
+                @Override
+                public void onError(FacebookException exception) {
+                    // App code
+                    int d = 0;
+
+                }
+            });
         }
-
-        fb_button.setReadPermissions(Arrays.asList("email", "public_profile"));
-        callbackManager = CallbackManager.Factory.create();
-
-        fb_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                // App code
-                //loginResult.getAccessToken();
-                //loginResult.getRecentlyDeniedPermissions()
-                //loginResult.getRecentlyGrantedPermissions()
-                boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
-                Log.d("API123", loggedIn + " ??");
-
-            }
-
-            @Override
-            public void onCancel() {
-                // App code
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                // App code
-            }
-        });
 
 
     }
@@ -196,7 +275,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
+        //  super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void getUserProfile(AccessToken currentAccessToken) {
@@ -211,13 +290,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                             String email = object.getString("email");
                             String id = object.getString("id");
                             String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
-
+                            sessionManager.createLoginSession(first_name + " " + last_name, "", "", email, true, true, image_url);
+                            //sessionManager.setKeyPicture(image_url);
+                            (((BaseActivity) getActivity())).setUserDetails();
+                            showToastShortTime("LoggedIn Successfully.");
                             // txtUsername.setText("First Name: " + first_name + "\nLast Name: " + last_name);
                             //txtEmail.setText(email);
                             //Picasso.with(MainActivity.this).load(image_url).into(imageView);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            showToastShortTime("Error while login with facebook.");
                         }
 
                     }
@@ -228,8 +311,23 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         request.setParameters(parameters);
         request.executeAsync();
 
+
     }
 
+
+    private void logout() {
+        new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, new GraphRequest
+                .Callback() {
+            @Override
+            public void onCompleted(GraphResponse graphResponse) {
+
+                LoginManager.getInstance().logOut();
+
+            }
+        }).executeAsync();
+
+
+    }
 
     @Override
     public void onClick(View view) {
@@ -247,6 +345,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        utils.hideSoftKeyboard(edtUsername);
+                        utils.hideSoftKeyboard(customEdtPasswordHideShow);
                         ((BaseActivity) getActivity()).addFragment(new SignupFragment());
 
                     }

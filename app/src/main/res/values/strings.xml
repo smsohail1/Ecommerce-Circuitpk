@@ -115,6 +115,8 @@
 
     <string name="btn_submit_delivery_address">Submit</string>
 
+    <string name="btn_save_chnages">Save Changes</string>
+
     <string-array name="country">
         <item>Pakistan</item>
     </string-array>
@@ -149,9 +151,9 @@
 
     <string name="firstname_error">First name is required</string>
     <string name="lastname_error">Last name name is required</string>
-    <string name="phone_error">Phone no is required</string>
+    <string name="phone_error">Mobile no is required</string>
     <string name="email_error">Email is is required</string>
-    <string name="house_no_error">Street address is required</string>
+    <string name="house_no_error">Apartment name,House no and street name is required</string>
     <string name="country_error">Please select Country name</string>
     <string name="state_country_error">Please select State/Country</string>
     <string name="town_city_error">Please select Town/City</string>
@@ -170,6 +172,6 @@
     <string name="label_no_favourite_item_found">No items added in Favourite.</string>
 
     <string name="facebook_app_id">295767961056627</string>
-    <string name="fb_login_protocol_scheme">ga0RGNYHvNM5d0SLGQfpQWAPGJ8=</string>
+    <string name="fb_login_protocol_scheme">1TZ8bgPYqymwqCMZ7jOjkpT2ZYY=</string>
 
 </resources>
