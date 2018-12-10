@@ -45,7 +45,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="100dp"
                             android:gravity="center_horizontal"
-                            android:src="@drawable/ardino"
                     />
 
                     <ImageView
@@ -53,7 +52,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="100dp"
                             android:gravity="center_horizontal"
-                            android:src="@drawable/ardino"
                     />
 
                 </RelativeLayout>

@@ -92,6 +92,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         btnSaveChanges.setOnClickListener(this);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

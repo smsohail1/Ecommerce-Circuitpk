@@ -186,12 +186,25 @@
                             <!--app:sparkbutton_inActiveImage="@drawable/ic_star_off"-->
                             <!--android:clickable="true"/>-->
 
+                            <!--<ImageView-->
+                            <!--android:id="@+id/imgRemoveProduct"-->
+                            <!--android:layout_width="20dp"-->
+                            <!--android:layout_height="25dp"-->
+                            <!--android:clickable="true"-->
+                            <!--android:background="@drawable/cross_icon_selector"-->
+                            <!--/>-->
+
                             <ImageView
                                     android:id="@+id/imgRemoveProduct"
-                                    android:layout_width="20dp"
-                                    android:layout_height="25dp"
+                                    android:layout_width="@dimen/delete_width"
+                                    android:layout_height="@dimen/delete_height"
+                                    android:theme="@style/PrimaryButton"
+                                    android:textColor="@color/white"
+                                    android:padding="7dp"
+                                    android:layout_marginTop="7dp"
+                                    android:layout_marginRight="5dp"
+                                    android:background="@drawable/selector_delete"
                                     android:clickable="true"
-                                    android:background="@drawable/cross_icon_selector"
                             />
 
                         </LinearLayout>

@@ -93,6 +93,16 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
         }
 
+        linearLayoutParent.setOnClickListener { view ->
+            utils?.hideSoftKeyboard(edtUsername)
+            utils?.hideSoftKeyboard(edtPasswordShowHide)
+            utils?.hideSoftKeyboard(edtUserPhoneNo)
+            utils?.hideSoftKeyboard(edtEmailAddress)
+
+
+        }
+
+
     }
 
 

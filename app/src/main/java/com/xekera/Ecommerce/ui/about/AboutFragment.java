@@ -10,6 +10,10 @@ import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
 public class AboutFragment extends Fragment {
     public AboutFragment() {
         // Required empty public constructor

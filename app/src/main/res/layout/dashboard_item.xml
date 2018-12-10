@@ -47,6 +47,7 @@
                     android:layout_height="70dp"
                     android:padding="8dp"
                     android:adjustViewBounds="true"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/icon_barcode"
             />
             <TextView
@@ -56,6 +57,7 @@
                     android:textSize="@dimen/txt_home_item_size"
                     android:textColor="@color/colorPrimary"
                     android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
                     android:fontFamily="@font/titilliu_web_semi_bold"
 
             />

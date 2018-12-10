@@ -2,6 +2,7 @@ package com.xekera.Ecommerce.ui.shop_card_selected;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,9 +134,31 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
-        shoppingDetailModel = (ShoppingDetailModel) getArguments().getSerializable(KEY_SHOP_CARD_SELECTED_DETAILS);
-        bitmapImage = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_IMAGE);
+        try {
 
+
+            shoppingDetailModel = (ShoppingDetailModel) getArguments().getSerializable(KEY_SHOP_CARD_SELECTED_DETAILS);
+            bitmapImage = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_IMAGE);
+
+//            String bitmapStr = "";
+//            bitmapStr = getArguments().getString(KEY_SHOP_CARD_SELECTED_IMAGE);
+//            bitmapImage = stringToBitMap(bitmapStr);
+
+        } catch (Exception e) {
+
+        }
+    }
+
+
+    public Bitmap stringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 
     @Override
@@ -250,8 +274,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             }
 
 
-            if (bitmapImage != null)
-                imgProductCopy.setImageBitmap(bitmapImage);
+            // if (bitmapImage != null)
+            //   imgProductCopy.setImageBitmap(bitmapImage);
 
 
             if (shoppingDetailModel != null && shoppingDetailModel.getProductPrice() != null) {
@@ -289,27 +313,33 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
 
     private void initializeViews(View v) {
-        ButterKnife.bind(this, v);
-        presenter.setView(this);
-
-        // ((BaseActivity) getActivity()).hideBottomNavigation();
-
-        incrementImageButton.setOnClickListener(this);
-        decrementImageButton.setOnClickListener(this);
-        deliveryAddressImageView.setOnClickListener(this);
-        favouriteButton.setOnClickListener(this);
-        btnAddToCart.setOnClickListener(this);
-        progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
-        recyclerViewImageDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shakeanimation);
+        try {
 
 
-        setProductDetails();
-        presenter.setIsFavourite(shoppingDetailModel.getProductName());
+            ButterKnife.bind(this, v);
+            presenter.setView(this);
 
-        presenter.setMultipleImagesItems(getActivity(), shoppingDetailModel.getImage());
+            // ((BaseActivity) getActivity()).hideBottomNavigation();
 
+            incrementImageButton.setOnClickListener(this);
+            decrementImageButton.setOnClickListener(this);
+            deliveryAddressImageView.setOnClickListener(this);
+            favouriteButton.setOnClickListener(this);
+            btnAddToCart.setOnClickListener(this);
+            progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
+            recyclerViewImageDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            //   shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shakeanimation);
+
+
+            setProductDetails();
+            presenter.setIsFavourite(shoppingDetailModel.getProductName());
+
+            presenter.setMultipleImagesItems(getActivity(), shoppingDetailModel.getImage());
+
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -364,24 +394,30 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
     @Override
     public void setSelectedImage(String clickedUrl) {
-        if (!utils.isTextNullOrEmpty(clickedUrl)) {
-            Glide.with(getActivity()).load(clickedUrl)
+        try {
+
+
+            if (!utils.isTextNullOrEmpty(clickedUrl)) {
+                Glide.with(getActivity()).load(clickedUrl)
 //                    .fitCenter()
 //                    .centerCrop()
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder)
-                    .into(imgProduct);
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.placeholder)
+                        .into(imgProduct);
 
-            Glide.with(getActivity()).load(clickedUrl)
-//                    .fitCenter()
-//                    .centerCrop()
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder)
-                    .into(imgProductCopy);
-        } else {
-            imgProduct.setImageResource(R.drawable.placeholder);
+//                Glide.with(getActivity()).load(clickedUrl)
+////                    .fitCenter()
+////                    .centerCrop()
+//                        .placeholder(R.drawable.placeholder)
+//                        .error(R.drawable.placeholder)
+//                        .into(imgProductCopy);
+            } else {
+                imgProduct.setImageResource(R.drawable.placeholder);
 
-            imgProductCopy.setImageResource(R.drawable.placeholder);
+                //  imgProductCopy.setImageResource(R.drawable.placeholder);
+
+            }
+        } catch (Exception e) {
 
         }
     }
@@ -393,7 +429,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
     @Override
     public void shakeAddToCartTextview() {
-        ((BaseActivity) getActivity()).AnimateCartTextview();
+        //  ((BaseActivity) getActivity()).AnimateCartTextview();
 
     }
 
@@ -423,6 +459,12 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         favouriteButton.setChecked(isFavourite);
     }
 
+    @Override
+    public void setCartCounterTextview(int counts) {
+        ((BaseActivity) getActivity()).showTotalCartsCount(counts);
+
+    }
+
 
     @Override
     public void showSnackBarLongTime(String message, View view) {
@@ -434,6 +476,16 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_SHOP_CARD_SELECTED_DETAILS, shoppingDetailModel);
         bundle.putParcelable(KEY_SHOP_CARD_SELECTED_IMAGE, bitmapImg);
+        ShopCardSelectedFragment fragment = new ShopCardSelectedFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+
+    public ShopCardSelectedFragment newInstance(ShoppingDetailModel shoppingDetailModel, String bitmapImg) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_SHOP_CARD_SELECTED_DETAILS, shoppingDetailModel);
+        bundle.putString(KEY_SHOP_CARD_SELECTED_IMAGE, bitmapImg);
         ShopCardSelectedFragment fragment = new ShopCardSelectedFragment();
         fragment.setArguments(bundle);
         return fragment;

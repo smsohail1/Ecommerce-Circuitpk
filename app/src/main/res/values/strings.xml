@@ -69,7 +69,38 @@
     <string name="update_play_services">Please update Google Play Service on this device</string>
 
 
-    <string name="ardino">Ardino</string>
+    <string name="ardino">Arduino</string>
+    <string name="ardino_kit">Arduino Kit</string>
+
+    <string name="audio_amplifier">Audio Amplifier</string>
+    <string name="battery">Battery</string>
+    <string name="ble">BLE</string>
+    <string name="charger">Charger</string>
+    <string name="consumer_electronics">Consumer Electronics</string>
+    <string name="development_board">Development Board</string>
+    <string name="discrete_and_competent">Discrete and Competent</string>
+    <string name="esp">ESP</string>
+    <string name="kit">Kit</string>
+    <string name="lcd_circuit">LCD Circuit</string>
+    <string name="led_module">LED Module</string>
+    <string name="micro_sd_card">Micro SD Card</string>
+    <string name="module">Module</string>
+    <string name="motor">Motor</string>
+    <string name="motor_driver_module">Motor Driver Module</string>
+    <string name="power_supply">Power Supply</string>
+    <string name="programmer">Programmer</string>
+    <string name="rectifier">Rectifier</string>
+    <string name="rfid">RFID</string>
+    <string name="scr">SCR</string>
+    <string name="sensor_module">Sensor Module</string>
+    <string name="tool">Tool</string>
+    <string name="transistor">Transistor</string>
+    <string name="triacs">Triacs</string>
+    <string name="voltage_regulator">Voltage Regulator</string>
+    <string name="voltage_regulator_module">Voltage Regulator Module</string>
+    <string name="wire">Wire</string>
+    <string name="wire_less">Wireless</string>
+
     <string name="capacitor">Capacitor</string>
     <string name="senors">Sensors</string>
     <string name="wires">Wires</string>
@@ -174,4 +205,30 @@
     <string name="facebook_app_id">295767961056627</string>
     <string name="fb_login_protocol_scheme">1TZ8bgPYqymwqCMZ7jOjkpT2ZYY=</string>
 
+
+    <!--About Us-->
+    <string name="who_are_we">We transform your ideas into enterprise solutions, from
+        designing boards and creating test plans, custom hardware development, board
+        bringups and system level products with carefully analyzed mechanical and/or
+        thermal product designs, we foster innovation, and we are capable to meet your
+        requirements and expectations. We can also make improvements to your existing
+        products and designs making them fully engineered for future prospects.
+        our expert systems and protocols to bring efficiencies in project delivery for
+        our clients. Our highly dedicated engineers eagerly transform your ideas into
+        turnkey product designs.
+    </string>
+    <string name="our_experience">Our ascendancy, in our field of expertise from inventing R@ampD
+        solutions to their automation, is a result of working with the best. Our team’s
+        collective experience, in the last 2 decades with the Silicon Valley tech leaders including Intel,
+        Apple, Qualcomm, AMD, Sun Microsystems and HP, has helped us develop our expert systems
+        and protocols to bring efficiencies in project delivery for our clients. Our highly
+        dedicated engineers eagerly transform your ideas into turnkey product designs.
+        We transform your ideas into enterprise solutions, from designing boards and creating
+        test plans, custom hardware development, board bring ups and system level products
+        with carefully analyzed mechanical and/or thermal product designs, we foster innovation,
+        and we are capable to meet your requirements and expectations.
+    </string>
+    <string name="company_address">Software Technology Park,KSL Building, i-9/3 Islamabad.</string>
+    <string name="phone_no">(+92) 3345290597</string>
+    <string name="company_email_id">support@circuit.pk</string>
 </resources>

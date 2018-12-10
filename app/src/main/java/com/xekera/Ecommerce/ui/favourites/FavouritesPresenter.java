@@ -48,7 +48,9 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             @Override
             public void onSuccess(boolean success) {
                 if (success) {
-                    getCount(position);
+                    //  getCount(position);
+                    view.removeItemFromFavourites(position);
+
 
                 }
 
@@ -161,20 +163,17 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
 
     private void getCount(final int position) {
-        model.getCartDetails(new FavouritesModel.IFetchOrderDetailsList() {
+
+        model.getCartDetails(new FavouritesModel.IFetchCartDetailsList() {
             @Override
-            public void onCartDetailsReceived(List<Favourites> addToCarts) {
+            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
                 if (addToCarts == null || addToCarts.size() == 0) {
                     view.setCartCounterTextview(0);
                     return;
                 } else {
+
                     view.setCartCounterTextview(addToCarts.size());
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.removeItemFromFavourites(position);
-                        }
-                    }, 300);
+
                 }
 
             }

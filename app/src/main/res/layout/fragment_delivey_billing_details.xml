@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
 
-                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/relativeLayoutParent"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/irongrip_repeating"
                 android:clickable="true">
@@ -46,6 +48,7 @@
 
 
                 <LinearLayout
+                        android:id="@+id/userDetailsParentLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -580,6 +583,8 @@
 
 
                 <LinearLayout
+                        android:id="@+id/paymentModeLayout"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -702,6 +707,8 @@
 
 
                     <LinearLayout
+                            android:id="@+id/userDetailsParentLayoutDiffAddress"
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -1239,6 +1246,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
+                            android:id="@+id/paymentModeLayoutDiffAddress"
+
                             android:orientation="vertical">
 
                         <android.support.v7.widget.CardView

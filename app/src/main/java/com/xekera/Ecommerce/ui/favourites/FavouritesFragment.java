@@ -237,7 +237,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                     presenter.insertSelectedFavouritesToCart(addToCart, position, img);
                     isShowing = true;
                 }
-            }, 200);
+            }, 100);
         }
     }
 

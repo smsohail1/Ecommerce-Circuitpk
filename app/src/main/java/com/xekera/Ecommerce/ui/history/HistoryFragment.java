@@ -1,11 +1,18 @@
 package com.xekera.Ecommerce.ui.history;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -259,18 +267,85 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
 
     private void showDialog(Context context, String title) {
+        final String companyNo = "03440081152";
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_track_order);
 
         TextView txtTrackOrderDeatils = dialog.findViewById(R.id.txtTrackOrderDeatils);
         TextView txtTitle = dialog.findViewById(R.id.txtTitle);
+        ImageView imgCallMobile = dialog.findViewById(R.id.imgCallMobile);
+        // final TextView textviewMobileNo = dialog.findViewById(R.id.textviewMobileNo);
 
         txtTitle.setText("" + title);
+        imgCallMobile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestPermissions();
+                if (!mPermissionDenied) {
+                    callSupportNumber(companyNo);
+                }
+            }
+        });
 
         dialog.show();
     }
 
+    private void callSupportNumber(String mobileNo) {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobileNo));
+        try {
+            startActivity(intent);
+        } catch (SecurityException e) {
+            //  toastUtil.showToastLongTime("Security Exception - Please Enable Permissions");
+        }
+    }
+
+    // PERMISSIONS CODE
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private boolean mPermissionDenied = false;
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void requestPermissions() {
+        int call = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE);
+
+
+        if ((call != PackageManager.PERMISSION_GRANTED)) {
+            requestPermissions(
+                    new String[]{
+                            Manifest.permission.CALL_PHONE},
+                    REQUEST_CODE_ASK_PERMISSIONS);
+            return;
+        } else {
+            mPermissionDenied = false;
+            //permissionsGranted();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if ((grantResults[0] == PackageManager.PERMISSION_GRANTED) &&
+                        (grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                    // Permission Allowed
+                    int call = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE);
+
+                    if ((call == PackageManager.PERMISSION_GRANTED)) {
+                        //permissionsGranted();
+                        mPermissionDenied = false;
+                    } else {
+                        mPermissionDenied = true;
+                    }
+                } else {
+                    // showMissingPermissionError();
+                    // Permission Denied
+                    mPermissionDenied = true;
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 
     private void showCancelDialog(Context context, String title, String message) {
         final Dialog dialog = new Dialog(context);

@@ -20,8 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.facebook.*;
@@ -64,6 +63,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     protected Button btnCreateAccount;
     @BindView(R.id.fb_button)
     protected LoginButton fb_button;
+    @BindView(R.id.linearLayoutParent)
+    protected LinearLayout linearLayoutParent;
 
     CallbackManager callbackManager;
 
@@ -143,7 +144,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
 
         btnSignIn.setOnClickListener(this);
         btnCreateAccount.setOnClickListener(this);
-
+        linearLayoutParent.setOnClickListener(this);
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
         utils.showSoftKeyboard(edtUsername);
@@ -350,11 +351,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                         ((BaseActivity) getActivity()).addFragment(new SignupFragment());
 
                     }
-                }, 400);
+                }, 200);
 
 
                 break;
             }
+            case R.id.linearLayoutParent:
+                utils.hideSoftKeyboard(edtUsername);
+                utils.hideSoftKeyboard(customEdtPasswordHideShow);
+                break;
+
         }
     }
 

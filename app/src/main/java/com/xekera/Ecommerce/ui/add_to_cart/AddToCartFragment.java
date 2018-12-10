@@ -23,6 +23,10 @@ import com.xekera.Ecommerce.util.*;
 import javax.inject.Inject;
 import java.util.List;
 
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
 public class AddToCartFragment extends Fragment implements AddToCartMVP.View, AddToCartAdapter.IShopDetailAdapter,
         View.OnClickListener {
 

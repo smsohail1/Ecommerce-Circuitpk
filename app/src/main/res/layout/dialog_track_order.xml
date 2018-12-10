@@ -8,24 +8,55 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="vertical">
-        <TextView
-                android:id="@+id/txtTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:fontFamily="@font/titilliu_web_semi_bold"
-                android:gravity="center_horizontal"
-                android:padding="6dp"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="@dimen/txt_dp_user_pop_up_heading_size"/>
 
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:id="@+id/txtTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/titilliu_web_semi_bold"
+                    android:gravity="center_horizontal"
+                    android:padding="6dp"
+                    android:text="fdfdfdfdfdfd"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_dp_user_pop_up_heading_size"/>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center_vertical"
+                          android:gravity="right">
+
+                <ImageView
+                        android:id="@+id/imgCallMobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_track_phonecall"
+                        android:padding="5dp"
+                        android:layout_marginRight="5dp"
+                />
+                <!--<TextView-->
+                <!--android:id="@+id/textviewMobileNo"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="#ffffff"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginRight="5dp"-->
+                <!--android:textSize="@dimen/track_order_text_size_textview"-->
+                <!--android:text="03122456949"/>-->
+
+            </LinearLayout>
+        </LinearLayout>
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/track_order_textview"
-                android:padding="20dp">
+                android:padding="15dp">
 
             <TextView
                     android:id="@+id/txtTrackOrderDeatils"
@@ -34,9 +65,9 @@
                     android:text="Your order is in process."
                     android:background="@drawable/rounded_edit_text"
                     android:textColor="@color/availibility_textview"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:padding="8dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:padding="5dp"
 
                     android:textSize="@dimen/txt_report_list_item_size"
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
-import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
 import com.xekera.Ecommerce.ui.dashboard_shopping.model.DashboardItem;
 import com.xekera.Ecommerce.util.SessionManager;
@@ -36,16 +35,39 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
     @Override
     public void setDashboardItems(Context context) {
         List<DashboardItem> homeItems = new ArrayList<>();
-        homeItems.add(new DashboardItem(R.string.ardino, R.drawable.icon_booking));
-        homeItems.add(new DashboardItem(R.string.capacitor, R.drawable.
-                icon_clear_data));
-        homeItems.add(new DashboardItem(R.string.senors, R.drawable.icon_retake));
-        homeItems.add(new DashboardItem(R.string.wires, R.drawable.icon_reports));
-        homeItems.add(new DashboardItem(R.string.sd_card, R.drawable.icon_fetch_data));
-        homeItems.add(new DashboardItem(R.string.lcd, R.drawable.icon_dp_user));
-        homeItems.add(new DashboardItem(R.string.motor_driver, R.drawable.icon_barcode));
-        homeItems.add(new DashboardItem(R.string.charges, R.drawable.icon_security));
-        homeItems.add(new DashboardItem(R.string.motor_wheel, R.drawable.icon_security));
+        homeItems.add(new DashboardItem(R.string.ardino, R.drawable.arduino));
+        homeItems.add(new DashboardItem(R.string.ardino_kit, R.drawable.arduino_kit));
+        homeItems.add(new DashboardItem(R.string.audio_amplifier, R.drawable.
+                audio_amplifier));
+        homeItems.add(new DashboardItem(R.string.battery, R.drawable.battery));
+        homeItems.add(new DashboardItem(R.string.ble, R.drawable.ble));
+        homeItems.add(new DashboardItem(R.string.charger, R.drawable.charger));
+        homeItems.add(new DashboardItem(R.string.consumer_electronics, R.drawable.consumer_electronics));
+        homeItems.add(new DashboardItem(R.string.development_board, R.drawable.development_board));
+        homeItems.add(new DashboardItem(R.string.discrete_and_competent, R.drawable.discrete_and_competent));
+        homeItems.add(new DashboardItem(R.string.esp, R.drawable.esp));
+        homeItems.add(new DashboardItem(R.string.kit, R.drawable.kit));
+        homeItems.add(new DashboardItem(R.string.lcd_circuit, R.drawable.lcd_circuit));
+        homeItems.add(new DashboardItem(R.string.led_module, R.drawable.led_module));
+        homeItems.add(new DashboardItem(R.string.micro_sd_card, R.drawable.micro_sd_card));
+        homeItems.add(new DashboardItem(R.string.module, R.drawable.module));
+        homeItems.add(new DashboardItem(R.string.motor, R.drawable.motor));
+        homeItems.add(new DashboardItem(R.string.motor_driver_module, R.drawable.motor_driver_module));
+        homeItems.add(new DashboardItem(R.string.power_supply, R.drawable.power_supply));
+        homeItems.add(new DashboardItem(R.string.programmer, R.drawable.programmer));
+        homeItems.add(new DashboardItem(R.string.rectifier, R.drawable.rectifier));
+        homeItems.add(new DashboardItem(R.string.rfid, R.drawable.rfid));
+        homeItems.add(new DashboardItem(R.string.scr, R.drawable.scr));
+        homeItems.add(new DashboardItem(R.string.sensor_module, R.drawable.sensor_module));
+        homeItems.add(new DashboardItem(R.string.tool, R.drawable.tool));
+        homeItems.add(new DashboardItem(R.string.transistor, R.drawable.transistor));
+        homeItems.add(new DashboardItem(R.string.triacs, R.drawable.triacs));
+        homeItems.add(new DashboardItem(R.string.voltage_regulator, R.drawable.voltage_regulator));
+        homeItems.add(new DashboardItem(R.string.voltage_regulator_module, R.drawable.voltage_regulator_module));
+        homeItems.add(new DashboardItem(R.string.wire, R.drawable.wire));
+        homeItems.add(new DashboardItem(R.string.wire_less, R.drawable.wireless));
+
+
         homeAdapter = new DashboardAdapter(homeItems, this, context);
         view.setHomeRecyclerViewAdapter(homeAdapter);
     }

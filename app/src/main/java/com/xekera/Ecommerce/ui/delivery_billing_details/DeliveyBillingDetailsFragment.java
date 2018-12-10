@@ -78,6 +78,20 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     protected LinearLayout deliveryAddressSelfPickupLayout;
     @BindView(R.id.deliveryAddressSelfPickupLayoutDiffAddress)
     protected LinearLayout deliveryAddressSelfPickupLayoutDiffAddress;
+    @BindView(R.id.userDetailsParentLayout)
+    protected LinearLayout userDetailsParentLayout;
+    @BindView(R.id.linearDeliveryAddressLayout)
+    protected LinearLayout linearDeliveryAddressLayout;
+    @BindView(R.id.paymentModeLayout)
+    protected LinearLayout paymentModeLayout;
+
+    @BindView(R.id.userDetailsParentLayoutDiffAddress)
+    protected LinearLayout userDetailsParentLayoutDiffAddress;
+    @BindView(R.id.linearDeliveryAddressLayoutDiffAddress)
+    protected LinearLayout linearDeliveryAddressLayoutDiffAddress;
+    @BindView(R.id.paymentModeLayoutDiffAddress)
+    protected LinearLayout paymentModeLayoutDiffAddress;
+
 
     @BindView(R.id.radioGroup)
     protected RadioGroup radioGroup;
@@ -147,7 +161,14 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
         presenter.setView(this);
 
         btnCheckout.setOnClickListener(this);
+        userDetailsParentLayout.setOnClickListener(this);
+        linearDeliveryAddressLayout.setOnClickListener(this);
+        paymentModeLayout.setOnClickListener(this);
 
+
+        userDetailsParentLayoutDiffAddress.setOnClickListener(this);
+        linearDeliveryAddressLayoutDiffAddress.setOnClickListener(this);
+        paymentModeLayoutDiffAddress.setOnClickListener(this);
         //  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         // ((BaseActivity) getActivity()).hideBottomNavigation();
@@ -464,6 +485,66 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
 
                 break;
+
+            case R.id.userDetailsParentLayout:
+                utils.hideSoftKeyboard(edtUsername);
+                utils.hideSoftKeyboard(edtCompanyName);
+                utils.hideSoftKeyboard(edtPhoneNo);
+                utils.hideSoftKeyboard(edtEmail);
+                utils.hideSoftKeyboard(edtStreetAddress1);
+
+                break;
+
+            case R.id.linearDeliveryAddressLayout:
+                utils.hideSoftKeyboard(edtUsername);
+                utils.hideSoftKeyboard(edtCompanyName);
+                utils.hideSoftKeyboard(edtPhoneNo);
+                utils.hideSoftKeyboard(edtEmail);
+                utils.hideSoftKeyboard(edtStreetAddress1);
+
+                break;
+
+
+            case R.id.paymentModeLayout:
+                utils.hideSoftKeyboard(edtUsername);
+                utils.hideSoftKeyboard(edtCompanyName);
+                utils.hideSoftKeyboard(edtPhoneNo);
+                utils.hideSoftKeyboard(edtEmail);
+                utils.hideSoftKeyboard(edtStreetAddress1);
+                break;
+            case R.id.userDetailsParentLayoutDiffAddress:
+                utils.hideSoftKeyboard(edtUsernameDiffAddress);
+                utils.hideSoftKeyboard(edtCompanyNameDiffAddress);
+                utils.hideSoftKeyboard(edtPhoneNoDiffAddress);
+                utils.hideSoftKeyboard(edtEmailDiffAddress);
+                utils.hideSoftKeyboard(edtStreetAddress1DiffAddress);
+                utils.hideSoftKeyboard(edtNotes);
+
+
+                break;
+
+            case R.id.linearDeliveryAddressLayoutDiffAddress:
+                utils.hideSoftKeyboard(edtUsernameDiffAddress);
+                utils.hideSoftKeyboard(edtCompanyNameDiffAddress);
+                utils.hideSoftKeyboard(edtPhoneNoDiffAddress);
+                utils.hideSoftKeyboard(edtEmailDiffAddress);
+                utils.hideSoftKeyboard(edtStreetAddress1DiffAddress);
+                utils.hideSoftKeyboard(edtNotes);
+
+
+                break;
+
+
+            case R.id.paymentModeLayoutDiffAddress:
+                utils.hideSoftKeyboard(edtUsernameDiffAddress);
+                utils.hideSoftKeyboard(edtCompanyNameDiffAddress);
+                utils.hideSoftKeyboard(edtPhoneNoDiffAddress);
+                utils.hideSoftKeyboard(edtEmailDiffAddress);
+                utils.hideSoftKeyboard(edtStreetAddress1DiffAddress);
+                utils.hideSoftKeyboard(edtNotes);
+
+                break;
+
         }
 
     }

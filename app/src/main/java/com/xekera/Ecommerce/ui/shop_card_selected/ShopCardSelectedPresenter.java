@@ -77,7 +77,8 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
                     view.showToastLongTime("Item added to cart successfully.");
-                    view.shakeAddToCartTextview();
+                    getCount();
+                    //view.shakeAddToCartTextview();
                 }
             }
 
@@ -89,6 +90,30 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
         });
     }
 
+    private void getCount() {
+        model.getCartDetails(new ShopCardSelectedModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+                    view.setCartCounterTextview(0);
+
+                    return;
+                } else {
+                    view.setCartCounterTextview(addToCarts.size());
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
+    }
+
+
     @Override
     public void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice) {
         model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new ShopCardSelectedModel.ISaveProductDetails() {
@@ -96,7 +121,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
                     view.showToastLongTime("Item added to cart successfully.");
-                    view.shakeAddToCartTextview();
+                    // view.shakeAddToCartTextview();
 
                 } else {
                     view.showToastLongTime("Error while saving data.");
@@ -119,7 +144,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
                     view.showToastLongTime("Item added to cart successfully.");
-                    view.shakeAddToCartTextview();
+                    // view.shakeAddToCartTextview();
 
                 } else {
                     view.showToastLongTime("Error while saving data.");

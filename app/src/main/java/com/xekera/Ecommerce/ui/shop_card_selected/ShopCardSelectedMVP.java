@@ -50,6 +50,9 @@ public interface ShopCardSelectedMVP {
 
         void setIsFavourite(boolean isFavourite);
 
+        void setCartCounterTextview(int counts);
+
+
     }
 
     interface Presenter {

@@ -20,6 +20,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -186,7 +187,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //        }
 //
 //
-//        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0, img,
+//        shopDetails.add(new ShoppingDetailModel("arduino", "5000", false, 0, img,
 //                byteArray[0], 30, favList));
 //
 //        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 0, img,
@@ -303,7 +304,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         shopDetails = new ArrayList<ShoppingDetailModel>();
 
 
-//        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 1));
+//        shopDetails.add(new ShoppingDetailModel("arduino", "5000", false, 1));
 //
 //        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 1));
 //
@@ -494,29 +495,29 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         tasksList = new ArrayList<String>(list);
 
 
-        shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0, img,
-                byteArray[0], 30, favList));
+        shopDetails.add(new ShoppingDetailModel("arduino", "5000", false, 0, img,
+                byteArray[0], 30, favList, R.drawable.arduino_detail));
 
-        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 0, img,
-                byteArray[0], 10, favList));
+        shopDetails.add(new ShoppingDetailModel("Sensor Module", "10000", false, 0, img,
+                byteArray[0], 10, favList, R.drawable.detail_sensor_module));
 
-        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 0, img, byteArray[0],
-                40, favList));
+        shopDetails.add(new ShoppingDetailModel("Battery", "300", false, 0, img, byteArray[0],
+                40, favList, R.drawable.details_battery));
 
         shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 0, img,
-                byteArray[0], 33, favList));
+                byteArray[0], 33, favList, R.drawable.detail_wire));
 
-        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 0, img,
-                byteArray[0], 54, favList));
+        shopDetails.add(new ShoppingDetailModel("Rectifier", "200", false, 0, img,
+                byteArray[0], 54, favList, R.drawable.details_rectifier));
 
-        shopDetails.add(new ShoppingDetailModel("Telivision", "30000", false, 0,
-                img, byteArray[0], 40, favList));
+        //  shopDetails.add(new ShoppingDetailModel("Telivision", "30000", false, 0,
+        //        img, byteArray[0], 40, favList));
 
-        shopDetails.add(new ShoppingDetailModel("Seven Segment", "800", false, 0, img,
-                byteArray[0], 33, favList));
+        //shopDetails.add(new ShoppingDetailModel("Seven Segment", "800", false, 0, img,
+        //      byteArray[0], 33, favList));
 
-        shopDetails.add(new ShoppingDetailModel("Capacitor", "200", false, 0,
-                img, byteArray[0], 54, favList));
+        //shopDetails.add(new ShoppingDetailModel("Capacitor", "200", false, 0,
+        //      img, byteArray[0], 54, favList));
 
 
         shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this, sessionManager, tasksList);
@@ -613,6 +614,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     @Override
     public void onCardClick(final ShoppingDetailModel productItems, final Bitmap bitmapImg) {
         utils.hideSoftKeyboard(edtSearchProduct);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -623,6 +625,15 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         }, 200);
 
     }
+
+    public String bitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = android.util.Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
 
     @Override
     public void shareItemsDetails(ShoppingDetailModel productItems, Bitmap bitmapImg) {

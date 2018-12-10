@@ -2,6 +2,7 @@ package com.xekera.Ecommerce.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -76,6 +77,28 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             productDetailsDataListViewHolder.priceTextView.setText(shoppingDetailModel.getProductPrice());
             productDetailsDataListViewHolder.counterTextview.setText(shoppingDetailModel.getItemQuantity() + "");
 
+            if (position == 0) {
+                productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.arduino_detail);
+                productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.arduino_detail);
+            }
+
+            if (position == 1) {
+                productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.detail_sensor_module);
+                productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.detail_sensor_module);
+            }
+            if (position == 2) {
+                productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.details_battery);
+                productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.details_battery);
+            }
+            if (position == 3) {
+                productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.detail_wire);
+                productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.detail_wire);
+            }
+            if (position == 4) {
+                productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.details_rectifier);
+                productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.details_rectifier);
+            }
+
 //            if (shoppingDetailModel.getFavourites().size() > 0) {
 ////                if (shoppingDetailModel.getFavourites().contains(shoppingDetailModel.getProductName())) {
 //                if (productsItems.get(position).getFavourites().contains(shoppingDetailModel.getProductName())) {
@@ -92,16 +115,17 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             //  iShopDetailAdapter.getIsFavourites(shoppingDetailModel.getProductName(), position);
 
-            for (String items : favList) {
-                if (shoppingDetailModel.getProductName().equalsIgnoreCase(items)) {
-                    productDetailsDataListViewHolder.favouriteButton.setChecked(true);
-
-                } else {
-                    productDetailsDataListViewHolder.favouriteButton.setChecked(false);
-
-                }
-
-            }
+//            for (String items : favList) {
+//                if (shoppingDetailModel.getProductName().equalsIgnoreCase(items)) {
+//                    productDetailsDataListViewHolder.favouriteButton.setChecked(true);
+//
+//                } else {
+//                    productDetailsDataListViewHolder.favouriteButton.setChecked(false);
+//
+//                }
+//
+//            }
+//
             // if(productsItems.get(position).getList().)
 
 //            for (String item : tasksList) {
@@ -116,12 +140,12 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //            }
 
 
-//            if (productsItems.get(position).isFavourite()) {
-//                productDetailsDataListViewHolder.favouriteButton.setChecked(true);
-//            } else {
-//                productDetailsDataListViewHolder.favouriteButton.setChecked(false);
-//
-//            }
+            if (productsItems.get(position).isFavourite()) {
+                productDetailsDataListViewHolder.favouriteButton.setChecked(true);
+            } else {
+                productDetailsDataListViewHolder.favouriteButton.setChecked(false);
+
+            }
 
             //            if (shoppingDetailModel.isFavourite()) {
 //                productDetailsDataListViewHolder.favouriteButton.setChecked(true);
@@ -203,9 +227,27 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             switch (v.getId()) {
 
                 case R.id.cardViewParent:
-                    BitmapDrawable bitmapDrawable = (BitmapDrawable) imgProduct.getDrawable();
-                    Bitmap bitmapImg = bitmapDrawable.getBitmap();
+//                     BitmapDrawable bitmapDrawable = (BitmapDrawable) imgProduct.getDrawable();
+//                    Bitmap bitmapImg = bitmapDrawable.getBitmap();
 
+
+                    Bitmap bitmapImg = null;
+
+                    if (getLayoutPosition() == 0) {
+                        bitmapImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
+                    } else if (getLayoutPosition() == 1) {
+                        bitmapImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_sensor_module);
+
+                    } else if (getLayoutPosition() == 2) {
+                        bitmapImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_battery);
+
+                    } else if (getLayoutPosition() == 3) {
+                        bitmapImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_wire);
+
+                    } else if (getLayoutPosition() == 4) {
+                        bitmapImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_rectifier);
+
+                    }
                     cardViewParent.setClickable(false);
                     iShopDetailAdapter.onCardClick(productsItems.get(getLayoutPosition()), bitmapImg);
                     break;
