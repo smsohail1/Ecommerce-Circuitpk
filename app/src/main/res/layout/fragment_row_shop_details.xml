@@ -16,8 +16,7 @@
             android:layout_marginTop="2dp"
             app:cardCornerRadius="2dp"
             android:clickable="true"
-            android:background="?android:attr/selectableItemBackground"
-
+            app:cardBackgroundColor="@color/selector_card_view_colors"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardElevation="2dp">
 
@@ -32,26 +31,30 @@
 
             <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_weight="0.3"
-                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_horizontal"
+
             >
 
                 <RelativeLayout android:layout_width="wrap_content"
-                                android:layout_height="match_parent">
+                                android:layout_height="match_parent"
+                >
                     <ImageView
                             android:id="@+id/imgProduct"
-                            android:layout_width="wrap_content"
-                            android:layout_height="100dp"
-                            android:gravity="center_horizontal"
+                            android:layout_width="80dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/placeholder"
+
                     />
 
                     <ImageView
                             android:id="@+id/imgProductCopy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="100dp"
-                            android:gravity="center_horizontal"
+                            android:layout_width="80dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/placeholder"
                     />
 
                 </RelativeLayout>

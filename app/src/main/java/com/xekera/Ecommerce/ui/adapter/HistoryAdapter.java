@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.history.HistoryPresenter;
@@ -44,11 +45,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return productDetailDataListViewHolder;
     }
 
+    byte[] bytes;
+    BitmapFactory.Options options;
+
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Booking booking = productsItems.get(position);
-        byte[] bytes;
         if (holder instanceof productDetailsDataListViewHolder) {
             productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
@@ -61,12 +64,21 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             try {
 
 
+                //   options = new BitmapFactory.Options();
+                //  options.inJustDecodeBounds = true;
+                // options.inSampleSize = 2;
+
                 bytes = booking.getItemImage();
                 // Create a bitmap from the byte array
-                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                // Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
 
-                productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
+                // productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
 
+                Glide.with(context)
+                        .load(bytes)
+                        .asBitmap()
+                        .placeholder(R.drawable.placeholder)
+                        .into(productDetailsDataListViewHolder.imgProduct);
 
             } catch (Exception e) {
 

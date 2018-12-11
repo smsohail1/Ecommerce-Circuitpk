@@ -242,8 +242,14 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     }
 
     @Override
-    public void removeFavourites(Favourites favourites, int position) {
-        presenter.removeFromFavourites(favourites, position);
+    public void removeFavourites(final Favourites favourites, final int position) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                presenter.removeFromFavourites(favourites, position);
+
+            }
+        }, 150);
     }
 
 

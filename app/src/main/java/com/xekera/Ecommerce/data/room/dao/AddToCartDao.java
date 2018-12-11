@@ -23,8 +23,12 @@ public interface AddToCartDao {
     @Update
     void update(AddToCart addToCart);
 
-    @Query("SELECT * FROM add_to_cart order by item_name asc")
+    @Query("SELECT * FROM add_to_cart order by item_name desc")
     List<AddToCart> getAllCartDetails();
+
+
+    @Query("SELECT * FROM add_to_cart order by created_date desc")
+    List<AddToCart> getAllCartOrderDetails();
 
 
     @Query("SELECT * FROM add_to_cart order by created_date desc")

@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.history.HistoryPresenter;
@@ -43,11 +44,14 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return productDetailDataListViewHolder;
     }
 
+    Bitmap compressedBitmap;
+    byte[] bytes;
+    BitmapFactory.Options options;
+
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Favourites favourites = productsItems.get(position);
-        byte[] bytes;
         if (holder instanceof productDetailsDataListViewHolder) {
             productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
@@ -58,16 +62,29 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             try {
 
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 8;
-
+//                options = new BitmapFactory.Options();
+//                //  options.inJustDecodeBounds = true;
+//                options.inSampleSize = 2;
 
                 bytes = favourites.getItemImage();
-                // Create a bitmap from the byte array
-                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+//                // Create a bitmap from the byte array
+//                compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+//
+//                productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
+//                productDetailsDataListViewHolder.imgProductCopy.setImageBitmap(compressedBitmap);
 
-                productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
 
+                Glide.with(context)
+                        .load(bytes)
+                        .asBitmap()
+                        .placeholder(R.drawable.placeholder)
+                        .into(productDetailsDataListViewHolder.imgProduct);
+
+                Glide.with(context)
+                        .load(bytes)
+                        .asBitmap()
+                        .placeholder(R.drawable.placeholder)
+                        .into(productDetailsDataListViewHolder.imgProductCopy);
 
             } catch (Exception e) {
 
@@ -99,9 +116,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public ImageView btnAddToCart;
         @BindView(R.id.imgRemove)
         public ImageView imgRemove;
-
-
-
 
 
         public productDetailsDataListViewHolder(View itemView) {
@@ -144,7 +158,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void removeByPosition(int position) {
         this.productsItems.remove(position);
-        notifyDataSetChanged();
+        notifyItemRemoved(position);
+        //notifyDataSetChanged();
     }
 
     public void refreshProduct() {

@@ -2,6 +2,7 @@ package com.xekera.Ecommerce.ui.dasboard_shopping_details;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Favourites;
@@ -51,7 +52,8 @@ public interface ShopDetailsMVP {
 
         void setRecylerViewItems(Context context, List<ShoppingDetailModel> items);
 
-        void saveProductDetails(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy);
+        void saveProductDetails(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[]
+                byteImage, ImageView imgProductCopy,Bitmap bitmap);
 
         void saveProductDecrementDetails(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy);
 

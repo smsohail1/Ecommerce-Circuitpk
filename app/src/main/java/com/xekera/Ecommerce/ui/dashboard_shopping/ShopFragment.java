@@ -267,14 +267,18 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     @Override
     public void showShoppingDetailPage(final DashboardItem homeItem) {
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ShopDetailsFragment shopDetailsFragment = new ShopDetailsFragment();
-                ((BaseActivity) getActivity()).replaceFragment(shopDetailsFragment.newInstance(utils.getStringFromResourceId(homeItem.getNameResId())));
+        try {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ShopDetailsFragment shopDetailsFragment = new ShopDetailsFragment();
+                    ((BaseActivity) getActivity()).replaceFragment(shopDetailsFragment.newInstance(utils.getStringFromResourceId(homeItem.getNameResId())));
 
-            }
-        }, 200);
+                }
+            }, 200);
+        } catch (Exception e) {
+
+        }
     }
 
     @Override

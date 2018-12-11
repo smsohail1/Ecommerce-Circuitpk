@@ -47,6 +47,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
+import java.sql.BatchUpdateException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -108,10 +109,16 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     protected AppDatabase appDatabase;
 
     public static final String KEY_SHOP_CARD_SELECTED_DETAILS = "shop_card_selected_details";
+    public static final String KEY_SHOP_CARD_SELECTED_PRODUCT_NAME = "shop_card_selected_product_name";
+    public static final String KEY_SHOP_CARD_SELECTED_PRICE = "shop_card_selected_price";
+    public static final String KEY_SHOP_CARD_SELECTED_CUT_PRICE = "shop_card_selected_cut_price";
+    public static final String KEY_SHOP_CARD_SELECTED_QUANTITY = "shop_card_selected_quantity";
     public static final String KEY_SHOP_CARD_SELECTED_IMAGE = "shop_card_selected_image";
 
     ShoppingDetailModel shoppingDetailModel;
     Bitmap bitmapImage;
+    String productName = "", price = "", cutPrice = "", quantity = "";
+
 
     long productsCartCounter = 0;
     boolean isFavourite = true;
@@ -137,7 +144,13 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         try {
 
 
-            shoppingDetailModel = (ShoppingDetailModel) getArguments().getSerializable(KEY_SHOP_CARD_SELECTED_DETAILS);
+            //  shoppingDetailModel = (ShoppingDetailModel) getArguments().getSerializable(KEY_SHOP_CARD_SELECTED_DETAILS);
+
+            productName = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_PRODUCT_NAME);
+            price = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_PRICE);
+            cutPrice = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_CUT_PRICE);
+            quantity = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_QUANTITY);
+
             bitmapImage = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_IMAGE);
 
 //            String bitmapStr = "";
@@ -222,11 +235,11 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
 
             if (shoppingDetailModel != null && shoppingDetailModel.getProductName() != null) {
-                productNameLabelTextView.setText(shoppingDetailModel.getProductName());
+                productNameLabelTextView.setText(productName);
             }
 
             if (shoppingDetailModel != null && shoppingDetailModel.getProductName() != null) {
-                productNameTextview.setText(shoppingDetailModel.getProductName());
+                productNameTextview.setText(productName);
             }
 
             if (bitmapImage != null) {
@@ -239,7 +252,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                                 @Override
                                 public Boolean apply(AppDatabase appDatabase) throws Exception {
                                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                    bitmapImage.compress(Bitmap.CompressFormat.PNG, 60, stream);
+                                    bitmapImage.compress(Bitmap.CompressFormat.JPEG, 60, stream);
                                     byteArray = stream.toByteArray();
 
 
@@ -279,7 +292,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
 
             if (shoppingDetailModel != null && shoppingDetailModel.getProductPrice() != null) {
-                priceTextView.setText(shoppingDetailModel.getProductPrice());
+                priceTextView.setText(price);
             }
 
             if (shoppingDetailModel != null) {
@@ -289,7 +302,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             }
 
             if (shoppingDetailModel != null) {
-                counterTextview.setText(String.valueOf(shoppingDetailModel.getItemQuantity()));
+                counterTextview.setText(quantity);
             }
 
 
@@ -472,19 +485,43 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     }
 
 
-    public ShopCardSelectedFragment newInstance(ShoppingDetailModel shoppingDetailModel, Bitmap bitmapImg) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_SHOP_CARD_SELECTED_DETAILS, shoppingDetailModel);
-        bundle.putParcelable(KEY_SHOP_CARD_SELECTED_IMAGE, bitmapImg);
-        ShopCardSelectedFragment fragment = new ShopCardSelectedFragment();
-        fragment.setArguments(bundle);
-        return fragment;
+//    public ShopCardSelectedFragment newInstance(ShoppingDetailModel shoppingDetailModel, Bitmap bitmapImg) {
+//        ShopCardSelectedFragment fragment = null;
+//        try {
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable(KEY_SHOP_CARD_SELECTED_DETAILS, shoppingDetailModel);
+//            bundle.putParcelable(KEY_SHOP_CARD_SELECTED_IMAGE, bitmapImg);
+//            fragment = new ShopCardSelectedFragment();
+//            fragment.setArguments(bundle);
+//            return fragment;
+//        } catch (Exception e) {
+//            return fragment;
+//        }
+//    }
+
+    public ShopCardSelectedFragment newInstance(String productName, String price, long cutPrice, long quantity, Bitmap bitmapImg) {
+        ShopCardSelectedFragment fragment = null;
+        try {
+
+
+            Bundle bundle = new Bundle();
+            bundle.putString(KEY_SHOP_CARD_SELECTED_PRODUCT_NAME, productName);
+            bundle.putString(KEY_SHOP_CARD_SELECTED_PRICE, price);
+            bundle.putString(KEY_SHOP_CARD_SELECTED_CUT_PRICE, String.valueOf(cutPrice));
+            bundle.putString(KEY_SHOP_CARD_SELECTED_QUANTITY, String.valueOf(quantity));
+            bundle.putParcelable(KEY_SHOP_CARD_SELECTED_IMAGE, bitmapImg);
+            fragment = new ShopCardSelectedFragment();
+            fragment.setArguments(bundle);
+            return fragment;
+        } catch (Exception e) {
+            return fragment;
+        }
     }
 
 
     public ShopCardSelectedFragment newInstance(ShoppingDetailModel shoppingDetailModel, String bitmapImg) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_SHOP_CARD_SELECTED_DETAILS, shoppingDetailModel);
+        // bundle.putSerializable(KEY_SHOP_CARD_SELECTED_DETAILS, shoppingDetailModel);
         bundle.putString(KEY_SHOP_CARD_SELECTED_IMAGE, bitmapImg);
         ShopCardSelectedFragment fragment = new ShopCardSelectedFragment();
         fragment.setArguments(bundle);
@@ -638,7 +675,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
 
-                    Favourites favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice, availabilityInStock, formattedDate,
+                    Favourites favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
+                            availabilityInStock, formattedDate,
                             byteArray, quantity);
                     presenter.addItemToFavourites(favourites, favourite);
 

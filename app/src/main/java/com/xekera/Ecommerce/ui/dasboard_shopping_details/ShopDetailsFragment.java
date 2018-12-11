@@ -53,6 +53,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -432,107 +433,113 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     @Override
     public void setUI(List<Favourites> favList) {
 
-        List<String> img;
-        img = new ArrayList<>();
-        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
-        img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
-        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
-        img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_hidden_gsm_supported_voice_recorder_black.jpg");
-        img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_usb_range_extender_black.jpg");
-        img.add("https://www.bhphotovideo.com/images/images2000x2000/kingston_dt100g3_16gb_16gb_data_traveler_100_964342.jpg");
-        img.add("https://a.pololu-files.com/picture/0J1479.1200.jpg?6d28c13f103617525228f0936ec16321");
-
-        edtSearchProduct.setText("");
-        shopDetails.clear();
-        final byte[][] byteArray = {new byte[0]};
-
-
         try {
-            Observable.just(appDatabase)
-                    .map(new Function<AppDatabase, Boolean>() {
-                        @Override
-                        public Boolean apply(AppDatabase appDatabase) throws Exception {
 
-                            Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
-                                    R.drawable.ardino);
+            List<String> img;
+            img = new ArrayList<>();
+            img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+            img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
+            img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
+            img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_hidden_gsm_supported_voice_recorder_black.jpg");
+            img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_usb_range_extender_black.jpg");
+            img.add("https://www.bhphotovideo.com/images/images2000x2000/kingston_dt100g3_16gb_16gb_data_traveler_100_964342.jpg");
+            img.add("https://a.pololu-files.com/picture/0J1479.1200.jpg?6d28c13f103617525228f0936ec16321");
 
-                            if (icon != null) {
-                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            edtSearchProduct.setText("");
+            shopDetails.clear();
+            final byte[][] byteArray = {new byte[0]};
 
-                                icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                byteArray[0] = stream.toByteArray();
+
+            try {
+                Observable.just(appDatabase)
+                        .map(new Function<AppDatabase, Boolean>() {
+                            @Override
+                            public Boolean apply(AppDatabase appDatabase) throws Exception {
+
+                                Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                                        R.drawable.ardino);
+
+                                if (icon != null) {
+                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                                    icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                    byteArray[0] = stream.toByteArray();
+
+                                }
+                                return true;
+                            }
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Boolean>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
 
                             }
-                            return true;
-                        }
-                    })
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Boolean>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
 
-                        }
+                            @Override
+                            public void onNext(Boolean success) {
+                            }
 
-                        @Override
-                        public void onNext(Boolean success) {
-                        }
+                            @Override
+                            public void onError(Throwable e) {
 
-                        @Override
-                        public void onError(Throwable e) {
+                            }
 
-                        }
+                            @Override
+                            public void onComplete() {
 
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-        } catch (Exception ex) {
-        }
-        List<String> tasksList;
-        Set<String> list = sessionManager.getIsFavouriteList();
-        tasksList = new ArrayList<String>(list);
-
-
-        shopDetails.add(new ShoppingDetailModel("arduino", "5000", false, 0, img,
-                byteArray[0], 30, favList, R.drawable.arduino_detail));
-
-        shopDetails.add(new ShoppingDetailModel("Sensor Module", "10000", false, 0, img,
-                byteArray[0], 10, favList, R.drawable.detail_sensor_module));
-
-        shopDetails.add(new ShoppingDetailModel("Battery", "300", false, 0, img, byteArray[0],
-                40, favList, R.drawable.details_battery));
-
-        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 0, img,
-                byteArray[0], 33, favList, R.drawable.detail_wire));
-
-        shopDetails.add(new ShoppingDetailModel("Rectifier", "200", false, 0, img,
-                byteArray[0], 54, favList, R.drawable.details_rectifier));
-
-        //  shopDetails.add(new ShoppingDetailModel("Telivision", "30000", false, 0,
-        //        img, byteArray[0], 40, favList));
-
-        //shopDetails.add(new ShoppingDetailModel("Seven Segment", "800", false, 0, img,
-        //      byteArray[0], 33, favList));
-
-        //shopDetails.add(new ShoppingDetailModel("Capacitor", "200", false, 0,
-        //      img, byteArray[0], 54, favList));
-
-
-        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this, sessionManager, tasksList);
-        showRecylerViewProductsDetail(shopDetailsAdapter);
-
-        presenter.setActionListener(new ShopDetailsPresenter.ProductItemActionListener() {
-            @Override
-            public void onItemTap(ImageView imageView, int cartsCount) {
-                if (imageView != null) {
-                    ((BaseActivity) getActivity()).makeFlyAnimation(imageView, cartsCount);
-                    ((BaseActivity) getActivity()).addItemToCart(cartsCount);
-
-                }
+                            }
+                        });
+            } catch (Exception ex) {
             }
-        });
+            List<String> tasksList;
+            Set<String> list = sessionManager.getIsFavouriteList();
+            tasksList = new ArrayList<String>(list);
+
+
+            shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0, img,
+                    byteArray[0], 30, favList, R.drawable.arduino_detail));
+
+            shopDetails.add(new ShoppingDetailModel("Sensor Module", "10000", false, 0, img,
+                    byteArray[0], 10, favList, R.drawable.detail_sensor_module));
+
+            shopDetails.add(new ShoppingDetailModel("Battery", "300", false, 0, img, byteArray[0],
+                    40, favList, R.drawable.details_battery));
+
+            shopDetails.add(new ShoppingDetailModel("Jumper Wire", "600", false, 0, img,
+                    byteArray[0], 33, favList, R.drawable.detail_wire));
+
+            shopDetails.add(new ShoppingDetailModel("Rectifier", "500", false, 0, img,
+                    byteArray[0], 54, favList, R.drawable.details_rectifier));
+
+            //  shopDetails.add(new ShoppingDetailModel("Telivision", "30000", false, 0,
+            //        img, byteArray[0], 40, favList));
+
+            //shopDetails.add(new ShoppingDetailModel("Seven Segment", "800", false, 0, img,
+            //      byteArray[0], 33, favList));
+
+            //shopDetails.add(new ShoppingDetailModel("Capacitor", "200", false, 0,
+            //      img, byteArray[0], 54, favList));
+
+
+            shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this, sessionManager, tasksList);
+            showRecylerViewProductsDetail(shopDetailsAdapter);
+
+            presenter.setActionListener(new ShopDetailsPresenter.ProductItemActionListener() {
+                @Override
+                public void onItemTap(ImageView imageView, int cartsCount) {
+                    if (imageView != null) {
+                        ((BaseActivity) getActivity()).makeFlyAnimation(imageView, cartsCount);
+                        ((BaseActivity) getActivity()).addItemToCart(cartsCount);
+
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+
+        }
 
     }
 
@@ -543,10 +550,18 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
 
     public ShopDetailsFragment newInstance(String ProductName) {
-        Bundle bundle = new Bundle();
-        bundle.putString(KEY_SHOP_NAME_DETAILS, ProductName);
-        ShopDetailsFragment fragment = new ShopDetailsFragment();
-        fragment.setArguments(bundle);
+        ShopDetailsFragment fragment = null;
+        try {
+
+            Bundle bundle = new Bundle();
+            bundle.putString(KEY_SHOP_NAME_DETAILS, ProductName);
+            fragment = new ShopDetailsFragment();
+            fragment.setArguments(bundle);
+
+            return fragment;
+        } catch (Exception e) {
+
+        }
         return fragment;
     }
 
@@ -562,9 +577,10 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
 
     @Override
-    public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy) {
+    public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
+                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap) {
 
-        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy);
+        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap);
     }
 
     @Override
@@ -575,24 +591,39 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     }
 
     @Override
-    public void onFavouriteButtonClick(ShoppingDetailModel productItems, int position) {
+    public void onFavouriteButtonClick(ShoppingDetailModel productItems, int position, Bitmap bitmap) {
 
         if (!productItems.isFavourite()) {
             presenter.removeItem(productItems.getProductName(), position);
         } else {
             //    showSnackBarShortTime("Remove item from favourites.", getView());
 
+            byte[] bmp = bitmapToByteArray(bitmap);
             String formattedDate = "";
             formattedDate = getCurrentDate();
+            Favourites favourites;
+            if (productItems.getItemQuantity() == 0) {
+                favourites = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
+                        String.valueOf(productItems.getCutPrice()), "In Stock", formattedDate,
+                        bmp, "1");
+            } else {
+                favourites = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
+                        String.valueOf(productItems.getCutPrice()), "In Stock", formattedDate,
+                        bmp, String.valueOf(productItems.getItemQuantity()));
+            }
 
-            Favourites favourites = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
-                    String.valueOf(productItems.getCutPrice()), "1", formattedDate,
-                    productItems.getByteImage(), String.valueOf(productItems.getItemQuantity()));
             presenter.addItemToFavourites(favourites, true);
         }
 
     }
 
+    private byte[] bitmapToByteArray(Bitmap bmp) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        bmp.recycle();
+        return byteArray;
+    }
 
     private String getCurrentDate() {
         try {
@@ -611,8 +642,24 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //    }
 
 
+//    @Override
+//    public void onCardClick(final ShoppingDetailModel productItems, final Bitmap bitmapImg) {
+//        utils.hideSoftKeyboard(edtSearchProduct);
+//
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
+//                ((BaseActivity) getActivity()).replaceFragment(shopCardSelectedFragment.newInstance(productItems, bitmapImg));
+//            }
+//        }, 200);
+//
+//    }
+
+
     @Override
-    public void onCardClick(final ShoppingDetailModel productItems, final Bitmap bitmapImg) {
+    public void onCardClick(final String productName, final String price, final long cutPrice, final long quantity, final Bitmap bitmapImg) {
         utils.hideSoftKeyboard(edtSearchProduct);
 
         new Handler().postDelayed(new Runnable() {
@@ -620,7 +667,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
             public void run() {
 
                 ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
-                ((BaseActivity) getActivity()).replaceFragment(shopCardSelectedFragment.newInstance(productItems, bitmapImg));
+                ((BaseActivity) getActivity()).replaceFragment(shopCardSelectedFragment.newInstance(productName, price,
+                        cutPrice, quantity, bitmapImg));
             }
         }, 200);
 
@@ -680,7 +728,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void removeItemFromCart(ShoppingDetailModel shoppingDetailModel) {
-        showSnackBarShortTime("Please select atleast one item", getView());
+        // showSnackBarShortTime("Please select atleast one item", getView());
         presenter.removeItem(shoppingDetailModel);
 
     }

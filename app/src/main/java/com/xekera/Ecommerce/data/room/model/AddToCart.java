@@ -4,6 +4,7 @@ package com.xekera.Ecommerce.data.room.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.graphics.Bitmap;
 import io.reactivex.annotations.NonNull;
 
 @Entity(tableName = "add_to_cart")

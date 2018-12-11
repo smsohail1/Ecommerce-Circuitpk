@@ -24,7 +24,6 @@
                     android:fontFamily="@font/titilliu_web_semi_bold"
                     android:gravity="center_horizontal"
                     android:padding="6dp"
-                    android:text="fdfdfdfdfdfd"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_dp_user_pop_up_heading_size"/>

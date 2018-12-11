@@ -5,7 +5,7 @@ import com.xekera.Ecommerce.data.room.model.Favourites;
 import java.io.Serializable;
 import java.util.List;
 
-public class ShoppingDetailModel implements Serializable {
+public class ShoppingDetailModel {
 
     private String productName;
     private String productPrice;

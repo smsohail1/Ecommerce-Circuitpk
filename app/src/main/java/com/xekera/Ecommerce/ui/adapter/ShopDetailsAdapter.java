@@ -77,28 +77,33 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             productDetailsDataListViewHolder.priceTextView.setText(shoppingDetailModel.getProductPrice());
             productDetailsDataListViewHolder.counterTextview.setText(shoppingDetailModel.getItemQuantity() + "");
 
-            if (position == 0) {
-                productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.arduino_detail);
-                productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.arduino_detail);
-            }
+            try {
 
-            if (position == 1) {
-                productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.detail_sensor_module);
-                productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.detail_sensor_module);
-            }
-            if (position == 2) {
-                productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.details_battery);
-                productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.details_battery);
-            }
-            if (position == 3) {
-                productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.detail_wire);
-                productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.detail_wire);
-            }
-            if (position == 4) {
-                productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.details_rectifier);
-                productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.details_rectifier);
-            }
 
+                if (position == 0) {
+                    productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.arduino_detail);
+                    productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.arduino_detail);
+                }
+
+                if (position == 1) {
+                    productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.detail_sensor_module);
+                    productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.detail_sensor_module);
+                }
+                if (position == 2) {
+                    productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.details_battery);
+                    productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.details_battery);
+                }
+                if (position == 3) {
+                    productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.detail_wire);
+                    productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.detail_wire);
+                }
+                if (position == 4) {
+                    productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.details_rectifier);
+                    productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.details_rectifier);
+                }
+            } catch (Exception e) {
+
+            }
 //            if (shoppingDetailModel.getFavourites().size() > 0) {
 ////                if (shoppingDetailModel.getFavourites().contains(shoppingDetailModel.getProductName())) {
 //                if (productsItems.get(position).getFavourites().contains(shoppingDetailModel.getProductName())) {
@@ -232,8 +237,12 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
                     Bitmap bitmapImg = null;
+                    //BitmapFactory.Options options = new BitmapFactory.Options();
+                    // options.inJustDecodeBounds = true;
+                    //options.inSampleSize = 2;
 
                     if (getLayoutPosition() == 0) {
+
                         bitmapImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
                     } else if (getLayoutPosition() == 1) {
                         bitmapImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_sensor_module);
@@ -249,7 +258,11 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     }
                     cardViewParent.setClickable(false);
-                    iShopDetailAdapter.onCardClick(productsItems.get(getLayoutPosition()), bitmapImg);
+                    iShopDetailAdapter.onCardClick(productsItems.get(getLayoutPosition()).getProductName(),
+                            productsItems.get(getLayoutPosition()).getProductPrice(),
+                            productsItems.get(getLayoutPosition()).getCutPrice(),
+                            productsItems.get(getLayoutPosition()).getItemQuantity()
+                            , bitmapImg);
                     break;
 
                 case R.id.AddImageView:
@@ -272,7 +285,24 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         productsItems.get(getLayoutPosition()).setFavourite(true);
                     }
 
-                    iShopDetailAdapter.onFavouriteButtonClick(productsItems.get(getLayoutPosition()), getLayoutPosition());
+                    Bitmap bitmapFavourite = null;
+
+                    if (getLayoutPosition() == 0) {
+                        bitmapFavourite = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
+                    } else if (getLayoutPosition() == 1) {
+                        bitmapFavourite = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_sensor_module);
+
+                    } else if (getLayoutPosition() == 2) {
+                        bitmapFavourite = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_battery);
+
+                    } else if (getLayoutPosition() == 3) {
+                        bitmapFavourite = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_wire);
+
+                    } else if (getLayoutPosition() == 4) {
+                        bitmapFavourite = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_rectifier);
+
+                    }
+                    iShopDetailAdapter.onFavouriteButtonClick(productsItems.get(getLayoutPosition()), getLayoutPosition(), bitmapFavourite);
                     break;
                 case R.id.decrementImageButton:
                     //  decrementCounter = decrementCounter - 1;
@@ -323,13 +353,30 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getProductPrice());
                     long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
 
+                    Bitmap bitmapAdd = null;
+
+                    if (getLayoutPosition() == 0) {
+                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
+                    } else if (getLayoutPosition() == 1) {
+                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_sensor_module);
+
+                    } else if (getLayoutPosition() == 2) {
+                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_battery);
+
+                    } else if (getLayoutPosition() == 3) {
+                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_wire);
+
+                    } else if (getLayoutPosition() == 4) {
+                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_rectifier);
+
+                    }
 
                     iShopDetailAdapter.onIncrementButtonClick(productsItems.get(getLayoutPosition()).getItemQuantity(),
                             String.valueOf(productPrice),
                             String.valueOf(productPrice * itemQuantity),
                             productsItems.get(getLayoutPosition()).getProductName(),
                             productsItems.get(getLayoutPosition()).getCutPrice(),
-                            productsItems.get(getLayoutPosition()).getByteImage(), imgProductCopy);
+                            productsItems.get(getLayoutPosition()).getByteImage(), imgProductCopy, bitmapAdd);
 
 
 //                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
@@ -385,16 +432,18 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void onViewDetailsButtonClick(ShoppingDetailModel productItems);
 
-        void onFavouriteButtonClick(ShoppingDetailModel productItems, int position);
+        void onFavouriteButtonClick(ShoppingDetailModel productItems, int position, Bitmap bitmap);
 
         void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy);
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap);
 
         void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName,
                                     long cutPrice, byte[] byteImage, ImageView imgProductCopy);
 
 
-        void onCardClick(ShoppingDetailModel productItems, Bitmap bitmapImg);
+        //void onCardClick(ShoppingDetailModel productItems, Bitmap bitmapImg);
+        void onCardClick(String productName, String price, long cutPrice, long quantity, Bitmap bitmapImg);
+
 
         void shareItemsDetails(ShoppingDetailModel productItems, Bitmap bitmapImg);
 

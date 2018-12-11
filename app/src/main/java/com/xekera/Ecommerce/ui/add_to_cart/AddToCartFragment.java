@@ -1,10 +1,12 @@
 package com.xekera.Ecommerce.ui.add_to_cart;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.*;
@@ -49,7 +51,6 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     protected TextView txtNoCartItemFound;
     @BindView(R.id.btnCheckout)
     protected Button btnCheckout;
-
 
     @Inject
     protected AddToCartMVP.Presenter presenter;
@@ -287,8 +288,13 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     }
 
     @Override
-    public void removeItemFromCart(AddToCart productItems) {
-        presenter.removeItemFromCart(productItems);
+    public void removeItemFromCart(final AddToCart productItems, final int position) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                presenter.removeItemFromCart(productItems, position);
+            }
+        }, 150);
     }
 
 
@@ -346,7 +352,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    showToastLongTime("Required SignUp/Login for further proceed.");
+                    showToastLongTime("Require SignUp for further proceed.");
                     ((BaseActivity) getActivity()).addFragment(new LoginFragment());
 
                 }
@@ -371,11 +377,17 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     @Override
     public void setAdapter(List<AddToCart> addToCarts) {
+
         adapter = new AddToCartAdapter(addToCarts, this);
         showRecylerViewProductsDetail(adapter);
 
 
         getSubTotal(addToCarts);
+    }
+
+    @Override
+    public void removeItemFromAdapter(int position) {
+        adapter.removeItem(position);
     }
 
     private void getSubTotal(List<AddToCart> addToCarts) {

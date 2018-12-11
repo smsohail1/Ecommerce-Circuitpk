@@ -49,6 +49,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             public void onSuccess(boolean success) {
                 if (success) {
                     //  getCount(position);
+                    view.showToastShortTime("Item Removed from favourites.");
                     view.removeItemFromFavourites(position);
 
 

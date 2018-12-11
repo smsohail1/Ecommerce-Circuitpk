@@ -46,6 +46,8 @@ public interface AddToCartMVP {
         void setCartCounterTextview(int counts);
 
         void setAdapter(List<AddToCart> addToCarts);
+
+        void removeItemFromAdapter(int position);
     }
 
     interface Presenter {
@@ -56,7 +58,7 @@ public interface AddToCartMVP {
 
         void fetchCartDetailsOnBack(int i);
 
-        void removeItemFromCart(AddToCart productItems);
+        void removeItemFromCart(AddToCart productItems, int position);
 
         void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice);
 

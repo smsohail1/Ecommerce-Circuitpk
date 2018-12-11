@@ -24,12 +24,13 @@
     <android.support.v7.widget.CardView
             android:id="@+id/cardViewParent"
             android:layout_width="match_parent"
-            android:layout_height="95dp"
+            android:layout_height="105dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             app:cardCornerRadius="5dp"
+            app:cardBackgroundColor="@color/selector_card_view_colors"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardElevation="5dp">
 
@@ -49,6 +50,7 @@
                     android:adjustViewBounds="true"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/icon_barcode"
+
             />
             <TextView
                     android:id="@+id/txtHomeItem"

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.billing_total_amount_view.BillingTotalAmountViewPresenter;
@@ -24,11 +25,11 @@ public class BillingTotalAmountViewAdapter extends RecyclerView.Adapter<Recycler
     Context context;
     List<AddToCart> productsItems;
     // IShopDetailAdapter iShopDetailAdapter;
-  //  BillingTotalAmountViewPresenter billingTotalAmountViewPresenter;
+    //  BillingTotalAmountViewPresenter billingTotalAmountViewPresenter;
 
     public BillingTotalAmountViewAdapter(List<AddToCart> productsItems) {
         this.productsItems = productsItems;
-      //  this.billingTotalAmountViewPresenter = billingTotalAmountViewPresenter;
+        //  this.billingTotalAmountViewPresenter = billingTotalAmountViewPresenter;
     }
 
 
@@ -39,6 +40,8 @@ public class BillingTotalAmountViewAdapter extends RecyclerView.Adapter<Recycler
         productDetailsDataListViewHolder productDetailDataListViewHolder = new productDetailsDataListViewHolder(v);
         return productDetailDataListViewHolder;
     }
+
+    BitmapFactory.Options options;
 
 
     @Override
@@ -55,12 +58,21 @@ public class BillingTotalAmountViewAdapter extends RecyclerView.Adapter<Recycler
             try {
 
 
+                //options = new BitmapFactory.Options();
+                //  options.inJustDecodeBounds = true;
+                // options.inSampleSize = 2;
+
                 bytes = addToCart.getItemImage();
                 // Create a bitmap from the byte array
-                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                //Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
 
-                productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
+                //productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
 
+                Glide.with(context)
+                        .load(bytes)
+                        .asBitmap()
+                        .placeholder(R.drawable.placeholder)
+                        .into(productDetailsDataListViewHolder.imgProduct);
 
             } catch (Exception e) {
 

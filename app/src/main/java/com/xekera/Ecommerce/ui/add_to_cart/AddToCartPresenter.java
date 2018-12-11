@@ -94,13 +94,13 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
     }
 
     @Override
-    public void removeItemFromCart(AddToCart productItems) {
+    public void removeItemFromCart(AddToCart productItems, final int position) {
 
         model.removeSelectedCartDetails(productItems, new AddToCartModel.IRemoveSelectedItemDetails() {
             @Override
             public void onSuccess() {
                 view.showToastShortTime("Item removed from Cart.");
-
+                view.removeItemFromAdapter(position);
                 getUpdatedTotalAmount();
             }
 

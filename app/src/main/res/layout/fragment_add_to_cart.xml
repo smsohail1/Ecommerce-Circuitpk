@@ -45,6 +45,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="2dp"
                         app:cardCornerRadius="2dp"
+                        android:clickable="true"
                         app:cardElevation="2dp"
                         android:foreground="?android:attr/selectableItemBackground">
                     <LinearLayout
@@ -235,6 +236,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/linearLayoutItemDetails"
                                 android:layout_marginTop="3dp"
+                                android:layout_marginBottom="5dp"
                         >
 
                             <android.support.v7.widget.RecyclerView

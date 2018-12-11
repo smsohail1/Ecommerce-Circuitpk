@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.dasboard_shopping_details;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.FavouritesDao;
@@ -24,6 +25,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -64,6 +66,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
         model.removeSelectedCartDetails(shoppingDetailModel.getProductName(), new ShopDetailsModel.IRemoveSelectedItemDetails() {
             @Override
             public void onSuccess() {
+                view.showToastShortTime("Item removed from cart.");
                 getUpdatedTotalCount();
 
             }
@@ -180,7 +183,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
-                  //  List<String> listFavourite = new ArrayList<>();
+                    //  List<String> listFavourite = new ArrayList<>();
 //                    listFavourite.add(favourites.getItemName());
 //
 //                    Set<String> favouriteSet = new HashSet<String>(listFavourite);
@@ -256,17 +259,19 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     @Override
     public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
-                                   final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy) {
+                                   final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final Bitmap bitmap) {
         model.getProductCount(productName, new ShopDetailsModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
                 if (addToCartList == null || addToCartList.size() == 0) {
 
+                    byte[] bmp = bitmapToByteArray(bitmap);
+
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
 
                     AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
-                            "N", byteImage, String.valueOf(cutPrice), price, formattedDate);
+                            "N", bmp, String.valueOf(cutPrice), price, formattedDate);
                     noProductFound(addToCart, imgProductCopy);
                     return;
                 } else {
@@ -284,6 +289,14 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
             }
         });
 
+    }
+
+    private byte[] bitmapToByteArray(Bitmap bmp) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        bmp.recycle();
+        return byteArray;
     }
 
     @Override

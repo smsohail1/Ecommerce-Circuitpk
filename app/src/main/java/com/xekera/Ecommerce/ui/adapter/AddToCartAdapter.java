@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartPresenter;
@@ -24,6 +25,7 @@ import com.xekera.Ecommerce.ui.add_to_cart.AddToCartPresenter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Handler;
 
 public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
@@ -47,6 +49,9 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
+    Bitmap compressedBitmap;
+    BitmapFactory.Options options;
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final AddToCart addToCart = productsItems.get(position);
@@ -61,16 +66,21 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             try {
 
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 8;
-
-
+//                options = new BitmapFactory.Options();
+//                //  options.inJustDecodeBounds = true;
+//                options.inSampleSize = 2;
+//
                 bytes = addToCart.getItemImage();
-                // Create a bitmap from the byte array
-                Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+//                // Create a bitmap from the byte array
+//                compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+//
+//                productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
 
-                productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
-
+                Glide.with(context)
+                        .load(bytes)
+                        .asBitmap()
+                        .placeholder(R.drawable.placeholder)
+                        .into(productDetailsDataListViewHolder.imgProduct);
 
             } catch (Exception e) {
 
@@ -227,9 +237,9 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             dialog.dismiss();
                             // productsItems.remove(getLayoutPosition());
                             // addToCartPresenter.removeItemFromCart(productsItems.get(getLayoutPosition()));
-                            iShopDetailAdapter.removeItemFromCart(productsItems.get(getLayoutPosition()));
-                            productsItems.remove(getLayoutPosition());
-                            notifyDataSetChanged();
+                            iShopDetailAdapter.removeItemFromCart(productsItems.get(getLayoutPosition()), getLayoutPosition());
+                            //productsItems.remove(getLayoutPosition());
+                            // notifyDataSetChanged();
 
 
                             // iShopDetailAdapter.removeItemFromCart();
@@ -262,6 +272,11 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 
+    public void removeItem(int position) {
+        this.productsItems.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public void refreshProduct() {
         notifyDataSetChanged();
 
@@ -283,7 +298,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
                                 String cutPrice, byte[] bytes);
 
-        void removeItemFromCart(AddToCart productItems);
+        void removeItemFromCart(AddToCart productItems, int position);
     }
 
 }

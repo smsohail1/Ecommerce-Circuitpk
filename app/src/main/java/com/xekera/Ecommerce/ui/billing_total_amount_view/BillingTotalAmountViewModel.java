@@ -36,7 +36,7 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
                     map(new Function<AddToCartDao, List<AddToCart>>() {
                         @Override
                         public List<AddToCart> apply(AddToCartDao addToCartDao) throws Exception {
-                            return addToCartDao.getAllCartDetails();
+                            return addToCartDao.getAllCartOrderDetails();
                         }
                     }).
                     subscribeOn(Schedulers.io()).

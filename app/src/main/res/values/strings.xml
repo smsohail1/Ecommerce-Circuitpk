@@ -217,7 +217,7 @@
         our clients. Our highly dedicated engineers eagerly transform your ideas into
         turnkey product designs.
     </string>
-    <string name="our_experience">Our ascendancy, in our field of expertise from inventing R@ampD
+    <string name="our_experience">Our ascendancy, in our field of expertise from inventing R&amp;D
         solutions to their automation, is a result of working with the best. Our team’s
         collective experience, in the last 2 decades with the Silicon Valley tech leaders including Intel,
         Apple, Qualcomm, AMD, Sun Microsystems and HP, has helped us develop our expert systems
@@ -229,6 +229,6 @@
         and we are capable to meet your requirements and expectations.
     </string>
     <string name="company_address">Software Technology Park,KSL Building, i-9/3 Islamabad.</string>
-    <string name="phone_no">(+92) 3345290597</string>
+    <string name="phone_no">(+92)3345290597</string>
     <string name="company_email_id">support@circuit.pk</string>
 </resources>
