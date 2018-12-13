@@ -330,6 +330,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
 
     }
 
+    boolean isEnable = true;
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -341,18 +343,23 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                 presenter.onClickBtnSignIn(userName, password);
                 break;
             }
+
             case R.id.btnCreateAccount: {
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        utils.hideSoftKeyboard(edtUsername);
-                        utils.hideSoftKeyboard(customEdtPasswordHideShow);
-                        ((BaseActivity) getActivity()).addFragment(new SignupFragment());
+                if (isEnable) {
+                    isEnable = false;
 
-                    }
-                }, 200);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            isEnable = true;
+                            utils.hideSoftKeyboard(edtUsername);
+                            utils.hideSoftKeyboard(customEdtPasswordHideShow);
+                            ((BaseActivity) getActivity()).addFragment(new SignupFragment());
 
+                        }
+                    }, 300);
+                }
 
                 break;
             }

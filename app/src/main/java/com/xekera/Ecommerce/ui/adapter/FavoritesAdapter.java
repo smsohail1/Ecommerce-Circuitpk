@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.Favourites;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.history.HistoryPresenter;
 
 import java.util.List;
@@ -59,6 +60,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             productDetailsDataListViewHolder.priceTextView.setText(favourites.getItemIndividualPrice());
             productDetailsDataListViewHolder.discountPriceTextView.setText(favourites.getItemCutPrice());
             productDetailsDataListViewHolder.availabilitStockTextView.setText(favourites.getItemStockStatus());
+            productDetailsDataListViewHolder.counterTextview.setText(favourites.getItemQuantity() + "");
 
             try {
 
@@ -112,31 +114,124 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public TextView availabilitStockTextView;
         @BindView(R.id.discountPriceTextView)
         public TextView discountPriceTextView;
-        @BindView(R.id.btnAddToCart)
-        public ImageView btnAddToCart;
+        //  @BindView(R.id.btnAddToCart)
+        // public ImageView btnAddToCart;
         @BindView(R.id.imgRemove)
         public ImageView imgRemove;
-
+        @BindView(R.id.decrementImageButton)
+        public ImageView decrementImageButton;
+        @BindView(R.id.incrementImageButton)
+        public ImageView incrementImageButton;
+        @BindView(R.id.counterTextview)
+        public TextView counterTextview;
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
-            itemView.findViewById(R.id.btnAddToCart).setOnClickListener(this);
+            // itemView.findViewById(R.id.btnAddToCart).setOnClickListener(this);
             itemView.findViewById(R.id.imgRemove).setOnClickListener(this);
+            itemView.findViewById(R.id.decrementImageButton).setOnClickListener(this);
+            itemView.findViewById(R.id.incrementImageButton).setOnClickListener(this);
 
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.btnAddToCart:
+                /*case R.id.btnAddToCart:
                     iFvaouritesAddToCartAdapter.addToCartFavourites(productsItems.get(getLayoutPosition()), getLayoutPosition(),
                             imgProductCopy);
-                    break;
+                            break;
+                */
 
                 case R.id.imgRemove:
                     iFvaouritesAddToCartAdapter.removeFavourites(productsItems.get(getLayoutPosition()), getLayoutPosition());
+                    break;
+
+                case R.id.decrementImageButton:
+                    //  decrementCounter = decrementCounter - 1;
+                    //productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
+
+                    // productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
+
+                    if (Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) > 1) {
+
+                        long dec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) - 1;
+                        productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(dec));
+
+                        counterTextview.setText(dec + "");
+
+                        long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
+                        long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+                        iFvaouritesAddToCartAdapter.onDecrementButtonClick(Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()),
+                                String.valueOf(productPrice),
+                                String.valueOf(productPrice * itemQuantity),
+                                productsItems.get(getLayoutPosition()).getItemName(),
+                                Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
+                                productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy);
+
+                    } else {
+                        productsItems.get(getLayoutPosition()).setItemQuantity("0");
+                        counterTextview.setText(productsItems.get(getLayoutPosition()).getItemQuantity() + "");
+
+                        iFvaouritesAddToCartAdapter.removeItemFromCart(productsItems.get(getLayoutPosition()));
+
+
+//                        long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getProductPrice());
+//                        long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+//                        iShopDetailAdapter.onDecrementButtonClick(productsItems.get(getLayoutPosition()).getItemQuantity(),
+//                                String.valueOf(productPrice),
+//                                String.valueOf(productPrice * itemQuantity),
+//                                productsItems.get(getLayoutPosition()).getProductName(),
+//                                productsItems.get(getLayoutPosition()).getCutPrice(),
+//                                productsItems.get(getLayoutPosition()).getByteImage(), imgProductCopy);
+
+                    }
+                    break;
+                case R.id.incrementImageButton:
+
+                    long inc = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+                    long incrementLong = inc + 1;
+                    productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(incrementLong));
+                    counterTextview.setText(incrementLong + "");
+                    long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
+                    long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+
+                    Bitmap bitmapAdd = null;
+
+                    if (getLayoutPosition() == 0) {
+                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
+                    } else if (getLayoutPosition() == 1) {
+                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_sensor_module);
+
+                    } else if (getLayoutPosition() == 2) {
+                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_battery);
+
+                    } else if (getLayoutPosition() == 3) {
+                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_wire);
+
+                    } else if (getLayoutPosition() == 4) {
+                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_rectifier);
+
+                    }
+
+                    iFvaouritesAddToCartAdapter.onIncrementButtonClick(Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()),
+                            String.valueOf(productPrice),
+                            String.valueOf(productPrice * itemQuantity),
+                            productsItems.get(getLayoutPosition()).getItemName(),
+                            Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
+                            productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy, bitmapAdd);
+
+
+//                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
+//                    productsItems.get(getLayoutPosition()).setItemQuantity(inc);
+//                    counterTextview.setText(inc + "");
+
+
+//                    if (actionListener != null)
+//                        actionListener.onItemTap(imgProductCopy);
+
                     break;
 
             }
@@ -179,6 +274,15 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void addToCartFavourites(Favourites favourites, int position, ImageView img);
 
         void removeFavourites(Favourites favourites, int position);
+
+        void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap);
+
+        void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName,
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy);
+
+        void removeItemFromCart(Favourites favourites);
+
     }
 }
 

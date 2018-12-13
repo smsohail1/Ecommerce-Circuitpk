@@ -39,6 +39,8 @@
                         android:src="@drawable/icon_track_phonecall"
                         android:padding="5dp"
                         android:layout_marginRight="5dp"
+                        android:background="@drawable/phone_call_selector"
+
                 />
                 <!--<TextView-->
                 <!--android:id="@+id/textviewMobileNo"-->
@@ -55,7 +57,7 @@
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/track_order_textview"
-                android:padding="15dp">
+                android:padding="10dp">
 
             <TextView
                     android:id="@+id/txtTrackOrderDeatils"

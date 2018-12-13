@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -143,6 +144,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     public CircleImageView profilePhoto;
 
+    boolean isEnabled = true;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,7 +175,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 requestPermissions();
 
                 if (!mPermissionDenied) {
-                    showPictureDialog();
+                    if (isEnabled) {
+                        isEnabled = false;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                isEnabled = true;
+                                showPictureDialog();
+
+                            }
+                        }, 400);
+                    }
                 }
 
             }
@@ -785,6 +798,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 // replaceFragmentWithContainer(new ShopFragment());
                 navigateToScreen(R.id.navigation_shop);
                 drawer.closeDrawer(GravityCompat.START);
+                // setNavigationBackground("#E10915");
 
 
                 return true;
@@ -795,6 +809,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 navigateToScreen(R.id.navigation_favourite);
 //                replaceFragmentWithContainer(new FavouritesFragment());
                 drawer.closeDrawer(GravityCompat.START);
+                // setNavigationBackground("#E10915");
+
                 return true;
 
             }
@@ -802,6 +818,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             if (!(fragmentContainer instanceof AccountFragment)) {
                 replaceFragmentWithContainer(new AccountFragment());
                 drawer.closeDrawer(GravityCompat.START);
+                //setNavigationBackground("#E10915");
+
                 return true;
 
             }
@@ -809,6 +827,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             if (!(fragmentContainer instanceof SettingFragment)) {
                 navigateToScreen(R.id.navigation_setting);
                 drawer.closeDrawer(GravityCompat.START);
+                //  setNavigationBackground("#E10915");
+
                 return true;
 
             }
@@ -816,6 +836,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             if (!(fragmentContainer instanceof LoginFragment)) {
                 replaceFragmentWithContainer(new LoginFragment());
                 drawer.closeDrawer(GravityCompat.START);
+                // setNavigationBackground("#E10915");
+
                 return true;
 
             }
@@ -823,6 +845,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             if (!(fragmentContainer instanceof AboutFragment)) {
                 replaceFragmentWithContainer(new AboutFragment());
                 drawer.closeDrawer(GravityCompat.START);
+                // setNavigationBackground("#E10915");
                 return true;
 
             }
@@ -846,7 +869,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         // Add data to the intent, the receiving app will decide
         // what to do with it.
         share.putExtra(Intent.EXTRA_SUBJECT, "Circuit.pk App");
-        share.putExtra(Intent.EXTRA_TEXT, "http://www.codeofaninja.com");
+        share.putExtra(Intent.EXTRA_TEXT, "https://circuit.pk/");
 
         startActivity(Intent.createChooser(share, "Share App link"));
     }
@@ -867,16 +890,26 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //sessionManager.logoutUser();
-                //  startActivity(new Intent(BaseActivity.this, LoginActivity.class));
-                finish();
-                dialog.dismiss();
+                if (sessionManager.getKeyIsFacebookLogin() || sessionManager.isSignUp() || sessionManager.isLoggedIn()) {
+                    sessionManager.clearAll();
+                    toastUtil.showToastShortTime("Logout Successfully.");
+                    dialog.dismiss();
+                    finish();
+                } else {
+                    toastUtil.showToastShortTime("Please login first.");
+                }
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+
+                    }
+                }, 200);
             }
         });
 
@@ -909,6 +942,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
     }
 
+
+    private void setNavigationBackground(String color) {
+        navigation.setBackgroundColor(Color.parseColor(color));
+    }
 
     @Override
     protected void onResume() {

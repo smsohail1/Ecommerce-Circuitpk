@@ -260,11 +260,23 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         }
     }
 
+    boolean isEnable = true;
+
     @Override
     public void trackOrder(String orderID) {
-        showDialog(getActivity(), "Track Order Details");
+        if (isEnable) {
+            isEnable = false;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showDialog(getActivity(), "Track Order Details");
+                    isEnable = true;
+                }
+            }, 400);
+        }
     }
 
+    boolean isPhoneBtnEnable = true;
 
     private void showDialog(Context context, String title) {
         final String companyNo = "03440081152";
@@ -283,7 +295,17 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
             public void onClick(View view) {
                 requestPermissions();
                 if (!mPermissionDenied) {
-                    callSupportNumber(companyNo);
+                    if (isPhoneBtnEnable) {
+                        isPhoneBtnEnable = false;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                isPhoneBtnEnable = true;
+                                callSupportNumber(companyNo);
+
+                            }
+                        }, 400);
+                    }
                 }
             }
         });
@@ -325,8 +347,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CODE_ASK_PERMISSIONS:
-                if ((grantResults[0] == PackageManager.PERMISSION_GRANTED) &&
-                        (grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                if ((grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     // Permission Allowed
                     int call = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE);
 

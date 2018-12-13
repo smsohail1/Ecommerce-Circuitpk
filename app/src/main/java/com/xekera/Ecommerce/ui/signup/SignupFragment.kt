@@ -230,7 +230,7 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
             (activity as BaseActivity).popBackstack()
             //    var signupFrag = SignupFragment();
             (activity as BaseActivity).popBackstack();
-        }, 100)
+        }, 200)
 
 
     }

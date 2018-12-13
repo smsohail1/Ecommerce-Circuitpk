@@ -7,6 +7,7 @@ import com.xekera.Ecommerce.data.room.dao.FavouritesDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.data.room.model.Favourites;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsModel;
 import com.xekera.Ecommerce.util.Utils;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -190,6 +191,50 @@ public class FavouritesModel implements FavouritesMVP.Model {
         }
     }
 
+
+    @Override
+    public void removeItemFromCart(final String itemName, final IRemoveSelectedItemDetails iRemoveSelectedItemDetails) {
+        try {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
+                        @Override
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+                            appDatabase.getAddToCartDao().deleteItem(itemName);
+
+
+                            return true;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean success) {
+                            iRemoveSelectedItemDetails.onSuccess(success);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (e.getMessage() != null) {
+                                iRemoveSelectedItemDetails.onError((Exception) e);
+                            }
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception ex) {
+            iRemoveSelectedItemDetails.onError(ex);
+        }
+    }
+
     @Override
     public void getTotalCounts(final IFetchOrderDetailsList iFetchOrderDetailsList) {
         try {
@@ -304,6 +349,132 @@ public class FavouritesModel implements FavouritesMVP.Model {
             iFetchOrderDetailsList.onErrorReceived(e);
         }
 
+    }
+
+
+    @Override
+    public void getProductCount(final String productName, final IFetchCartDetailsList iFetchCartDetailsList) {
+        try {
+            Observable.just(appDatabase.getAddToCartDao()).
+                    map(new Function<AddToCartDao, List<AddToCart>>() {
+                        @Override
+                        public List<AddToCart> apply(AddToCartDao addToCartDao) throws Exception {
+                            return addToCartDao.getCartDetailsByProductName(productName);
+                        }
+                    }).
+                    subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Observer<List<AddToCart>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<AddToCart> AddToCartList) {
+                            iFetchCartDetailsList.onCartDetailsReceived(AddToCartList);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            iFetchCartDetailsList.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception e) {
+            iFetchCartDetailsList.onErrorReceived(e);
+        }
+    }
+
+    @Override
+    public void updateItemCountInDB(final String quantity, final String itemPrice, final String productName, final String cutPrice,
+                                    final ISaveProductDetails iSaveProductDetails) {
+
+        try {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
+                        @Override
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+                            appDatabase.getAddToCartDao().updateItemCount(quantity, itemPrice, productName, cutPrice);
+                            return true;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean updated) {
+                            iSaveProductDetails.onProductDetailsSaved(updated);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (e.getMessage() != null) {
+                                iSaveProductDetails.onErrorReceived((Exception) e);
+                            }
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception ex) {
+            iSaveProductDetails.onErrorReceived(ex);
+        }
+
+    }
+
+    @Override
+    public void saveProductDetails(final AddToCart addToCart, final ISaveProductDetails iSaveProductDetails) {
+        try {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
+                        @Override
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+                            appDatabase.getAddToCartDao().insert(addToCart);
+                            return true;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean isAdded) {
+                            iSaveProductDetails.onProductDetailsSaved(isAdded);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (e.getMessage() != null) {
+                                iSaveProductDetails.onErrorReceived((Exception) e);
+                            }
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception ex) {
+            iSaveProductDetails.onErrorReceived(ex);
+        }
     }
 
 

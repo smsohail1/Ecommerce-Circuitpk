@@ -354,7 +354,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                     public void run() {
                         dialog.dismiss();
                     }
-                }, 300);
+                }, 400);
             }
         });
 
@@ -412,7 +412,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                                 email, streetAddress1, townCity, paymode, notes, selfPickup));
 
             }
-        }, 200);
+        }, 300);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.xekera.Ecommerce.ui.favourites;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.FavoritesAdapter;
 import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsPresenter;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
@@ -117,6 +119,18 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
                         }
                     }, 700);
+
+                }
+            }
+        });
+
+
+        presenter.setAddRemoveActionListener(new FavouritesPresenter.ProductAddRemoveActionListener() {
+            @Override
+            public void onItemTap(ImageView imageView, int cartsCount) {
+                if (imageView != null) {
+                    ((BaseActivity) getActivity()).makeFlyAnimation(imageView, cartsCount);
+                    ((BaseActivity) getActivity()).addItemToCart(cartsCount);
 
                 }
             }
@@ -262,6 +276,38 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         } catch (Exception e) {
             return "";
         }
+    }
+
+    @Override
+    public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
+                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap) {
+
+        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap);
+    }
+
+    @Override
+    public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy) {
+
+        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy);
+
+    }
+
+    @Override
+    public void removeItemFromCart(Favourites favourites) {
+        presenter.removeItem(favourites);
+
+    }
+
+    @Override
+    public void setCountZero(int counts) {
+        ((BaseActivity) getActivity()).addItemToCart(0);
+
+    }
+
+    @Override
+    public void setDecrementCount(int counts) {
+        ((BaseActivity) getActivity()).removeItemToCart(counts);
+
     }
 
 }

@@ -344,26 +344,33 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 //            }
 //        }, 100);
 
-        if (sessionManager.isSignUp()) {
+        if (sessionManager.isSignUp() || sessionManager.isLoggedIn()) {
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+            Fragment fragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+            if (!(fragment instanceof DeliveyBillingDetailsFragment)) {
 
-                    DeliveyBillingDetailsFragment deliveyBillingDetailsFragment = new DeliveyBillingDetailsFragment();
-                    ((BaseActivity) getActivity()).addFragment(deliveyBillingDetailsFragment);
-                }
-            }, 100);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        DeliveyBillingDetailsFragment deliveyBillingDetailsFragment = new DeliveyBillingDetailsFragment();
+                        ((BaseActivity) getActivity()).addFragment(deliveyBillingDetailsFragment);
+                    }
+                }, 100);
+            }
         } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    showToastLongTime("Require SignUp for further proceed.");
-                    ((BaseActivity) getActivity()).addFragment(new LoginFragment());
+            Fragment fragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+            if (!(fragment instanceof LoginFragment)) {
 
-                }
-            }, 100);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToastLongTime("Require SignUp for further proceed.");
+                        ((BaseActivity) getActivity()).addFragment(new LoginFragment());
 
+                    }
+                }, 100);
+            }
         }
 
     }
@@ -410,20 +417,29 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     }
 
+    boolean isContinueShoppingEnable = true;
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnCheckout:
                 presenter.getCartCountList();
+
                 break;
             case R.id.btnContinueShopping:
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((BaseActivity) getActivity()).replaceFragment(new ContinueShoppingFragment());
-                    }
-                }, 150);
 
+                if (isContinueShoppingEnable) {
+                    isContinueShoppingEnable = false;
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            isContinueShoppingEnable = true;
+
+                            ((BaseActivity) getActivity()).replaceFragment(new ContinueShoppingFragment());
+                        }
+                    }, 150);
+                }
                 break;
         }
     }

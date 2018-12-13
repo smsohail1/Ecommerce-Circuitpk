@@ -51,7 +51,7 @@
                         android:layout_margin="2dp"
                         android:text="@string/no"
                         android:padding="5dp"
-                        android:theme="@style/PrimaryButton"
+                        android:theme="@style/ScreenButton"
                         android:textColor="@color/white"/>
 
                 <Button
@@ -61,7 +61,7 @@
                         android:layout_margin="2dp"
                         android:text="@string/yes"
                         android:padding="5dp"
-                        android:theme="@style/PrimaryButton"
+                        android:theme="@style/ScreenButton"
                         android:textColor="@color/white"/>
             </LinearLayout>
         </RelativeLayout>

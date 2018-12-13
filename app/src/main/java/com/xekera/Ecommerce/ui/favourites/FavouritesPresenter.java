@@ -1,6 +1,7 @@
 package com.xekera.Ecommerce.ui.favourites;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.widget.ImageView;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
@@ -8,11 +9,16 @@ import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.adapter.FavoritesAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsModel;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsPresenter;
 import com.xekera.Ecommerce.ui.history.HistoryModel;
+import com.xekera.Ecommerce.util.AppConstants;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 
+import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class FavouritesPresenter implements FavouritesMVP.Presenter {
@@ -23,6 +29,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
     private Context context;
     private FavoritesAdapter adapter;
     private ProductItemActionListener actionListener;
+    private ProductAddRemoveActionListener productAddRemoveActionListener;
 
 
     public FavouritesPresenter(Context context, FavouritesMVP.Model model, SessionManager sessionManager, Utils utils) {
@@ -41,6 +48,11 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
     public void setActionListener(ProductItemActionListener actionListener) {
         this.actionListener = actionListener;
     }
+
+    public void setAddRemoveActionListener(ProductAddRemoveActionListener actionListener) {
+        this.productAddRemoveActionListener = actionListener;
+    }
+
 
     @Override
     public void removeFromFavourites(Favourites favourites, final int position) {
@@ -209,6 +221,10 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
         void onItemTap(ImageView imageView, int cartsCount, int position);
     }
 
+    public interface ProductAddRemoveActionListener {
+        void onItemTap(ImageView imageView, int cartsCount);
+    }
+
     private void getUpdatedTotalCount() {
         model.getTotalCounts(new FavouritesModel.IFetchOrderDetailsList() {
             @Override
@@ -218,6 +234,308 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
                     return;
                 } else {
                     view.setCartCounts(addToCarts.size());
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
+    }
+
+    private String getCurrentDate() {
+        try {
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat(AppConstants.DATE_TIME_FORMAT_TWO);
+            return df.format(c.getTime());
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    @Override
+    public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
+                                   final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final Bitmap bitmap) {
+        model.getProductCount(productName, new FavouritesModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCartList) {
+                if (addToCartList == null || addToCartList.size() == 0) {
+
+                    byte[] bmp = bitmapToByteArray(bitmap);
+
+                    String formattedDate = "";
+                    formattedDate = getCurrentDate();
+
+                    AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
+                            "N", bmp, String.valueOf(cutPrice), price, formattedDate);
+                    noProductFound(addToCart, imgProductCopy);
+                    return;
+                } else {
+
+                    updateItemCountInDB(String.valueOf(quantity), totalPrice,
+                            productName, String.valueOf(cutPrice), imgProductCopy);
+                }
+
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.showToastLongTime("Error while in saving data.");
+
+            }
+        });
+
+    }
+
+    public void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice,
+                                    final ImageView imgProductCopy) {
+        model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new FavouritesModel.ISaveProductDetails() {
+            @Override
+            public void onProductDetailsSaved(boolean updated) {
+                if (updated) {
+                    //  view.showToastShortTime("Cart updated successfully.");
+
+                    getUpdatedTotalCount(imgProductCopy);
+                } else {
+                    view.showToastLongTime("Error while saving data.");
+
+                }
+
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+                view.showToastLongTime("Error while saving data.");
+
+            }
+        });
+
+    }
+
+    private void noProductFound(AddToCart addToCart, final ImageView imgProductCopy) {
+
+        model.saveProductDetails(addToCart, new FavouritesModel.ISaveProductDetails() {
+            @Override
+            public void onProductDetailsSaved(boolean isAdded) {
+                if (isAdded) {
+                    //view.showSnackBarShortTime("Item added to cart successfully.");
+                    getUpdatedTotalCount(imgProductCopy);
+
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.showToastLongTime("Error while saving data.");
+
+            }
+        });
+    }
+
+    private byte[] bitmapToByteArray(Bitmap bmp) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        bmp.recycle();
+        return byteArray;
+    }
+
+    @Override
+    public void saveProductDecrementDetails(final long quantity, final String price, final String totalPrice, final String productName,
+                                            final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy) {
+        model.getProductCount(productName, new FavouritesModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCartList) {
+                if (addToCartList == null || addToCartList.size() == 0) {
+
+                    String formattedDate = "";
+                    formattedDate = getCurrentDate();
+
+                    AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
+                            "N", byteImage, String.valueOf(cutPrice), price, formattedDate);
+                    noProductFoundForDecrement(addToCart, imgProductCopy);
+                    return;
+                } else {
+
+                    updateItemCountInDBForDecrement(String.valueOf(quantity), totalPrice,
+                            productName, String.valueOf(cutPrice), imgProductCopy);
+                }
+
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.showToastLongTime("Error while in saving data.");
+
+            }
+        });
+
+    }
+
+    @Override
+    public void removeItem(final Favourites favourites) {
+        model.checkItemAlreadyAddedOrNot(favourites.getItemName(), new FavouritesModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+                    //view.showToastShortTime("Item not available in cart");
+                    return;
+                } else {
+                    removeItem(favourites.getItemName());
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
+
+    }
+
+    private void removeItem(String productName) {
+        model.removeItemFromCart(productName, new FavouritesModel.IRemoveSelectedItemDetails() {
+            @Override
+            public void onSuccess(boolean success) {
+                if (success) {
+                    view.showToastShortTime("Item removed from cart.");
+                    getTotalCount();
+                } else {
+                    view.showToastShortTime("Error while remove item.");
+                }
+            }
+
+            @Override
+            public void onError(Exception ex) {
+                ex.printStackTrace();
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
+
+    }
+
+    private void getTotalCount() {
+        model.getCartDetails(new FavouritesModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+                    view.setCountZero(0);
+
+                    return;
+                } else {
+                    view.setDecrementCount(addToCarts.size());
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
+    }
+
+
+    private void noProductFoundForDecrement(AddToCart addToCart, final ImageView imgProductCopy) {
+
+        model.saveProductDetails(addToCart, new FavouritesModel.ISaveProductDetails() {
+            @Override
+            public void onProductDetailsSaved(boolean isAdded) {
+                if (isAdded) {
+                    view.showToastShortTime("Cart updated successfully.");
+                    getUpdatedTotalCountForDecrement(imgProductCopy);
+
+
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                view.showToastLongTime("Error while saving data.");
+
+            }
+        });
+    }
+
+
+    public void updateItemCountInDBForDecrement(String quantity, String itemPrice, String productName, String cutPrice,
+                                                final ImageView imgProductCopy) {
+        model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new FavouritesModel.ISaveProductDetails() {
+            @Override
+            public void onProductDetailsSaved(boolean updated) {
+                if (updated) {
+                    view.showToastShortTime("Cart updated successfully.");
+
+                    getUpdatedTotalCountForDecrement(imgProductCopy);
+                } else {
+                    view.showToastLongTime("Error while saving data.");
+
+                }
+
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+                view.showToastLongTime("Error while saving data.");
+
+            }
+        });
+
+    }
+
+    private void getUpdatedTotalCountForDecrement(final ImageView imgProductCopy) {
+        model.getCartDetails(new FavouritesModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+                    view.setCountZero(0);
+
+
+                    return;
+                } else {
+//                    if (actionListener != null)
+//                        actionListener.onItemTap(imgProductCopy, addToCarts.size());
+
+                    view.setDecrementCount(addToCarts.size());
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
+    }
+
+
+    private void getUpdatedTotalCount(final ImageView imgProductCopy) {
+        model.getCartDetails(new FavouritesModel.IFetchCartDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+//                    if (actionListener != null)
+//                        actionListener.onItemTap(imgProductCopy, 0);
+                    view.setCountZero(0);
+
+
+                    return;
+                } else {
+                    if (productAddRemoveActionListener != null)
+                        productAddRemoveActionListener.onItemTap(imgProductCopy, addToCarts.size());
+
                 }
             }
 
