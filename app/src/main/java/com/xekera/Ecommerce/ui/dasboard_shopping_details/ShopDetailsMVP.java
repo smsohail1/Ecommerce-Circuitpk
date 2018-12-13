@@ -8,6 +8,7 @@ import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
+import com.xekera.Ecommerce.ui.continue_shopping.ContinueShoppingModel;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.favourites.FavouritesModel;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedModel;
@@ -53,7 +54,7 @@ public interface ShopDetailsMVP {
         void setRecylerViewItems(Context context, List<ShoppingDetailModel> items);
 
         void saveProductDetails(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[]
-                byteImage, ImageView imgProductCopy,Bitmap bitmap);
+                byteImage, ImageView imgProductCopy, Bitmap bitmap);
 
         void saveProductDecrementDetails(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy);
 
@@ -101,6 +102,8 @@ public interface ShopDetailsMVP {
 
         void getFavouriteDetailsListByName(String productName, ShopDetailsModel.IFetchOrderDetailsList iFetchOrderDetailsList);
 
+
+        void checkItemAlreadyAddedOrNot(String itemName, ShopDetailsModel.IFetchCartDetailsList iFetchCartDetailsList);
 
     }
 }

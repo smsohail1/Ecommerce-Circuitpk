@@ -18,6 +18,8 @@ import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
+import com.xekera.Ecommerce.ui.continue_shopping.ContinueShoppingFragment;
+import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
 import com.xekera.Ecommerce.util.*;
@@ -51,6 +53,9 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     protected TextView txtNoCartItemFound;
     @BindView(R.id.btnCheckout)
     protected Button btnCheckout;
+    @BindView(R.id.btnContinueShopping)
+    protected Button btnContinueShopping;
+
 
     @Inject
     protected AddToCartMVP.Presenter presenter;
@@ -192,6 +197,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
 
         btnCheckout.setOnClickListener(this);
+        btnContinueShopping.setOnClickListener(this);
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
@@ -409,6 +415,15 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
         switch (view.getId()) {
             case R.id.btnCheckout:
                 presenter.getCartCountList();
+                break;
+            case R.id.btnContinueShopping:
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((BaseActivity) getActivity()).replaceFragment(new ContinueShoppingFragment());
+                    }
+                }, 150);
+
                 break;
         }
     }

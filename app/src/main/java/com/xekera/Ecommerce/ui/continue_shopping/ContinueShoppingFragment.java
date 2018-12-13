@@ -1,4 +1,4 @@
-package com.xekera.Ecommerce.ui.dasboard_shopping_details;
+package com.xekera.Ecommerce.ui.continue_shopping;
 
 
 import android.Manifest;
@@ -37,8 +37,8 @@ import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.BaseActivity;
+import com.xekera.Ecommerce.ui.adapter.ContinueShoppingAdapter;
 import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
-import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.util.*;
 import io.reactivex.Observable;
@@ -60,7 +60,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View, ShopDetailsAdapter.IShopDetailAdapter {
+public class ContinueShoppingFragment extends Fragment implements ContinueShoppingMVP.View, ContinueShoppingAdapter.IShopDetailAdapter {
 
     @BindView(R.id.edtSearchProduct)
     protected EditText edtSearchProduct;
@@ -68,7 +68,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     protected RecyclerView recyclerViewProductDetails;
 
     @Inject
-    protected ShopDetailsMVP.Presenter presenter;
+    protected ContinueShoppingMVP.Presenter presenter;
     @Inject
     protected Utils utils;
     @Inject
@@ -81,32 +81,20 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     protected AppDatabase appDatabase;
 
 
-    public static final String KEY_SHOP_NAME_DETAILS = "shop_details_name";
+    //  public static final String KEY_SHOP_NAME_DETAILS = "shop_details_name";
 
 
-    ShopDetailsAdapter shopDetailsAdapter;
+    ContinueShoppingAdapter ContinueShoppingAdapter;
 
-    List<ShoppingDetailModel> shopDetails;
-    String productName = "";
+    List<ContinueShoppingObjectModel> shopDetails;
+    //  String productName = "";
 
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
 
-    List<Favourites> favList;
+    //List<Favourites> favList;
 
-    public ShopDetailsFragment() {
+    public ContinueShoppingFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //  super.onActivityResult(requestCode, resultCode, data);
-
-        // if (resultCode == RESULT_OK) {
-//        if (requestCode == 55) {
-//            int addID = data.getIntExtra("addressID", 0);
-//            String addressLine = data.getStringExtra("addressLine");
-//            // }
-//        }
     }
 
 
@@ -114,7 +102,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
-        productName = getArguments().getString(KEY_SHOP_NAME_DETAILS, "");
+        // productName = getArguments().getString(KEY_SHOP_NAME_DETAILS, "");
 
 
     }
@@ -123,160 +111,18 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     public void onResume() {
         super.onResume();
         presenter.setView(this);
+        // edtSearchProduct.setText("");
+        //presenter.getFavouritesList();
 
-        presenter.getFavouritesList();
-        //  ((BaseActivity) getActivity()).hideBottomNavigation();
-
-//
-//        List<String> img;
-//        img = new ArrayList<>();
-//        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
-//        img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
-//        img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
-//        img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_hidden_gsm_supported_voice_recorder_black.jpg");
-//        img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_usb_range_extender_black.jpg");
-//        img.add("https://www.bhphotovideo.com/images/images2000x2000/kingston_dt100g3_16gb_16gb_data_traveler_100_964342.jpg");
-//        img.add("https://a.pololu-files.com/picture/0J1479.1200.jpg?6d28c13f103617525228f0936ec16321");
-//
-//        edtSearchProduct.setText("");
-//        shopDetails.clear();
-//        final byte[][] byteArray = {new byte[0]};
-//
-//
-//        try {
-//            Observable.just(appDatabase)
-//                    .map(new Function<AppDatabase, Boolean>() {
-//                        @Override
-//                        public Boolean apply(AppDatabase appDatabase) throws Exception {
-//
-//                            Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
-//                                    R.drawable.ardino);
-//
-//                            if (icon != null) {
-//                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//
-//                                icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//                                byteArray[0] = stream.toByteArray();
-//
-//                            }
-//                            return true;
-//                        }
-//                    })
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(new Observer<Boolean>() {
-//                        @Override
-//                        public void onSubscribe(Disposable d) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onNext(Boolean success) {
-//                        }
-//
-//                        @Override
-//                        public void onError(Throwable e) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onComplete() {
-//
-//                        }
-//                    });
-//        } catch (Exception ex) {
-//        }
-//
-//
-//        shopDetails.add(new ShoppingDetailModel("arduino", "5000", false, 0, img,
-//                byteArray[0], 30, favList));
-//
-//        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 0, img,
-//                byteArray[0], 10, favList));
-//
-//        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 0, img, byteArray[0],
-//                40, favList));
-//
-//        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 0, img,
-//                byteArray[0], 33, favList));
-//
-//        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 0, img,
-//                byteArray[0], 54, favList));
-//
-//        shopDetails.add(new ShoppingDetailModel("Telivision", "30000", false, 0,
-//                img, byteArray[0], 40, favList));
-//
-//        shopDetails.add(new ShoppingDetailModel("Seven Segment", "800", false, 0, img,
-//                byteArray[0], 33, favList));
-//
-//        shopDetails.add(new ShoppingDetailModel("Capacitor", "200", false, 0,
-//                img, byteArray[0], 54, favList));
-//
-//
-//        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this);
-//        showRecylerViewProductsDetail(shopDetailsAdapter);
-//
-//        presenter.setActionListener(new ShopDetailsPresenter.ProductItemActionListener() {
-//            @Override
-//            public void onItemTap(ImageView imageView, int cartsCount) {
-//                if (imageView != null) {
-//                    ((BaseActivity) getActivity()).makeFlyAnimation(imageView, cartsCount);
-//                    ((BaseActivity) getActivity()).addItemToCart(cartsCount);
-//
-//                }
-//            }
-//        });
-
-
-        try {
-//            setTitle();
-//            //   showBackImageIcon();
-//            // hideHumbergIcon();
-//            showBackImageIcon();
-//            //hideActionBar();
-//            hideLoginIcon();
-
-//            setTitle();
-//            hideHumbergIcon();
-//            showBackImageIcon();
-//            hideLoginIcon();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        setUI();
     }
 
-    public void setTitle() {
-        ((BaseActivity) getActivity()).setTitle(productName);
-    }
-
-
-    public void hideLoginIcon() {
-        ((BaseActivity) getActivity()).hideLoginIcon();
-    }
-
-
-    public void hideHumbergIcon() {
-        ((BaseActivity) getActivity()).hideHumberIcon();
-
-    }
-
-    public void showBackImageIcon() {
-        ((BaseActivity) getActivity()).showBackImageIcon();
-
-    }
-
-
-    public void hideActionBar() {
-        ((BaseActivity) getActivity()).hideActionBar();
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_dashboard_details, container, false);
+        View v = inflater.inflate(R.layout.fragment_continue_shopping, container, false);
 
         initializeViews(v);
 
@@ -288,32 +134,28 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         ButterKnife.bind(this, v);
         presenter.setView(this);
 
-        //  ((BaseActivity) getActivity()).hideBottomNavigation();
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
         recyclerViewProductDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        //  setTitle();
-        //hideLoginIcon();
-        // showBackImageIcon();
 
         edtSearchProduct.setText("");
 
 
-        shopDetails = new ArrayList<ShoppingDetailModel>();
+        shopDetails = new ArrayList<ContinueShoppingObjectModel>();
 
 
-//        shopDetails.add(new ShoppingDetailModel("arduino", "5000", false, 1));
+//        shopDetails.add(new ContinueShoppingObjectModel("arduino", "5000", false, 1));
 //
-//        shopDetails.add(new ShoppingDetailModel("Resberi Pi", "10000", false, 1));
+//        shopDetails.add(new ContinueShoppingObjectModel("Resberi Pi", "10000", false, 1));
 //
-//        shopDetails.add(new ShoppingDetailModel("LED", "300", false, 1));
+//        shopDetails.add(new ContinueShoppingObjectModel("LED", "300", false, 1));
 //
-//        shopDetails.add(new ShoppingDetailModel("Jumper Wire", "800", false, 1));
+//        shopDetails.add(new ContinueShoppingObjectModel("Jumper Wire", "800", false, 1));
 //
-//        shopDetails.add(new ShoppingDetailModel("Bread Board", "200", false, 1));
+//        shopDetails.add(new ContinueShoppingObjectModel("Bread Board", "200", false, 1));
 //
 //        shopDetails.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
 //        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
@@ -323,12 +165,12 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
 //        shopDetails.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
 
-        // shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this);
-        //showRecylerViewProductsDetail(shopDetailsAdapter);
+        // ContinueShoppingAdapter = new ContinueShoppingAdapter(getActivity(), shopDetails, this);
+        //showRecylerViewProductsDetail(ContinueShoppingAdapter);
 
 
         //  presenter.setRecylerViewItems(getActivity(), shopDetails);
-        //shopDetailsAdapter = new ShopDetailsAdapter();
+        //ContinueShoppingAdapter = new ContinueShoppingAdapter();
 
 
         edtSearchProduct.addTextChangedListener(new TextWatcher() {
@@ -341,7 +183,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
                     String text = edtSearchProduct.getText().toString().toLowerCase(Locale.getDefault());
 
-                    shopDetailsAdapter.filter(text);
+
+                    ContinueShoppingAdapter.filter(text);
 
                 } catch (Exception ex) {
 
@@ -395,9 +238,10 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         snackUtil.showSnackBarLongTime(view, message);
     }
 
+
     @Override
-    public void showRecylerViewProductsDetail(ShopDetailsAdapter shopDetailsAdapter) {
-        recyclerViewProductDetails.setAdapter(shopDetailsAdapter);
+    public void showRecylerViewProductsDetail(ContinueShoppingAdapter ContinueShoppingAdapter) {
+        recyclerViewProductDetails.setAdapter(ContinueShoppingAdapter);
 
 
     }
@@ -421,18 +265,135 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void setFavouriteButtonStatus(boolean status, int position) {
-        shopDetailsAdapter.removeAll(status, position);
+        ContinueShoppingAdapter.removeAll(status, position);
     }
 
     @Override
     public void setFavouriteList(List<Favourites> favourites) {
-        favList = favourites;
-        setUI(favList);
+        //favList = favourites;
+        // setUI(favList);
     }
 
     @Override
     public void setUI(List<Favourites> favList) {
 
+//        try {
+//
+//            List<String> img;
+//            img = new ArrayList<>();
+//            img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+//            img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
+//            img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
+//            img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_hidden_gsm_supported_voice_recorder_black.jpg");
+//            img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_usb_range_extender_black.jpg");
+//            img.add("https://www.bhphotovideo.com/images/images2000x2000/kingston_dt100g3_16gb_16gb_data_traveler_100_964342.jpg");
+//            img.add("https://a.pololu-files.com/picture/0J1479.1200.jpg?6d28c13f103617525228f0936ec16321");
+//
+//            edtSearchProduct.setText("");
+//            shopDetails.clear();
+//            final byte[][] byteArray = {new byte[0]};
+//
+//
+//            try {
+//                Observable.just(appDatabase)
+//                        .map(new Function<AppDatabase, Boolean>() {
+//                            @Override
+//                            public Boolean apply(AppDatabase appDatabase) throws Exception {
+//
+//                                Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
+//                                        R.drawable.ardino);
+//
+//                                if (icon != null) {
+//                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//
+//                                    icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                                    byteArray[0] = stream.toByteArray();
+//
+//                                }
+//                                return true;
+//                            }
+//                        })
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(new Observer<Boolean>() {
+//                            @Override
+//                            public void onSubscribe(Disposable d) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onNext(Boolean success) {
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onComplete() {
+//
+//                            }
+//                        });
+//            } catch (Exception ex) {
+//            }
+//            List<String> tasksList;
+//            Set<String> list = sessionManager.getIsFavouriteList();
+//            tasksList = new ArrayList<String>(list);
+//
+//
+//            shopDetails.add(new ContinueShoppingObjectModel("Arduino", "5000", false, 0, img,
+//                    byteArray[0], 30, favList, R.drawable.arduino_detail));
+//
+//            shopDetails.add(new ContinueShoppingObjectModel("Sensor Module", "10000", false, 0, img,
+//                    byteArray[0], 10, favList, R.drawable.detail_sensor_module));
+//
+//            shopDetails.add(new ContinueShoppingObjectModel("Battery", "300", false, 0, img, byteArray[0],
+//                    40, favList, R.drawable.details_battery));
+//
+//            shopDetails.add(new ContinueShoppingObjectModel("Jumper Wire", "600", false, 0, img,
+//                    byteArray[0], 33, favList, R.drawable.detail_wire));
+//
+//            shopDetails.add(new ContinueShoppingObjectModel("Rectifier", "500", false, 0, img,
+//                    byteArray[0], 54, favList, R.drawable.details_rectifier));
+//
+//            //  shopDetails.add(new ContinueShoppingObjectModel("Telivision", "30000", false, 0,
+//            //        img, byteArray[0], 40, favList));
+//
+//            //shopDetails.add(new ContinueShoppingObjectModel("Seven Segment", "800", false, 0, img,
+//            //      byteArray[0], 33, favList));
+//
+//            //shopDetails.add(new ContinueShoppingObjectModel("Capacitor", "200", false, 0,
+//            //      img, byteArray[0], 54, favList));
+//
+//
+//            ContinueShoppingAdapter = new ContinueShoppingAdapter(getActivity(), shopDetails, this, sessionManager, tasksList);
+//            showRecylerViewProductsDetail(ContinueShoppingAdapter);
+//
+//            presenter.setActionListener(new ContinueShoppingPresenter.ProductItemActionListener() {
+//                @Override
+//                public void onItemTap(ImageView imageView, int cartsCount) {
+//                    if (imageView != null) {
+//                        ((BaseActivity) getActivity()).makeFlyAnimation(imageView, cartsCount);
+//                        ((BaseActivity) getActivity()).addItemToCart(cartsCount);
+//
+//                    }
+//                }
+//            });
+//
+//        } catch (Exception e) {
+//
+//        }
+
+    }
+
+    @Override
+    public void setIsFavourites(boolean isFavourites, int position) {
+        ContinueShoppingAdapter.setIsfavourite(isFavourites, position);
+    }
+
+
+    public void setUI() {
         try {
 
             List<String> img;
@@ -493,40 +454,50 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                         });
             } catch (Exception ex) {
             }
-            List<String> tasksList;
-            Set<String> list = sessionManager.getIsFavouriteList();
-            tasksList = new ArrayList<String>(list);
+            //       List<String> tasksList;
+            //     Set<String> list = sessionManager.getIsFavouriteList();
+            //   tasksList = new ArrayList<String>(list);
 
 
-            shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0, img,
-                    byteArray[0], 30, favList, R.drawable.arduino_detail));
+            shopDetails.add(new ContinueShoppingObjectModel("Arduino", "5000", false, 0, img,
+                    byteArray[0], 30, R.drawable.arduino_detail, "Arduino"));
 
-            shopDetails.add(new ShoppingDetailModel("Sensor Module", "10000", false, 0, img,
-                    byteArray[0], 10, favList, R.drawable.detail_sensor_module));
+            shopDetails.add(new ContinueShoppingObjectModel("Sensor Module", "10000", false,
+                    0, img,
+                    byteArray[0], 10, R.drawable.detail_sensor_module, ""));
 
-            shopDetails.add(new ShoppingDetailModel("Battery", "300", false, 0, img, byteArray[0],
-                    40, favList, R.drawable.details_battery));
 
-            shopDetails.add(new ShoppingDetailModel("Jumper Wire", "600", false, 0, img,
-                    byteArray[0], 33, favList, R.drawable.detail_wire));
+            shopDetails.add(new ContinueShoppingObjectModel("Jumper Wire", "600", false, 0, img,
+                    byteArray[0], 33, R.drawable.detail_wire, "Electronics"));
 
-            shopDetails.add(new ShoppingDetailModel("Rectifier", "500", false, 0, img,
-                    byteArray[0], 54, favList, R.drawable.details_rectifier));
+            shopDetails.add(new ContinueShoppingObjectModel("Battery", "300", false, 0, img, byteArray[0],
+                    40, R.drawable.details_battery, ""));
 
-            //  shopDetails.add(new ShoppingDetailModel("Telivision", "30000", false, 0,
+            shopDetails.add(new ContinueShoppingObjectModel("Rectifier", "500", false, 0, img,
+                    byteArray[0], 54, R.drawable.details_rectifier, ""));
+
+            shopDetails.add(new ContinueShoppingObjectModel("Jumper Wire", "600", false, 0, img,
+                    byteArray[0], 33, R.drawable.detail_wire, "Wires"));
+
+//            shopDetails.add(new ContinueShoppingObjectModel("Jumper Wire", "600", false, 0, img,
+//                    byteArray[0], 33, R.drawable.detail_wire, ""));
+
+
+
+            //  shopDetails.add(new ContinueShoppingObjectModel("Telivision", "30000", false, 0,
             //        img, byteArray[0], 40, favList));
 
-            //shopDetails.add(new ShoppingDetailModel("Seven Segment", "800", false, 0, img,
+            //shopDetails.add(new ContinueShoppingObjectModel("Seven Segment", "800", false, 0, img,
             //      byteArray[0], 33, favList));
 
-            //shopDetails.add(new ShoppingDetailModel("Capacitor", "200", false, 0,
+            //shopDetails.add(new ContinueShoppingObjectModel("Capacitor", "200", false, 0,
             //      img, byteArray[0], 54, favList));
 
 
-            shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this, sessionManager, tasksList);
-            showRecylerViewProductsDetail(shopDetailsAdapter);
+            ContinueShoppingAdapter = new ContinueShoppingAdapter(getActivity(), shopDetails, this, sessionManager);
+            showRecylerViewProductsDetail(ContinueShoppingAdapter);
 
-            presenter.setActionListener(new ShopDetailsPresenter.ProductItemActionListener() {
+            presenter.setActionListener(new ContinueShoppingPresenter.ProductItemActionListener() {
                 @Override
                 public void onItemTap(ImageView imageView, int cartsCount) {
                     if (imageView != null) {
@@ -537,6 +508,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                 }
             });
 
+            recyclerViewProductDetails.scrollToPosition(0);
         } catch (Exception e) {
 
         }
@@ -544,34 +516,12 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     }
 
     @Override
-    public void setIsFavourites(boolean isFavourites, int position) {
-        shopDetailsAdapter.setIsfavourite(isFavourites, position);
-    }
-
-
-    public ShopDetailsFragment newInstance(String ProductName) {
-        ShopDetailsFragment fragment = null;
-        try {
-
-            Bundle bundle = new Bundle();
-            bundle.putString(KEY_SHOP_NAME_DETAILS, ProductName);
-            fragment = new ShopDetailsFragment();
-            fragment.setArguments(bundle);
-
-            return fragment;
-        } catch (Exception e) {
-
-        }
-        return fragment;
-    }
-
-    @Override
-    public void onAddButtonClick(ShoppingDetailModel productItems) {
+    public void onAddButtonClick(ContinueShoppingObjectModel productItems) {
 
     }
 
     @Override
-    public void onViewDetailsButtonClick(ShoppingDetailModel productItems) {
+    public void onViewDetailsButtonClick(ContinueShoppingObjectModel productItems) {
 
     }
 
@@ -590,32 +540,33 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     }
 
-    @Override
-    public void onFavouriteButtonClick(ShoppingDetailModel productItems, int position, Bitmap bitmap) {
 
-        if (!productItems.isFavourite()) {
-            presenter.removeItem(productItems.getProductName(), position);
-        } else {
-            //    showSnackBarShortTime("Remove item from favourites.", getView());
-
-            byte[] bmp = bitmapToByteArray(bitmap);
-            String formattedDate = "";
-            formattedDate = getCurrentDate();
-            Favourites favourites;
-            if (productItems.getItemQuantity() == 0) {
-                favourites = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
-                        String.valueOf(productItems.getCutPrice()), "In Stock", formattedDate,
-                        bmp, "1");
-            } else {
-                favourites = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
-                        String.valueOf(productItems.getCutPrice()), "In Stock", formattedDate,
-                        bmp, String.valueOf(productItems.getItemQuantity()));
-            }
-
-            presenter.addItemToFavourites(favourites, true);
-        }
-
-    }
+//    @Override
+//    public void onFavouriteButtonClick(ContinueShoppingObjectModel productItems, int position, Bitmap bitmap) {
+//
+//        if (!productItems.isFavourite()) {
+//            presenter.removeItem(productItems.getProductName(), position);
+//        } else {
+//            //    showSnackBarShortTime("Remove item from favourites.", getView());
+//
+//            byte[] bmp = bitmapToByteArray(bitmap);
+//            String formattedDate = "";
+//            formattedDate = getCurrentDate();
+//            Favourites favourites;
+//            if (productItems.getItemQuantity() == 0) {
+//                favourites = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
+//                        String.valueOf(productItems.getCutPrice()), "In Stock", formattedDate,
+//                        bmp, "1");
+//            } else {
+//                favourites = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
+//                        String.valueOf(productItems.getCutPrice()), "In Stock", formattedDate,
+//                        bmp, String.valueOf(productItems.getItemQuantity()));
+//            }
+//
+//            presenter.addItemToFavourites(favourites, true);
+//        }
+//
+//    }
 
     private byte[] bitmapToByteArray(Bitmap bmp) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -637,13 +588,13 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     }
 
 //    @Override
-//    public void onIncrementButtonClick(ShoppingDetailModel productItems) {
+//    public void onIncrementButtonClick(ContinueShoppingObjectModel productItems) {
 //
 //    }
 
 
 //    @Override
-//    public void onCardClick(final ShoppingDetailModel productItems, final Bitmap bitmapImg) {
+//    public void onCardClick(final ContinueShoppingObjectModel productItems, final Bitmap bitmapImg) {
 //        utils.hideSoftKeyboard(edtSearchProduct);
 //
 //        new Handler().postDelayed(new Runnable() {
@@ -685,52 +636,9 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
 
     @Override
-    public void shareItemsDetails(ShoppingDetailModel productItems, Bitmap bitmapImg) {
-        requestPermissions();
-        if (!mPermissionDenied) {
-            try {
-
-                Intent share = new Intent(Intent.ACTION_SEND);
-                // share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                share.setType("image/jpeg");
-
-                ContentValues values = new ContentValues();
-                values.put(MediaStore.Images.Media.TITLE, "title");
-                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                Uri uri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        values);
-
-
-                OutputStream outstream;
-                try {
-                    outstream = getActivity().getContentResolver().openOutputStream(uri);
-                    bitmapImg.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                    outstream.close();
-                } catch (Exception e) {
-                    System.err.println(e.toString());
-                }
-
-                share.putExtra(Intent.EXTRA_STREAM, uri);
-                share.putExtra(Intent.EXTRA_TEXT, "Product Name: " + productItems.getProductName() + "\n" +
-                        "Price: " + productItems.getProductPrice());
-                share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                startActivity(Intent.createChooser(share, "Share with friends"));
-
-            } catch (Exception e) {
-                Log.d("error", e.getMessage());
-                showMissingPermissionError();
-            }
-        } else {
-            showMissingPermissionError();
-        }
-    }
-
-    @Override
-    public void removeItemFromCart(ShoppingDetailModel shoppingDetailModel) {
+    public void removeItemFromCart(ContinueShoppingObjectModel ContinueShoppingObjectModel) {
         // showSnackBarShortTime("Please select atleast one item", getView());
-        presenter.removeItem(shoppingDetailModel);
+        presenter.removeItem(ContinueShoppingObjectModel);
 
     }
 
@@ -803,7 +711,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     }
 
 
-//    public void notifyAdapter(ShoppingDetailModel shoppingDetailModel) {
+//    public void notifyAdapter(ContinueShoppingObjectModel ContinueShoppingObjectModel) {
 
 //    }
 

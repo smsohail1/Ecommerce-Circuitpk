@@ -1,46 +1,32 @@
-package com.xekera.Ecommerce.ui.dasboard_shopping_details;
+package com.xekera.Ecommerce.ui.continue_shopping;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Query;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 import com.xekera.Ecommerce.data.room.AppDatabase;
-import com.xekera.Ecommerce.data.room.dao.FavouritesDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Favourites;
-import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
-import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
-import com.xekera.Ecommerce.ui.continue_shopping.ContinueShoppingModel;
-import com.xekera.Ecommerce.ui.continue_shopping.ContinueShoppingObjectModel;
-import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
-import com.xekera.Ecommerce.ui.favourites.FavouritesModel;
-import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedModel;
 import com.xekera.Ecommerce.util.AppConstants;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
-    private ShopDetailsMVP.View view;
-    private ShopDetailsMVP.Model model;
+public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter {
+    private ContinueShoppingMVP.View view;
+    private ContinueShoppingMVP.Model model;
     private SessionManager sessionManager;
     private ShopDetailsAdapter shopDetailsAdapter;
     private Utils utils;
     private ProductItemActionListener actionListener;
     AppDatabase appDatabase;
+    Context context;
 
-    public ShopDetailsPresenter(ShopDetailsMVP.Model model, SessionManager sessionManager, Utils utils, AppDatabase appDatabase) {
+    public ContinueShoppingPresenter(Context context, ContinueShoppingMVP.Model model, SessionManager sessionManager, Utils utils, AppDatabase appDatabase) {
+        this.context = context;
         this.model = model;
         this.sessionManager = sessionManager;
         this.utils = utils;
@@ -48,12 +34,12 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     }
 
     @Override
-    public void setView(ShopDetailsMVP.View view) {
+    public void setView(ContinueShoppingMVP.View view) {
         this.view = view;
     }
 
     @Override
-    public void setRecylerViewItems(Context context, List<ShoppingDetailModel> items) {
+    public void setRecylerViewItems(Context context, List<ContinueShoppingObjectModel> items) {
 
         // shopDetailsAdapter = new ShopDetailsAdapter(context, items, this);
         // view.showRecylerViewProductsDetail(shopDetailsAdapter);
@@ -64,16 +50,15 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     }
 
     @Override
-    public void removeItem(final ShoppingDetailModel shoppingDetailModel) {
-
-        model.checkItemAlreadyAddedOrNot(shoppingDetailModel.getProductName(), new ShopDetailsModel.IFetchCartDetailsList() {
+    public void removeItem(final ContinueShoppingObjectModel ContinueShoppingObjectModel) {
+        model.checkItemAlreadyAddedOrNot(ContinueShoppingObjectModel.getProductName(), new ContinueShoppingModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCarts) {
                 if (addToCarts == null || addToCarts.size() == 0) {
                     //view.showToastShortTime("Item not available in cart");
                     return;
                 } else {
-                    removeItem(shoppingDetailModel.getProductName());
+                    removeItem(ContinueShoppingObjectModel.getProductName());
 
                 }
             }
@@ -89,7 +74,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     }
 
     private void removeItem(String productName) {
-        model.removeSelectedCartDetails(productName, new ShopDetailsModel.IRemoveSelectedItemDetails() {
+        model.removeSelectedCartDetails(productName, new ContinueShoppingModel.IRemoveSelectedItemDetails() {
             @Override
             public void onSuccess() {
                 view.showToastShortTime("Item removed from cart.");
@@ -103,13 +88,11 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
                 view.showToastShortTime(ex.getMessage());
             }
         });
-
     }
-
 
     @Override
     public void removeItem(String productName, final int position) {
-        model.removeFromFavourite(productName, new ShopDetailsModel.IRemoveSelectedItemDetails() {
+        model.removeFromFavourite(productName, new ContinueShoppingModel.IRemoveSelectedItemDetails() {
             @Override
             public void onSuccess() {
                 view.showToastShortTime("Item removed from favourite.");
@@ -133,7 +116,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     @Override
     public void getFavouritesList() {
-        model.getFavouriteDetailsList(new ShopDetailsModel.IFetchOrderDetailsList() {
+        model.getFavouriteDetailsList(new ContinueShoppingModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> favourites) {
                 if (favourites == null || favourites.size() == 0) {
@@ -157,7 +140,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     @Override
     public void getFavouritesListByProductName(String productName, final int position) {
         // isFavourite(productName, position);
-        model.getFavouriteDetailsListByName(productName, new ShopDetailsModel.IFetchOrderDetailsList() {
+        model.getFavouriteDetailsListByName(productName, new ContinueShoppingModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> favourites) {
                 if (favourites == null || favourites.size() == 0) {
@@ -181,7 +164,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     public void insertSelectedFavourites(final Favourites favourites) {
 
-        model.checkItemAlreadyAddedOrNot(favourites.getItemName(), new ShopDetailsModel.IFetchFavDetailsList() {
+        model.checkItemAlreadyAddedOrNot(favourites.getItemName(), new ContinueShoppingModel.IFetchFavDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> addToCarts) {
                 if (addToCarts == null || addToCarts.size() == 0) {
@@ -205,7 +188,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     private void addItem(final Favourites favourites) {
 
-        model.addItemToFavourites(favourites, new ShopDetailsModel.ISaveProductDetails() {
+        model.addItemToFavourites(favourites, new ContinueShoppingModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
@@ -244,7 +227,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     }
 
     public void getFavourites() {
-        model.getFavouriteDetailsList(new ShopDetailsModel.IFetchOrderDetailsList() {
+        model.getFavouriteDetailsList(new ContinueShoppingModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> favourites) {
 
@@ -286,7 +269,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     @Override
     public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
                                    final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final Bitmap bitmap) {
-        model.getProductCount(productName, new ShopDetailsModel.IFetchCartDetailsList() {
+        model.getProductCount(productName, new ContinueShoppingModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
                 if (addToCartList == null || addToCartList.size() == 0) {
@@ -318,17 +301,20 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     }
 
     private byte[] bitmapToByteArray(Bitmap bmp) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        bmp.recycle();
+        byte[] byteArray = new byte[0];
+        if (bmp != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byteArray = stream.toByteArray();
+            bmp.recycle();
+        }
         return byteArray;
     }
 
     @Override
     public void saveProductDecrementDetails(final long quantity, final String price, final String totalPrice, final String productName,
                                             final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy) {
-        model.getProductCount(productName, new ShopDetailsModel.IFetchCartDetailsList() {
+        model.getProductCount(productName, new ContinueShoppingModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
                 if (addToCartList == null || addToCartList.size() == 0) {
@@ -360,7 +346,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     private void noProductFound(AddToCart addToCart, final ImageView imgProductCopy) {
 
-        model.saveProductDetails(addToCart, new ShopDetailsModel.ISaveProductDetails() {
+        model.saveProductDetails(addToCart, new ContinueShoppingModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
@@ -381,7 +367,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     private void noProductFoundForDecrement(AddToCart addToCart, final ImageView imgProductCopy) {
 
-        model.saveProductDetails(addToCart, new ShopDetailsModel.ISaveProductDetails() {
+        model.saveProductDetails(addToCart, new ContinueShoppingModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
@@ -402,7 +388,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     @Override
     public void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice, final ImageView imgProductCopy) {
-        model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new ShopDetailsModel.ISaveProductDetails() {
+        model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new ContinueShoppingModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
@@ -429,7 +415,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     @Override
     public void updateItemCountInDBForDecrement(String quantity, String itemPrice, String productName, String cutPrice,
                                                 final ImageView imgProductCopy) {
-        model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new ShopDetailsModel.ISaveProductDetails() {
+        model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new ContinueShoppingModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
@@ -455,7 +441,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
 
     private void getUpdatedTotalCount(final ImageView imgProductCopy) {
-        model.getCartDetails(new ShopDetailsModel.IFetchCartDetailsList() {
+        model.getCartDetails(new ContinueShoppingModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCarts) {
                 if (addToCarts == null || addToCarts.size() == 0) {
@@ -483,7 +469,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
 
     private void getUpdatedTotalCount() {
-        model.getCartDetails(new ShopDetailsModel.IFetchCartDetailsList() {
+        model.getCartDetails(new ContinueShoppingModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCarts) {
                 if (addToCarts == null || addToCarts.size() == 0) {
@@ -507,7 +493,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
 
     private void getUpdatedTotalCountForDecrement(final ImageView imgProductCopy) {
-        model.getCartDetails(new ShopDetailsModel.IFetchCartDetailsList() {
+        model.getCartDetails(new ContinueShoppingModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCarts) {
                 if (addToCarts == null || addToCarts.size() == 0) {
@@ -548,3 +534,4 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
         void onItemTap(ImageView imageView, int cartsCount);
     }
 }
+

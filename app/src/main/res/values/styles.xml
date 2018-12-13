@@ -28,8 +28,11 @@
 
 
     <style name="PrimaryButton" parent="Theme.AppCompat">
-        <item name="colorButtonNormal">@color/colorPrimary</item>
-        <item name="colorControlHighlight">#4a4a4c</item>
+        <!--<item name="colorButtonNormal">@color/colorPrimary</item>-->
+        <!--<item name="colorControlHighlight">#4a4a4c</item>-->
+
+        <item name="colorButtonNormal">#3575d3</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
     </style>
 
     <style name="changePhotoButton" parent="Theme.AppCompat">

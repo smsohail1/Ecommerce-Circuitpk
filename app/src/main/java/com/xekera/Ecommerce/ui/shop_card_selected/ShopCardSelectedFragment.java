@@ -49,6 +49,7 @@ import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.sql.BatchUpdateException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -113,11 +114,13 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     public static final String KEY_SHOP_CARD_SELECTED_PRICE = "shop_card_selected_price";
     public static final String KEY_SHOP_CARD_SELECTED_CUT_PRICE = "shop_card_selected_cut_price";
     public static final String KEY_SHOP_CARD_SELECTED_QUANTITY = "shop_card_selected_quantity";
+    public static final String KEY_SHOP_CARD_SELECTED_IMAGE_LIST = "shop_card_selected_image_list";
     public static final String KEY_SHOP_CARD_SELECTED_IMAGE = "shop_card_selected_image";
 
     ShoppingDetailModel shoppingDetailModel;
     Bitmap bitmapImage;
     String productName = "", price = "", cutPrice = "", quantity = "";
+    List<String> imgList;
 
 
     long productsCartCounter = 0;
@@ -146,10 +149,12 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
             //  shoppingDetailModel = (ShoppingDetailModel) getArguments().getSerializable(KEY_SHOP_CARD_SELECTED_DETAILS);
 
-            productName = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_PRODUCT_NAME);
-            price = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_PRICE);
-            cutPrice = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_CUT_PRICE);
-            quantity = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_QUANTITY);
+            imgList = new ArrayList<>();
+            productName = getArguments().getString(KEY_SHOP_CARD_SELECTED_PRODUCT_NAME);
+            price = getArguments().getString(KEY_SHOP_CARD_SELECTED_PRICE);
+            cutPrice = getArguments().getString(KEY_SHOP_CARD_SELECTED_CUT_PRICE);
+            quantity = getArguments().getString(KEY_SHOP_CARD_SELECTED_QUANTITY);
+            imgList = getArguments().getStringArrayList(KEY_SHOP_CARD_SELECTED_IMAGE_LIST);
 
             bitmapImage = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_IMAGE);
 
@@ -233,17 +238,21 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //            if (shoppingDetailModel != null && shoppingDetailModel.getProductName() != null)
 //                ((BaseActivity) getActivity()).setTitle(shoppingDetailModel.getProductName());
 
-
-            if (shoppingDetailModel != null && shoppingDetailModel.getProductName() != null) {
+            if (!utils.isTextNullOrEmpty(productName)) {
                 productNameLabelTextView.setText(productName);
             }
 
-            if (shoppingDetailModel != null && shoppingDetailModel.getProductName() != null) {
+            if (!utils.isTextNullOrEmpty(productName)) {
                 productNameTextview.setText(productName);
             }
 
             if (bitmapImage != null) {
                 imgProduct.setImageBitmap(bitmapImage);
+//                Glide.with(getActivity())
+//                        .load(byteArray)
+//                        .asBitmap()
+//                        .placeholder(R.drawable.placeholder)
+//                        .into(imgProduct);
 
 
                 try {
@@ -252,7 +261,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                                 @Override
                                 public Boolean apply(AppDatabase appDatabase) throws Exception {
                                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                    bitmapImage.compress(Bitmap.CompressFormat.JPEG, 60, stream);
+                                    bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
                                     byteArray = stream.toByteArray();
 
 
@@ -291,17 +300,17 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             //   imgProductCopy.setImageBitmap(bitmapImage);
 
 
-            if (shoppingDetailModel != null && shoppingDetailModel.getProductPrice() != null) {
+            if (!utils.isTextNullOrEmpty(price)) {
                 priceTextView.setText(price);
             }
 
-            if (shoppingDetailModel != null) {
-                // discountPriceTextView.setText(shoppingDetailModel.getProductPrice());
-                discountPriceTextView.setText("120");
+            // if (shoppingDetailModel != null) {
+            // discountPriceTextView.setText(shoppingDetailModel.getProductPrice());
+            discountPriceTextView.setText("120");
 
-            }
+            //}
 
-            if (shoppingDetailModel != null) {
+            if (!utils.isTextNullOrEmpty(quantity)) {
                 counterTextview.setText(quantity);
             }
 
@@ -346,9 +355,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
 
             setProductDetails();
-            presenter.setIsFavourite(shoppingDetailModel.getProductName());
+            presenter.setIsFavourite(productName);
 
-            presenter.setMultipleImagesItems(getActivity(), shoppingDetailModel.getImage());
+            presenter.setMultipleImagesItems(getActivity(), imgList);
 
         } catch (Exception e) {
 
@@ -412,6 +421,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
             if (!utils.isTextNullOrEmpty(clickedUrl)) {
                 Glide.with(getActivity()).load(clickedUrl)
+                        .asBitmap()
 //                    .fitCenter()
 //                    .centerCrop()
                         .placeholder(R.drawable.placeholder)
@@ -425,7 +435,14 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //                        .error(R.drawable.placeholder)
 //                        .into(imgProductCopy);
             } else {
-                imgProduct.setImageResource(R.drawable.placeholder);
+                Glide.with(getActivity())
+                        .load(R.drawable.placeholder)
+                        .asBitmap()
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.placeholder)
+                        .into(imgProduct);
+
+                //  imgProduct.setImageResource(R.drawable.placeholder);
 
                 //  imgProductCopy.setImageResource(R.drawable.placeholder);
 
@@ -499,7 +516,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //        }
 //    }
 
-    public ShopCardSelectedFragment newInstance(String productName, String price, long cutPrice, long quantity, Bitmap bitmapImg) {
+    public ShopCardSelectedFragment newInstance(String productName, String price, long cutPrice, long quantity,
+                                                List<String> imgList, Bitmap bitmapImg) {
         ShopCardSelectedFragment fragment = null;
         try {
 
@@ -509,6 +527,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             bundle.putString(KEY_SHOP_CARD_SELECTED_PRICE, price);
             bundle.putString(KEY_SHOP_CARD_SELECTED_CUT_PRICE, String.valueOf(cutPrice));
             bundle.putString(KEY_SHOP_CARD_SELECTED_QUANTITY, String.valueOf(quantity));
+            bundle.putStringArrayList(KEY_SHOP_CARD_SELECTED_IMAGE_LIST, (ArrayList<String>) imgList);
             bundle.putParcelable(KEY_SHOP_CARD_SELECTED_IMAGE, bitmapImg);
             fragment = new ShopCardSelectedFragment();
             fragment.setArguments(bundle);

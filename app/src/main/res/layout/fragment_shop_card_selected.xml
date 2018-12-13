@@ -37,7 +37,7 @@
                             android:textSize="@dimen/txt_product_name_card_selected_size"
                     />
                 </LinearLayout>
-                <RelativeLayout android:layout_width="wrap_content"
+                <RelativeLayout android:layout_width="match_parent"
                                 android:layout_height="200dp">
                     <ImageView
                             android:id="@+id/imgProduct"
@@ -52,7 +52,7 @@
 
                     <ImageView
                             android:id="@+id/imgProductCopy"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="220dp"
                             android:gravity="center_horizontal"
                             android:layout_centerInParent="true"

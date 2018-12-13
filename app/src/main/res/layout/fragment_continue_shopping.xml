@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:background="@drawable/irongrip_repeating"
+>
+
+
+    <LinearLayout
+            android:id="@+id/searchParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:background="@drawable/search_edt_background"
+
+    >
+        <!--android:background="#adadb2"-->
+
+        <EditText
+                android:id="@+id/edtSearchProduct"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_height"
+                android:background="@drawable/bg_search_edt"
+                android:drawableLeft="@drawable/icon_search_product"
+                android:drawablePadding="7dp"
+                android:layout_margin="10dp"
+                android:hint="@string/edt_shop_details"
+                android:inputType="text"
+                android:maxLength="50"
+                android:textColorHint="@color/edt_search_white_hint"
+                android:textCursorDrawable="@drawable/search_edt_cursor_color"
+                android:textColor="#ffffff"
+                android:textSize="14sp"/>
+
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_below="@+id/searchParent">
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewProductDetails"
+                android:layout_below="@+id/categoryLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+        />
+    </LinearLayout>
+
+</RelativeLayout>

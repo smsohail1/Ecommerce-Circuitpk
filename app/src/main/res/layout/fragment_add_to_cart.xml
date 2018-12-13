@@ -200,12 +200,24 @@
                                         android:gravity="center_horizontal"
                                         android:layout_marginTop="3dp">
 
+                            <Button
+                                    android:id="@+id/btnContinueShopping"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Continue Shopping"
+                                    android:textColor="@color/btn_white_add_to_cart"
+                                    android:theme="@style/PrimaryButton"
+                                    android:clickable="true"
+                                    android:textAllCaps="false"
+                            />
 
                             <Button
                                     android:id="@+id/btnCheckout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Confirm Checkout"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_toRightOf="@+id/btnContinueShopping"
                                     android:textColor="@color/btn_white_add_to_cart"
                                     android:theme="@style/PrimaryButton"
                                     android:clickable="true"

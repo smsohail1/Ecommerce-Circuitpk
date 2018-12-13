@@ -1,4 +1,4 @@
-package com.xekera.Ecommerce.ui.dasboard_shopping_details;
+package com.xekera.Ecommerce.ui.continue_shopping;
 
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.data.room.AppDatabase;
@@ -6,10 +6,6 @@ import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
 import com.xekera.Ecommerce.data.room.dao.FavouritesDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Favourites;
-import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
-import com.xekera.Ecommerce.ui.continue_shopping.ContinueShoppingModel;
-import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
-import com.xekera.Ecommerce.ui.favourites.FavouritesModel;
 import com.xekera.Ecommerce.util.Utils;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -20,12 +16,13 @@ import io.reactivex.schedulers.Schedulers;
 
 import java.util.List;
 
-public class ShopDetailsModel implements ShopDetailsMVP.Model {
+public class ContinueShoppingModel implements ContinueShoppingMVP.Model {
     private XekeraAPI xekeraAPI;
     private AppDatabase appDatabase;
     private Utils utils;
 
-    public ShopDetailsModel(XekeraAPI xekeraAPI, AppDatabase appDatabase, Utils utils) {
+
+    public ContinueShoppingModel(XekeraAPI xekeraAPI, AppDatabase appDatabase, Utils utils) {
         this.xekeraAPI = xekeraAPI;
         this.appDatabase = appDatabase;
         this.utils = utils;
@@ -323,6 +320,45 @@ public class ShopDetailsModel implements ShopDetailsMVP.Model {
     }
 
     @Override
+    public void checkItemAlreadyAddedOrNot(final String itemName, final IFetchCartDetailsList iFetchCartDetailsList) {
+        try {
+            Observable.just(appDatabase.getAddToCartDao()).
+                    map(new Function<AddToCartDao, List<AddToCart>>() {
+                        @Override
+                        public List<AddToCart> apply(AddToCartDao addToCartDao) throws Exception {
+                            return addToCartDao.getCartsByName(itemName);
+                        }
+                    }).
+                    subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Observer<List<AddToCart>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<AddToCart> bookings) {
+                            iFetchCartDetailsList.onCartDetailsReceived(bookings);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            iFetchCartDetailsList.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception e) {
+            iFetchCartDetailsList.onErrorReceived(e);
+        }
+
+    }
+
+    @Override
     public void removeSelectedCartDetails(final String productName, final IRemoveSelectedItemDetails iRemoveSelectedItemDetails) {
         try {
             Observable.just(appDatabase)
@@ -440,45 +476,6 @@ public class ShopDetailsModel implements ShopDetailsMVP.Model {
         } catch (Exception e) {
             iFetchOrderDetailsList.onErrorReceived(e);
         }
-    }
-
-    @Override
-    public void checkItemAlreadyAddedOrNot(final String itemName, final IFetchCartDetailsList iFetchCartDetailsList) {
-        try {
-            Observable.just(appDatabase.getAddToCartDao()).
-                    map(new Function<AddToCartDao, List<AddToCart>>() {
-                        @Override
-                        public List<AddToCart> apply(AddToCartDao addToCartDao) throws Exception {
-                            return addToCartDao.getCartsByName(itemName);
-                        }
-                    }).
-                    subscribeOn(Schedulers.io()).
-                    observeOn(AndroidSchedulers.mainThread()).
-                    subscribe(new Observer<List<AddToCart>>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(List<AddToCart> bookings) {
-                            iFetchCartDetailsList.onCartDetailsReceived(bookings);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            iFetchCartDetailsList.onErrorReceived((Exception) e);
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-        } catch (Exception e) {
-            iFetchCartDetailsList.onErrorReceived(e);
-        }
-
     }
 
 
