@@ -23,4 +23,5 @@ public class DashboardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
     }
+
 }

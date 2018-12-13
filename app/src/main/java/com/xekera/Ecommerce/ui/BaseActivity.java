@@ -13,6 +13,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -30,6 +33,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -145,6 +149,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     public CircleImageView profilePhoto;
 
     boolean isEnabled = true;
+
+
+    // TextView slideshow, gallery;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -281,8 +288,31 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         initializeFragment();
 
+        // gallery = (TextView) MenuItemCompat.getActionView(navigation.getMenu().
+        //       findItem(R.id.navigation_shop));
+
+//This method will initialize the count value
+        // initializeCountDrawer();
+
+        //final Menu menu = navigation.getMenu();
+        //menu.getItem(2).setTitle("Cart(" + counts + ")");
+
+        //   View count = (View) menu.findItem(R.id.navigation_shop).getActionView();
+       // Button notifCount = (Button) menu.findItem(R.id.navigation_shop).getActionView().findViewById(R.id.notif_count);
+        // TextView view = (Button) menu.findItem(R.id.navigation_shop).getActionView();
+
+      //  notifCount.setText(String.valueOf(120));
 
     }
+
+//    private void initializeCountDrawer() {
+//        //Gravity property aligns the text
+//        gallery.setGravity(Gravity.CENTER_VERTICAL);
+//        gallery.setTypeface(null, Typeface.BOLD);
+//        gallery.setTextColor(getResources().getColor(R.color.colorAccent));
+//        gallery.setText("99+");
+//
+//    }
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -1379,7 +1409,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         return "";
 
     }
-
 
 }
 

@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">>
+    <group android:checkableBehavior="single">
 
-    <item
-            android:id="@+id/navigation_shop"
-            android:icon="@drawable/icon_nav_home"
-            android:title="@string/title_shop"/>
+        <item
+                android:id="@+id/navigation_shop"
+                android:icon="@drawable/icon_nav_home"
+                android:title="@string/title_shop"/>
 
-    <item
-            android:id="@+id/navigation_favourite"
-            android:icon="@drawable/nav_bottom_favourite"
-            android:title="@string/title_favourite"/>
+        <item
+                android:id="@+id/navigation_favourite"
+                android:icon="@drawable/nav_bottom_favourite"
+                android:title="@string/title_favourite"/>
 
-    <!--<item-->
-    <!--android:id="@+id/navigation_cart"-->
-    <!--android:icon="@drawable/nav_bottom_cart"-->
-    <!--android:title="@string/title_cart"/>-->
+        <!--<item-->
+        <!--android:id="@+id/navigation_cart"-->
+        <!--android:icon="@drawable/nav_bottom_cart"-->
+        <!--android:title="@string/title_cart"/>-->
 
-    <item
-            android:id="@+id/navigation_setting"
-            android:icon="@drawable/icon_setting_bottom_navigation"
-            android:title="@string/title_setting"/>
+        <item
+                android:id="@+id/navigation_setting"
+                android:icon="@drawable/icon_setting_bottom_navigation"
+                android:title="@string/title_setting"/>
 
-    <item
-            android:id="@+id/navigation_History"
-            android:icon="@drawable/icon_history"
-            android:title="@string/title_profile"/>
+        <item
+                android:id="@+id/navigation_History"
+                android:icon="@drawable/icon_history"
+                android:title="@string/title_profile"/>
+    </group>
 
 </menu>

@@ -13,6 +13,8 @@
 
     <dimen name="width_edt">250dp</dimen>
 
+    <dimen name="badge_count_textsize">15dp</dimen>
+
     <dimen name="btn_login_width">150dp</dimen>
     <dimen name="btn_login_height">50dp</dimen>
 
