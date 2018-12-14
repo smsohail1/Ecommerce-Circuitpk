@@ -298,10 +298,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         //menu.getItem(2).setTitle("Cart(" + counts + ")");
 
         //   View count = (View) menu.findItem(R.id.navigation_shop).getActionView();
-       // Button notifCount = (Button) menu.findItem(R.id.navigation_shop).getActionView().findViewById(R.id.notif_count);
+        // Button notifCount = (Button) menu.findItem(R.id.navigation_shop).getActionView().findViewById(R.id.notif_count);
         // TextView view = (Button) menu.findItem(R.id.navigation_shop).getActionView();
 
-      //  notifCount.setText(String.valueOf(120));
+        //  notifCount.setText(String.valueOf(120));
 
     }
 

@@ -67,25 +67,32 @@
                     android:background="@drawable/company_logo"
 
             />
-
-            <EditText
-                    android:id="@+id/edtUsername"
+            <android.support.design.widget.TextInputLayout
                     android:layout_width="260dp"
                     android:layout_height="@dimen/edit_height"
-                    android:background="@drawable/bg_stroke_sign_in_edt"
-                    android:drawableLeft="@drawable/icon_courier_code"
-                    android:drawablePadding="7dp"
-                    android:paddingRight="20dp"
-
-                    android:fontFamily="@font/titilliu_web_regular"
-                    android:hint="@string/employee_code_hint_signup_edt"
-                    android:inputType="text"
-                    android:maxLength="20"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="15dp"
-                    android:textColorHint="#ffffff"
-                    android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="14sp"/>
+                    android:background="@drawable/bg_stroke_sign_in_edt"
+                    android:paddingRight="10dp"
+            >
+                <EditText
+                        android:id="@+id/edtUsername"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_height"
+                        android:background="@android:color/transparent"
+                        android:drawableLeft="@drawable/icon_user_account"
+                        android:drawablePadding="7dp"
+                        android:textColor="#ffffff"
+
+                        android:fontFamily="@font/titilliu_web_regular"
+                        android:hint="@string/employee_code_hint_signup_edt"
+                        android:inputType="text"
+                        android:maxLength="20"
+                        android:textColorHint="#E10915"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="14sp"/>
+            </android.support.design.widget.TextInputLayout>
             <!--<EditText-->
             <!--android:id="@+id/edtPassword"-->
             <!--android:layout_width="260dp"-->
@@ -105,67 +112,89 @@
             <!--android:textSize="14sp"-->
             <!--/>-->
 
-
-            <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
-                    android:id="@+id/edtPasswordShowHide"
+            <android.support.design.widget.TextInputLayout
                     android:layout_width="260dp"
                     android:layout_height="@dimen/edit_height"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_stroke_sign_in_edt"
-                    android:drawableLeft="@drawable/icon_password"
-                    android:drawablePadding="7dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
                     android:layout_gravity="center_horizontal"
-                    android:fontFamily="@font/titilliu_web_regular"
-                    android:hint="@string/password_hint_signup_edt"
-                    android:inputType="textPassword"
-                    android:imeOptions="actionDone"
-                    android:paddingRight="20dp"
+                    android:background="@drawable/bg_stroke_sign_in_edt"
+                    android:paddingRight="10dp"
+            >
+                <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
+                        android:id="@+id/edtPasswordShowHide"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_height"
+                        android:background="@android:color/transparent"
+                        android:drawableLeft="@drawable/icon_password"
+                        android:drawablePadding="7dp"
+                        android:fontFamily="@font/titilliu_web_regular"
+                        android:hint="@string/password_hint_signup_edt"
+                        android:inputType="textPassword"
+                        android:imeOptions="actionDone"
+                        android:textColor="#ffffff"
 
-                    android:maxLength="15"
-                    android:textColorHint="#ffffff"
-                    android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="14sp"
+                        android:maxLength="15"
+                        android:textColorHint="#E10915"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="14sp"
 
-            />
+                />
+            </android.support.design.widget.TextInputLayout>
 
-
-            <EditText
-                    android:id="@+id/edtUserPhoneNo"
+            <android.support.design.widget.TextInputLayout
                     android:layout_width="260dp"
                     android:layout_height="@dimen/edit_height"
-                    android:background="@drawable/bg_stroke_sign_in_edt"
-                    android:drawableLeft="@drawable/icon_phone_no"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
                     android:layout_gravity="center_horizontal"
-                    android:drawablePadding="7dp"
-                    android:fontFamily="@font/titilliu_web_regular"
-                    android:hint="@string/phone_no_hint_signup_edt"
-                    android:inputType="number"
-                    android:maxLength="11"
-                    android:paddingRight="20dp"
+                    android:background="@drawable/bg_stroke_sign_in_edt"
+                    android:paddingRight="10dp"
+            >
+                <EditText
+                        android:id="@+id/edtUserPhoneNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_height"
+                        android:background="@android:color/transparent"
+                        android:drawableLeft="@drawable/icon_mobile_account"
+                        android:drawablePadding="7dp"
+                        android:fontFamily="@font/titilliu_web_regular"
+                        android:hint="@string/phone_no_hint_signup_edt"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:textColor="#ffffff"
 
-                    android:layout_marginTop="10dp"
-                    android:textColorHint="#ffffff"
-                    android:textCursorDrawable="@drawable/cursor_color"/>
-
-            <EditText
-                    android:id="@+id/edtEmailAddress"
+                        android:textColorHint="#E10915"
+                        android:textCursorDrawable="@drawable/cursor_color"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
                     android:layout_width="260dp"
                     android:layout_height="@dimen/edit_height"
-                    android:background="@drawable/bg_stroke_sign_in_edt"
-                    android:drawableLeft="@drawable/icon_email"
-                    android:drawablePadding="7dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
                     android:layout_gravity="center_horizontal"
-                    android:fontFamily="@font/titilliu_web_regular"
-                    android:hint="@string/email_address_hint_signup_edt"
-                    android:inputType="textEmailAddress"
-                    android:maxLength="40"
-                    android:layout_marginTop="10dp"
-                    android:paddingRight="20dp"
-                    android:textColorHint="#ffffff"
-                    android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="14sp"/>
+                    android:background="@drawable/bg_stroke_sign_in_edt"
+                    android:paddingRight="10dp"
+            >
+                <EditText
+                        android:id="@+id/edtEmailAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_height"
+                        android:background="@android:color/transparent"
+                        android:drawableLeft="@drawable/icon_email_account"
+                        android:drawablePadding="7dp"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/titilliu_web_regular"
+                        android:hint="@string/email_address_hint_signup_edt"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="40"
+                        android:textColor="#ffffff"
 
+                        android:textColorHint="#E10915"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="14sp"/>
 
+            </android.support.design.widget.TextInputLayout>
             <Button
                     android:id="@+id/btnSignUp"
                     android:layout_width="@dimen/btn_login_width"

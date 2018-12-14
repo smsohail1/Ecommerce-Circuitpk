@@ -6,6 +6,8 @@
     <dimen name="txt_dp_user_pop_up_heading_size">14dp</dimen>
     <dimen name="button_height">40dp</dimen>
     <dimen name="edit_height">40dp</dimen>
+    <dimen name="editext_height">40dp</dimen>
+
     <dimen name="search_edit_height">30dp</dimen>
 
     <dimen name="edit_height_show_hide">50dp</dimen>

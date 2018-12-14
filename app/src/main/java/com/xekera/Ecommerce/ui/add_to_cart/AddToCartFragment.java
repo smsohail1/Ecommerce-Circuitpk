@@ -365,7 +365,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        showToastLongTime("Require SignUp for further proceed.");
+                        showToastLongTime("Required SignUp for further proceed.");
                         ((BaseActivity) getActivity()).addFragment(new LoginFragment());
 
                     }

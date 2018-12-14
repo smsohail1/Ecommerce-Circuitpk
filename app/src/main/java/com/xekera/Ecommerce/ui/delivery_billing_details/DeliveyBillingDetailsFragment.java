@@ -251,7 +251,11 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                 RadioButton rb = (RadioButton) group.findViewById(checkedId);
                 if (null != rb) {
                     selectedPaymentModeDiffAddress = rb.getText().toString();
-                    //Toast.makeText(getActivity(), rb.getText(), Toast.LENGTH_SHORT).show();
+                    if (selectedPaymentModeDiffAddress.equalsIgnoreCase("Easypay PK") ||
+                            selectedPaymentModeDiffAddress.equalsIgnoreCase("JazzCash")) {
+                        showDialog(getActivity(), "Cash Transfer Mobile No");
+                    }
+                    // Toast.makeText(getActivity(), rb.getText(), Toast.LENGTH_SHORT).show();
                 } else {
                     selectedPaymentModeDiffAddress = "";
                     Toast.makeText(getActivity(), "No PayMode Selected", Toast.LENGTH_SHORT).show();

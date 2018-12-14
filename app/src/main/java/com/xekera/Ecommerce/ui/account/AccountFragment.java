@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.squareup.picasso.Picasso;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.util.ProgressCustomDialogController;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.ToastUtil;
@@ -47,7 +49,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     protected EditText edtAddress;
     @BindView(R.id.btnSaveChanges)
     protected Button btnSaveChanges;
-
+    @BindView(R.id.linearLayoutParent)
+    protected LinearLayout linearLayoutParent;
 
     @Inject
     Utils utils;
@@ -92,7 +95,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         btnSaveChanges.setOnClickListener(this);
-
+        linearLayoutParent.setOnClickListener(this);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -116,6 +119,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                     edtEmail.setText(sessionManager.getEmail());
                     edtCompanyName.setText(sessionManager.getCompanyName());
                     edtAddress.setText(sessionManager.getDeliveryAddress());
+
 
                 } catch (Exception e) {
 
@@ -149,7 +153,17 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 if (validateInputFields(username, companyName, address, phoneNo, email)) {
                     sessionManager.createAccountDetails(username, companyName, address, phoneNo, email);
                     toastUtil.showToastShortTime("Saved changes successfully.");
+                    ((BaseActivity) getActivity()).setUserDetails();
+
                 }
+                break;
+
+            case R.id.linearLayoutParent:
+                utils.hideSoftKeyboard(edtUsername);
+                utils.hideSoftKeyboard(edtCompanyName);
+                utils.hideSoftKeyboard(edtAddress);
+                utils.hideSoftKeyboard(edtEmail);
+                utils.hideSoftKeyboard(edtPhoneNo);
                 break;
         }
 

@@ -50,45 +50,61 @@
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
             >
-                <EditText
-                        android:id="@+id/edtUsername"
+                <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_username"
                         android:layout_width="260dp"
                         android:layout_height="@dimen/edit_height"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
                         android:background="@drawable/bg_stroke_sign_in_edt"
-                        android:drawableLeft="@drawable/icon_courier_code"
-                        android:drawablePadding="7dp"
-                        android:fontFamily="@font/titilliu_web_regular"
-                        android:hint="@string/employee_code_hint_login_edt"
-                        android:paddingRight="20dp"
+                        android:paddingRight="10dp"
+                >
+                    <EditText
+                            android:id="@+id/edtUsername"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_height"
+                            android:drawableLeft="@drawable/icon_user_account"
+                            android:drawablePadding="7dp"
+                            android:fontFamily="@font/titilliu_web_regular"
+                            android:hint="@string/employee_code_hint_login_edt"
+                            android:textColor="#ffffff"
+                            android:inputType="text"
+                            android:layout_marginTop="1dp"
+                            android:background="@android:color/transparent"
+                            android:maxLength="20"
+                            android:textColorHint="#E10915"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textSize="14sp"
 
-                        android:inputType="text"
-                        android:maxLength="20"
-                        android:textColorHint="#ffffff"
-                        android:textCursorDrawable="@drawable/cursor_color"
-                        android:textSize="14sp"
-
-                />
-
-
-                <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
-                        android:id="@+id/customEdtPasswordHideShow"
+                    />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
                         android:layout_width="260dp"
                         android:layout_height="@dimen/edit_height"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
                         android:background="@drawable/bg_stroke_sign_in_edt"
-                        android:drawableLeft="@drawable/icon_password"
-                        android:drawablePadding="7dp"
-                        android:paddingRight="20dp"
-                        android:fontFamily="@font/titilliu_web_regular"
-                        android:hint="@string/password_hint_login_edt"
-
-                        android:inputType="textPassword"
-                        android:imeOptions="actionDone"
-                        android:maxLength="15"
-                        android:textColorHint="#ffffff"
-                        android:textCursorDrawable="@drawable/cursor_color"
-                        android:textSize="14sp"
-                        android:layout_marginBottom="10dp"/>
+                        android:paddingRight="10dp"
+                >
+                    <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
+                            android:id="@+id/customEdtPasswordHideShow"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_height"
+                            android:drawableLeft="@drawable/icon_password"
+                            android:drawablePadding="7dp"
+                            android:fontFamily="@font/titilliu_web_regular"
+                            android:hint="@string/password_hint_login_edt"
+                            android:textColor="#ffffff"
+                            android:background="@android:color/transparent"
+                            android:layout_marginTop="4dp"
+                            android:inputType="textPassword"
+                            android:imeOptions="actionDone"
+                            android:maxLength="15"
+                            android:textColorHint="#E10915"
+                            android:textCursorDrawable="@drawable/cursor_color"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="10dp"/>
+                </android.support.design.widget.TextInputLayout>
                 <!--<EditText-->
                 <!--android:id="@+id/edtPassword"-->
                 <!--android:layout_width="260dp"-->
