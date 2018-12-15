@@ -1340,7 +1340,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 Uri contentURI = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    String path = saveImage(bitmap);
+                    //  String path = saveImage(bitmap);
 
                     profilePhoto.setImageBitmap(bitmap);
                     toastUtil.showToastShortTime("Profile picture updated");
@@ -1349,20 +1349,26 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    toastUtil.showToastShortTime("Failed");
+                    toastUtil.showToastShortTime("Error while updating profile picture");
 
                 }
             }
 
         } else if (requestCode == CAMERA) {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            profilePhoto.setImageBitmap(thumbnail);
+            try {
 
-            String strImg = bitMapToString(thumbnail);
-            sessionManager.setTakePhoto(strImg);
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                profilePhoto.setImageBitmap(thumbnail);
 
-            saveImage(thumbnail);
-            toastUtil.showToastShortTime("Profile pic updated");
+                String strImg = bitMapToString(thumbnail);
+                sessionManager.setTakePhoto(strImg);
+
+                //   saveImage(thumbnail);
+                toastUtil.showToastShortTime("Profile pic updated");
+            } catch (Exception e) {
+                toastUtil.showToastShortTime("Error while updating profile picture");
+
+            }
         }
     }
 
