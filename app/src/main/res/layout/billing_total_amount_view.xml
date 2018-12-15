@@ -201,6 +201,8 @@
                                     android:textAllCaps="false"
                                     android:textColor="@color/btn_white_add_to_cart"
                                     android:theme="@style/PrimaryButton"
+                                    android:textSize="11sp"
+
 
                             />
                         </RelativeLayout>

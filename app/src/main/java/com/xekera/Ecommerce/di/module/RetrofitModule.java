@@ -41,7 +41,7 @@ public class RetrofitModule {
     @Singleton
     @Provides
     public XekeraAPI provideApiService() {
-        return provideRetrofit(AppConstants.BASE_URL_UAT, provideOkHttpClient()).create(XekeraAPI.class);
+        return provideRetrofit(AppConstants.BASE_URL_LIVE, provideOkHttpClient()).create(XekeraAPI.class);
     }
 
 }

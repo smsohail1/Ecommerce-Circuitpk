@@ -166,7 +166,7 @@
                                 android:layout_height="@dimen/editext_height"
                                 android:background="@android:color/transparent"
                                 android:fontFamily="@font/titilliu_web_regular"
-                                android:hint="Mobile no"
+                                android:hint="Mobile number"
                                 android:textColor="@color/availibility_textview"
                                 android:maxLines="1"
                                 android:drawableLeft="@drawable/icon_mobile_account"

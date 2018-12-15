@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
@@ -36,6 +37,8 @@ import java.util.*;
 public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     @BindView(R.id.recyclerViewHome)
     protected RecyclerView recyclerViewHome;
+    @BindView(R.id.progressbar)
+    protected ProgressBar progressbar;
 //    @BindView(R.id.viewPager)
 //    protected ViewPager viewPager;
 //    @BindView(R.id.indicator)
@@ -178,6 +181,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
         recyclerViewHome.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerViewHome.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
 
+        progressbar.setVisibility(View.VISIBLE);
         presenter.setDashboardItems(getActivity());
 
 
@@ -241,6 +245,8 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     @Override
     public void setHomeRecyclerViewAdapter(DashboardAdapter homeAdapter) {
         recyclerViewHome.setAdapter(homeAdapter);
+        progressbar.setVisibility(View.GONE);
+
     }
 
 

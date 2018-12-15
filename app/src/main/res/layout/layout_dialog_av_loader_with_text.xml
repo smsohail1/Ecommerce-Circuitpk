@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
 
-    android:padding="20dp"
-    android:background="@color/white">
+                android:padding="20dp"
+                android:background="@drawable/corner_loader">
     <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/avloadingIndicatorView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:indicatorName="LineScaleIndicator"
-        app:indicatorColor="@color/colorPrimary"
-        android:layout_gravity="center"
-        />
+            android:id="@+id/avloadingIndicatorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:indicatorName="LineScaleIndicator"
+            app:indicatorColor="@color/colorPrimary"
+            android:layout_gravity="center"
+    />
     <!--app:indicator="SquareSpin"
         app:indicator_color="@color/colorPrimary"-->
     <TextView
-        android:id="@+id/txtMesg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/please_wait"
-        android:textColor="@color/grey_dark_edt"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_toRightOf="@+id/avloadingIndicatorView"
-        android:paddingLeft="10dp"
-        />
+            android:id="@+id/txtMesg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/please_wait"
+            android:textColor="@color/grey_dark_edt"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@+id/avloadingIndicatorView"
+            android:paddingLeft="10dp"
+    />
 </RelativeLayout>

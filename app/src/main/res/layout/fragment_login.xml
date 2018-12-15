@@ -58,6 +58,8 @@
                         android:gravity="center_vertical"
                         android:background="@drawable/bg_stroke_sign_in_edt"
                         android:paddingRight="10dp"
+                        android:textColorHint="#ffffff"
+
                 >
                     <EditText
                             android:id="@+id/edtUsername"
@@ -69,10 +71,11 @@
                             android:hint="@string/employee_code_hint_login_edt"
                             android:textColor="#ffffff"
                             android:inputType="text"
+                            android:maxLines="1"
                             android:layout_marginTop="1dp"
                             android:background="@android:color/transparent"
                             android:maxLength="20"
-                            android:textColorHint="#E10915"
+                            android:textColorHint="#ffffff"
                             android:textCursorDrawable="@drawable/cursor_color"
                             android:textSize="14sp"
 
@@ -85,6 +88,8 @@
                         android:gravity="center_vertical"
                         android:background="@drawable/bg_stroke_sign_in_edt"
                         android:paddingRight="10dp"
+                        android:textColorHint="#ffffff"
+
                 >
                     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
                             android:id="@+id/customEdtPasswordHideShow"
@@ -92,6 +97,7 @@
                             android:layout_height="@dimen/edit_height"
                             android:drawableLeft="@drawable/icon_password"
                             android:drawablePadding="7dp"
+                            android:maxLines="1"
                             android:fontFamily="@font/titilliu_web_regular"
                             android:hint="@string/password_hint_login_edt"
                             android:textColor="#ffffff"
@@ -100,7 +106,7 @@
                             android:inputType="textPassword"
                             android:imeOptions="actionDone"
                             android:maxLength="15"
-                            android:textColorHint="#E10915"
+                            android:textColorHint="#ffffff"
                             android:textCursorDrawable="@drawable/cursor_color"
                             android:textSize="14sp"
                             android:layout_marginBottom="10dp"/>
@@ -132,8 +138,9 @@
                         android:text="@string/login_btn"
                         android:theme="@style/PrimaryButton"
                         android:textAllCaps="false"
+                        android:layout_marginTop="5dp"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/btn_login_txt_size"/>
+                        android:textSize="@dimen/btn_login_size"/>
 
                 <com.facebook.login.widget.LoginButton
                         android:id="@+id/fb_button"
@@ -185,7 +192,7 @@
                 android:textColor="@color/white"
                 android:layout_marginBottom="1dp"
                 android:theme="@style/PrimaryButton"
-                android:textSize="@dimen/btn_login_txt_size"/>
+                android:textSize="@dimen/btn_login_size"/>
 
     </LinearLayout>
 </RelativeLayout>

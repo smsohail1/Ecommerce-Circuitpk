@@ -1,6 +1,7 @@
 package com.xekera.Ecommerce.ui.signup
 
-import android.view.View
+import com.xekera.Ecommerce.data.rest.INetworkLoginSignup
+import com.xekera.Ecommerce.data.rest.response.SignUpSuccessResponse
 
 
 public interface SignupMVP {
@@ -18,10 +19,18 @@ public interface SignupMVP {
 
     interface Presenter {
         fun setView(view: SignupMVP.View)
-        fun onClickBtnSignUp(userName: String, password: String, phoneNo: String, emailID: String,viewActivity: android.view.View)
+        fun onClickBtnSignUp(
+            userName: String,
+            password: String,
+            phoneNo: String,
+            emailID: String,
+            viewActivity: android.view.View
+        )
     }
 
     interface Model {
-        fun signUP(userName: String, password: String, phoneNo: String, emailID: String)
+        fun signUP(
+            userName: String, password: String, phoneNo: String, emailID: String, iNetworkLoginSignup: INetworkLoginSignup<SignUpSuccessResponse>
+        )
     }
 }

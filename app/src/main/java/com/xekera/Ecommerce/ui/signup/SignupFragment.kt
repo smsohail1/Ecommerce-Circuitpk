@@ -120,20 +120,26 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
     }
 
+    var isEnable = true
+
+
     override fun onClick(view: View) {
         when (view.getId()) {
             R.id.btnSignUp -> {
-                val userName = edtUsername?.getText().toString()
-                val password = edtPasswordShowHide?.getText().toString()
-                val phoneNo = edtUserPhoneNo?.getText().toString()
-                val emailAddress = edtEmailAddress?.getText().toString()
-                presenter?.onClickBtnSignUp(userName, password, phoneNo, emailAddress, view)
-//                if (validateInputFields(userName, password, phoneNo, emailAddress,view)) {
-//
-//                    Snackbar.make(view,getStringFromResourceId(R.string.signup_successfully, this) , Snackbar.LENGTH_SHORT)
-//                        .show()
-//                    resetForm()
-//                }
+
+                if (isEnable) {
+                    isEnable = false
+                    Handler().postDelayed({
+                        isEnable = true
+                        val userName = edtUsername?.getText().toString()
+                        val password = edtPasswordShowHide?.getText().toString()
+                        val phoneNo = edtUserPhoneNo?.getText().toString()
+                        val emailAddress = edtEmailAddress?.getText().toString()
+                        presenter?.onClickBtnSignUp(userName, password, phoneNo, emailAddress, view)
+
+                    }, 150)
+                }
+
             }
 
         }
@@ -224,8 +230,10 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
     override fun signUpSuccessfully() {
 
-        showToastShortTime("SignUp successfully.");
+        //   showToastShortTime("SignUp successfully.");
 //        this!!.view?.let { showSnackBarShortTime("SignUp successfully.", it) }
+        (activity as BaseActivity).setUserDetails()
+
         Handler().postDelayed({
             (activity as BaseActivity).popBackstack()
             //    var signupFrag = SignupFragment();

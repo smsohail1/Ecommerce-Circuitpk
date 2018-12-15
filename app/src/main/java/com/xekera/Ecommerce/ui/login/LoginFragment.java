@@ -152,9 +152,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         fb_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 utils.hideSoftKeyboard(edtUsername);
                 utils.hideSoftKeyboard(customEdtPasswordHideShow);
-                callFacebook();
+                if (utils.isInternetAvailable()) {
+                    showProgressDialogPleaseWait();
+                    callFacebook();
+                } else {
+                    showToastShortTime("Please connect to internet.");
+                }
 
             }
         });
@@ -227,7 +233,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                     // deleteContact();//This is my code
                     sessionManager.clearAll();
                     (((BaseActivity) getActivity())).setUserDetails();
-
+                    hideProgressDialogPleaseWait();
 
                 }
             }
@@ -294,6 +300,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                             sessionManager.createLoginSession(first_name + " " + last_name, "", "", email, true, true, image_url);
                             //sessionManager.setKeyPicture(image_url);
                             (((BaseActivity) getActivity())).setUserDetails();
+                            hideProgressDialogPleaseWait();
                             showToastShortTime("LoggedIn Successfully.");
                             // txtUsername.setText("First Name: " + first_name + "\nLast Name: " + last_name);
                             //txtEmail.setText(email);
@@ -301,6 +308,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            hideProgressDialogPleaseWait();
                             showToastShortTime("Error while login with facebook.");
                         }
 
@@ -331,16 +339,26 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     }
 
     boolean isEnable = true;
+    boolean isLoginBtnEnable = true;
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnSignIn: {
+                if (isLoginBtnEnable) {
+                    isLoginBtnEnable = false;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            String userName = edtUsername.getText().toString();
+                            String password = customEdtPasswordHideShow.getText().toString();
 
-                String userName = edtUsername.getText().toString();
-                String password = customEdtPasswordHideShow.getText().toString();
+                            presenter.onClickBtnSignIn(userName, password);
+                            isLoginBtnEnable = true;
 
-                presenter.onClickBtnSignIn(userName, password);
+                        }
+                    }, 200);
+                }
                 break;
             }
 
@@ -422,7 +440,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
 
     @Override
     public void loggedInSuccessfully() {
-        showToastShortTime("Logged In successfully.");
+        //   showToastShortTime("Logged In successfully.");
         (((BaseActivity) getActivity())).setUserDetails();
 
         final LoginFragment loginFragment = new LoginFragment();

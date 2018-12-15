@@ -75,6 +75,8 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/bg_stroke_sign_in_edt"
                     android:paddingRight="10dp"
+                    android:textColorHint="#ffffff"
+
             >
                 <EditText
                         android:id="@+id/edtUsername"
@@ -84,12 +86,13 @@
                         android:drawableLeft="@drawable/icon_user_account"
                         android:drawablePadding="7dp"
                         android:textColor="#ffffff"
-
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+                        android:maxLines="1"
                         android:fontFamily="@font/titilliu_web_regular"
                         android:hint="@string/employee_code_hint_signup_edt"
                         android:inputType="text"
                         android:maxLength="20"
-                        android:textColorHint="#E10915"
+                        android:textColorHint="#ffffff"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="14sp"/>
             </android.support.design.widget.TextInputLayout>
@@ -120,6 +123,7 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/bg_stroke_sign_in_edt"
                     android:paddingRight="10dp"
+                    android:textColorHint="#ffffff"
             >
                 <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
                         android:id="@+id/edtPasswordShowHide"
@@ -133,9 +137,10 @@
                         android:inputType="textPassword"
                         android:imeOptions="actionDone"
                         android:textColor="#ffffff"
-
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+                        android:maxLines="1"
                         android:maxLength="15"
-                        android:textColorHint="#E10915"
+                        android:textColorHint="#ffffff"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="14sp"
 
@@ -150,6 +155,8 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/bg_stroke_sign_in_edt"
                     android:paddingRight="10dp"
+                    android:textColorHint="#ffffff"
+
             >
                 <EditText
                         android:id="@+id/edtUserPhoneNo"
@@ -163,8 +170,8 @@
                         android:inputType="number"
                         android:maxLength="11"
                         android:textColor="#ffffff"
-
-                        android:textColorHint="#E10915"
+                        android:maxLines="1"
+                        android:textColorHint="#ffffff"
                         android:textCursorDrawable="@drawable/cursor_color"/>
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
@@ -175,6 +182,8 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/bg_stroke_sign_in_edt"
                     android:paddingRight="10dp"
+                    android:textColorHint="#ffffff"
+
             >
                 <EditText
                         android:id="@+id/edtEmailAddress"
@@ -189,8 +198,8 @@
                         android:inputType="textEmailAddress"
                         android:maxLength="40"
                         android:textColor="#ffffff"
-
-                        android:textColorHint="#E10915"
+                        android:maxLines="1"
+                        android:textColorHint="#ffffff"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="14sp"/>
 
@@ -206,7 +215,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:layout_marginTop="10dp"
-                    android:textSize="@dimen/btn_login_txt_size"/>
+                    android:textSize="@dimen/btn_login_size"/>
 
 
         </LinearLayout>

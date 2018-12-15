@@ -1,14 +1,14 @@
 package com.xekera.Ecommerce.ui.login;
 
 
-import android.view.View;
-import android.widget.Toast;
 import com.xekera.Ecommerce.R;
-import com.xekera.Ecommerce.data.rest.response.MessageResponse;
+import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
+import com.xekera.Ecommerce.data.rest.response.LoginSuccessResponse;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 
 import java.util.List;
+import java.util.logging.Handler;
 
 public class LoginPresenter implements LoginMVP.Presenter {
     private LoginMVP.View view;
@@ -29,16 +29,49 @@ public class LoginPresenter implements LoginMVP.Presenter {
 
     @Override
     public void onClickBtnSignIn(final String username, String password) {
-        if (validateInputFields(username, password)) {
-            // if (utils.isInternetAvailable()) {
-            if (sessionManager.getusername().equalsIgnoreCase(username) &&
-                    sessionManager.getuserPassword().equals(password)) {
-                sessionManager.setIsLoggedIn(true);
-                view.loggedInSuccessfully();
-            } else {
-                view.showToastShortTime("Invalid Username/Password");
+        if (utils.isInternetAvailable()) {
+            if (validateInputFields(username, password)) {
+
+                view.showProgressDialogPleaseWait();
+
+                model.signIn(username, password, new INetworkLoginSignup<LoginSuccessResponse>() {
+                    @Override
+                    public void onSuccess(LoginSuccessResponse response) {
+                        view.hideProgressDialogPleaseWait();
+
+                        if (response.getStatus()) {
+                            sessionManager.setIsLoggedIn(true);
+                            view.showToastShortTime(response.getMessage());
+                            view.loggedInSuccessfully();
+
+                        } else {
+                            view.showToastShortTime(response.getMessage());
+
+                        }
+                    }
+
+//                    @Override
+//                    public void onErrorList(MessageResponse messageResponse) {
+//                        view.hideProgressDialogPleaseWait();
+//                        view.showToastLongTime(messageResponse.getMessageCode() + ": " + messageResponse.getMessageText());
+//                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        t.printStackTrace();
+                        view.hideProgressDialogPleaseWait();
+                        if (t.getMessage() != null) {
+                            view.showToastLongTime(t.getMessage());
+                        } else {
+                            view.showToastLongTime("Error while login.");
+                        }
+                    }
+                });
+
+
             }
-            // }
+        } else {
+            view.showToastShortTime("Please connect to internet.");
         }
     }
 

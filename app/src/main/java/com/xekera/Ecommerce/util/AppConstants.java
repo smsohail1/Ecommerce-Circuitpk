@@ -9,7 +9,7 @@ import java.util.Locale;
 public class AppConstants {
 
     public static final String BASE_URL_UAT = "http://uat-hsk.tcscourier.com";
-    public static final String BASE_URL_LIVE = "http://collect.tcscourier.com";
+    public static final String BASE_URL_LIVE = "https://apilkjhgfnfwbc.circuit.pk/apifolder/";
 
     public static int certificate_allow = 0;
     public static PublicKey _publicKey;

@@ -7,7 +7,13 @@
     <string name="login_btn">Login</string>
     <string name="login_title">Login</string>
     <string name="username_error_login">Username is required</string>
+    <string name="username_length_error_login">Username must be minimum 8 characters.</string>
+
     <string name="password_error_login">Password is required</string>
+    <string name="password_length_error_login">Password must be minimum 8 characters.</string>
+
+    <string name="phone_no_length_error">Phone number must be minimum 11 characters.</string>
+
     <string name="signup_label">Don\'t have an account?</string>
     <string name="signup_btn">SignUp</string>
     <string name="login_success">Login Successfully</string>
@@ -21,13 +27,15 @@
 
     <string name="employee_code_hint_signup_edt">Username</string>
     <string name="password_hint_signup_edt">Password</string>
-    <string name="phone_no_hint_signup_edt">Phone Number</string>
+    <string name="phone_no_hint_signup_edt">Mobile Number</string>
     <string name="email_address_hint_signup_edt">Email Address</string>
     <string name="signup_title">SignUp</string>
     <string name="signup_screeen_btn">SignUp</string>
     <string name="username_error">Username is required</string>
     <string name="password_error">Password is required</string>
     <string name="email_address_error">Email address is required</string>
+    <string name="email_address_invalid_error">Invalid Email address.</string>
+
     <string name="phone_no_error">Phone no is required</string>
     <string name="signup_successfully">Account Created successfully.</string>
 
@@ -231,4 +239,6 @@
     <string name="company_address">Software Technology Park,KSL Building, i-9/3 Islamabad.</string>
     <string name="phone_no">(+92)3345290597</string>
     <string name="company_email_id">support@circuit.pk</string>
+
+    <string name="apply_coupon">Apply</string>
 </resources>

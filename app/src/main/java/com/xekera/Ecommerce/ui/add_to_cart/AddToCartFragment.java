@@ -1,5 +1,7 @@
 package com.xekera.Ecommerce.ui.add_to_cart;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,6 +57,8 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     protected Button btnCheckout;
     @BindView(R.id.btnContinueShopping)
     protected Button btnContinueShopping;
+    @BindView(R.id.btnCoupon)
+    protected Button btnCoupon;
 
 
     @Inject
@@ -198,7 +202,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
         btnCheckout.setOnClickListener(this);
         btnContinueShopping.setOnClickListener(this);
-
+        btnCoupon.setOnClickListener(this);
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -418,14 +422,15 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     }
 
     boolean isContinueShoppingEnable = true;
+    boolean isEnable = true;
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnCheckout:
                 presenter.getCartCountList();
-
                 break;
+
             case R.id.btnContinueShopping:
 
                 if (isContinueShoppingEnable) {
@@ -441,6 +446,43 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                     }, 150);
                 }
                 break;
+
+            case R.id.btnCoupon:
+                if (isEnable) {
+                    isEnable = false;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            isEnable = true;
+                            showCouponDialog(getActivity(), "Apply Coupon");
+
+                        }
+                    }, 200);
+                }
+                break;
         }
     }
+
+    private void showCouponDialog(Context context, String title) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dilaog_coupon);
+
+        Button btnApplyCoupon = dialog.findViewById(R.id.btnApplyCoupon);
+        TextView txtTitle = dialog.findViewById(R.id.txtTitle);
+
+        txtTitle.setText("" + title);
+
+        btnApplyCoupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toastUtil.showToastShortTime("Coupon Applied successfully.");
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+
 }

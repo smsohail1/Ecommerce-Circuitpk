@@ -1,5 +1,6 @@
 package com.xekera.Ecommerce.di.module
 
+import com.xekera.Ecommerce.data.rest.XekeraAPI
 import com.xekera.Ecommerce.ui.signup.SignupMVP
 import com.xekera.Ecommerce.ui.signup.SignupModel
 import com.xekera.Ecommerce.ui.signup.SignupPresenter
@@ -18,7 +19,7 @@ class SignupModule {
     }
 
     @Provides
-    fun provideSignupModel(utils: Utils, sessionManager: SessionManager): SignupMVP.Model {
-        return SignupModel(utils, sessionManager)
+    fun provideSignupModel(utils: Utils, sessionManager: SessionManager,xekeraAPI: XekeraAPI): SignupMVP.Model {
+        return SignupModel(utils, sessionManager,xekeraAPI)
     }
 }
