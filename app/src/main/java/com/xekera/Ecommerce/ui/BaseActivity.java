@@ -269,6 +269,21 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                 Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
                 if (!(fragment instanceof AddToCartFragment)) {
+                    Menu menu = navigationView.getMenu();
+                    MenuItem menuItem;
+
+                    Menu bottomMenu = navigation.getMenu();
+                    MenuItem bottomMenuItem;
+
+                    for (int i = 0; i < menu.size(); i++) {
+                        menuItem = menu.getItem(i);
+                        menuItem.setChecked(false);
+                    }
+
+                    for (int i = 0; i < bottomMenu.size(); i++) {
+                        bottomMenuItem = bottomMenu.getItem(i);
+                        bottomMenuItem.setCheckable(false);
+                    }
                     //    navigation.setSelectedItemId(R.id.navigation_cart);
                     replaceFragmentWithContainer(new AddToCartFragment());
                 }
@@ -322,11 +337,29 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         public boolean onNavigationItemSelected(MenuItem item) {
             Fragment fragment;
             Fragment fragmentContainer = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+            Menu menu = navigationView.getMenu();
+            MenuItem menuItem;
+
+            Menu bottomMenu = navigation.getMenu();
+            MenuItem bottomMenuItem;
 
             switch (item.getItemId()) {
                 case R.id.navigation_shop:
 
                     if (!(fragmentContainer instanceof ShopFragment)) {
+                        for (int i = 0; i < menu.size(); i++) {
+                            menuItem = menu.getItem(i);
+                            menuItem.setChecked(false);
+                        }
+                        menuItem = menu.findItem(R.id.navProduct);
+                        menuItem.setChecked(true);
+
+                        // bottomMenu = navigation.getMenu();
+
+                        //for (int i = 0; i < bottomMenu.size(); i++) {
+                        bottomMenuItem = bottomMenu.findItem(R.id.navigation_shop);
+                        bottomMenuItem.setCheckable(true);
+                        //}
 
                         fragment = new ShopFragment();
                         replaceFragmentWithContainer(fragment);
@@ -338,6 +371,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     //((BaseActivity) getActivity()).addDashboardFragment(new FavouritesFragment());
 
                     if (!(fragmentContainer instanceof FavouritesFragment)) {
+                        for (int i = 0; i < menu.size(); i++) {
+                            menuItem = menu.getItem(i);
+                            menuItem.setChecked(false);
+                        }
+                        menuItem = menu.findItem(R.id.nav_Favourite);
+                        menuItem.setChecked(true);
+
+                        bottomMenuItem = bottomMenu.findItem(R.id.navigation_favourite);
+                        bottomMenuItem.setCheckable(true);
 
                         fragment = new FavouritesFragment();
                         replaceFragmentWithContainer(fragment);
@@ -347,15 +389,36 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                     if (!(fragmentContainer instanceof SettingFragment)) {
 
+                        for (int i = 0; i < menu.size(); i++) {
+                            menuItem = menu.getItem(i);
+                            menuItem.setChecked(false);
+                        }
+                        menuItem = menu.findItem(R.id.nav_Setting);
+                        menuItem.setChecked(true);
+
+                        bottomMenuItem = bottomMenu.findItem(R.id.navigation_setting);
+                        bottomMenuItem.setCheckable(true);
+
+
                         fragment = new SettingFragment();
                         replaceFragmentWithContainer(fragment);
                     }
+
                     //  navigation.setSelectedItemId(R.id.navigation_History);
 
                     return true;
 
                 case R.id.navigation_History:
+
                     if (!(fragmentContainer instanceof HistoryFragment)) {
+                        for (int i = 0; i < menu.size(); i++) {
+                            menuItem = menu.getItem(i);
+                            menuItem.setChecked(false);
+                        }
+                        bottomMenuItem = bottomMenu.findItem(R.id.navigation_History);
+                        bottomMenuItem.setCheckable(true);
+
+
                         fragment = new HistoryFragment();
                         replaceFragmentWithContainer(fragment);
                     }
@@ -820,6 +883,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         Fragment fragmentContainer = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
+        Menu bottomMenu = navigation.getMenu();
+        MenuItem menuItemBottom;
+
         if (id == R.id.navShare) {
             shareTextUrl();
         } else if (id == R.id.navProduct) {
@@ -846,6 +912,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             }
         } else if (id == R.id.nav_Profile) {
             if (!(fragmentContainer instanceof AccountFragment)) {
+
+                bottomMenu = navigation.getMenu();
+
+                for (int i = 0; i < bottomMenu.size(); i++) {
+                    menuItemBottom = bottomMenu.getItem(i);
+                    menuItemBottom.setCheckable(false);
+                }
                 replaceFragmentWithContainer(new AccountFragment());
                 drawer.closeDrawer(GravityCompat.START);
                 //setNavigationBackground("#E10915");
@@ -864,6 +937,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             }
         } else if (id == R.id.nav_login) {
             if (!(fragmentContainer instanceof LoginFragment)) {
+
+
+                bottomMenu = navigation.getMenu();
+
+                for (int i = 0; i < bottomMenu.size(); i++) {
+                    menuItemBottom = bottomMenu.getItem(i);
+                    menuItemBottom.setCheckable(false);
+                }
+
+                //   menuItemBottom = bottomMenu.findItem(R.id.navigation_shop);
+                // menuItem1.setChecked(false);
+                //   menuItemBottom.setCheckable(false);
+
                 replaceFragmentWithContainer(new LoginFragment());
                 drawer.closeDrawer(GravityCompat.START);
                 // setNavigationBackground("#E10915");
@@ -873,6 +959,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             }
         } else if (id == R.id.navAbout) {
             if (!(fragmentContainer instanceof AboutFragment)) {
+
+                bottomMenu = navigation.getMenu();
+
+                for (int i = 0; i < bottomMenu.size(); i++) {
+                    menuItemBottom = bottomMenu.getItem(i);
+                    menuItemBottom.setCheckable(false);
+                }
                 replaceFragmentWithContainer(new AboutFragment());
                 drawer.closeDrawer(GravityCompat.START);
                 // setNavigationBackground("#E10915");
