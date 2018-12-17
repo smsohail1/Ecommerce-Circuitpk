@@ -60,6 +60,9 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     @BindView(R.id.btnCoupon)
     protected Button btnCoupon;
 
+    @BindView(R.id.progressBarRelativeLayout)
+    protected RelativeLayout progressBarRelativeLayout;
+
 
     @Inject
     protected AddToCartMVP.Presenter presenter;
@@ -207,6 +210,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        progressBarRelativeLayout.setVisibility(View.VISIBLE);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -250,10 +254,16 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     @Override
     public void showRecylerViewProductsDetail(AddToCartAdapter addToCartAdapter) {
+        progressBarRelativeLayout.setVisibility(View.GONE);
+
         recyclerViewAddToCartDetails.setAdapter(addToCartAdapter);
 
     }
 
+    @Override
+    public void hideLoadingProgressDialog() {
+        progressBarRelativeLayout.setVisibility(View.GONE);
+    }
 
     @Override
     public void showRecyclerView() {

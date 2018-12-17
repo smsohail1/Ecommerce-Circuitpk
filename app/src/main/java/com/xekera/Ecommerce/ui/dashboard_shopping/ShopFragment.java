@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.dashboard_shopping;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -182,6 +183,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
         recyclerViewHome.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
 
         progressbar.setVisibility(View.VISIBLE);
+
         presenter.setDashboardItems(getActivity());
 
 

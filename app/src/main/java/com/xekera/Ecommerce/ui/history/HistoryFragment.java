@@ -19,12 +19,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cdflynn.android.library.checkview.CheckView;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.Booking;
@@ -37,6 +35,7 @@ import com.xekera.Ecommerce.util.Utils;
 
 import javax.inject.Inject;
 import java.util.List;
+
 
 public class HistoryFragment extends Fragment implements HistoryMVP.View, HistoryAdapter.IHistoryCancelOrderAdapter {
 
@@ -53,6 +52,9 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     protected TextView totalValueTextView;
     @BindView(R.id.txtNoCartItemFound)
     protected TextView txtNoCartItemFound;
+
+    @BindView(R.id.progressBarRelativeLayout)
+    protected RelativeLayout progressBarRelativeLayout;
 
     @Inject
     protected HistoryMVP.Presenter presenter;
@@ -112,10 +114,12 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        progressBarRelativeLayout.setVisibility(View.VISIBLE);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 presenter.fetchOrderDetails();
 
             }
@@ -140,7 +144,10 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
     @Override
     public void showRecylerViewProductsDetail(HistoryAdapter historyAdapter) {
+        progressBarRelativeLayout.setVisibility(View.GONE);
+
         recyclerViewAddToCartDetails.setAdapter(historyAdapter);
+
 
     }
 
@@ -217,6 +224,53 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
     }
 
+    @Override
+    public void showOrderCompleteSuccessDialog() {
+
+        showOrderCompleteSuccessDialog(getActivity());
+
+    }
+
+    @Override
+    public void hideLoadingProgressDialog() {
+        progressBarRelativeLayout.setVisibility(View.GONE);
+    }
+
+    private void showOrderCompleteSuccessDialog(Context context) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View v = dialog.getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+
+        dialog.setContentView(R.layout.dialog_order_placed_successfully);
+
+        //ImageView imgRemove = dialog.findViewById(R.id.imgRemove);
+        final CheckView check = (CheckView) dialog.findViewById(R.id.check);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                check.check();
+
+            }
+        }, 200);
+
+//        imgRemove.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        dialog.dismiss();
+//
+//                    }
+//                }, 200);
+//            }
+//        });
+
+        dialog.show();
+    }
+
 
     private void getSubTotal(List<Booking> addToCarts) {
         long price = 0;
@@ -281,7 +335,11 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     private void showDialog(Context context, String title) {
         final String companyNo = "03440081152";
         final Dialog dialog = new Dialog(context);
+
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View v = dialog.getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+
         dialog.setContentView(R.layout.dialog_track_order);
 
         TextView txtTrackOrderDeatils = dialog.findViewById(R.id.txtTrackOrderDeatils);
@@ -372,6 +430,10 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.fragment_cancel_dialog);
+        // dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+//        View v = dialog.getWindow().getDecorView();
+//        v.setBackgroundResource(android.R.color.transparent);
 
         Button cancel = dialog.findViewById(R.id.cancel);
         Button submit = dialog.findViewById(R.id.submit);

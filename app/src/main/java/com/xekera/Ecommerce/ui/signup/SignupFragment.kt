@@ -232,7 +232,7 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
         //   showToastShortTime("SignUp successfully.");
 //        this!!.view?.let { showSnackBarShortTime("SignUp successfully.", it) }
-        (activity as BaseActivity).setUserDetails()
+        (activity as BaseActivity).setSignUpDetails()
 
         Handler().postDelayed({
             (activity as BaseActivity).popBackstack()

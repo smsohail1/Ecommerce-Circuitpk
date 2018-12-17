@@ -16,6 +16,9 @@ public class Favourites {
     private String itemName;
     @ColumnInfo(name = "item_individual_price")
     private String itemIndividualPrice;
+
+    @ColumnInfo(name = "item_total_price")
+    private String itemTotalPrice;
     @ColumnInfo(name = "item_quantity")
     private String itemQuantity;
     @ColumnInfo(name = "item_cut_price")
@@ -91,8 +94,32 @@ public class Favourites {
         this.itemQuantity = itemQuantity;
     }
 
+    public String getItemTotalPrice() {
+        return itemTotalPrice;
+    }
+
+    public void setItemTotalPrice(String itemTotalPrice) {
+        this.itemTotalPrice = itemTotalPrice;
+    }
+
+
+    public Favourites() {
+
+    }
+
+//    public Favourites(String itemName, String itemIndividualPrice, String itemCutPrice,
+//                      String itemStockStatus, String createdDate, byte[] itemImage, String itemQuantity) {
+//        this.itemName = itemName;
+//        this.itemIndividualPrice = itemIndividualPrice;
+//        this.itemCutPrice = itemCutPrice;
+//        this.itemStockStatus = itemStockStatus;
+//        this.createdDate = createdDate;
+//        this.itemImage = itemImage;
+//        this.itemQuantity = itemQuantity;
+//    }
+
     public Favourites(String itemName, String itemIndividualPrice, String itemCutPrice,
-                      String itemStockStatus, String createdDate, byte[] itemImage, String itemQuantity) {
+                      String itemStockStatus, String createdDate, byte[] itemImage, String itemQuantity, String itemTotalPrice) {
         this.itemName = itemName;
         this.itemIndividualPrice = itemIndividualPrice;
         this.itemCutPrice = itemCutPrice;
@@ -100,6 +127,8 @@ public class Favourites {
         this.createdDate = createdDate;
         this.itemImage = itemImage;
         this.itemQuantity = itemQuantity;
+        this.itemTotalPrice = itemTotalPrice;
     }
+
 
 }

@@ -91,6 +91,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     protected LinearLayout linearDeliveryAddressLayoutDiffAddress;
     @BindView(R.id.paymentModeLayoutDiffAddress)
     protected LinearLayout paymentModeLayoutDiffAddress;
+    @BindView(R.id.linearLayoutParent)
+    protected LinearLayout linearLayoutParent;
 
 
     @BindView(R.id.radioGroup)
@@ -164,6 +166,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
         userDetailsParentLayout.setOnClickListener(this);
         linearDeliveryAddressLayout.setOnClickListener(this);
         paymentModeLayout.setOnClickListener(this);
+        linearLayoutParent.setOnClickListener(this);
 
 
         userDetailsParentLayoutDiffAddress.setOnClickListener(this);
@@ -548,6 +551,23 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                 utils.hideSoftKeyboard(edtNotes);
 
                 break;
+
+            case R.id.linearLayoutParent:
+                utils.hideSoftKeyboard(edtUsername);
+                utils.hideSoftKeyboard(edtCompanyName);
+                utils.hideSoftKeyboard(edtPhoneNo);
+                utils.hideSoftKeyboard(edtEmail);
+                utils.hideSoftKeyboard(edtStreetAddress1);
+
+                utils.hideSoftKeyboard(edtUsernameDiffAddress);
+                utils.hideSoftKeyboard(edtCompanyNameDiffAddress);
+                utils.hideSoftKeyboard(edtPhoneNoDiffAddress);
+                utils.hideSoftKeyboard(edtEmailDiffAddress);
+                utils.hideSoftKeyboard(edtStreetAddress1DiffAddress);
+                utils.hideSoftKeyboard(edtNotes);
+
+                break;
+
 
         }
 

@@ -13,10 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
@@ -45,6 +42,10 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     protected LinearLayout linearParent;
     @BindView(R.id.txtNoCartItemFound)
     protected TextView txtNoCartItemFound;
+
+    @BindView(R.id.progressBarRelativeLayout)
+    protected RelativeLayout progressBarRelativeLayout;
+
 
     @Inject
     protected FavouritesMVP.Presenter presenter;
@@ -136,9 +137,12 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
             }
         });
 
+        progressBarRelativeLayout.setVisibility(View.VISIBLE);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 presenter.fetchFavouritesDetails();
 
             }
@@ -165,7 +169,10 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     @Override
     public void showRecylerViewProductsDetail(FavoritesAdapter favoritesAdapter) {
+        progressBarRelativeLayout.setVisibility(View.GONE);
+
         recyclerViewAddToCartDetails.setAdapter(favoritesAdapter);
+
 
     }
 
@@ -244,9 +251,17 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
 
-                    AddToCart addToCart = new AddToCart("15", favourites.getItemName(), favourites.getItemIndividualPrice()
+                    if (Long.valueOf(favourites.getItemQuantity()) <= 0) {
+                        showToastShortTime("Select atleast one quantity");
+                        isShowing = true;
+                        return;
+                    }
+                    long totalPrice = Long.valueOf(favourites.getItemIndividualPrice()) * Long.valueOf(favourites.getItemQuantity());
+
+                    AddToCart addToCart = new AddToCart("15", favourites.getItemName(), String.valueOf(totalPrice)
                             , favourites.getItemQuantity(),
-                            "N", favourites.getItemImage(), favourites.getItemCutPrice(), favourites.getItemIndividualPrice(),
+                            "N", favourites.getItemImage(), favourites.getItemCutPrice(),
+                            favourites.getItemIndividualPrice(),
                             formattedDate);
                     presenter.insertSelectedFavouritesToCart(addToCart, position, img);
                     isShowing = true;
@@ -297,6 +312,12 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         presenter.removeItem(favourites);
 
     }
+
+    @Override
+    public void hideLoadingProgressDialog() {
+        progressBarRelativeLayout.setVisibility(View.GONE);
+    }
+
 
     @Override
     public void setCountZero(int counts) {

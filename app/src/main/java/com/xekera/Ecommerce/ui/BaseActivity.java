@@ -1083,6 +1083,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             // TextView txtEmail = headerView.findViewById(R.id.txtUserEmail);
             TextView txtPhoneNo = headerView.findViewById(R.id.txtUserPhoneNo);
             CircleImageView circleImageView = headerView.findViewById(R.id.img);
+            ImageView imgFacebook = headerView.findViewById(R.id.imgFacebook);
 
             if (sessionManager.getKeyIsFacebookLogin()) {
                 if (!utils.isTextNullOrEmpty(sessionManager.getusername())) {
@@ -1102,6 +1103,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                 }
 
+                imgFacebook.setVisibility(View.VISIBLE);
+
                 if (!utils.isTextNullOrEmpty(sessionManager.getKeyPicture())) {
                     //  Bitmap img = stringToBitMap(sessionManager.getKeyPicture());
                     // circleImageView.setImageBitmap(sessionManager.getKeyPicture());
@@ -1112,10 +1115,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     Picasso.with(getApplicationContext()).load(sessionManager.getKeyPicture()).into(circleImageView);
 
 
-                    txtPhoneNo.setVisibility(View.VISIBLE);
+                    circleImageView.setVisibility(View.VISIBLE);
 
                 } else {
-                    txtPhoneNo.setVisibility(View.VISIBLE);
+                    circleImageView.setVisibility(View.VISIBLE);
 
                     circleImageView.setImageResource(R.drawable.icon_user_profile);
 
@@ -1148,18 +1151,135 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     txtPhoneNo.setVisibility(View.GONE);
 
                 }
+
+                imgFacebook.setVisibility(View.GONE);
+
                 if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
                     Bitmap img = stringToBitMap(sessionManager.getTakePhoto());
                     circleImageView.setImageBitmap(img);
 
-                    txtPhoneNo.setVisibility(View.VISIBLE);
+                    circleImageView.setVisibility(View.VISIBLE);
 
                 } else {
-                    txtPhoneNo.setVisibility(View.VISIBLE);
+                    circleImageView.setVisibility(View.VISIBLE);
 
                     circleImageView.setImageResource(R.drawable.icon_user_profile);
 
                 }
+
+
+//            if (!utils.isTextNullOrEmpty(sessionManager.getEmail())) {
+//                txtEmail.setText(sessionManager.getEmail());
+//                txtEmail.setVisibility(View.VISIBLE);
+//
+//            } else {
+//                txtEmail.setVisibility(View.GONE);
+//
+//            }
+
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void setSignUpDetails() {
+        try {
+            View headerView = navigationView.getHeaderView(0);
+            TextView txtName = headerView.findViewById(R.id.txtUserName);
+            // TextView txtEmail = headerView.findViewById(R.id.txtUserEmail);
+            TextView txtPhoneNo = headerView.findViewById(R.id.txtUserPhoneNo);
+            CircleImageView circleImageView = headerView.findViewById(R.id.img);
+            ImageView imgFacebook = headerView.findViewById(R.id.imgFacebook);
+
+            if (sessionManager.getKeyIsFacebookLogin()) {
+                if (!utils.isTextNullOrEmpty(sessionManager.getusername())) {
+                    txtName.setText(sessionManager.getusername());
+                    txtName.setVisibility(View.VISIBLE);
+
+                } else {
+                    txtName.setVisibility(View.GONE);
+                }
+
+                if (!utils.isTextNullOrEmpty(sessionManager.getphoneno())) {
+                    txtPhoneNo.setText(sessionManager.getphoneno());
+                    txtPhoneNo.setVisibility(View.VISIBLE);
+
+                } else {
+                    txtPhoneNo.setVisibility(View.GONE);
+
+                }
+
+                imgFacebook.setVisibility(View.VISIBLE);
+
+                if (!utils.isTextNullOrEmpty(sessionManager.getKeyPicture())) {
+                    //  Bitmap img = stringToBitMap(sessionManager.getKeyPicture());
+                    // circleImageView.setImageBitmap(sessionManager.getKeyPicture());
+//                    Glide.with(getApplicationContext()).load(sessionManager.getKeyPicture())
+//                            .placeholder(R.drawable.icon_user_profile)
+//                            .error(R.drawable.icon_user_profile)
+//                            .into(circleImageView);
+                    Picasso.with(getApplicationContext()).load(sessionManager.getKeyPicture()).into(circleImageView);
+
+
+                    circleImageView.setVisibility(View.VISIBLE);
+
+                } else {
+                    circleImageView.setVisibility(View.VISIBLE);
+
+                    circleImageView.setImageResource(R.drawable.icon_user_profile);
+
+                }
+
+
+//            if (!utils.isTextNullOrEmpty(sessionManager.getEmail())) {
+//                txtEmail.setText(sessionManager.getEmail());
+//                txtEmail.setVisibility(View.VISIBLE);
+//
+//            } else {
+//                txtEmail.setVisibility(View.GONE);
+//
+//            }
+
+            } else {
+                if (!utils.isTextNullOrEmpty(sessionManager.getusername())) {
+                    txtName.setText(sessionManager.getusername());
+                    txtName.setVisibility(View.VISIBLE);
+
+                } else {
+                    txtName.setVisibility(View.GONE);
+                }
+
+                if (!utils.isTextNullOrEmpty(sessionManager.getphoneno())) {
+                    txtPhoneNo.setText(sessionManager.getphoneno());
+                    txtPhoneNo.setVisibility(View.VISIBLE);
+
+                } else {
+                    txtPhoneNo.setVisibility(View.GONE);
+
+                }
+
+                imgFacebook.setVisibility(View.GONE);
+
+                circleImageView.setVisibility(View.VISIBLE);
+
+                circleImageView.setImageResource(R.drawable.icon_user_profile);
+
+//                if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
+//                    Bitmap img = stringToBitMap(sessionManager.getTakePhoto());
+//                    circleImageView.setImageBitmap(img);
+//
+//                    circleImageView.setVisibility(View.VISIBLE);
+//
+//                }
+//                else {
+//                    circleImageView.setVisibility(View.VISIBLE);
+//
+//                    circleImageView.setImageResource(R.drawable.icon_user_profile);
+//
+//                }
 
 
 //            if (!utils.isTextNullOrEmpty(sessionManager.getEmail())) {

@@ -672,9 +672,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //                    }
                     String quantity = counterTextview.getText().toString();
 
-                    if (utils.isTextNullOrEmptyOrZero(quantity)) {
-                        quantity = "1";
-                    }
+//                    if (utils.isTextNullOrEmptyOrZero(quantity)) {
+//                        quantity = "1";
+//                    }
                     boolean favourite = false;
                     if (favouriteButton.isChecked()) {
                         favourite = true;
@@ -690,13 +690,14 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                     String itemIndividualPrice = priceTextView.getText().toString();
                     String itemCutPrice = discountPriceTextView.getText().toString();
                     String availabilityInStock = availabilitStockTextView.getText().toString();
+                    long totalPrice = Long.valueOf(itemIndividualPrice) * Long.valueOf(quantity);
 
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
 
                     Favourites favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
                             availabilityInStock, formattedDate,
-                            byteArray, quantity);
+                            byteArray, quantity, String.valueOf(totalPrice));
                     presenter.addItemToFavourites(favourites, favourite);
 
 

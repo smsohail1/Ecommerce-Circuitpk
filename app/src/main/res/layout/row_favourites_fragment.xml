@@ -193,7 +193,6 @@
                                     android:padding="5dp"
                                     android:src="@drawable/icon_favourites_add_to_cart"
                                     android:clickable="false"
-                                    android:visibility="gone"
                             />
 
                         </LinearLayout>
@@ -203,7 +202,7 @@
                                       android:layout_weight="0.15"
                                       android:layout_height="wrap_content"
                                       android:gravity="right"
-                                      android:layout_marginLeft="7dp"
+                                      android:layout_marginLeft="10dp"
                                       android:layout_marginRight="5dp"
                                       android:clickable="true"
 

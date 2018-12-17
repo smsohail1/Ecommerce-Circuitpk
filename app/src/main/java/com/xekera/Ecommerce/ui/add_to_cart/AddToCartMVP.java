@@ -48,6 +48,9 @@ public interface AddToCartMVP {
         void setAdapter(List<AddToCart> addToCarts);
 
         void removeItemFromAdapter(int position);
+
+        void hideLoadingProgressDialog();
+
     }
 
     interface Presenter {

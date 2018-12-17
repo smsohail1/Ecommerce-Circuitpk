@@ -62,17 +62,31 @@ public class SignupPresenter : SignupMVP.Presenter {
 
                     override fun onSuccess(response: SignUpSuccessResponse) {
                         view?.hideProgressDialogPleaseWait()
-                        if (response.status) {
+                        if (response == null) {
+                            view?.showToastShortTime("Server not responding.")
 
-                            sessionManager?.createLoginSession(userName, phoneNo, password, emailID, true, false, "")
-                            view?.showToastShortTime(response.message)
-                            view?.signUpSuccessfully();
+                            return
                         } else {
 
-                            view?.showToastShortTime(response.message)
+                            if (response.status) {
 
+                                sessionManager?.createLoginSession(
+                                    userName,
+                                    phoneNo,
+                                    password,
+                                    emailID,
+                                    true,
+                                    false,
+                                    ""
+                                )
+                                view?.showToastShortTime(response.message)
+                                view?.signUpSuccessfully();
+                            } else {
+
+                                view?.showToastShortTime(response.message)
+
+                            }
                         }
-
 
                     }
 
@@ -89,7 +103,7 @@ public class SignupPresenter : SignupMVP.Presenter {
                 })
 
             }
-        }else {
+        } else {
             view?.showToastShortTime("Please connect to internet.")
         }
     }
@@ -107,7 +121,7 @@ public class SignupPresenter : SignupMVP.Presenter {
             return false
         }
 
-        if ( username.length < 8) {
+        if (username.length < 6) {
             view?.showToastShortTime(utils?.getStringFromResourceId(R.string.username_length_error_login)!!)
             return false
         }
@@ -117,7 +131,7 @@ public class SignupPresenter : SignupMVP.Presenter {
             return false
         }
 
-        if ( password.length < 8) {
+        if (password.length < 6) {
             view?.showToastShortTime(utils?.getStringFromResourceId(R.string.password_length_error_login)!!)
             return false
         }
@@ -126,7 +140,7 @@ public class SignupPresenter : SignupMVP.Presenter {
             return false
         }
 
-        if (  phoneNo.length < 11) {
+        if (phoneNo.length < 11) {
             view?.showToastShortTime(utils?.getStringFromResourceId(R.string.phone_no_length_error)!!)
             return false
         }

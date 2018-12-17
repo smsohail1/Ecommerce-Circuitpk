@@ -35,4 +35,8 @@ public interface FavouritesDao {
     void deleteItem(String itemName);
 
 
+    @Query("UPDATE favourites SET item_quantity = :quantity , item_individual_price = :itemPrice , item_cut_price = :cutPrice where item_name = :itemName")
+    void updateItemQuantity(String quantity, String itemPrice, String itemName, String cutPrice);
+
+
 }

@@ -599,17 +599,20 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
             //    showSnackBarShortTime("Remove item from favourites.", getView());
 
             byte[] bmp = bitmapToByteArray(bitmap);
+
+            long totalPrice = Long.valueOf(productItems.getProductPrice()) * Long.valueOf(productItems.getItemQuantity());
+
             String formattedDate = "";
             formattedDate = getCurrentDate();
             Favourites favourites;
             if (productItems.getItemQuantity() == 0) {
                 favourites = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
                         String.valueOf(productItems.getCutPrice()), "In Stock", formattedDate,
-                        bmp, "1");
+                        bmp, "0", String.valueOf(totalPrice));
             } else {
                 favourites = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
                         String.valueOf(productItems.getCutPrice()), "In Stock", formattedDate,
-                        bmp, String.valueOf(productItems.getItemQuantity()));
+                        bmp, String.valueOf(productItems.getItemQuantity()), String.valueOf(totalPrice));
             }
 
             presenter.addItemToFavourites(favourites, true);

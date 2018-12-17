@@ -17,33 +17,33 @@
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:orientation="vertical">
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="120dp"
-                          android:gravity="center_horizontal"
-                          android:background="@color/colorPrimary"
-                          android:orientation="horizontal">
+            <!--<LinearLayout android:layout_width="match_parent"-->
+            <!--android:layout_height="120dp"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--android:orientation="horizontal">-->
 
-                <!--<de.hdodenhof.circleimageview.CircleImageView-->
-                <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-                <!--android:id="@+id/imgProfile"-->
-                <!--android:layout_width="120dp"-->
-                <!--android:layout_height="120dp"-->
-                <!--android:src="@drawable/company_logo"-->
-                <!--app:civ_border_width="2dp"-->
-                <!--android:padding="8dp"-->
-                <!--android:background="@drawable/company_logo"-->
-                <!--android:layout_centerInParent="true"-->
+            <!--&lt;!&ndash;<de.hdodenhof.circleimageview.CircleImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;xmlns:app="http://schemas.android.com/apk/res-auto"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/imgProfile"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="120dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="120dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:src="@drawable/company_logo"&ndash;&gt;-->
+            <!--&lt;!&ndash;app:civ_border_width="2dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:padding="8dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:background="@drawable/company_logo"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_centerInParent="true"&ndash;&gt;-->
 
-                <!--app:civ_border_color="#ffffff"-->
-                <!--/>-->
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/company_logo"
-                        android:layout_gravity="center_vertical"
-                        android:layout_centerInParent="true"
-                />
-            </LinearLayout>
+            <!--&lt;!&ndash;app:civ_border_color="#ffffff"&ndash;&gt;-->
+            <!--&lt;!&ndash;/>&ndash;&gt;-->
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/company_logo"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--/>-->
+            <!--</LinearLayout>-->
 
 
             <LinearLayout android:layout_width="match_parent"

@@ -7,14 +7,16 @@
     <string name="login_btn">Login</string>
     <string name="login_title">Login</string>
     <string name="username_error_login">Username is required</string>
-    <string name="username_length_error_login">Username must be minimum 8 characters.</string>
+    <string name="username_length_error_login">Username must be minimum 6 characters.</string>
 
     <string name="password_error_login">Password is required</string>
-    <string name="password_length_error_login">Password must be minimum 8 characters.</string>
+    <string name="password_length_error_login">Password must be minimum 6 characters.</string>
 
     <string name="phone_no_length_error">Phone number must be minimum 11 characters.</string>
 
     <string name="signup_label">Don\'t have an account?</string>
+    <string name="forgot_password_label">Forgot Password?</string>
+
     <string name="signup_btn">SignUp</string>
     <string name="login_success">Login Successfully</string>
 
@@ -241,4 +243,15 @@
     <string name="company_email_id">support@circuit.pk</string>
 
     <string name="apply_coupon">Apply</string>
+
+    <string name="label_history">
+        <u>Order History</u>
+    </string>
+
+
+    <string name="label_favourites">
+        <u>Favourite</u>
+    </string>
+
+    <string name="order_submitted">Order Submitted Successfully</string>
 </resources>

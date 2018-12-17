@@ -1,19 +1,20 @@
 package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cdflynn.android.library.checkview.CheckView;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
@@ -272,13 +273,14 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         }
 
         presenter.addItemsToBooking(addToCarts, firstName, companyName, phoneNo, email, streetAddress1,
-                townCity, paymentMode, orderNotes, flatCharges,selfPikup);
+                townCity, paymentMode, orderNotes, flatCharges, selfPikup);
     }
 
 
     @Override
     public void itemRemovedFromCart() {
-        showToastLongTime("Order Submitted Successfully.");
+        //  showToastLongTime("Order Submitted Successfully.");
+        showOrderCompleteSuccessDialog(getActivity());
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -290,7 +292,30 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
             }
         }, 300);
 
+
     }
+
+    private void showOrderCompleteSuccessDialog(Context context) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View v = dialog.getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+
+        dialog.setContentView(R.layout.dialog_order_placed_successfully);
+
+        final CheckView check = (CheckView) dialog.findViewById(R.id.check);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                check.check();
+
+            }
+        }, 150);
+
+        dialog.show();
+    }
+
 
     @Override
     public void bookingObject(List<Booking> bookings) {

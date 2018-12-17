@@ -85,6 +85,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
                 if (favourites == null || favourites.size() == 0) {
                     view.hideRecyclerView();
                     view.txtNoCartItemFound();
+                    view.hideLoadingProgressDialog();
                     //  view.setCartCounts(0);
                     // view.setCartCounts(0);
                     return;
@@ -117,7 +118,9 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
                     addRecord(addToCart, position, imageView);
                     return;
                 } else {
-                    view.showToastShortTime("Item already available in cart");
+                    // view.showToastShortTime("Item already available in cart");
+                    updateItemAddToCart(addToCart.getItemQuantity(), addToCart.getItemPrice(), addToCart.getItemName(),
+                            addToCart.getItemCutPrice(), imageView, position);
                     // setAdapter(addToCarts);
                 }
             }
@@ -260,23 +263,31 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
     @Override
     public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
                                    final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final Bitmap bitmap) {
-        model.getProductCount(productName, new FavouritesModel.IFetchCartDetailsList() {
+        model.getTotalCountsByName(productName, new FavouritesModel.IFetchOrderDetailsList() {
             @Override
-            public void onCartDetailsReceived(List<AddToCart> addToCartList) {
-                if (addToCartList == null || addToCartList.size() == 0) {
+            public void onCartDetailsReceived(List<Favourites> bookings) {
+                if (bookings == null || bookings.size() == 0) {
 
                     byte[] bmp = bitmapToByteArray(bitmap);
 
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
 
-                    AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
-                            "N", bmp, String.valueOf(cutPrice), price, formattedDate);
-                    noProductFound(addToCart, imgProductCopy);
+                    Favourites favourites = new Favourites(productName, price, String.valueOf(cutPrice),
+                            "In Stock", formattedDate, bmp, String.valueOf(quantity), totalPrice);
+
+                    noProductFound(favourites, imgProductCopy);
+
+//                    Favourites favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
+//                            availabilityInStock, formattedDate,
+//                            byteArray, quantity);
+//                    presenter.addItemToFavourites(favourites, favourite);
+
+
                     return;
                 } else {
 
-                    updateItemCountInDB(String.valueOf(quantity), totalPrice,
+                    updateItemCountInDB(String.valueOf(quantity), price,
                             productName, String.valueOf(cutPrice), imgProductCopy);
                 }
 
@@ -293,13 +304,13 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
     public void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice,
                                     final ImageView imgProductCopy) {
-        model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new FavouritesModel.ISaveProductDetails() {
+        model.updateFavouriteItemCountInDB(quantity, itemPrice, productName, cutPrice, new FavouritesModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
-                    //  view.showToastShortTime("Cart updated successfully.");
+                    view.showToastShortTime("Item updated successfully.");
 
-                    getUpdatedTotalCount(imgProductCopy);
+                    // getUpdatedTotalCount(imgProductCopy);
                 } else {
                     view.showToastLongTime("Error while saving data.");
 
@@ -317,14 +328,42 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
     }
 
-    private void noProductFound(AddToCart addToCart, final ImageView imgProductCopy) {
 
-        model.saveProductDetails(addToCart, new FavouritesModel.ISaveProductDetails() {
+    public void updateItemAddToCart(String quantity, String itemPrice, final String productName, String cutPrice,
+                                    final ImageView imgProductCopy, final int position) {
+        model.updateItemAddToCart(quantity, itemPrice, productName, cutPrice, new FavouritesModel.ISaveProductDetails() {
+            @Override
+            public void onProductDetailsSaved(boolean updated) {
+                if (updated) {
+                    view.showToastShortTime("Item updated successfully.");
+
+                    getUpdatedTotalCount(imgProductCopy, productName, position);
+                } else {
+                    view.showToastLongTime("Error while saving data.");
+
+                }
+
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+                view.showToastLongTime("Error while saving data.");
+
+            }
+        });
+
+    }
+
+
+    private void noProductFound(Favourites favourites, final ImageView imgProductCopy) {
+
+        model.savefavouritesDetails(favourites, new FavouritesModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
-                    //view.showSnackBarShortTime("Item added to cart successfully.");
-                    getUpdatedTotalCount(imgProductCopy);
+                    view.showSnackBarShortTime("Item updated successfully.");
+                    // getUpdatedTotalCount(imgProductCopy);
 
 
                 }
@@ -349,21 +388,28 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
     @Override
     public void saveProductDecrementDetails(final long quantity, final String price, final String totalPrice, final String productName,
                                             final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy) {
-        model.getProductCount(productName, new FavouritesModel.IFetchCartDetailsList() {
+        model.getProductCount(productName, new FavouritesModel.IFetchOrderDetailsList() {
             @Override
-            public void onCartDetailsReceived(List<AddToCart> addToCartList) {
-                if (addToCartList == null || addToCartList.size() == 0) {
+            public void onCartDetailsReceived(List<Favourites> bookings) {
+                if (bookings == null || bookings.size() == 0) {
 
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
 
-                    AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
-                            "N", byteImage, String.valueOf(cutPrice), price, formattedDate);
-                    noProductFoundForDecrement(addToCart, imgProductCopy);
+//                    AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
+//                            "N", byteImage, String.valueOf(cutPrice), price, formattedDate);
+//                    noProductFoundForDecrement(addToCart, imgProductCopy);
+                    byte[] itemImage;
+                    Favourites favourites = new Favourites(productName, price, String.valueOf(cutPrice),
+                            "In Stock", formattedDate, byteImage, String.valueOf(quantity), totalPrice);
+
+                    noProductFoundForDecrement(favourites, imgProductCopy);
+
+
                     return;
                 } else {
 
-                    updateItemCountInDBForDecrement(String.valueOf(quantity), totalPrice,
+                    updateItemCountInDBForDecrement(String.valueOf(quantity), price,
                             productName, String.valueOf(cutPrice), imgProductCopy);
                 }
 
@@ -380,10 +426,10 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
     @Override
     public void removeItem(final Favourites favourites) {
-        model.checkItemAlreadyAddedOrNot(favourites.getItemName(), new FavouritesModel.IFetchCartDetailsList() {
+        model.checkItemAlreadyAddedOrNot(favourites.getItemName(), new FavouritesModel.IFetchOrderDetailsList() {
             @Override
-            public void onCartDetailsReceived(List<AddToCart> addToCarts) {
-                if (addToCarts == null || addToCarts.size() == 0) {
+            public void onCartDetailsReceived(List<Favourites> bookings) {
+                if (bookings == null || bookings.size() == 0) {
                     //view.showToastShortTime("Item not available in cart");
                     return;
                 } else {
@@ -446,14 +492,14 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
     }
 
 
-    private void noProductFoundForDecrement(AddToCart addToCart, final ImageView imgProductCopy) {
+    private void noProductFoundForDecrement(Favourites favourites, final ImageView imgProductCopy) {
 
-        model.saveProductDetails(addToCart, new FavouritesModel.ISaveProductDetails() {
+        model.savefavouritesDetails(favourites, new FavouritesModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
                     view.showToastShortTime("Cart updated successfully.");
-                    getUpdatedTotalCountForDecrement(imgProductCopy);
+                    //  getUpdatedTotalCountForDecrement(imgProductCopy);
 
 
                 }
@@ -470,13 +516,13 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
     public void updateItemCountInDBForDecrement(String quantity, String itemPrice, String productName, String cutPrice,
                                                 final ImageView imgProductCopy) {
-        model.updateItemCountInDB(quantity, itemPrice, productName, cutPrice, new FavouritesModel.ISaveProductDetails() {
+        model.updateFavouriteItemCountInDB(quantity, itemPrice, productName, cutPrice, new FavouritesModel.ISaveProductDetails() {
             @Override
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
-                    view.showToastShortTime("Cart updated successfully.");
+                    view.showToastShortTime("Item updated successfully.");
 
-                    getUpdatedTotalCountForDecrement(imgProductCopy);
+                    //  getUpdatedTotalCountForDecrement(imgProductCopy);
                 } else {
                     view.showToastLongTime("Error while saving data.");
 
@@ -521,7 +567,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
     }
 
 
-    private void getUpdatedTotalCount(final ImageView imgProductCopy) {
+    private void getUpdatedTotalCount(final ImageView imgProductCopy, final String productName, final int position) {
         model.getCartDetails(new FavouritesModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCarts) {
@@ -533,8 +579,10 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
                     return;
                 } else {
-                    if (productAddRemoveActionListener != null)
-                        productAddRemoveActionListener.onItemTap(imgProductCopy, addToCarts.size());
+                    removeItemFromFavourites(productName, position, imgProductCopy);
+
+                    // if (productAddRemoveActionListener != null)
+                    //   productAddRemoveActionListener.onItemTap(imgProductCopy, addToCarts.size());
 
                 }
             }

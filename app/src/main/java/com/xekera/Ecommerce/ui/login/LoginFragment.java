@@ -3,9 +3,11 @@ package com.xekera.Ecommerce.ui.login;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
@@ -16,10 +18,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,6 +58,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     protected EditText customEdtPasswordHideShow;
     @BindView(R.id.btnSignIn)
     protected Button btnSignIn;
+    @BindView(R.id.textviewForgotPassword)
+    protected TextView textviewForgotPassword;
     @BindView(R.id.btnCreateAccount)
     protected Button btnCreateAccount;
     @BindView(R.id.fb_button)
@@ -145,6 +146,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         btnSignIn.setOnClickListener(this);
         btnCreateAccount.setOnClickListener(this);
         linearLayoutParent.setOnClickListener(this);
+        textviewForgotPassword.setOnClickListener(this);
+
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
         utils.showSoftKeyboard(edtUsername);
@@ -156,7 +159,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                 utils.hideSoftKeyboard(edtUsername);
                 utils.hideSoftKeyboard(customEdtPasswordHideShow);
                 if (utils.isInternetAvailable()) {
-                    showProgressDialogPleaseWait();
+                    // showProgressDialogPleaseWait();
                     callFacebook();
                 } else {
                     showToastShortTime("Please connect to internet.");
@@ -233,7 +236,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                     // deleteContact();//This is my code
                     sessionManager.clearAll();
                     (((BaseActivity) getActivity())).setUserDetails();
-                    hideProgressDialogPleaseWait();
+                    //  hideProgressDialogPleaseWait();
 
                 }
             }
@@ -300,7 +303,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                             sessionManager.createLoginSession(first_name + " " + last_name, "", "", email, true, true, image_url);
                             //sessionManager.setKeyPicture(image_url);
                             (((BaseActivity) getActivity())).setUserDetails();
-                            hideProgressDialogPleaseWait();
+                            // hideProgressDialogPleaseWait();
                             showToastShortTime("LoggedIn Successfully.");
                             // txtUsername.setText("First Name: " + first_name + "\nLast Name: " + last_name);
                             //txtEmail.setText(email);
@@ -308,7 +311,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            hideProgressDialogPleaseWait();
+                            // hideProgressDialogPleaseWait();
                             showToastShortTime("Error while login with facebook.");
                         }
 
@@ -340,6 +343,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
 
     boolean isEnable = true;
     boolean isLoginBtnEnable = true;
+    boolean isForgotPasswordBtnEnable = true;
 
     @Override
     public void onClick(View view) {
@@ -386,8 +390,60 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                 utils.hideSoftKeyboard(customEdtPasswordHideShow);
                 break;
 
+            case R.id.textviewForgotPassword:
+                if (isForgotPasswordBtnEnable) {
+                    isForgotPasswordBtnEnable = false;
+                    textviewForgotPassword.setTextColor(Color.parseColor("#0182c3"));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            isForgotPasswordBtnEnable = true;
+                            textviewForgotPassword.setTextColor(Color.parseColor("#ffffff"));
+                            showForgotPasswordDialog(getActivity());
+
+                        }
+                    }, 300);
+                }
+                break;
+
         }
     }
+
+   // boolean isResetPasswordEnable = true;
+
+    private void showForgotPasswordDialog(Context context) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View v = dialog.getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+
+        dialog.setContentView(R.layout.dialog_forgot_password);
+
+        Button btnReset = dialog.findViewById(R.id.btnReset);
+        EditText edtPasswordShowHide = dialog.findViewById(R.id.edtPasswordShowHide);
+        EditText edtConfirmPasswordShowHide = dialog.findViewById(R.id.edtConfirmPasswordShowHide);
+
+     //   if (isResetPasswordEnable) {
+       //     isResetPasswordEnable = false;
+
+            btnReset.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+         //                   isResetPasswordEnable = true;
+                            showToastShortTime("Password reset successfully.");
+                            dialog.dismiss();
+
+                        }
+                    }, 200);
+                }
+            });
+        //}
+        dialog.show();
+    }
+
 
     @Override
     public void showToastShortTime(String message) {

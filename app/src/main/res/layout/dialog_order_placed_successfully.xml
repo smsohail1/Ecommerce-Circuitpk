@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_order_placed"
+>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+
+        <!--<LinearLayout android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:gravity="right">-->
+
+        <!--<ImageView-->
+        <!--android:id="@+id/imgRemove"-->
+        <!--android:layout_width="@dimen/btn_cancel_order_height"-->
+        <!--android:layout_height="@dimen/btn_cancel_order_height"-->
+        <!--android:padding="5dp"-->
+        <!--android:layout_gravity="right"-->
+        <!--android:src="@drawable/selector_delete"-->
+        <!--android:clickable="true"-->
+        <!--/>-->
+
+        <!--</LinearLayout>-->
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+        >
+
+            <RelativeLayout
+                    android:id="@+id/relativeParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal">
+
+                <cdflynn.android.library.checkview.CheckView
+                        android:id="@+id/check"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:checkView_strokeColor="@color/colorPrimary"
+                        app:checkView_strokeWidth="@dimen/check_stroke_width"
+
+                />
+
+            </RelativeLayout>
+            <TextView
+                    android:id="@+id/txtTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/titilliu_web_semi_bold"
+                    android:gravity="center_horizontal"
+                    android:text="@string/order_submitted"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_below="@+id/relativeParent"
+                    android:padding="10dp"
+                    android:textSize="@dimen/order_placed_textview_size"/>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>

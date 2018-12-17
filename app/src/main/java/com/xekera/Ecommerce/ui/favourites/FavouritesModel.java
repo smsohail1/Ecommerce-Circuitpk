@@ -149,6 +149,46 @@ public class FavouritesModel implements FavouritesMVP.Model {
     }
 
     @Override
+    public void checkItemAlreadyAddedOrNot(final String itemName, final IFetchOrderDetailsList iFetchCartDetailsList) {
+        try {
+            Observable.just(appDatabase.getFavouritesDao()).
+                    map(new Function<FavouritesDao, List<Favourites>>() {
+                        @Override
+                        public List<Favourites> apply(FavouritesDao favouritesDao) throws Exception {
+                            return favouritesDao.getFavouritesByName(itemName);
+                        }
+                    }).
+                    subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Observer<List<Favourites>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<Favourites> bookings) {
+                            iFetchCartDetailsList.onCartDetailsReceived(bookings);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            iFetchCartDetailsList.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception e) {
+            iFetchCartDetailsList.onErrorReceived(e);
+        }
+
+    }
+
+
+    @Override
     public void removeSelectedCartDetails(final String itemName, final IRemoveSelectedItemDetails iRemoveSelectedItemDetails) {
         try {
             Observable.just(appDatabase)
@@ -274,6 +314,45 @@ public class FavouritesModel implements FavouritesMVP.Model {
     }
 
     @Override
+    public void getTotalCountsByName(final String name, final IFetchOrderDetailsList iFetchOrderDetailsList) {
+        try {
+            Observable.just(appDatabase.getFavouritesDao()).
+                    map(new Function<FavouritesDao, List<Favourites>>() {
+                        @Override
+                        public List<Favourites> apply(FavouritesDao favouritesDao) throws Exception {
+                            return favouritesDao.getFavouritesByName(name);
+                        }
+                    }).
+                    subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Observer<List<Favourites>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<Favourites> bookings) {
+                            iFetchOrderDetailsList.onCartDetailsReceived(bookings);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            iFetchOrderDetailsList.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception e) {
+            iFetchOrderDetailsList.onErrorReceived(e);
+        }
+    }
+
+
+    @Override
     public void getCartDetails(final IFetchCartDetailsList iFetchCartDetailsList) {
         try {
             Observable.just(appDatabase.getAddToCartDao()).
@@ -390,6 +469,46 @@ public class FavouritesModel implements FavouritesMVP.Model {
         }
     }
 
+
+    @Override
+    public void getProductCount(final String productName, final IFetchOrderDetailsList iFetchCartDetailsList) {
+        try {
+            Observable.just(appDatabase.getFavouritesDao()).
+                    map(new Function<FavouritesDao, List<Favourites>>() {
+                        @Override
+                        public List<Favourites> apply(FavouritesDao favouritesDao) throws Exception {
+                            return favouritesDao.getFavouritesByName(productName);
+                        }
+                    }).
+                    subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Observer<List<Favourites>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<Favourites> AddToCartList) {
+                            iFetchCartDetailsList.onCartDetailsReceived(AddToCartList);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            iFetchCartDetailsList.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception e) {
+            iFetchCartDetailsList.onErrorReceived(e);
+        }
+    }
+
+
     @Override
     public void updateItemCountInDB(final String quantity, final String itemPrice, final String productName, final String cutPrice,
                                     final ISaveProductDetails iSaveProductDetails) {
@@ -436,6 +555,98 @@ public class FavouritesModel implements FavouritesMVP.Model {
     }
 
     @Override
+    public void updateFavouriteItemCountInDB(final String quantity, final String itemPrice, final String productName, final String cutPrice,
+                                             final ISaveProductDetails iSaveProductDetails) {
+
+        try {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
+                        @Override
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+                            appDatabase.getFavouritesDao().updateItemQuantity(quantity, itemPrice, productName, cutPrice);
+                            return true;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean updated) {
+                            iSaveProductDetails.onProductDetailsSaved(updated);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (e.getMessage() != null) {
+                                iSaveProductDetails.onErrorReceived((Exception) e);
+                            }
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception ex) {
+            iSaveProductDetails.onErrorReceived(ex);
+        }
+
+    }
+
+
+    @Override
+    public void updateItemAddToCart(final String quantity, final String itemPrice, final String productName, final String cutPrice,
+                                    final ISaveProductDetails iSaveProductDetails) {
+
+        try {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
+                        @Override
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+                            appDatabase.getAddToCartDao().updateItemCount(quantity, itemPrice, productName, cutPrice);
+                            return true;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean updated) {
+                            iSaveProductDetails.onProductDetailsSaved(updated);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (e.getMessage() != null) {
+                                iSaveProductDetails.onErrorReceived((Exception) e);
+                            }
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception ex) {
+            iSaveProductDetails.onErrorReceived(ex);
+        }
+
+    }
+
+
+    @Override
     public void saveProductDetails(final AddToCart addToCart, final ISaveProductDetails iSaveProductDetails) {
         try {
             Observable.just(appDatabase)
@@ -477,6 +688,47 @@ public class FavouritesModel implements FavouritesMVP.Model {
         }
     }
 
+    @Override
+    public void savefavouritesDetails(final Favourites favourites, final ISaveProductDetails iSaveProductDetails) {
+        try {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
+                        @Override
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+                            appDatabase.getFavouritesDao().insert(favourites);
+                            return true;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean isAdded) {
+                            iSaveProductDetails.onProductDetailsSaved(isAdded);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (e.getMessage() != null) {
+                                iSaveProductDetails.onErrorReceived((Exception) e);
+                            }
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception ex) {
+            iSaveProductDetails.onErrorReceived(ex);
+        }
+    }
 
     interface IFetchOrderDetailsList {
         void onCartDetailsReceived(List<Favourites> bookings);

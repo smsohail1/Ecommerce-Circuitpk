@@ -41,8 +41,9 @@ public interface HistoryMVP {
 
         void setAdapter(List<Booking> addToCarts);
 
+        void showOrderCompleteSuccessDialog();
 
-
+        void hideLoadingProgressDialog();
     }
 
     interface Presenter {
@@ -58,6 +59,7 @@ public interface HistoryMVP {
     interface Model {
 
         void getOrderDetailsList(HistoryModel.IFetchOrderDetailsList iFetchOrderDetailsList);
+
         void getCartDetailsList(HistoryModel.IFetchCartDetailsList iFetchCartDetailsList);
 
     }

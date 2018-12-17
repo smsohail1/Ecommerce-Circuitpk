@@ -1,1 +1,1 @@
-include ':app', ':library', ':sparkbutton'
+include ':app', ':library', ':sparkbutton', ':checkview'

@@ -25,20 +25,20 @@
                 android:layout_centerVertical="true"
         >
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-            >
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/company_logo"
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--&gt;-->
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:background="@drawable/company_logo"-->
 
-                />
-            </LinearLayout>
+            <!--/>-->
+            <!--</LinearLayout>-->
 
 
             <LinearLayout
@@ -71,6 +71,8 @@
                             android:hint="@string/employee_code_hint_login_edt"
                             android:textColor="#ffffff"
                             android:inputType="text"
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+
                             android:maxLines="1"
                             android:layout_marginTop="1dp"
                             android:background="@android:color/transparent"
@@ -105,6 +107,8 @@
                             android:layout_marginTop="4dp"
                             android:inputType="textPassword"
                             android:imeOptions="actionDone"
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+
                             android:maxLength="15"
                             android:textColorHint="#ffffff"
                             android:textCursorDrawable="@drawable/cursor_color"
@@ -142,12 +146,22 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/btn_login_size"/>
 
+                <TextView
+                        android:id="@+id/textviewForgotPassword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/red_edt_account"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="2dp"
+                        android:padding="5dp"
+                        android:text="@string/forgot_password_label"/>
+
                 <com.facebook.login.widget.LoginButton
                         android:id="@+id/fb_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"

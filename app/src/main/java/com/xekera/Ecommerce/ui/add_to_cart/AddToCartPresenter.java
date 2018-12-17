@@ -40,6 +40,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                     view.hideRecyclerView();
                     view.setParentFields();
                     view.txtNoCartItemFound();
+                    view.hideLoadingProgressDialog();
                     // view.setCartCounts(0);
                     return;
                 } else {

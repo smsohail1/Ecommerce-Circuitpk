@@ -38,15 +38,20 @@ public class LoginPresenter implements LoginMVP.Presenter {
                     @Override
                     public void onSuccess(LoginSuccessResponse response) {
                         view.hideProgressDialogPleaseWait();
+                        if (response == null) {
+                            view.showToastShortTime("Server not responding.");
 
-                        if (response.getStatus()) {
-                            sessionManager.setIsLoggedIn(true);
-                            view.showToastShortTime(response.getMessage());
-                            view.loggedInSuccessfully();
-
+                            return;
                         } else {
-                            view.showToastShortTime(response.getMessage());
+                            if (response.getStatus()) {
+                                sessionManager.setIsLoggedIn(true);
+                                view.showToastShortTime(response.getMessage());
+                                view.loggedInSuccessfully();
 
+                            } else {
+                                view.showToastShortTime(response.getMessage());
+
+                            }
                         }
                     }
 

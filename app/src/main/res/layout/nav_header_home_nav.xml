@@ -31,21 +31,46 @@
                   android:weightSum="1.0"
                   android:orientation="horizontal">
 
+
         <LinearLayout android:layout_width="0dp"
                       android:layout_height="match_parent"
                       android:layout_weight="0.5"
                       android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/img"
-                    android:layout_width="95dp"
-                    android:layout_height="90dp"
-                    android:src="@drawable/icon_user_profile"
-                    app:civ_border_width="2dp"
-                    android:padding="5dp"
-                    app:civ_border_color="#ffffff"
-            />
+
+            <RelativeLayout android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/img"
+                        android:layout_width="95dp"
+                        android:layout_height="90dp"
+                        android:src="@drawable/icon_user_profile"
+                        app:civ_border_width="2dp"
+                        android:padding="5dp"
+                        app:civ_border_color="#ffffff"
+                />
+
+                <ImageView
+                        android:id="@+id/imgFacebook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_facebook"
+                        android:layout_alignTop="@id/img"
+                        android:layout_alignRight="@id/img"
+                        android:visibility="gone"
+                />
+            </RelativeLayout>
+            <!--<de.hdodenhof.circleimageview.CircleImageView-->
+            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/img"-->
+            <!--android:layout_width="95dp"-->
+            <!--android:layout_height="90dp"-->
+            <!--android:src="@drawable/icon_user_profile"-->
+            <!--app:civ_border_width="2dp"-->
+            <!--android:padding="5dp"-->
+            <!--app:civ_border_color="#ffffff"-->
+            <!--/>-->
             <Button
                     android:id="@+id/btnChangePhoto"
                     android:layout_width="wrap_content"

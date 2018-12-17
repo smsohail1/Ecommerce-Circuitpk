@@ -114,8 +114,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public TextView availabilitStockTextView;
         @BindView(R.id.discountPriceTextView)
         public TextView discountPriceTextView;
-        //  @BindView(R.id.btnAddToCart)
-        // public ImageView btnAddToCart;
+        @BindView(R.id.btnAddToCart)
+        public ImageView btnAddToCart;
         @BindView(R.id.imgRemove)
         public ImageView imgRemove;
         @BindView(R.id.decrementImageButton)
@@ -129,7 +129,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
-            // itemView.findViewById(R.id.btnAddToCart).setOnClickListener(this);
+            itemView.findViewById(R.id.btnAddToCart).setOnClickListener(this);
             itemView.findViewById(R.id.imgRemove).setOnClickListener(this);
             itemView.findViewById(R.id.decrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.incrementImageButton).setOnClickListener(this);
@@ -139,11 +139,11 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                /*case R.id.btnAddToCart:
+                case R.id.btnAddToCart:
                     iFvaouritesAddToCartAdapter.addToCartFavourites(productsItems.get(getLayoutPosition()), getLayoutPosition(),
                             imgProductCopy);
-                            break;
-                */
+                    break;
+
 
                 case R.id.imgRemove:
                     iFvaouritesAddToCartAdapter.removeFavourites(productsItems.get(getLayoutPosition()), getLayoutPosition());
@@ -155,27 +155,44 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     // productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
 
-                    if (Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) > 1) {
+                    long dec = 0;
+                    if (Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) == 0) {
+                        dec = 0;
 
-                        long dec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) - 1;
                         productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(dec));
-
                         counterTextview.setText(dec + "");
 
-                        long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
-                        long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+                        long productPriceDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
+                        long itemQuantityDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
                         iFvaouritesAddToCartAdapter.onDecrementButtonClick(Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()),
-                                String.valueOf(productPrice),
-                                String.valueOf(productPrice * itemQuantity),
+                                String.valueOf(productPriceDec),
+                                String.valueOf(productPriceDec*itemQuantityDec),
                                 productsItems.get(getLayoutPosition()).getItemName(),
                                 Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
                                 productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy);
 
                     } else {
-                        productsItems.get(getLayoutPosition()).setItemQuantity("0");
-                        counterTextview.setText(productsItems.get(getLayoutPosition()).getItemQuantity() + "");
+                        dec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) - 1;
+                        productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(dec));
+                        counterTextview.setText(dec + "");
 
-                        iFvaouritesAddToCartAdapter.removeItemFromCart(productsItems.get(getLayoutPosition()));
+                        long productPriceDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
+                        long itemQuantityDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+                        iFvaouritesAddToCartAdapter.onDecrementButtonClick(Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()),
+                                String.valueOf(productPriceDec),
+                                String.valueOf(productPriceDec * itemQuantityDec),
+                                productsItems.get(getLayoutPosition()).getItemName(),
+                                Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
+                                productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy);
+
+                    }
+
+
+                    // else {
+                    // productsItems.get(getLayoutPosition()).setItemQuantity("0");
+                    //   counterTextview.setText(productsItems.get(getLayoutPosition()).getItemQuantity() + "");
+
+                    // iFvaouritesAddToCartAdapter.removeItemFromCart(productsItems.get(getLayoutPosition()));
 
 
 //                        long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getProductPrice());
@@ -187,7 +204,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //                                productsItems.get(getLayoutPosition()).getCutPrice(),
 //                                productsItems.get(getLayoutPosition()).getByteImage(), imgProductCopy);
 
-                    }
+                    //}
                     break;
                 case R.id.incrementImageButton:
 

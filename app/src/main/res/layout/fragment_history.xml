@@ -27,14 +27,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textStyle="bold"
+                      android:textSize="@dimen/screen_label_text_size"
+                      android:textColor="@color/card_textview"
+                      android:layout_marginTop="5dp"
+
+                      android:layout_gravity="center_horizontal"
+                      android:text="@string/label_history"/>
 
             <LinearLayout
                     android:id="@+id/TotalAmountParentLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/linearDeliveryAddressLayout"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginTop="8dp">
+
 
                 <android.support.v7.widget.CardView
                         android:id="@+id/cardViewAvailibilityParent"
@@ -124,7 +134,7 @@
 
                         <RelativeLayout android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        android:layout_marginTop="3dp"
+                                        android:layout_marginTop="5dp"
                         >
                             <TextView
                                     android:id="@+id/totalLabelTextView"
@@ -183,6 +193,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/linearLayoutItemDetails"
                                 android:layout_marginTop="3dp"
+                                android:layout_marginBottom="5dp"
+
                         >
 
                             <android.support.v7.widget.RecyclerView
@@ -201,7 +213,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/linerarParent"
                                 android:layout_gravity="center"
-                                android:layout_marginTop="3dp"
+                                android:layout_marginTop="5dp"
                                 android:gravity="center_horizontal"
                                 android:textColor="@color/card_textview"
                                 android:textSize="@dimen/no_item_found_txt_size"
@@ -216,4 +228,17 @@
 
         </LinearLayout>
     </LinearLayout>
+    <RelativeLayout
+            android:id="@+id/progressBarRelativeLayout"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+    >
+        <ProgressBar
+                android:id="@+id/progressbar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+        </ProgressBar>
+    </RelativeLayout>
 </FrameLayout>

@@ -53,6 +53,7 @@ public interface FavouritesMVP {
 
         void setDecrementCount(int counts);
 
+        void hideLoadingProgressDialog();
 
     }
 
@@ -94,6 +95,10 @@ public interface FavouritesMVP {
 
         void getTotalCounts(FavouritesModel.IFetchOrderDetailsList iFetchOrderDetailsList);
 
+
+        void getTotalCountsByName(String name, FavouritesModel.IFetchOrderDetailsList iFetchOrderDetailsList);
+
+
         void getCartDetails(FavouritesModel.IFetchCartDetailsList iFetchCartDetailsList);
 
         void getCartDetails(FavouritesModel.IFetchOrderDetailsList iFetchOrderDetailsList);
@@ -101,13 +106,26 @@ public interface FavouritesMVP {
 
         void getProductCount(String productName, FavouritesModel.IFetchCartDetailsList iFetchCartDetailsList);
 
+        void getProductCount(String productName, FavouritesModel.IFetchOrderDetailsList iFetchCartDetailsList);
+
         void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice,
                                  FavouritesModel.ISaveProductDetails iSaveProductDetails);
 
+
+        void updateFavouriteItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice,
+                                          FavouritesModel.ISaveProductDetails iSaveProductDetails);
+
+
+        void updateItemAddToCart(String quantity, String itemPrice, String productName, String cutPrice,
+                                          FavouritesModel.ISaveProductDetails iSaveProductDetails);
+
         void saveProductDetails(AddToCart addToCart, FavouritesModel.ISaveProductDetails iSaveProductDetails);
+
+        void savefavouritesDetails(Favourites favourites, FavouritesModel.ISaveProductDetails iSaveProductDetails);
 
         void removeItemFromCart(String productName, FavouritesModel.IRemoveSelectedItemDetails iRemoveSelectedItemDetails);
 
 
+        void checkItemAlreadyAddedOrNot(String itemName, FavouritesModel.IFetchOrderDetailsList iFetchCartDetailsList);
     }
 }
