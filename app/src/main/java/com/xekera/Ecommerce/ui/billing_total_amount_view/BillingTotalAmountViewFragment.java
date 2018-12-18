@@ -92,6 +92,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     List<String> cartItems;
     List<Booking> cartList;
 
+    View toastView;
 
     public BillingTotalAmountViewFragment() {
         // Required empty public constructor
@@ -143,6 +144,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         ButterKnife.bind(this, v);
         presenter.setView(this);
 
+        toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
         btnConfirmCheckout.setOnClickListener(this);
         // ((BaseActivity) getActivity()).hideBottomNavigation();
@@ -168,7 +170,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
     @Override
     public void showToastShortTime(String message) {
-        toastUtil.showToastShortTime(message);
+        toastUtil.showToastShortTime(message, toastView);
     }
 
     @Override
@@ -256,7 +258,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
     @Override
     public void showMessageZeroItemOnCart() {
-        toastUtil.showToastShortTime("No item exist in cart.");
+        toastUtil.showToastShortTime("No item exist in cart.", toastView);
     }
 
     @Override

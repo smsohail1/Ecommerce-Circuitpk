@@ -132,6 +132,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     String placeName = "";
 
     Animation shake;
+    View toastView;
+
 
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
 
@@ -341,6 +343,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             ButterKnife.bind(this, v);
             presenter.setView(this);
 
+            toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
+
             // ((BaseActivity) getActivity()).hideBottomNavigation();
 
             incrementImageButton.setOnClickListener(this);
@@ -384,7 +388,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
     @Override
     public void showToastShortTime(String message) {
-        toastUtil.showToastShortTime(message);
+        toastUtil.showToastShortTime(message, toastView);
     }
 
     @Override
@@ -559,7 +563,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                     String noOfProductsIncrement = counterTextview.getText().toString();
                     long noOfProductsIntIncrement = Long.valueOf(noOfProductsIncrement);
                     if (utils.isTextNullOrEmpty(noOfProductsIncrement) || noOfProductsIntIncrement < 0) {
-                        snackUtil.showSnackBarShortTime(view, "Product not available");
+                        showToastShortTime("Product not available");
                         //  shoppingDetailModel.setItemQuantity(0);
                         noOfProductsIntIncrement = 0;
                         counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
@@ -608,7 +612,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                     String noOfProductsDecrement = counterTextview.getText().toString();
                     long noOfProductsIntDecrement = Long.valueOf(noOfProductsDecrement);
                     if (utils.isTextNullOrEmpty(noOfProductsDecrement) || noOfProductsIntDecrement < 0) {
-                        snackUtil.showSnackBarShortTime(view, "Product not available");
+                        showToastShortTime("Product not available");
                         //  shoppingDetailModel.setItemQuantity(0);
                         //decrementCounter = 0;
                         noOfProductsIntDecrement = 0;
@@ -631,7 +635,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
 //                            presenter.updateItemCountInDB(String.valueOf(noOfProductsIntDecrement)
 //                                    , productNameLabelTextView.getText().toString());
-                            snackUtil.showSnackBarShortTime(view, "Please select atleast one quantity.");
+                            showToastShortTime( "Please select atleast one quantity.");
                             return;
                         }
                         noOfProductsIntDecrement = noOfProductsIntDecrement - 1;

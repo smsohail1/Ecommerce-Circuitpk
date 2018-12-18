@@ -254,4 +254,8 @@
     </string>
 
     <string name="order_submitted">Order Submitted Successfully</string>
+
+    <string name="new_password">New password</string>
+    <string name="retype_new_password">Retype new password</string>
+
 </resources>

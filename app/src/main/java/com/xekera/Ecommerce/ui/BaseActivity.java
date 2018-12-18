@@ -149,6 +149,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     public CircleImageView profilePhoto;
 
     boolean isEnabled = true;
+    boolean isLoginBtnEnable = true;
+    View toastView;
 
 
     // TextView slideshow, gallery;
@@ -171,8 +173,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
+
         View headerView = navigationView.getHeaderView(0);
         Button btnChangePhoto = headerView.findViewById(R.id.btnChangePhoto);
+        Button btnLogin = headerView.findViewById(R.id.btnLogin);
+
         //  profilePhoto = headerView.findViewById(R.id.img);
         profilePhoto = headerView.findViewById(R.id.img);
 
@@ -195,6 +201,50 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     }
                 }
 
+            }
+        });
+
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                if (!(fragment instanceof LoginFragment)) {
+
+                    if (isLoginBtnEnable) {
+                        isLoginBtnEnable = false;
+                        Menu menu = navigationView.getMenu();
+                        MenuItem menuItem;
+
+                        Menu bottomMenu = navigation.getMenu();
+                        MenuItem bottomMenuItem;
+
+                        for (int i = 0; i < menu.size(); i++) {
+                            menuItem = menu.getItem(i);
+                            menuItem.setChecked(false);
+                        }
+
+                        for (int i = 0; i < bottomMenu.size(); i++) {
+                            bottomMenuItem = bottomMenu.getItem(i);
+                            bottomMenuItem.setCheckable(false);
+                        }
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                replaceFragmentWithContainer(new LoginFragment());
+                                drawer.closeDrawer(GravityCompat.START);
+                                isLoginBtnEnable = true;
+
+                            }
+                        }, 300);
+
+                    }
+                } else {
+                    isLoginBtnEnable = true;
+                    drawer.closeDrawer(GravityCompat.START);
+
+                }
             }
         });
 
@@ -935,7 +985,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 return true;
 
             }
-        } else if (id == R.id.nav_login) {
+        }
+
+        /*else if (id == R.id.nav_login) {
             if (!(fragmentContainer instanceof LoginFragment)) {
 
 
@@ -957,7 +1009,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 return true;
 
             }
-        } else if (id == R.id.navAbout) {
+        } */
+
+        else if (id == R.id.navAbout) {
             if (!(fragmentContainer instanceof AboutFragment)) {
 
                 bottomMenu = navigation.getMenu();
@@ -997,6 +1051,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         startActivity(Intent.createChooser(share, "Share App link"));
     }
 
+    boolean isEnable = true;
+
     private void showLogoutDialog(Context context, String title, String message) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1009,17 +1065,34 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         txtMessage.setText("" + message);
         txtTitle.setText("" + title);
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sessionManager.getKeyIsFacebookLogin() || sessionManager.isSignUp() || sessionManager.isLoggedIn()) {
-                    sessionManager.clearAll();
-                    toastUtil.showToastShortTime("Logout Successfully.");
-                    dialog.dismiss();
-                    finish();
+                // if (sessionManager.getKeyIsFacebookLogin() || sessionManager.isSignUp() || sessionManager.isLoggedIn()) {
+                if (sessionManager.isLoggedIn() || sessionManager.getKeyIsFacebookLogin()) {
+                    isEnable = false;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Menu menu = navigationView.getMenu();
+                            MenuItem menuItem;
+
+                            for (int i = 0; i < menu.size(); i++) {
+                                menuItem = menu.getItem(i);
+                                menuItem.setChecked(false);
+                            }
+
+                            sessionManager.clearAll();
+                            toastUtil.showToastShortTime("Logout Successfully.", toastView);
+                            setUserDetails();
+                            dialog.dismiss();
+                            isEnable = true;
+                            //   finish();
+                        }
+                    }, 200);
                 } else {
-                    toastUtil.showToastShortTime("Please login first.");
+                    isEnable = true;
+                    toastUtil.showToastShortTime("Please login first.", toastView);
                 }
             }
         });
@@ -1556,13 +1629,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     //  String path = saveImage(bitmap);
 
                     profilePhoto.setImageBitmap(bitmap);
-                    toastUtil.showToastShortTime("Profile picture updated");
+                    toastUtil.showToastShortTime("Profile picture updated", toastView);
                     String strImg = bitMapToString(bitmap);
                     sessionManager.setTakePhoto(strImg);
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    toastUtil.showToastShortTime("Error while updating profile picture");
+                    toastUtil.showToastShortTime("Error while updating profile picture", toastView);
 
                 }
             }
@@ -1577,9 +1650,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 sessionManager.setTakePhoto(strImg);
 
                 //   saveImage(thumbnail);
-                toastUtil.showToastShortTime("Profile pic updated");
+                toastUtil.showToastShortTime("Profile pic updated", toastView);
             } catch (Exception e) {
-                toastUtil.showToastShortTime("Error while updating profile picture");
+                toastUtil.showToastShortTime("Error while updating profile picture", toastView);
 
             }
         }

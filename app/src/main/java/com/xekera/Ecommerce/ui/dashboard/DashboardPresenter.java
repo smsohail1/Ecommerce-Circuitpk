@@ -59,7 +59,7 @@ public class DashboardPresenter implements DashboardMVP.Presenter {
             @Override
             public void onErrorReceived(Exception ex) {
                 view.setCartLabel();
-                view.showToastLongTime("Error in fetch count.");
+                view.showToastShortTime("Error in fetch count.");
 
 
             }
@@ -86,7 +86,7 @@ public class DashboardPresenter implements DashboardMVP.Presenter {
 
     private void receivedNull(String apiJsonNodeName) {
         view.hideProgressDialogPleaseWait();
-        view.showToastLongTime(apiJsonNodeName + " is null");
+        view.showToastShortTime(apiJsonNodeName + " is null");
     }
 }
 

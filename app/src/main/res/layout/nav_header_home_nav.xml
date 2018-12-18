@@ -107,6 +107,7 @@
                     android:textColor="#ffffff"
                     android:layout_marginTop="2dp"
                     android:textSize="@dimen/txt_drawer_courier_name_size"
+
             />
             <TextView
                     android:id="@+id/txtUserEmail"
@@ -117,8 +118,22 @@
                     android:visibility="gone"
                     android:textSize="@dimen/txt_drawer_courier_name_size"
             />
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center_horizontal"
+                          android:layout_marginTop="2dp"
+                          android:orientation="horizontal">
 
-
+                <Button
+                        android:id="@+id/btnLogin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/btn_atake_photo_height"
+                        android:theme="@style/changePhotoButton"
+                        android:textSize="12sp"
+                        android:textColor="@color/btn_change_photo"
+                        android:textAllCaps="false"
+                        android:text="Login"/>
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

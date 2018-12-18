@@ -61,7 +61,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
 
                 @Override
                 public void onErrorReceived(Exception ex) {
-                    view.showToastLongTime("Error while in saving data.");
+                    view.showToastShortTime("Error while in saving data.");
 
                 }
             });
@@ -76,7 +76,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
-                    view.showToastLongTime("Item added to cart successfully.");
+                    view.showToastShortTime("Item added to cart successfully.");
                     getCount();
                     //view.shakeAddToCartTextview();
                 }
@@ -84,7 +84,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -120,18 +120,18 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             @Override
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
-                    view.showToastLongTime("Item added to cart successfully.");
+                    view.showToastShortTime("Item added to cart successfully.");
                     // view.shakeAddToCartTextview();
 
                 } else {
-                    view.showToastLongTime("Error while saving data.");
+                    view.showToastShortTime("Error while saving data.");
 
                 }
             }
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while updating data.");
+                view.showToastShortTime("Error while updating data.");
 
             }
         });
@@ -143,18 +143,18 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             @Override
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
-                    view.showToastLongTime("Item added to cart successfully.");
+                    view.showToastShortTime("Item added to cart successfully.");
                     // view.shakeAddToCartTextview();
 
                 } else {
-                    view.showToastLongTime("Error while saving data.");
+                    view.showToastShortTime("Error while saving data.");
 
                 }
             }
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while updating data.");
+                view.showToastShortTime("Error while updating data.");
 
             }
         });
@@ -238,7 +238,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while in saving data.");
+                view.showToastShortTime("Error while in saving data.");
 
             }
         });
@@ -257,14 +257,14 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
 
 
                 } else {
-                    view.showToastLongTime("Error while saving data.");
+                    view.showToastShortTime("Error while saving data.");
 
                 }
             }
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -281,7 +281,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
 
                     getUpdatedTotalCount();
                 } else {
-                    view.showToastLongTime("Error while saving data.");
+                    view.showToastShortTime("Error while saving data.");
 
                 }
 
@@ -290,7 +290,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             @Override
             public void onErrorReceived(Exception ex) {
                 ex.printStackTrace();
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -348,7 +348,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             public void onErrorReceived(Exception ex) {
                 view.setIsFavourite(false);
 
-                view.showToastLongTime("Error while in saving data.");
+                view.showToastShortTime("Error while in saving data.");
 
             }
         });
@@ -408,7 +408,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             public void onError(Exception ex) {
                 view.enableAddtoFavouriteButton();
                 view.animateFavouriteButton();
-                view.showToastLongTime("Error while in saving data.");
+                view.showToastShortTime("Error while in saving data.");
 
             }
         });

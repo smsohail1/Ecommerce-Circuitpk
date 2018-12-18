@@ -60,6 +60,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     FavoritesAdapter adapter;
 
+    View toastView;
 
     public FavouritesFragment() {
         // Required empty public constructor
@@ -101,6 +102,8 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);
+
+        toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
         //((BaseActivity) getActivity()).showBottomNavigation();
 
@@ -154,7 +157,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     @Override
     public void showToastShortTime(String message) {
-        toastUtil.showToastShortTime(message);
+        toastUtil.showToastShortTime(message, toastView);
     }
 
     @Override

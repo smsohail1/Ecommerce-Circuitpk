@@ -123,6 +123,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     String selfPickup = "", selfPickupDiffAddress;
 
     List<String> cityTown;
+    View toastView;
 
 
     public DeliveyBillingDetailsFragment() {
@@ -161,6 +162,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);
+
+        toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
         btnCheckout.setOnClickListener(this);
         userDetailsParentLayout.setOnClickListener(this);
@@ -386,7 +389,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
     @Override
     public void showToastShortTime(String message) {
-        toastUtil.showToastShortTime(message);
+        toastUtil.showToastShortTime(message, toastView);
     }
 
     @Override

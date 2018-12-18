@@ -60,6 +60,7 @@
                         android:paddingRight="10dp"
                         android:textColorHint="#ffffff"
 
+
                 >
                     <EditText
                             android:id="@+id/edtUsername"
@@ -72,8 +73,8 @@
                             android:textColor="#ffffff"
                             android:inputType="text"
                             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
-
                             android:maxLines="1"
+                            android:imeOptions="actionNext"
                             android:layout_marginTop="1dp"
                             android:background="@android:color/transparent"
                             android:maxLength="20"
@@ -84,6 +85,7 @@
                     />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_password"
                         android:layout_width="260dp"
                         android:layout_height="@dimen/edit_height"
                         android:layout_marginTop="8dp"
@@ -91,7 +93,6 @@
                         android:background="@drawable/bg_stroke_sign_in_edt"
                         android:paddingRight="10dp"
                         android:textColorHint="#ffffff"
-
                 >
                     <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
                             android:id="@+id/customEdtPasswordHideShow"

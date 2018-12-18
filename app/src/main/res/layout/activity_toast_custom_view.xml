@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_toast_background"
+                android:gravity="center_horizontal"
+                android:padding="8dp">
+
+    <TextView
+            android:id="@+id/customToastText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:padding="1dp"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/custom_toast_text_size"/>
+</RelativeLayout>

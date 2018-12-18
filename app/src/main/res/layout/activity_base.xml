@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:id="@+id/top_container"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/top_container"
 >
 
     <android.support.design.widget.AppBarLayout
@@ -43,7 +43,7 @@
                         android:id="@+id/imgCompanyLogo"
                         android:layout_width="@dimen/action_bar_logo_width"
                         android:layout_height="@dimen/action_bar_logo_height"
-                        android:src="@drawable/company_logo_updates"
+                        android:src="@drawable/company_updated_logo"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"
                 />
@@ -169,24 +169,35 @@
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
+    <!--<RelativeLayout android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="45dp"-->
+    <!--be-->
+    <!--&gt;-->
 
-    <FrameLayout
-            android:id="@+id/fragmentContainer"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    <!---->
+    <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="45dp"
-    />
+            android:layout_above="@+id/navigation"
+            android:layout_below="@+id/dashboardActionBar"
+            android:id="@+id/placeSnackBar">
+        <FrameLayout
+                android:id="@+id/fragmentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        />
 
-    <FrameLayout
-            android:id="@+id/fragmentContainer2"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="45dp"
+        <FrameLayout
+                android:id="@+id/fragmentContainer2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-    />
+        />
 
+
+    </android.support.design.widget.CoordinatorLayout>
+    <!--</RelativeLayout>-->
 
     <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
@@ -196,6 +207,7 @@
             app:itemIconTint="#ffffff"
             app:itemTextColor="#ffffff"
             android:background="@color/colorPrimary"
+            android:layout_alignParentBottom="true"
             app:itemBackground="@drawable/activated_background"
             android:foreground="?attr/selectableItemBackground"
             app:menu="@menu/dashboard_bottom_navigation_drawer"/>
@@ -221,4 +233,4 @@
     <!--android:visibility="invisible" />-->
 
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

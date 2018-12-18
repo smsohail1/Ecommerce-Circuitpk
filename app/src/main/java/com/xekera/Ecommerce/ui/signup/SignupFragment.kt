@@ -35,6 +35,8 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
     lateinit var progressDialogControllerPleaseWait: ProgressCustomDialogController
 
+    lateinit var toastView: View
+
 
     fun SignupFragment() {
         // Required empty public constructor
@@ -85,6 +87,8 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
         //  (activity as BaseActivity).hideBottomNavigation()
 
         //activity?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+        toastView = layoutInflater.inflate(R.layout.activity_toast_custom_view, null)
 
         utils?.hideSoftKeyboard(edtUsername)
 
@@ -225,7 +229,7 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
     }
 
     override fun showToastShortTime(message: String) {
-        toastUtil?.showToastShortTime(message)
+        toastUtil?.showToastShortTime(message,toastView)
     }
 
     override fun signUpSuccessfully() {

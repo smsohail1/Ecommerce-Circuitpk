@@ -60,6 +60,9 @@ public class SessionManager {
         editor.commit();
     }
 
+
+
+
     public void createDeliverySession(String latitude, String longitude, String placeName) {
         editor.putString(KEY_LATITUDE, latitude);
         editor.putString(KEY_LONGITUDE, longitude);

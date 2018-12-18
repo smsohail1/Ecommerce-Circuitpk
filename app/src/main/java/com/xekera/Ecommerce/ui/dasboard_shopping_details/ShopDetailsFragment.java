@@ -92,6 +92,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
 
     List<Favourites> favList;
+    View toastView;
+
 
     public ShopDetailsFragment() {
         // Required empty public constructor
@@ -288,6 +290,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         ButterKnife.bind(this, v);
         presenter.setView(this);
 
+        toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
+
         //  ((BaseActivity) getActivity()).hideBottomNavigation();
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
@@ -377,7 +381,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void showToastShortTime(String message) {
-        toastUtil.showToastShortTime(message);
+        toastUtil.showToastShortTime(message, toastView);
     }
 
     @Override
@@ -593,7 +597,9 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     @Override
     public void onFavouriteButtonClick(ShoppingDetailModel productItems, int position, Bitmap bitmap) {
 
-        if (!productItems.isFavourite()) {
+        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap);
+
+     /*   if (!productItems.isFavourite()) {
             presenter.removeItem(productItems.getProductName(), position);
         } else {
             //    showSnackBarShortTime("Remove item from favourites.", getView());
@@ -617,7 +623,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
             presenter.addItemToFavourites(favourites, true);
         }
-
+*/
     }
 
     private byte[] bitmapToByteArray(Bitmap bmp) {

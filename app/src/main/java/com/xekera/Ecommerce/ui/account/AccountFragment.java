@@ -59,6 +59,10 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     @Inject
     SessionManager sessionManager;
 
+
+    View toastView;
+
+
     public AccountFragment() {
         // Required empty public constructor
     }
@@ -96,6 +100,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         ButterKnife.bind(this, v);
         btnSaveChanges.setOnClickListener(this);
         linearLayoutParent.setOnClickListener(this);
+
+        toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -152,7 +159,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 String email = edtEmail.getText().toString();
                 if (validateInputFields(username, companyName, address, phoneNo, email)) {
                     sessionManager.createAccountDetails(username, companyName, address, phoneNo, email);
-                    toastUtil.showToastShortTime("Saved changes successfully.");
+                    toastUtil.showToastShortTime("Saved changes successfully.", toastView);
                     ((BaseActivity) getActivity()).setUserDetails();
 
                 }
@@ -171,19 +178,19 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private boolean validateInputFields(String userName, String companyName, String address, String phoneNo, String emailID) {
         if (utils.isTextNullOrEmpty(userName)) {
-            toastUtil.showToastShortTime(utils.getStringFromResourceId(R.string.username_error_login));
+            toastUtil.showToastShortTime(utils.getStringFromResourceId(R.string.username_error_login), toastView);
             return false;
         }
         if (utils.isTextNullOrEmpty(address)) {
-            toastUtil.showToastShortTime(utils.getStringFromResourceId(R.string.house_no_error));
+            toastUtil.showToastShortTime(utils.getStringFromResourceId(R.string.house_no_error), toastView);
             return false;
         }
         if (utils.isTextNullOrEmpty(phoneNo)) {
-            toastUtil.showToastShortTime(utils.getStringFromResourceId(R.string.phone_error));
+            toastUtil.showToastShortTime(utils.getStringFromResourceId(R.string.phone_error), toastView);
             return false;
         }
         if (utils.isTextNullOrEmpty(emailID)) {
-            toastUtil.showToastShortTime(utils.getStringFromResourceId(R.string.email_error));
+            toastUtil.showToastShortTime(utils.getStringFromResourceId(R.string.email_error), toastView);
             return false;
         }
 

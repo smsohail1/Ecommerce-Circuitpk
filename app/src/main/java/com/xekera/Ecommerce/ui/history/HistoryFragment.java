@@ -68,7 +68,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     protected SessionManager sessionManager;
 
     HistoryAdapter adapter;
-
+    View toastView;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -112,6 +112,8 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         presenter.setView(this);
         //  ((BaseActivity) getActivity()).showBottomNavigation();
 
+        toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
+
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         progressBarRelativeLayout.setVisibility(View.VISIBLE);
@@ -129,7 +131,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
     @Override
     public void showToastShortTime(String message) {
-        toastUtil.showToastShortTime(message);
+        toastUtil.showToastShortTime(message, toastView);
     }
 
     @Override

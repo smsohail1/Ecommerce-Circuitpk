@@ -43,6 +43,7 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
 
 
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
+    View toastView;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -189,6 +190,7 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
     public void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);
+        toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
@@ -217,7 +219,7 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
 
     @Override
     public void showToastShortTime(String message) {
-        toastUtil.showToastShortTime(message);
+        toastUtil.showToastShortTime(message, toastView);
     }
 
     @Override

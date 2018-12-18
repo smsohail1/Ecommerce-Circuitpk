@@ -293,7 +293,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while in saving data.");
+                view.showToastShortTime("Error while in saving data.");
 
             }
         });
@@ -336,7 +336,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while in saving data.");
+                view.showToastShortTime("Error while in saving data.");
 
             }
         });
@@ -359,7 +359,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -371,7 +371,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
-                    view.showSnackBarShortTime("Cart updated successfully.");
+                    view.showToastShortTime("Cart updated successfully.");
                     getUpdatedTotalCountForDecrement(imgProductCopy);
 
 
@@ -380,7 +380,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -396,7 +396,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
 
                     getUpdatedTotalCount(imgProductCopy);
                 } else {
-                    view.showToastLongTime("Error while saving data.");
+                    view.showToastShortTime("Error while saving data.");
 
                 }
 
@@ -405,7 +405,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
             @Override
             public void onErrorReceived(Exception ex) {
                 ex.printStackTrace();
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -419,11 +419,11 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
             @Override
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
-                    view.showSnackBarShortTime("Cart updated successfully.");
+                    view.showToastShortTime("Cart updated successfully.");
 
                     getUpdatedTotalCountForDecrement(imgProductCopy);
                 } else {
-                    view.showToastLongTime("Error while saving data.");
+                    view.showToastShortTime("Error while saving data.");
 
                 }
 
@@ -432,7 +432,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
             @Override
             public void onErrorReceived(Exception ex) {
                 ex.printStackTrace();
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });

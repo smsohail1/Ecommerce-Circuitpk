@@ -82,6 +82,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     String placeName = "";
 
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
+    View toastView;
 
 
     public AddToCartFragment() {
@@ -201,6 +202,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
         ButterKnife.bind(this, v);
         presenter.setView(this);
         // ((BaseActivity) getActivity()).showBottomNavigation();
+        toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
 
         btnCheckout.setOnClickListener(this);
@@ -234,7 +236,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     @Override
     public void showToastShortTime(String message) {
-        toastUtil.showToastShortTime(message);
+        toastUtil.showToastShortTime(message, toastView);
     }
 
     @Override
@@ -343,7 +345,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     @Override
     public void showMessageZeroItemOnCart() {
-        toastUtil.showToastShortTime("No item available in cart.");
+        toastUtil.showToastShortTime("No item available in cart.", toastView);
     }
 
     @Override
@@ -379,7 +381,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        showToastLongTime("Required SignUp for further proceed.");
+                        showToastShortTime("Required SignUp for further proceed.");
                         ((BaseActivity) getActivity()).addFragment(new LoginFragment());
 
                     }
@@ -486,7 +488,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
         btnApplyCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toastUtil.showToastShortTime("Coupon Applied successfully.");
+                toastUtil.showToastShortTime("Coupon Applied successfully.", toastView);
                 dialog.dismiss();
             }
         });

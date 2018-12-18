@@ -178,18 +178,34 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
         });
     }
 
-
-    public void insertSelectedFavourites(final Favourites favourites) {
-
-        model.checkItemAlreadyAddedOrNot(favourites.getItemName(), new ShopDetailsModel.IFetchFavDetailsList() {
+    @Override
+    public void isAlreadyAddedInFavourites(final ShoppingDetailModel productItems, final int position, final Bitmap bitmap) {
+        model.getFavouriteDetailsListByName(productItems.getProductName(), new ShopDetailsModel.IFetchOrderDetailsList() {
             @Override
-            public void onCartDetailsReceived(List<Favourites> addToCarts) {
-                if (addToCarts == null || addToCarts.size() == 0) {
-                    addItem(favourites);
-                    return;
+            public void onCartDetailsReceived(List<Favourites> favourites) {
+                if (favourites == null || favourites.size() == 0) {
+                    byte[] bmp = bitmapToByteArray(bitmap);
+
+                    long totalPrice = Long.valueOf(productItems.getProductPrice()) * Long.valueOf(productItems.getItemQuantity());
+
+                    String formattedDate = "";
+                    formattedDate = getCurrentDate();
+                    Favourites fav;
+                    if (productItems.getItemQuantity() == 0) {
+                        fav = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
+                                String.valueOf(productItems.getCutPrice()), "In Stock", formattedDate,
+                                bmp, "0", String.valueOf(totalPrice));
+                    } else {
+                        fav = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
+                                String.valueOf(productItems.getCutPrice()), "In Stock", formattedDate,
+                                bmp, String.valueOf(productItems.getItemQuantity()), String.valueOf(totalPrice));
+                    }
+
+                    addItemToFavourites(fav, true);
+
                 } else {
-                    view.showToastShortTime("Item already available in favourite.");
-                    // setAdapter(addToCarts);
+                    removeItem(productItems.getProductName(), position);
+
                 }
             }
 
@@ -199,6 +215,29 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
                 view.showToastShortTime(ex.getMessage());
             }
         });
+    }
+
+
+    public void insertSelectedFavourites(final Favourites favourites) {
+
+//        model.checkItemAlreadyAddedOrNot(favourites.getItemName(), new ShopDetailsModel.IFetchFavDetailsList() {
+//            @Override
+//            public void onCartDetailsReceived(List<Favourites> addToCarts) {
+//                if (addToCarts == null || addToCarts.size() == 0) {
+        addItem(favourites);
+//                    return;
+//                } else {
+//                    view.showToastShortTime("Item already available in favourite.");
+//                    // setAdapter(addToCarts);
+//                }
+//            }
+
+//        @Override
+//        public void onErrorReceived (Exception ex){
+//            ex.printStackTrace();
+//            view.showToastShortTime(ex.getMessage());
+//        }
+//    });
 
     }
 
@@ -218,8 +257,9 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
 
                     view.showToastShortTime("Item added to favourite.");
+                    //  getFavourites();
 
-                    getFavourites();
+
                     //  view.enableAddtoFavouriteButton();
                     // view.animationAddButton();
 
@@ -310,7 +350,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while in saving data.");
+                view.showToastShortTime("Error while in saving data.");
 
             }
         });
@@ -350,7 +390,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while in saving data.");
+                view.showToastShortTime("Error while in saving data.");
 
             }
         });
@@ -373,7 +413,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -394,7 +434,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -410,7 +450,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
                     getUpdatedTotalCount(imgProductCopy);
                 } else {
-                    view.showToastLongTime("Error while saving data.");
+                    view.showToastShortTime("Error while saving data.");
 
                 }
 
@@ -419,7 +459,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
             @Override
             public void onErrorReceived(Exception ex) {
                 ex.printStackTrace();
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -437,7 +477,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
                     getUpdatedTotalCountForDecrement(imgProductCopy);
                 } else {
-                    view.showToastLongTime("Error while saving data.");
+                    view.showToastShortTime("Error while saving data.");
 
                 }
 
@@ -446,7 +486,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
             @Override
             public void onErrorReceived(Exception ex) {
                 ex.printStackTrace();
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });

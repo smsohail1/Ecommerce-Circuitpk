@@ -92,6 +92,9 @@
                         android:hint="@string/employee_code_hint_signup_edt"
                         android:inputType="text"
                         android:maxLength="20"
+                        android:imeOptions="actionNext"
+
+                        android:layout_marginBottom="5dp"
                         android:textColorHint="#ffffff"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="14sp"/>
@@ -135,14 +138,16 @@
                         android:fontFamily="@font/titilliu_web_regular"
                         android:hint="@string/password_hint_signup_edt"
                         android:inputType="textPassword"
-                        android:imeOptions="actionDone"
                         android:textColor="#ffffff"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
                         android:maxLines="1"
+                        android:imeOptions="actionNext"
+
                         android:maxLength="15"
                         android:textColorHint="#ffffff"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="14sp"
+                        android:layout_marginBottom="10dp"
 
                 />
             </android.support.design.widget.TextInputLayout>
@@ -171,7 +176,11 @@
                         android:maxLength="11"
                         android:textColor="#ffffff"
                         android:maxLines="1"
+                        android:imeOptions="actionNext"
+
                         android:textColorHint="#ffffff"
+                        android:layout_marginBottom="10dp"
+
                         android:textCursorDrawable="@drawable/cursor_color"/>
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
@@ -199,6 +208,9 @@
                         android:maxLength="40"
                         android:textColor="#ffffff"
                         android:maxLines="1"
+                        android:imeOptions="actionDone"
+
+                        android:layout_marginBottom="5dp"
                         android:textColorHint="#ffffff"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="14sp"/>

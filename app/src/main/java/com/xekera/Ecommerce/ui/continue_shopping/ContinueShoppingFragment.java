@@ -80,6 +80,8 @@ public class ContinueShoppingFragment extends Fragment implements ContinueShoppi
     @Inject
     protected AppDatabase appDatabase;
 
+    View toastView;
+
 
     //  public static final String KEY_SHOP_NAME_DETAILS = "shop_details_name";
 
@@ -133,6 +135,7 @@ public class ContinueShoppingFragment extends Fragment implements ContinueShoppi
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);
+        toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
         //  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
@@ -220,7 +223,7 @@ public class ContinueShoppingFragment extends Fragment implements ContinueShoppi
 
     @Override
     public void showToastShortTime(String message) {
-        toastUtil.showToastShortTime(message);
+        toastUtil.showToastShortTime(message,toastView);
     }
 
     @Override

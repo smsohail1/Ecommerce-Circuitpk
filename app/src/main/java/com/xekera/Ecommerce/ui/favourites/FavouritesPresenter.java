@@ -140,14 +140,14 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
-                    view.showToastLongTime("Item added to cart successfully.");
+                    view.showToastShortTime("Item added to cart successfully.");
                     removeItemFromFavourites(addToCart.getItemName(), position, imageView);
                 }
             }
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -295,7 +295,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while in saving data.");
+                view.showToastShortTime("Error while in saving data.");
 
             }
         });
@@ -312,7 +312,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
                     // getUpdatedTotalCount(imgProductCopy);
                 } else {
-                    view.showToastLongTime("Error while saving data.");
+                    view.showToastShortTime("Error while saving data.");
 
                 }
 
@@ -321,7 +321,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             @Override
             public void onErrorReceived(Exception ex) {
                 ex.printStackTrace();
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -339,7 +339,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
                     getUpdatedTotalCount(imgProductCopy, productName, position);
                 } else {
-                    view.showToastLongTime("Error while saving data.");
+                    view.showToastShortTime("Error while saving data.");
 
                 }
 
@@ -348,7 +348,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             @Override
             public void onErrorReceived(Exception ex) {
                 ex.printStackTrace();
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -362,7 +362,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
-                    view.showSnackBarShortTime("Item updated successfully.");
+                    view.showToastShortTime("Item updated successfully.");
                     // getUpdatedTotalCount(imgProductCopy);
 
 
@@ -371,7 +371,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -417,7 +417,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while in saving data.");
+                view.showToastShortTime("Error while in saving data.");
 
             }
         });
@@ -507,7 +507,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });
@@ -524,7 +524,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
                     //  getUpdatedTotalCountForDecrement(imgProductCopy);
                 } else {
-                    view.showToastLongTime("Error while saving data.");
+                    view.showToastShortTime("Error while saving data.");
 
                 }
 
@@ -533,7 +533,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             @Override
             public void onErrorReceived(Exception ex) {
                 ex.printStackTrace();
-                view.showToastLongTime("Error while saving data.");
+                view.showToastShortTime("Error while saving data.");
 
             }
         });

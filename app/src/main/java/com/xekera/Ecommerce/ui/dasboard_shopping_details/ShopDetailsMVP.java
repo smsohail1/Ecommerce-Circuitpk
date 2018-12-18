@@ -77,6 +77,7 @@ public interface ShopDetailsMVP {
 
         void getFavouritesListByProductName(String productName, int position);
 
+        void isAlreadyAddedInFavourites(ShoppingDetailModel productItems, int position, Bitmap bitmap);
     }
 
     interface Model {

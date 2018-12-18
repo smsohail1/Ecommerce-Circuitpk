@@ -28,10 +28,14 @@ public class LoginPresenter implements LoginMVP.Presenter {
     }
 
     @Override
-    public void onClickBtnSignIn(final String username, String password) {
+    public void onClickBtnSignIn(final String username, final String password) {
         if (utils.isInternetAvailable()) {
             if (validateInputFields(username, password)) {
 
+                if (sessionManager.isLoggedIn()) {
+                    view.showToastShortTime("User is already logged In. Need to Logout first.");
+                    return;
+                }
                 view.showProgressDialogPleaseWait();
 
                 model.signIn(username, password, new INetworkLoginSignup<LoginSuccessResponse>() {
@@ -45,6 +49,7 @@ public class LoginPresenter implements LoginMVP.Presenter {
                         } else {
                             if (response.getStatus()) {
                                 sessionManager.setIsLoggedIn(true);
+                                sessionManager.createLoginSession(username, "", password, response.getEmail(), false, false, "");
                                 view.showToastShortTime(response.getMessage());
                                 view.loggedInSuccessfully();
 
@@ -58,7 +63,7 @@ public class LoginPresenter implements LoginMVP.Presenter {
 //                    @Override
 //                    public void onErrorList(MessageResponse messageResponse) {
 //                        view.hideProgressDialogPleaseWait();
-//                        view.showToastLongTime(messageResponse.getMessageCode() + ": " + messageResponse.getMessageText());
+//                        view.showToastShortTime(messageResponse.getMessageCode() + ": " + messageResponse.getMessageText());
 //                    }
 
                     @Override
@@ -66,9 +71,9 @@ public class LoginPresenter implements LoginMVP.Presenter {
                         t.printStackTrace();
                         view.hideProgressDialogPleaseWait();
                         if (t.getMessage() != null) {
-                            view.showToastLongTime(t.getMessage());
+                            view.showToastShortTime(t.getMessage());
                         } else {
-                            view.showToastLongTime("Error while login.");
+                            view.showToastShortTime("Error while login.");
                         }
                     }
                 });

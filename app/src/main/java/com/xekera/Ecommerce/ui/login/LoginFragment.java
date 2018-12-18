@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.login;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.*;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,6 +71,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     protected LinearLayout linearLayoutParent;
 
     CallbackManager callbackManager;
+
+    View toastView;
 
     @Inject
     Utils utils;
@@ -143,10 +148,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
 
         //  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
+
         btnSignIn.setOnClickListener(this);
         btnCreateAccount.setOnClickListener(this);
         linearLayoutParent.setOnClickListener(this);
         textviewForgotPassword.setOnClickListener(this);
+
+        toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
+
 
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
@@ -160,13 +169,20 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                 utils.hideSoftKeyboard(customEdtPasswordHideShow);
                 if (utils.isInternetAvailable()) {
                     // showProgressDialogPleaseWait();
-                    callFacebook();
+                    if (sessionManager.isLoggedIn()) {
+                        showToastShortTime("User is already logged In. Need to Logout first.");
+
+                    } else {
+                        callFacebook();
+                    }
                 } else {
                     showToastShortTime("Please connect to internet.");
                 }
 
             }
         });
+
+
 
 
     }
@@ -236,6 +252,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                     // deleteContact();//This is my code
                     sessionManager.clearAll();
                     (((BaseActivity) getActivity())).setUserDetails();
+                    showToastShortTime("Logout Successfully.");
                     //  hideProgressDialogPleaseWait();
 
                 }
@@ -301,6 +318,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                             String id = object.getString("id");
                             String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
                             sessionManager.createLoginSession(first_name + " " + last_name, "", "", email, true, true, image_url);
+                            sessionManager.setIsLoggedIn(true);
                             //sessionManager.setKeyPicture(image_url);
                             (((BaseActivity) getActivity())).setUserDetails();
                             // hideProgressDialogPleaseWait();
@@ -409,7 +427,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         }
     }
 
-   // boolean isResetPasswordEnable = true;
+    // boolean isResetPasswordEnable = true;
 
     private void showForgotPasswordDialog(Context context) {
         final Dialog dialog = new Dialog(context);
@@ -423,23 +441,23 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         EditText edtPasswordShowHide = dialog.findViewById(R.id.edtPasswordShowHide);
         EditText edtConfirmPasswordShowHide = dialog.findViewById(R.id.edtConfirmPasswordShowHide);
 
-     //   if (isResetPasswordEnable) {
-       //     isResetPasswordEnable = false;
+        //   if (isResetPasswordEnable) {
+        //     isResetPasswordEnable = false;
 
-            btnReset.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-         //                   isResetPasswordEnable = true;
-                            showToastShortTime("Password reset successfully.");
-                            dialog.dismiss();
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //                   isResetPasswordEnable = true;
+                        showToastShortTime("Password reset successfully.");
+                        dialog.dismiss();
 
-                        }
-                    }, 200);
-                }
-            });
+                    }
+                }, 200);
+            }
+        });
         //}
         dialog.show();
     }
@@ -447,7 +465,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
 
     @Override
     public void showToastShortTime(String message) {
-        toastUtil.showToastShortTime(message);
+        toastUtil.showToastShortTime(message, toastView);
     }
 
     @Override
