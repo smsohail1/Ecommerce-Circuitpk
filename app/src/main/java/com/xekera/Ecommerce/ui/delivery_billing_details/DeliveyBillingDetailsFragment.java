@@ -94,7 +94,6 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     @BindView(R.id.linearLayoutParent)
     protected LinearLayout linearLayoutParent;
 
-
     @BindView(R.id.radioGroup)
     protected RadioGroup radioGroup;
     @BindView(R.id.radioGroupDiffAddress)
@@ -102,8 +101,14 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
     @BindView(R.id.btnCheckout)
     protected Button btnCheckout;
+    @BindView(R.id.flatRateOtherCityTextview)
+    protected TextView flatRateOtherCityTextview;
+    @BindView(R.id.flatRateOtherCityTextviewDiffAddress)
+    protected TextView flatRateOtherCityTextviewDiffAddress;
+
 
     final boolean[] isShipToDifferent = {false};
+    int check = 0;
 
     @Inject
     protected DeliveyBillingDetailsMVP.Presenter presenter;
@@ -229,6 +234,64 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 //            }
 //        });
 
+
+        spinnerTownCityDiffAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                try {
+                    if (++check > 1) {
+
+                        if (cityTown.get(position).equalsIgnoreCase("Islamabad") || cityTown.get(position).equalsIgnoreCase("Rawalpindi")) {
+                            flatRateOtherCityTextviewDiffAddress.setText("Shipping Rate: RS 100");
+                        } else if (cityTown.get(position).equalsIgnoreCase("Other")) {
+                            flatRateOtherCityTextviewDiffAddress.setText("Shipping Rate: RS 250");
+                        } else {
+                            showToastShortTime("Please select valid city.");
+                            flatRateOtherCityTextviewDiffAddress.setText("");
+
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+
+        });
+
+
+        spinnerTownCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                try {
+                    if (++check > 1) {
+
+                        if (cityTown.get(position).equalsIgnoreCase("Islamabad") || cityTown.get(position).equalsIgnoreCase("Rawalpindi")) {
+                            flatRateOtherCityTextview.setText("Shipping Rate: RS 100");
+                        } else if (cityTown.get(position).equalsIgnoreCase("Other")) {
+                            flatRateOtherCityTextview.setText("Shipping Rate: RS 250");
+                        } else {
+                            showToastShortTime("Please select valid city.");
+                            flatRateOtherCityTextview.setText("");
+
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+
+        });
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -277,11 +340,14 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                                                                  @Override
                                                                  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                                                      if (isChecked) {
-                                                                         isShipToDifferent[0] = isChecked;
+                                                                       //  isShipToDifferent[0] = isChecked;
+                                                                         check = 0;
                                                                          DiffAddressLayout.setVisibility(View.VISIBLE);
+
                                                                      } else {
                                                                          DiffAddressLayout.setVisibility(View.GONE);
-                                                                         isShipToDifferent[0] = isChecked;
+
+                                                                        // isShipToDifferent[0] = isChecked;
 
 
                                                                      }
@@ -296,7 +362,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                                                                   selfPickup = checkboxSelfPickUp.getText().toString();
                                                                   edtStreetAddress1.setText("");
                                                                   deliveryAddressSelfPickupLayout.setVisibility(View.GONE);
-                                                                  flatRateTextview.setText("RS0");
+                                                                  flatRateTextview.setText("RS 0");
                                                               } else {
                                                                   selfPickup = "";
                                                                   deliveryAddressSelfPickupLayout.setVisibility(View.VISIBLE);
@@ -315,7 +381,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                                                                              selfPickupDiffAddress = checkboxSelfPickUpDiffAddress.getText().toString();
                                                                              edtStreetAddress1DiffAddress.setText("");
                                                                              deliveryAddressSelfPickupLayoutDiffAddress.setVisibility(View.GONE);
-                                                                             flatRateTextviewDiffAddress.setText("RS0");
+                                                                             flatRateTextviewDiffAddress.setText("RS 0");
 
 
                                                                          } else {
