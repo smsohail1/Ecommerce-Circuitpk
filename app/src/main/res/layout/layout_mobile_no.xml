@@ -63,7 +63,7 @@
                             android:id="@+id/txtCopied"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/button_height"
-                            android:text="Copy"
+                            android:text="Send"
                             android:theme="@style/ScreenButton"
                             android:textAllCaps="false"
                             android:textColor="@color/white"

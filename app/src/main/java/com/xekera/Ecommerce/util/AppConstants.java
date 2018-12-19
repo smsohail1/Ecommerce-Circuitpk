@@ -10,6 +10,10 @@ public class AppConstants {
 
     public static final String BASE_URL_UAT = "http://uat-hsk.tcscourier.com";
     public static final String BASE_URL_LIVE = "https://apilkjhgfnfwbc.circuit.pk/apifolder/";
+    public static final String URL_BECOME_A_SELLER = "https://circuit.pk/become-a-seller/";
+
+    //Sir farrukh contact number
+    public static final String support_contact_no = "923345290597";
 
     public static int certificate_allow = 0;
     public static PublicKey _publicKey;

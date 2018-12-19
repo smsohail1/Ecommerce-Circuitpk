@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,10 +29,7 @@ import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
-import com.xekera.Ecommerce.util.SessionManager;
-import com.xekera.Ecommerce.util.SnackUtil;
-import com.xekera.Ecommerce.util.ToastUtil;
-import com.xekera.Ecommerce.util.Utils;
+import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -335,7 +333,12 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     boolean isPhoneBtnEnable = true;
 
     private void showDialog(Context context, String title) {
-        final String companyNo = "03440081152";
+
+        //Sir farrukh contact number
+        // final String companyNo = "923345290597";
+
+        // final String companyNo = "923312831510";
+
         final Dialog dialog = new Dialog(context);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -354,14 +357,14 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
             @Override
             public void onClick(View view) {
                 requestPermissions();
-                if (!mPermissionDenied) {
+                if (mPermissionDenied) {
                     if (isPhoneBtnEnable) {
                         isPhoneBtnEnable = false;
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 isPhoneBtnEnable = true;
-                                callSupportNumber(companyNo);
+                                callSupportNumber(AppConstants.support_contact_no);
 
                             }
                         }, 400);
@@ -398,7 +401,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
                     REQUEST_CODE_ASK_PERMISSIONS);
             return;
         } else {
-            mPermissionDenied = false;
+            mPermissionDenied = true;
             //permissionsGranted();
         }
     }
@@ -413,14 +416,15 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
                     if ((call == PackageManager.PERMISSION_GRANTED)) {
                         //permissionsGranted();
-                        mPermissionDenied = false;
-                    } else {
                         mPermissionDenied = true;
+                        callSupportNumber(AppConstants.support_contact_no);
+
+                    } else {
+                        mPermissionDenied = false;
                     }
                 } else {
-                    // showMissingPermissionError();
                     // Permission Denied
-                    mPermissionDenied = true;
+                    mPermissionDenied = false;
                 }
                 break;
             default:

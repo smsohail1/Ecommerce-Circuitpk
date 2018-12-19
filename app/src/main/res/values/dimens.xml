@@ -84,7 +84,7 @@
     <dimen name="btn_add_update_width">130dp</dimen>
     <dimen name="textview_billing_details_width">130dp</dimen>
 
-    <dimen name="track_order_textview">150dp</dimen>
+    <dimen name="track_order_textview">110dp</dimen>
 
     <dimen name="btn_add_update_height">28dp</dimen>
     <dimen name="btn_atake_photo_height">40dp</dimen>

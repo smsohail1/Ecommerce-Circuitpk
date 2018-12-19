@@ -228,6 +228,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         for (int i = 0; i < bottomMenu.size(); i++) {
                             bottomMenuItem = bottomMenu.getItem(i);
                             bottomMenuItem.setCheckable(false);
+                            bottomMenuItem.setChecked(false);
                         }
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -237,7 +238,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                                 isLoginBtnEnable = true;
 
                             }
-                        }, 300);
+                        }, 250);
 
                     }
                 } else {
@@ -333,7 +334,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     for (int i = 0; i < bottomMenu.size(); i++) {
                         bottomMenuItem = bottomMenu.getItem(i);
                         bottomMenuItem.setCheckable(false);
+                        bottomMenuItem.setChecked(false);
                     }
+
+                    
                     //    navigation.setSelectedItemId(R.id.navigation_cart);
                     replaceFragmentWithContainer(new AddToCartFragment());
                 }
@@ -968,6 +972,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 for (int i = 0; i < bottomMenu.size(); i++) {
                     menuItemBottom = bottomMenu.getItem(i);
                     menuItemBottom.setCheckable(false);
+                    menuItemBottom.setChecked(false);
                 }
                 replaceFragmentWithContainer(new AccountFragment());
                 drawer.closeDrawer(GravityCompat.START);
@@ -985,6 +990,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 return true;
 
             }
+        } else if (id == R.id.nav_become_a_seller) {
+
+
+            Intent becomeASellerIntent = new Intent(Intent.ACTION_VIEW);
+            becomeASellerIntent.setData(Uri.parse(AppConstants.URL_BECOME_A_SELLER));
+            startActivity(Intent.createChooser(becomeASellerIntent, "Choose browser"));
+
+            //drawer.closeDrawer(GravityCompat.START);
+
+            return true;
+
         }
 
         /*else if (id == R.id.nav_login) {
@@ -1001,6 +1017,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 //   menuItemBottom = bottomMenu.findItem(R.id.navigation_shop);
                 // menuItem1.setChecked(false);
                 //   menuItemBottom.setCheckable(false);
+               // menuItemBottom.setChecked(false);
 
                 replaceFragmentWithContainer(new LoginFragment());
                 drawer.closeDrawer(GravityCompat.START);
@@ -1019,6 +1036,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 for (int i = 0; i < bottomMenu.size(); i++) {
                     menuItemBottom = bottomMenu.getItem(i);
                     menuItemBottom.setCheckable(false);
+                    menuItemBottom.setChecked(false);
                 }
                 replaceFragmentWithContainer(new AboutFragment());
                 drawer.closeDrawer(GravityCompat.START);
@@ -1552,6 +1570,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                             ) {
                         //permissionsGranted();
                         mPermissionDenied = false;
+
                     } else {
                         mPermissionDenied = true;
                     }

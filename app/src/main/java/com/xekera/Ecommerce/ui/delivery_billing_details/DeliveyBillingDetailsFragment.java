@@ -340,14 +340,14 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                                                                  @Override
                                                                  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                                                                      if (isChecked) {
-                                                                       //  isShipToDifferent[0] = isChecked;
+                                                                         //  isShipToDifferent[0] = isChecked;
                                                                          check = 0;
                                                                          DiffAddressLayout.setVisibility(View.VISIBLE);
 
                                                                      } else {
                                                                          DiffAddressLayout.setVisibility(View.GONE);
 
-                                                                        // isShipToDifferent[0] = isChecked;
+                                                                         // isShipToDifferent[0] = isChecked;
 
 
                                                                      }
@@ -424,7 +424,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
             @Override
             public void onClick(View view) {
 
-                showToastShortTime("Copied");
+                // showToastShortTime("Copied");
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
