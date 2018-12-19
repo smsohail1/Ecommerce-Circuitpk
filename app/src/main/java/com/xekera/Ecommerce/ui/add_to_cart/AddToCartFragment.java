@@ -466,7 +466,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                         @Override
                         public void run() {
                             isEnable = true;
-                            showCouponDialog(getActivity(), "Apply Coupon");
+                            showCouponDialog(getActivity(), "Coupon");
 
                         }
                     }, 200);
