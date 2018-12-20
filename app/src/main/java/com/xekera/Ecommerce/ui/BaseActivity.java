@@ -1138,7 +1138,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                                             dialog.dismiss();
                                             isEnable = true;
                                         }
-                                    }, 5000);
+                                    }, 3000);
                                 }
                             }, 200);
                         }
