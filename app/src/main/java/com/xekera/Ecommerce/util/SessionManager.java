@@ -59,8 +59,31 @@ public class SessionManager {
 
         editor.commit();
     }
+    public void createSignUpSession(String username, String phoneno, String userPassword, String email, boolean isSignUp
+                                    ) {
+        //editor.putBoolean(IS_LOGIN, true);
+        editor.putString(KEY_USER_NAME, username);
+        editor.putString(KEY_USER_PHONE, phoneno);
+        editor.putString(KEY_USER_PASSWORD, userPassword);
+        editor.putString(KEY_USER_EMAIL, email);
+        editor.putBoolean(KEY_IS_SIGNUP, isSignUp);
 
+        editor.commit();
+    }
 
+    public void createLogin(String username, String phoneno, String userPassword, String email, boolean isSignUp,
+                            boolean isLoginViaFacebook, String fbImageUrl, boolean isLoggedIn) {
+        //editor.putBoolean(IS_LOGIN, true);
+        editor.putString(KEY_USER_NAME, username);
+        editor.putString(KEY_USER_PHONE, phoneno);
+        editor.putString(KEY_USER_PASSWORD, userPassword);
+        editor.putString(KEY_USER_EMAIL, email);
+        editor.putBoolean(KEY_IS_SIGNUP, isSignUp);
+        editor.putBoolean(KEY_IS_FACEBOOK_LOGIN, isLoginViaFacebook);
+        editor.putString(KEY_PICTURE, fbImageUrl);
+        editor.putBoolean(IS_LOGIN, isLoggedIn);
+        editor.commit();
+    }
 
 
     public void createDeliverySession(String latitude, String longitude, String placeName) {

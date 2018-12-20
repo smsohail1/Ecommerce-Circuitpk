@@ -58,6 +58,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import javax.inject.Inject;
@@ -65,6 +66,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
+import com.facebook.*;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.squareup.picasso.Picasso;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
@@ -84,6 +88,8 @@ import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import com.xekera.Ecommerce.util.*;
 import de.hdodenhof.circleimageview.CircleImageView;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -109,6 +115,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected TextView txtAddToCartNotify;
     @BindView(R.id.badge2)
     protected RelativeLayout badge2;
+    @BindView(R.id.fb_button)
+    protected LoginButton fb_button;
 
 
     @BindView(R.id.dashboardActionBar)
@@ -151,7 +159,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     boolean isEnabled = true;
     boolean isLoginBtnEnable = true;
     View toastView;
-
 
     // TextView slideshow, gallery;
 
@@ -1045,7 +1052,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
             }
         } else if (id == R.id.navLogout) {
-            showLogoutDialog(this, "Logout", utils.getStringFromResourceId(R.string.are_you_sure_logout));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showLogoutDialog(BaseActivity.this, "Logout", utils.getStringFromResourceId(R.string.are_you_sure_logout));
+
+                }
+            }, 200);
+
         }
 
 
@@ -1087,34 +1101,60 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             @Override
             public void onClick(View view) {
                 // if (sessionManager.getKeyIsFacebookLogin() || sessionManager.isSignUp() || sessionManager.isLoggedIn()) {
-                if (sessionManager.isLoggedIn() || sessionManager.getKeyIsFacebookLogin()) {
-                    isEnable = false;
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Menu menu = navigationView.getMenu();
-                            MenuItem menuItem;
+                if (sessionManager.isLoggedIn()) {
+                    if (isEnable) {
+                        isEnable = false;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Menu menu = navigationView.getMenu();
+                                MenuItem menuItem;
 
-                            for (int i = 0; i < menu.size(); i++) {
-                                menuItem = menu.getItem(i);
-                                menuItem.setChecked(false);
+                                for (int i = 0; i < menu.size(); i++) {
+                                    menuItem = menu.getItem(i);
+                                    menuItem.setChecked(false);
+                                }
+
+                                sessionManager.clearAll();
+                                toastUtil.showToastShortTime("Logout Successfully.", toastView);
+                                setUserDetails();
+                                dialog.dismiss();
+                                isEnable = true;
+                                //   finish();
                             }
-
-                            sessionManager.clearAll();
-                            toastUtil.showToastShortTime("Logout Successfully.", toastView);
-                            setUserDetails();
-                            dialog.dismiss();
-                            isEnable = true;
-                            //   finish();
+                        }, 200);
+                    }
+                } else if (sessionManager.getKeyIsFacebookLogin()) {
+                    if (utils.isInternetAvailable()) {
+                        if (isEnable) {
+                            isEnable = false;
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    fb_button.performClick();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            dialog.dismiss();
+                                            isEnable = true;
+                                        }
+                                    }, 5000);
+                                }
+                            }, 200);
                         }
-                    }, 200);
+                    } else {
+                        toastUtil.showToastShortTime("Please connect to internet.", toastView);
+                    }
+
                 } else {
                     isEnable = true;
                     toastUtil.showToastShortTime("Please login first.", toastView);
                 }
             }
         });
-        cancel.setOnClickListener(new View.OnClickListener() {
+        cancel.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View view) {
                 new Handler().postDelayed(new Runnable() {
@@ -1129,6 +1169,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         dialog.show();
     }
+
 
     public void enableHomeIcon(boolean b) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -1356,7 +1397,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                 circleImageView.setVisibility(View.VISIBLE);
 
-                circleImageView.setImageResource(R.drawable.icon_user_profile);
+                //circleImageView.setImageResource(R.drawable.icon_user_profile);
 
 //                if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
 //                    Bitmap img = stringToBitMap(sessionManager.getTakePhoto());
@@ -1675,6 +1716,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
             }
         }
+
+
     }
 
     public String bitMapToString(Bitmap bitmap) {

@@ -26,6 +26,7 @@ import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.facebook.*;
+import com.facebook.login.Login;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -67,8 +68,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     protected Button btnCreateAccount;
     @BindView(R.id.fb_button)
     protected LoginButton fb_button;
-    @BindView(R.id.linearLayoutParent)
-    protected LinearLayout linearLayoutParent;
+    @BindView(R.id.custom_fb_button)
+    protected Button custom_fb_button;
+
+    @BindView(R.id.relativeLayoutParent)
+    protected RelativeLayout relativeLayoutParent;
 
     CallbackManager callbackManager;
 
@@ -151,8 +155,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
 
         btnSignIn.setOnClickListener(this);
         btnCreateAccount.setOnClickListener(this);
-        linearLayoutParent.setOnClickListener(this);
+        relativeLayoutParent.setOnClickListener(this);
         textviewForgotPassword.setOnClickListener(this);
+       // custom_fb_button.setOnClickListener(this);
 
         toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
@@ -170,7 +175,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                 if (utils.isInternetAvailable()) {
                     // showProgressDialogPleaseWait();
                     if (sessionManager.isLoggedIn()) {
-                        showToastShortTime("User is already logged In. Need to Logout first.");
+                        showToastShortTime("User is already logged In.");
 
                     } else {
                         callFacebook();
@@ -182,9 +187,40 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
             }
         });
 
+        //isFacebookLogin();
 
+//        custom_fb_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                utils.hideSoftKeyboard(edtUsername);
+//                utils.hideSoftKeyboard(customEdtPasswordHideShow);
+//                if (utils.isInternetAvailable()) {
+//                    // showProgressDialogPleaseWait();
+//                    if (sessionManager.isLoggedIn()) {
+//                        showToastShortTime("User is already logged In.");
+//                    } else {
+//                        callFacebook();
+//
+//                        fb_button.performClick();
+//                    }
+//                } else {
+//                    showToastShortTime("Please connect to internet.");
+//                }
+//
+//            }
+//        });
 
+    }
 
+    private void isFacebookLogin() {
+
+        if (sessionManager.getKeyIsFacebookLogin()) {
+            custom_fb_button.setText("Logout");
+        } else {
+            custom_fb_button.setText("Login with Facebook");
+
+        }
     }
 
 //    private static final String EMAIL = "email";
@@ -253,6 +289,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                     sessionManager.clearAll();
                     (((BaseActivity) getActivity())).setUserDetails();
                     showToastShortTime("Logout Successfully.");
+                  //  custom_fb_button.setText("Login with Facebook");
                     //  hideProgressDialogPleaseWait();
 
                 }
@@ -260,40 +297,41 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         };
         accessTokenTracker.startTracking();
 
-        if (!sessionManager.getKeyIsFacebookLogin()) {
-            fb_button.setReadPermissions(Arrays.asList("email", "public_profile"));
-            fb_button.setFragment(this);
+        // if (!sessionManager.getKeyIsFacebookLogin()) {
+        fb_button.setReadPermissions(Arrays.asList("email", "public_profile"));
+        fb_button.setFragment(this);
 
-            callbackManager = CallbackManager.Factory.create();
+        callbackManager = CallbackManager.Factory.create();
 
-            fb_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    // App code
-                    //loginResult.getAccessToken();
-                    //loginResult.getRecentlyDeniedPermissions()
-                    //loginResult.getRecentlyGrantedPermissions()
+        fb_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+                //loginResult.getAccessToken();
+                //loginResult.getRecentlyDeniedPermissions()
+                //loginResult.getRecentlyGrantedPermissions()
 
-                    boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
+                boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
 
-                    getUserProfile(AccessToken.getCurrentAccessToken());
+                getUserProfile(AccessToken.getCurrentAccessToken());
 
-                }
 
-                @Override
-                public void onCancel() {
-                    // App code
-                    int d = 0;
-                }
+            }
 
-                @Override
-                public void onError(FacebookException exception) {
-                    // App code
-                    int d = 0;
+            @Override
+            public void onCancel() {
+                // App code
+                int d = 0;
+            }
 
-                }
-            });
-        }
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+                int d = 0;
+
+            }
+        });
+        //}
 
 
     }
@@ -318,11 +356,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                             String id = object.getString("id");
                             String image_url = "https://graph.facebook.com/" + id + "/picture?type=normal";
                             sessionManager.createLoginSession(first_name + " " + last_name, "", "", email, true, true, image_url);
-                            sessionManager.setIsLoggedIn(true);
                             //sessionManager.setKeyPicture(image_url);
                             (((BaseActivity) getActivity())).setUserDetails();
                             // hideProgressDialogPleaseWait();
                             showToastShortTime("LoggedIn Successfully.");
+                          //  custom_fb_button.setText("Logout");
                             // txtUsername.setText("First Name: " + first_name + "\nLast Name: " + last_name);
                             //txtEmail.setText(email);
                             //Picasso.with(MainActivity.this).load(image_url).into(imageView);
@@ -330,7 +368,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                         } catch (JSONException e) {
                             e.printStackTrace();
                             // hideProgressDialogPleaseWait();
-                            showToastShortTime("Error while login with facebook.");
+                            showToastShortTime("Error while login with Facebook.");
                         }
 
                     }
@@ -403,7 +441,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
 
                 break;
             }
-            case R.id.linearLayoutParent:
+            case R.id.relativeLayoutParent:
                 utils.hideSoftKeyboard(edtUsername);
                 utils.hideSoftKeyboard(customEdtPasswordHideShow);
                 break;
@@ -411,12 +449,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
             case R.id.textviewForgotPassword:
                 if (isForgotPasswordBtnEnable) {
                     isForgotPasswordBtnEnable = false;
-                    textviewForgotPassword.setTextColor(Color.parseColor("#0182c3"));
+                    textviewForgotPassword.setTextColor(Color.parseColor("#4867aa"));
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             isForgotPasswordBtnEnable = true;
-                            textviewForgotPassword.setTextColor(Color.parseColor("#ffffff"));
+                            textviewForgotPassword.setTextColor(Color.parseColor("#444444"));
                             showForgotPasswordDialog(getActivity());
 
                         }

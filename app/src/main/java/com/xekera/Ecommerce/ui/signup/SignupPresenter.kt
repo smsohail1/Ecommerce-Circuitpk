@@ -70,14 +70,12 @@ public class SignupPresenter : SignupMVP.Presenter {
 
                             if (response.status) {
 
-                                sessionManager?.createLoginSession(
+                                sessionManager?.createSignUpSession(
                                     userName,
                                     phoneNo,
                                     password,
                                     emailID,
-                                    true,
-                                    false,
-                                    ""
+                                    true
                                 )
                                 view?.showToastShortTime(response.message)
                                 view?.signUpSuccessfully();

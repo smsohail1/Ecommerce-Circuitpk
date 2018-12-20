@@ -27,6 +27,10 @@
     <dimen name="btn_login_width">150dp</dimen>
     <dimen name="btn_login_height">50dp</dimen>
 
+
+    <dimen name="button_login_width">90dp</dimen>
+    <dimen name="button_login_height">40dp</dimen>
+
     <dimen name="btn_cancel_order_width">69dp</dimen>
     <dimen name="btn_cancel_order_height">40dp</dimen>
 
@@ -93,6 +97,12 @@
 
     <dimen name="delete_width">20dp</dimen>
     <dimen name="delete_height">20dp</dimen>
+    <dimen name="fb_button_width">170dp</dimen>
+    <dimen name="fb_button_height">32dp</dimen>
+    <dimen name="create_your_account_text_size">21dp</dimen>
+
+    <dimen name="login_textview_size">16dp</dimen>
+
     <dimen name="screen_label_text_size">19dp</dimen>
     <dimen name="custom_toast_text_size">15dp</dimen>
 

@@ -198,7 +198,7 @@
     <string name="house_no_error">Apartment name,House no and street name is required</string>
     <string name="country_error">Please select Country name</string>
     <string name="state_country_error">Please select State/Country</string>
-    <string name="town_city_error">Please select Town/City</string>
+    <string name="town_city_error">Please select City</string>
     <string name="error_valid_state_country">Please select valid state/country</string>
     <string name="error_valid_town_city">Please select valid town/city</string>
     <string name="postal_code_error">PostalCode/ZIP is required</string>

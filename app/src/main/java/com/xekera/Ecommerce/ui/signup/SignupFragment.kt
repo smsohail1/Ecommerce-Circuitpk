@@ -97,7 +97,7 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
         }
 
-        linearLayoutParent.setOnClickListener { view ->
+        parentRelativeLayout.setOnClickListener { view ->
             utils?.hideSoftKeyboard(edtUsername)
             utils?.hideSoftKeyboard(edtPasswordShowHide)
             utils?.hideSoftKeyboard(edtUserPhoneNo)
@@ -229,7 +229,7 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
     }
 
     override fun showToastShortTime(message: String) {
-        toastUtil?.showToastShortTime(message,toastView)
+        toastUtil?.showToastShortTime(message, toastView)
     }
 
     override fun signUpSuccessfully() {

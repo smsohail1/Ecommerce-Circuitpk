@@ -32,8 +32,11 @@ public class LoginPresenter implements LoginMVP.Presenter {
         if (utils.isInternetAvailable()) {
             if (validateInputFields(username, password)) {
 
-                if (sessionManager.isLoggedIn()) {
-                    view.showToastShortTime("User is already logged In. Need to Logout first.");
+                if (sessionManager.getKeyIsFacebookLogin()) {
+                    view.showToastShortTime("User is already logged In from facebook.");
+                    return;
+                } else if (sessionManager.isLoggedIn()) {
+                    view.showToastShortTime("User is already logged In.");
                     return;
                 }
                 view.showProgressDialogPleaseWait();
@@ -48,8 +51,8 @@ public class LoginPresenter implements LoginMVP.Presenter {
                             return;
                         } else {
                             if (response.getStatus()) {
-                                sessionManager.setIsLoggedIn(true);
-                                sessionManager.createLoginSession(username, "", password, response.getEmail(), false, false, "");
+                                // sessionManager.setIsLoggedIn(true);
+                                sessionManager.createLogin(username, "", password, response.getEmail(), false, false, "", true);
                                 view.showToastShortTime(response.getMessage());
                                 view.loggedInSuccessfully();
 
