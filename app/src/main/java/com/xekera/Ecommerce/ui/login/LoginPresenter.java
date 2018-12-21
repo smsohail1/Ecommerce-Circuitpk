@@ -4,6 +4,7 @@ package com.xekera.Ecommerce.ui.login;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
 import com.xekera.Ecommerce.data.rest.response.LoginSuccessResponse;
+import com.xekera.Ecommerce.data.rest.response.SignUpSuccessResponse;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 
@@ -91,6 +92,38 @@ public class LoginPresenter implements LoginMVP.Presenter {
     @Override
     public void oncClickBtnSignUp() {
 
+    }
+
+    @Override
+    public void registerFacebookUser(String username, String password, String phoneNo, String emailID) {
+
+        model.registerFacebookUser(username, password, phoneNo, emailID, new INetworkLoginSignup<SignUpSuccessResponse>() {
+            @Override
+            public void onSuccess(SignUpSuccessResponse response) {
+              /*  if (response == null) {
+                    view.showToastShortTime("Server not responding.");
+
+                    return;
+                } else {
+                    if (response.getStatus()) {
+                        view.showToastShortTime(response.getMessage());
+
+                    } else {
+                        view.showToastShortTime(response.getMessage());
+                    }
+                }*/
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+              /*  t.printStackTrace();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while login.");
+                }*/
+            }
+        });
     }
 
 

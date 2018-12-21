@@ -37,10 +37,15 @@ public interface LoginMVP {
         void onClickBtnSignIn(String username, String password);
 
         void oncClickBtnSignUp();
+
+        void registerFacebookUser(String username, String password, String phoneNo, String emailID);
     }
 
     interface Model {
         void signIn(String username, String password, INetworkLoginSignup<LoginSuccessResponse> iNetworkLoginSignup);
+
+        void registerFacebookUser(String username, String password, String phoneNo, String emailID,
+                                  INetworkLoginSignup<SignUpSuccessResponse> iNetworkLoginSignup);
     }
 }
 

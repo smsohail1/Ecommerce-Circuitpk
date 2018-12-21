@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -157,7 +158,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         btnCreateAccount.setOnClickListener(this);
         relativeLayoutParent.setOnClickListener(this);
         textviewForgotPassword.setOnClickListener(this);
-       // custom_fb_button.setOnClickListener(this);
+        // custom_fb_button.setOnClickListener(this);
 
         toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
@@ -289,7 +290,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                     sessionManager.clearAll();
                     (((BaseActivity) getActivity())).setUserDetails();
                     showToastShortTime("Logout Successfully.");
-                  //  custom_fb_button.setText("Login with Facebook");
+                    //  custom_fb_button.setText("Login with Facebook");
                     //  hideProgressDialogPleaseWait();
 
                 }
@@ -340,7 +341,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
-        //  super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void getUserProfile(AccessToken currentAccessToken) {
@@ -360,7 +361,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                             (((BaseActivity) getActivity())).setUserDetails();
                             // hideProgressDialogPleaseWait();
                             showToastShortTime("LoggedIn Successfully.");
-                          //  custom_fb_button.setText("Logout");
+
+                            //Register FB User
+                            String[] myTaskParams = {first_name + last_name, "", "", email};
+                            new FacebookUserRegister().execute(myTaskParams);
+
+                            //  facebookUserRegister(first_name + last_name, "", "", email);
+
+                            //  custom_fb_button.setText("Logout");
                             // txtUsername.setText("First Name: " + first_name + "\nLast Name: " + last_name);
                             //txtEmail.setText(email);
                             //Picasso.with(MainActivity.this).load(image_url).into(imageView);
@@ -701,6 +709,59 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
             return false;
         }
         return true;
+    }
+
+    public class FacebookUserRegister extends AsyncTask<String, Void, String> {
+
+        String messageStatus = "";
+
+
+        @Override
+        protected String doInBackground(String... pParams) {
+
+
+            try {
+                presenter.registerFacebookUser(pParams[0], pParams[1], pParams[2], pParams[3]);
+
+
+            } catch (Exception e) {
+
+            }
+
+
+            return messageStatus;
+
+
+        }
+
+
+        @Override
+
+
+        protected void onPostExecute(String result) {
+
+
+        }
+
+
+        @Override
+
+
+        protected void onPreExecute() {
+
+
+        }
+
+
+        @Override
+
+
+        protected void onProgressUpdate(Void... values) {
+
+
+        }
+
+
     }
 }
 

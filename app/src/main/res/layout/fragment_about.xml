@@ -1,70 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/irongrip_repeating"
-
-                android:clickable="true">
-    <ScrollView
-            android:id="@+id/scroll_view"
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+>
+    <RelativeLayout
+            android:id="@+id/relativeLayoutParent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
+            android:background="@drawable/irongrip_repeating"
+            android:clickable="true"
+
+
     >
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:orientation="vertical">
-            <!--<LinearLayout android:layout_width="match_parent"-->
-            <!--android:layout_height="120dp"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:background="@color/colorPrimary"-->
-            <!--android:orientation="horizontal">-->
+        <android.support.v7.widget.CardView
+                android:id="@+id/cardViewParent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="3dp"
+                android:layout_centerInParent="true"
 
-            <!--&lt;!&ndash;<de.hdodenhof.circleimageview.CircleImageView&ndash;&gt;-->
-            <!--&lt;!&ndash;xmlns:app="http://schemas.android.com/apk/res-auto"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/imgProfile"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="120dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="120dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:src="@drawable/company_logo"&ndash;&gt;-->
-            <!--&lt;!&ndash;app:civ_border_width="2dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:padding="8dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:background="@drawable/company_logo"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_centerInParent="true"&ndash;&gt;-->
-
-            <!--&lt;!&ndash;app:civ_border_color="#ffffff"&ndash;&gt;-->
-            <!--&lt;!&ndash;/>&ndash;&gt;-->
-            <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/company_logo"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--/>-->
-            <!--</LinearLayout>-->
+        >
 
 
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="5dp"
-                          android:padding="10dp"
-                          android:orientation="vertical">
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+            >
+
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:text="WHO ARE WE?"
                           android:textSize="@dimen/textview_about_us_height"
                           android:textColor="@color/colorPrimary"
                 />
+
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:text="@string/who_are_we"
                           android:layout_marginTop="5dp"
+                          android:lineSpacingExtra="3dp"
                           android:textSize="@dimen/textview_about_description_height"
                           android:textColor="@color/light_grey_delivey_screen_color"
                 />
-
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:text="OUR EXPERIENCE"
@@ -72,15 +61,18 @@
                           android:textSize="@dimen/textview_about_us_height"
                           android:textColor="@color/colorPrimary"
                 />
+
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:text="@string/our_experience"
                           android:layout_marginTop="5dp"
+                          android:lineSpacingExtra="3dp"
                           android:textSize="@dimen/textview_about_description_height"
                           android:textColor="@color/light_grey_delivey_screen_color"
                 />
 
-                <LinearLayout android:layout_width="match_parent"
+
+                <LinearLayout android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
                               android:layout_marginTop="10dp"
                               android:gravity="center_vertical"
@@ -98,7 +90,7 @@
                 </LinearLayout>
 
 
-                <LinearLayout android:layout_width="match_parent"
+                <LinearLayout android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
                               android:layout_marginTop="10dp"
                               android:gravity="center_vertical"
@@ -116,7 +108,7 @@
                 </LinearLayout>
 
 
-                <LinearLayout android:layout_width="match_parent"
+                <LinearLayout android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
                               android:layout_marginTop="10dp"
                               android:gravity="center_vertical"
@@ -133,6 +125,6 @@
                     />
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-</RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</ScrollView>

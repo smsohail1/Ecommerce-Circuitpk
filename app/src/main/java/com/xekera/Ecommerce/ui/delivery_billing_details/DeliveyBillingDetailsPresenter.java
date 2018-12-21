@@ -1,10 +1,13 @@
 package com.xekera.Ecommerce.ui.delivery_billing_details;
 
 import android.content.Context;
+import android.util.Patterns;
 import android.view.View;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
+
+import java.util.regex.Pattern;
 
 public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.Presenter {
 
@@ -57,8 +60,19 @@ public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.
             view.showToastShortTime(utils.getStringFromResourceId(R.string.phone_error));
             return false;
         }
+        if (phone.length() < 11) {
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.phone_no_length_error));
+            return false;
+        }
+
         if (utils.isTextNullOrEmpty(email)) {
             view.showToastShortTime(utils.getStringFromResourceId(R.string.email_error));
+            return false;
+        }
+
+
+        if (!validEmail(email)) {
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.email_address_invalid_error));
             return false;
         }
 
@@ -87,4 +101,10 @@ public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.
 
         return true;
     }
+
+    private boolean validEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
+    }
+
 }

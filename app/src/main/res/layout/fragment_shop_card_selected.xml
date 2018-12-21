@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
 
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/irongrip_repeating"
-                android:clickable="true">
-    <ScrollView android:layout_width="match_parent"
-                android:layout_height="match_parent"
+>
 
+    <RelativeLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/irongrip_repeating"
+            android:clickable="true">
 
-    >
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:orientation="vertical"
+                      android:weightSum="1.0"
         >
             <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
+                          android:layout_height="0dp"
                           android:orientation="vertical"
+                          android:layout_weight="0.3"
             >
 
                 <LinearLayout
@@ -45,7 +50,6 @@
                             android:layout_height="220dp"
                             android:layout_centerInParent="true"
                             android:gravity="center_horizontal"
-
 
                     />
 
@@ -75,296 +79,308 @@
 
 
             <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:orientation="vertical">
-                <android.support.v7.widget.CardView
-                        android:id="@+id/cardViewParent"
+                          android:layout_height="0dp"
+                          android:orientation="vertical"
+                          android:layout_weight="0.7"
+                          android:weightSum="1.0"
+            >
+
+                <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="3dp"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginRight="3dp"
-                        android:layout_marginTop="10dp"
-                        app:cardCornerRadius="2dp"
-                        app:cardElevation="2dp"
-                        android:foreground="?android:attr/selectableItemBackground">
-
-
-                    <LinearLayout
-                            android:id="@+id/linearParent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.2"
+                        android:orientation="vertical">
+                    <android.support.v7.widget.CardView
+                            android:id="@+id/cardViewParent"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:orientation="vertical">
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="3dp"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_marginTop="10dp"
+                            app:cardCornerRadius="2dp"
+                            app:cardElevation="2dp"
+                            android:foreground="?android:attr/selectableItemBackground">
+
 
                         <LinearLayout
+                                android:id="@+id/linearParent"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginLeft="5dp"
-                                android:weightSum="1.0"
+                                android:padding="10dp"
+                                android:orientation="vertical">
+
+                            <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginLeft="5dp"
+                                    android:weightSum="1.0"
 
 
-                        >
-                            <LinearLayout android:layout_width="0dp"
-                                          android:layout_height="match_parent"
-                                          android:orientation="horizontal"
-                                          android:layout_weight="0.5"
                             >
-
-                                <TextView
-                                        android:id="@+id/priceLabelTextView"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/price_textview"
-                                        android:textStyle="bold"
-                                        android:text="Rs"
-                                        android:gravity="center_horizontal"
-                                        android:textSize="@dimen/txt_product_name_card_selected_size"/>
-
-                                <TextView
-                                        android:id="@+id/priceTextView"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/price_textview"
-                                        android:textStyle="bold"
-                                        android:gravity="center_horizontal"
-                                        android:textSize="@dimen/txt_product_name_card_selected_size"/>
-
-                            </LinearLayout>
-
-
-                            <LinearLayout android:layout_width="0dp"
-                                          android:layout_height="match_parent"
-                                          android:orientation="horizontal"
-                                          android:layout_weight="0.5"
-                                          android:layout_marginRight="5dp"
-                                          android:gravity="right"
-                            >
-
-                                <LinearLayout android:layout_width="wrap_content"
+                                <LinearLayout android:layout_width="0dp"
                                               android:layout_height="match_parent"
                                               android:orientation="horizontal"
+                                              android:layout_weight="0.5"
                                 >
-                                    <com.varunest.sparkbutton.SparkButton
-                                            android:id="@+id/favouriteButton"
-                                            android:layout_width="40dp"
-                                            android:layout_height="40dp"
-                                            app:sparkbutton_activeImage="@drawable/icon_heart_on"
-                                            app:sparkbutton_animationSpeed=".85"
-                                            app:sparkbutton_iconSize="20dp"
-                                            app:sparkbutton_inActiveImage="@drawable/heart"
-                                            android:clickable="true"/>
 
+                                    <TextView
+                                            android:id="@+id/priceLabelTextView"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/price_textview"
+                                            android:textStyle="bold"
+                                            android:text="Rs"
+                                            android:gravity="center_horizontal"
+                                            android:textSize="@dimen/txt_product_name_card_selected_size"/>
+
+                                    <TextView
+                                            android:id="@+id/priceTextView"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/price_textview"
+                                            android:textStyle="bold"
+                                            android:gravity="center_horizontal"
+                                            android:textSize="@dimen/txt_product_name_card_selected_size"/>
 
                                 </LinearLayout>
-                            </LinearLayout>
-                            <!--<LinearLayout android:layout_width="0dp"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:orientation="horizontal"-->
-                            <!--android:layout_weight="0.5"-->
-                            <!--android:layout_marginRight="5dp"-->
-                            <!--android:gravity="right"-->
-                            <!--&gt;-->
-
-                            <!--<LinearLayout android:layout_width="wrap_content"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:orientation="horizontal"-->
-                            <!--&gt;-->
-
-                            <!--<ImageView-->
-                            <!--android:id="@+id/decrementImageButton"-->
-                            <!--android:layout_width="0dp"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_weight="0.3"-->
-                            <!--android:src="@drawable/icon_decrement"-->
-                            <!--android:padding="1dp"-->
-
-                            <!--/>-->
-
-                            <!--<TextView-->
-                            <!--android:id="@+id/counterTextview"-->
-                            <!--android:layout_width="0dp"-->
-                            <!--android:gravity="center_horizontal"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_weight="0.4"-->
-                            <!--android:layout_gravity="center_vertical"-->
-                            <!--android:layout_marginLeft="4dp"-->
-                            <!--android:layout_marginRight="4dp"-->
-                            <!--/>-->
-
-                            <!--<ImageView-->
-                            <!--android:id="@+id/incrementImageButton"-->
-                            <!--android:layout_width="0dp"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:src="@drawable/icon_increment"-->
-                            <!--android:padding="1dp"-->
-                            <!--android:layout_weight="0.3"-->
 
 
-                            <!--/>-->
-
-
-                            <!--&lt;!&ndash;<com.hariofspades.incdeclibrary.IncDecCircular&ndash;&gt;-->
-                            <!--&lt;!&ndash;android:layout_width="100dp"&ndash;&gt;-->
-                            <!--&lt;!&ndash;android:layout_height="w"&ndash;&gt;-->
-                            <!--&lt;!&ndash;app:textSize="24"&ndash;&gt;-->
-                            <!--&lt;!&ndash;android:gravity="center_vertical"&ndash;&gt;-->
-                            <!--&lt;!&ndash;android:id="@+id/incDecCounterHorizontal"&ndash;&gt;-->
-                            <!--&lt;!&ndash;app:textColor="@color/black"&ndash;&gt;-->
-                            <!--&lt;!&ndash;app:leftButtonColorTint="@color/colorPrimaryDark"&ndash;&gt;-->
-                            <!--&lt;!&ndash;app:rightButtonColorTinit="@color/colorPrimary"&ndash;&gt;-->
-                            <!--&lt;!&ndash;app:leftDrawableTint="@color/white"&ndash;&gt;-->
-                            <!--&lt;!&ndash;app:rightDrawableTint="@color/white"&ndash;&gt;-->
-
-                            <!--&lt;!&ndash;app:leftDrawable="@drawable/ic_remove_black_24dp"&ndash;&gt;-->
-                            <!--&lt;!&ndash;app:rightDrawable="@drawable/ic_add_black_24dp"&ndash;&gt;-->
-                            <!--&lt;!&ndash;/>&ndash;&gt;-->
-
-
-                            <!--</LinearLayout>-->
-
-
-                            <!--</LinearLayout>-->
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginLeft="5dp"
-
-                        >
-                            <TextView
-                                    android:id="@+id/discountPriceLabelTextView"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/discount_price_textview"
-                                    android:textStyle="bold"
-                                    android:text="Rs"
-                                    android:background="@drawable/strike_through"
-                                    android:gravity="center_horizontal"
-                                    android:textSize="@dimen/txt_report_list_item_size"/>
-
-                            <TextView
-                                    android:id="@+id/discountPriceTextView"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/discount_price_textview"
-                                    android:textStyle="bold"
-                                    android:background="@drawable/strike_through"
-                                    android:gravity="center_horizontal"
-                                    android:textSize="@dimen/txt_report_list_item_size"/>
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginLeft="5dp"
-                                android:weightSum="1.0"
-                                android:layout_marginTop="5dp"
-                        >
-
-                            <LinearLayout android:layout_width="0dp"
-                                          android:layout_height="wrap_content"
-                                          android:orientation="horizontal"
-                                          android:layout_weight="0.65"
-                            >
-                                <TextView
-                                        android:id="@+id/productNameLabelTextView"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/row_product_name_textview"
-                                        android:textSize="@dimen/txt_product_name_card_selected_size"/>
-                            </LinearLayout>
-
-
-                            <LinearLayout android:layout_width="0dp"
-                                          android:layout_height="wrap_content"
-                                          android:orientation="horizontal"
-                                          android:layout_weight="0.35"
-                                          android:layout_marginRight="5dp"
-                                          android:gravity="right"
-
-                            >
-
-                                <LinearLayout android:layout_width="match_parent"
-                                              android:layout_height="wrap_content"
+                                <LinearLayout android:layout_width="0dp"
+                                              android:layout_height="match_parent"
                                               android:orientation="horizontal"
+                                              android:layout_weight="0.5"
+                                              android:layout_marginRight="5dp"
                                               android:gravity="right"
                                 >
 
-                                    <!--<ImageView-->
-                                    <!--android:id="@+id/decrementImageButton"-->
-                                    <!--android:layout_width="30dp"-->
-                                    <!--android:layout_height="wrap_content"-->
-                                    <!--android:src="@drawable/icon_minus_symbol"-->
-                                    <!--android:clickable="true"-->
-                                    <!--android:paddingLeft="4dp"-->
-                                    <!--android:paddingRight="4dp"-->
-                                    <!--android:background="@drawable/round_add_icon"-->
-
-                                    <!--/>-->
-
-                                    <!--<TextView-->
-                                    <!--android:id="@+id/counterTextview"-->
-                                    <!--android:layout_width="30dp"-->
-                                    <!--android:gravity="center_horizontal"-->
-                                    <!--android:layout_height="wrap_content"-->
-                                    <!--android:layout_gravity="center_vertical"-->
-                                    <!--android:layout_marginLeft="2dp"-->
-                                    <!--android:layout_marginRight="2dp"-->
-
-                                    <!--/>-->
-
-                                    <!--<ImageView-->
-                                    <!--android:id="@+id/incrementImageButton"-->
-                                    <!--android:layout_width="30dp"-->
-                                    <!--android:layout_height="wrap_content"-->
-                                    <!--android:src="@drawable/icon_plus_symbol"-->
-                                    <!--android:clickable="true"-->
-                                    <!--android:paddingLeft="4dp"-->
-                                    <!--android:paddingRight="4dp"-->
-                                    <!--android:background="@drawable/round_add_icon"-->
-
-                                    <!--/>-->
+                                    <LinearLayout android:layout_width="wrap_content"
+                                                  android:layout_height="match_parent"
+                                                  android:orientation="horizontal"
+                                    >
+                                        <com.varunest.sparkbutton.SparkButton
+                                                android:id="@+id/favouriteButton"
+                                                android:layout_width="40dp"
+                                                android:layout_height="40dp"
+                                                app:sparkbutton_activeImage="@drawable/icon_heart_on"
+                                                app:sparkbutton_animationSpeed=".85"
+                                                app:sparkbutton_iconSize="20dp"
+                                                app:sparkbutton_inActiveImage="@drawable/heart"
+                                                android:clickable="true"/>
 
 
-                                    <ImageView
-                                            android:id="@+id/decrementImageButton"
-                                            android:layout_width="23dp"
-                                            android:layout_height="23dp"
-                                            android:clickable="true"
-                                            android:padding="7dp"
-                                            android:layout_gravity="center_vertical"
-                                            android:background="@drawable/minus_selector"
+                                    </LinearLayout>
+                                </LinearLayout>
+                                <!--<LinearLayout android:layout_width="0dp"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:orientation="horizontal"-->
+                                <!--android:layout_weight="0.5"-->
+                                <!--android:layout_marginRight="5dp"-->
+                                <!--android:gravity="right"-->
+                                <!--&gt;-->
 
-                                    />
+                                <!--<LinearLayout android:layout_width="wrap_content"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:orientation="horizontal"-->
+                                <!--&gt;-->
 
+                                <!--<ImageView-->
+                                <!--android:id="@+id/decrementImageButton"-->
+                                <!--android:layout_width="0dp"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_weight="0.3"-->
+                                <!--android:src="@drawable/icon_decrement"-->
+                                <!--android:padding="1dp"-->
+
+                                <!--/>-->
+
+                                <!--<TextView-->
+                                <!--android:id="@+id/counterTextview"-->
+                                <!--android:layout_width="0dp"-->
+                                <!--android:gravity="center_horizontal"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_weight="0.4"-->
+                                <!--android:layout_gravity="center_vertical"-->
+                                <!--android:layout_marginLeft="4dp"-->
+                                <!--android:layout_marginRight="4dp"-->
+                                <!--/>-->
+
+                                <!--<ImageView-->
+                                <!--android:id="@+id/incrementImageButton"-->
+                                <!--android:layout_width="0dp"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:src="@drawable/icon_increment"-->
+                                <!--android:padding="1dp"-->
+                                <!--android:layout_weight="0.3"-->
+
+
+                                <!--/>-->
+
+
+                                <!--&lt;!&ndash;<com.hariofspades.incdeclibrary.IncDecCircular&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_width="100dp"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_height="w"&ndash;&gt;-->
+                                <!--&lt;!&ndash;app:textSize="24"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:gravity="center_vertical"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:id="@+id/incDecCounterHorizontal"&ndash;&gt;-->
+                                <!--&lt;!&ndash;app:textColor="@color/black"&ndash;&gt;-->
+                                <!--&lt;!&ndash;app:leftButtonColorTint="@color/colorPrimaryDark"&ndash;&gt;-->
+                                <!--&lt;!&ndash;app:rightButtonColorTinit="@color/colorPrimary"&ndash;&gt;-->
+                                <!--&lt;!&ndash;app:leftDrawableTint="@color/white"&ndash;&gt;-->
+                                <!--&lt;!&ndash;app:rightDrawableTint="@color/white"&ndash;&gt;-->
+
+                                <!--&lt;!&ndash;app:leftDrawable="@drawable/ic_remove_black_24dp"&ndash;&gt;-->
+                                <!--&lt;!&ndash;app:rightDrawable="@drawable/ic_add_black_24dp"&ndash;&gt;-->
+                                <!--&lt;!&ndash;/>&ndash;&gt;-->
+
+
+                                <!--</LinearLayout>-->
+
+
+                                <!--</LinearLayout>-->
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginLeft="5dp"
+
+                            >
+                                <TextView
+                                        android:id="@+id/discountPriceLabelTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/discount_price_textview"
+                                        android:textStyle="bold"
+                                        android:text="Rs"
+                                        android:background="@drawable/strike_through"
+                                        android:gravity="center_horizontal"
+                                        android:textSize="@dimen/txt_report_list_item_size"/>
+
+                                <TextView
+                                        android:id="@+id/discountPriceTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/discount_price_textview"
+                                        android:textStyle="bold"
+                                        android:background="@drawable/strike_through"
+                                        android:gravity="center_horizontal"
+                                        android:textSize="@dimen/txt_report_list_item_size"/>
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginLeft="5dp"
+                                    android:weightSum="1.0"
+                                    android:layout_marginTop="5dp"
+                            >
+
+                                <LinearLayout android:layout_width="0dp"
+                                              android:layout_height="wrap_content"
+                                              android:orientation="horizontal"
+                                              android:layout_weight="0.65"
+                                >
                                     <TextView
-                                            android:id="@+id/counterTextview"
-                                            android:layout_width="30dp"
-                                            android:gravity="center_horizontal"
+                                            android:id="@+id/productNameLabelTextView"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_gravity="center_vertical"
-                                            android:layout_marginLeft="2dp"
-                                            android:layout_marginRight="2dp"
+                                            android:textColor="@color/row_product_name_textview"
+                                            android:textSize="@dimen/txt_product_name_card_selected_size"/>
+                                </LinearLayout>
 
 
-                                    />
+                                <LinearLayout android:layout_width="0dp"
+                                              android:layout_height="wrap_content"
+                                              android:orientation="horizontal"
+                                              android:layout_weight="0.35"
+                                              android:layout_marginRight="5dp"
+                                              android:gravity="right"
 
-                                    <ImageView
-                                            android:id="@+id/incrementImageButton"
-                                            android:layout_width="23dp"
-                                            android:layout_height="23dp"
-                                            android:clickable="true"
-                                            android:padding="7dp"
-                                            android:background="@drawable/add_selector"
-                                    />
+                                >
+
+                                    <LinearLayout android:layout_width="match_parent"
+                                                  android:layout_height="wrap_content"
+                                                  android:orientation="horizontal"
+                                                  android:gravity="right"
+                                    >
+
+                                        <!--<ImageView-->
+                                        <!--android:id="@+id/decrementImageButton"-->
+                                        <!--android:layout_width="30dp"-->
+                                        <!--android:layout_height="wrap_content"-->
+                                        <!--android:src="@drawable/icon_minus_symbol"-->
+                                        <!--android:clickable="true"-->
+                                        <!--android:paddingLeft="4dp"-->
+                                        <!--android:paddingRight="4dp"-->
+                                        <!--android:background="@drawable/round_add_icon"-->
+
+                                        <!--/>-->
+
+                                        <!--<TextView-->
+                                        <!--android:id="@+id/counterTextview"-->
+                                        <!--android:layout_width="30dp"-->
+                                        <!--android:gravity="center_horizontal"-->
+                                        <!--android:layout_height="wrap_content"-->
+                                        <!--android:layout_gravity="center_vertical"-->
+                                        <!--android:layout_marginLeft="2dp"-->
+                                        <!--android:layout_marginRight="2dp"-->
+
+                                        <!--/>-->
+
+                                        <!--<ImageView-->
+                                        <!--android:id="@+id/incrementImageButton"-->
+                                        <!--android:layout_width="30dp"-->
+                                        <!--android:layout_height="wrap_content"-->
+                                        <!--android:src="@drawable/icon_plus_symbol"-->
+                                        <!--android:clickable="true"-->
+                                        <!--android:paddingLeft="4dp"-->
+                                        <!--android:paddingRight="4dp"-->
+                                        <!--android:background="@drawable/round_add_icon"-->
+
+                                        <!--/>-->
+
+
+                                        <ImageView
+                                                android:id="@+id/decrementImageButton"
+                                                android:layout_width="23dp"
+                                                android:layout_height="23dp"
+                                                android:clickable="true"
+                                                android:padding="7dp"
+                                                android:layout_gravity="center_vertical"
+                                                android:background="@drawable/minus_selector"
+
+                                        />
+
+                                        <TextView
+                                                android:id="@+id/counterTextview"
+                                                android:layout_width="30dp"
+                                                android:gravity="center_horizontal"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_marginLeft="2dp"
+                                                android:layout_marginRight="2dp"
+
+
+                                        />
+
+                                        <ImageView
+                                                android:id="@+id/incrementImageButton"
+                                                android:layout_width="23dp"
+                                                android:layout_height="23dp"
+                                                android:clickable="true"
+                                                android:padding="7dp"
+                                                android:background="@drawable/add_selector"
+                                        />
+
+
+                                    </LinearLayout>
 
 
                                 </LinearLayout>
@@ -372,13 +388,10 @@
 
                             </LinearLayout>
 
-
                         </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-
+                </LinearLayout>
                 <LinearLayout
                         android:id="@+id/linearDeliveryAddressLayout"
                         android:layout_width="match_parent"
@@ -513,14 +526,15 @@
                 <LinearLayout
                         android:id="@+id/linearDescriptionLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.4"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">
 
                     <android.support.v7.widget.CardView
                             android:id="@+id/cardViewDescriptionParent"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginBottom="3dp"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
@@ -533,11 +547,11 @@
                             app:cardElevation="2dp">
                         <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:padding="10dp"
                                 android:orientation="vertical">
                             <LinearLayout android:layout_width="match_parent"
-                                          android:layout_height="wrap_content"
+                                          android:layout_height="match_parent"
                                           android:layout_marginLeft="5dp"
                                           android:orientation="vertical">
                                 <TextView
@@ -555,6 +569,8 @@
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/availibility_textview"
                                         android:text="@string/product_desc"
+                                        android:lineSpacingExtra="2dp"
+
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
                             </LinearLayout>
@@ -568,14 +584,15 @@
                 <LinearLayout
                         android:id="@+id/linearAvailibilityLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.2"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">>
 
                     <android.support.v7.widget.CardView
                             android:id="@+id/cardViewAvailibilityParent"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginBottom="3dp"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
@@ -588,11 +605,11 @@
                             android:foreground="?android:attr/selectableItemBackground">
                         <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:padding="10dp"
                                 android:orientation="vertical">
                             <LinearLayout android:layout_width="match_parent"
-                                          android:layout_height="wrap_content"
+                                          android:layout_height="match_parent"
                                           android:layout_marginLeft="5dp"
                                           android:weightSum="1.0"
                                           android:orientation="horizontal">
@@ -626,6 +643,7 @@
                                 </LinearLayout>
                                 <LinearLayout android:layout_width="0dp"
                                               android:layout_height="wrap_content"
+                                              android:gravity="right"
                                               android:layout_weight="0.5">
                                     <TextView
                                             android:id="@+id/availabilitSKUTextView"
@@ -656,8 +674,10 @@
                 </LinearLayout>
 
                 <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:layout_marginTop="10dp"
+                              android:layout_height="0dp"
+                              android:layout_weight="0.2"
+                              android:padding="15dp"
+                              android:gravity="bottom"
                 >
                     <Button
                             android:id="@+id/btnAddToCart"
@@ -673,25 +693,6 @@
 
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
 
-    <!--<LinearLayout-->
-    <!--android:id="@+id/addToCartLayoutPrent"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--&gt;-->
-    <!--<Button-->
-    <!--android:id="@+id/btnAddToCart"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/text_add_to_cart"-->
-    <!--android:textColor="@color/btn_white_add_to_cart"-->
-    <!--android:theme="@style/PrimaryButton"-->
-
-
-    <!--/>-->
-
-    <!--</LinearLayout>-->
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

@@ -4,6 +4,7 @@ import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.data.rest.response.LoginSuccessResponse;
+import com.xekera.Ecommerce.data.rest.response.SignUpSuccessResponse;
 import com.xekera.Ecommerce.util.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -13,7 +14,7 @@ public class LoginModel implements LoginMVP.Model {
     private XekeraAPI xakeraAPI;
     private Utils utils;
 
-    public LoginModel(XekeraAPI xakeraAPI, Utils utils){
+    public LoginModel(XekeraAPI xakeraAPI, Utils utils) {
         this.xakeraAPI = xakeraAPI;
         this.utils = utils;
     }
@@ -21,7 +22,7 @@ public class LoginModel implements LoginMVP.Model {
 
     @Override
     public void signIn(String username, String password, final INetworkLoginSignup<LoginSuccessResponse> iNetworkLoginSignup) {
-        Call<LoginSuccessResponse> call = xakeraAPI.getSignInDetails(username,password);
+        Call<LoginSuccessResponse> call = xakeraAPI.getSignInDetails(username, password);
         call.enqueue(new Callback<LoginSuccessResponse>() {
             @Override
             public void onResponse(Call<LoginSuccessResponse> call, Response<LoginSuccessResponse> response) {
@@ -35,13 +36,37 @@ public class LoginModel implements LoginMVP.Model {
 //                        return;
 //                    }
 
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginSuccessResponse> call, Throwable t) {
+                iNetworkLoginSignup.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void registerFacebookUser(String username, String password, String phoneNo, String emailID, final INetworkLoginSignup<SignUpSuccessResponse> iNetworkLoginSignup) {
+        Call<SignUpSuccessResponse> call = xakeraAPI.postSignUpDetails(username, password, emailID);
+        call.enqueue(new Callback<SignUpSuccessResponse>() {
+            @Override
+            public void onResponse(Call<SignUpSuccessResponse> call, Response<SignUpSuccessResponse> response) {
+                try {
+                    SignUpSuccessResponse signUpSuccessResponse = response.body();
+
+                    iNetworkLoginSignup.onSuccess(signUpSuccessResponse);
+
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignUpSuccessResponse> call, Throwable t) {
                 iNetworkLoginSignup.onFailure(t);
             }
         });

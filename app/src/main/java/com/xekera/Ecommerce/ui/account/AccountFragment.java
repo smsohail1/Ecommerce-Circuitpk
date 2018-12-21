@@ -11,10 +11,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.squareup.picasso.Picasso;
@@ -49,8 +46,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     protected EditText edtAddress;
     @BindView(R.id.btnSaveChanges)
     protected Button btnSaveChanges;
-    @BindView(R.id.linearLayoutParent)
-    protected LinearLayout linearLayoutParent;
+    @BindView(R.id.relativeLayoutParent)
+    protected RelativeLayout relativeLayoutParent;
 
     @Inject
     Utils utils;
@@ -99,7 +96,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         btnSaveChanges.setOnClickListener(this);
-        linearLayoutParent.setOnClickListener(this);
+        relativeLayoutParent.setOnClickListener(this);
 
         toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
@@ -165,7 +162,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
 
-            case R.id.linearLayoutParent:
+            case R.id.relativeLayoutParent:
                 utils.hideSoftKeyboard(edtUsername);
                 utils.hideSoftKeyboard(edtCompanyName);
                 utils.hideSoftKeyboard(edtAddress);
