@@ -134,6 +134,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             itemView.findViewById(R.id.decrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.incrementImageButton).setOnClickListener(this);
 
+            itemView.findViewById(R.id.messenger_send_button).setOnClickListener(this);
         }
 
         @Override
@@ -166,7 +167,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         long itemQuantityDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
                         iFvaouritesAddToCartAdapter.onDecrementButtonClick(Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()),
                                 String.valueOf(productPriceDec),
-                                String.valueOf(productPriceDec*itemQuantityDec),
+                                String.valueOf(productPriceDec * itemQuantityDec),
                                 productsItems.get(getLayoutPosition()).getItemName(),
                                 Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
                                 productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy);
@@ -251,6 +252,10 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     break;
 
+                case R.id.messenger_send_button:
+                    iFvaouritesAddToCartAdapter.onClickButtonMessenger();
+                    break;
+
             }
         }
 
@@ -299,6 +304,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                     long cutPrice, byte[] byteImage, ImageView imgProductCopy);
 
         void removeItemFromCart(Favourites favourites);
+
+        void onClickButtonMessenger();
 
     }
 }

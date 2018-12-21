@@ -1,12 +1,19 @@
 package com.xekera.Ecommerce.ui.favourites;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +23,9 @@ import android.view.Window;
 import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.facebook.CallbackManager;
+import com.facebook.messenger.MessengerUtils;
+import com.facebook.messenger.ShareToMessengerParams;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
@@ -29,6 +39,7 @@ import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailMod
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -317,6 +328,11 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     }
 
     @Override
+    public void onClickButtonMessenger() {
+        onMessengerButtonClicked();
+    }
+
+    @Override
     public void hideLoadingProgressDialog() {
         progressBarRelativeLayout.setVisibility(View.GONE);
     }
@@ -332,6 +348,91 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     public void setDecrementCount(int counts) {
         ((BaseActivity) getActivity()).removeItemToCart(counts);
 
+    }
+
+
+    private void onMessengerButtonClicked() {
+        callbackManager = CallbackManager.Factory.create();
+
+        selectImage();
+    }
+
+    private int GALLERY = 1, REQUEST_CAMERA = 2;
+    private static final int REQUEST_CODE_SHARE_TO_MESSENGER = 1;
+    CallbackManager callbackManager;
+
+
+    private void selectImage() {
+        final CharSequence[] items = {"Take Photo", "Choose from Library",
+                "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Select profile Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Take Photo")) {
+                    // Opens Camera to take a picture
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, REQUEST_CAMERA);
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode,
+                                 final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+         callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+//            if (requestCode == SELECT_FILE)
+//                onSelectFromGalleryResult(data); //image is chosen from gallery
+            if (requestCode == REQUEST_CAMERA)
+                onCaptureImageResult(data); // image is captured using device camera
+        }
+    }
+
+
+    private void onCaptureImageResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(),
+                thumbnail, "Image Description", null);
+        Uri uri = Uri.parse(path);
+        shareToMessenger(uri);
+    }
+
+    private void shareToMessenger(Uri imagePath) {
+        // Create the parameters for what we want to send to Messenger.
+        ShareToMessengerParams shareToMessengerParams =
+                ShareToMessengerParams.newBuilder(imagePath, "image/*")
+                        .setMetaData("fddffdfdfdf")
+                        .build();
+
+        // Shares the content to Messenger. If Messenger is not installed
+        // or Messenger needs to be upgraded, this will redirect
+        // the user to the play store.
+        MessengerUtils.shareToMessenger(
+                getActivity(),
+                REQUEST_CODE_SHARE_TO_MESSENGER,
+                shareToMessengerParams);
     }
 
 }

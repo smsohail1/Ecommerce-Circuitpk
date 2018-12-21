@@ -14,7 +14,6 @@
             android:layout_gravity="center"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:background="@drawable/search_edt_background"
 
     >
         <!--android:background="#adadb2"-->
@@ -30,9 +29,9 @@
                 android:hint="@string/edt_shop_details"
                 android:inputType="text"
                 android:maxLength="50"
-                android:textColorHint="@color/edt_search_white_hint"
+                android:textColorHint="@color/colorPrimary"
                 android:textCursorDrawable="@drawable/search_edt_cursor_color"
-                android:textColor="#ffffff"
+                android:textColor="#54595C"
                 android:textSize="14sp"/>
 
         <ImageView android:layout_width="wrap_content"
@@ -44,7 +43,7 @@
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:layout_below="@+id/searchParent"
-                  android:layout_marginBottom="5dp">
+                  android:layout_marginBottom="2dp">
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewProductDetails"
                 android:layout_below="@+id/categoryLabel"

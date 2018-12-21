@@ -73,7 +73,7 @@
 
 
     <!--Shop details screen-->
-    <string name="edt_shop_details">Search products</string>
+    <string name="edt_shop_details">Search product by name</string>
     <string name="Add_item">Add</string>
     <string name="view_item">View</string>
 
