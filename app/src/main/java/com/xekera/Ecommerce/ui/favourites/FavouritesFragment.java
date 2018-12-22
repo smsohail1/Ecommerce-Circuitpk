@@ -73,6 +73,11 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     View toastView;
 
+    private int PICK_IMAGE_REQUEST = 1;
+    public static final String FACEBOOK_MESSENGER_PACKAGE = "com.facebook.orca";
+    public static final String FACEBOOK_APP_PACKAGE = "com.facebook.katana";
+
+
     public FavouritesFragment() {
         // Required empty public constructor
     }
@@ -333,6 +338,108 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     }
 
     @Override
+    public void onClickShareButton(Favourites favourites, Bitmap bitmapAdd) {
+        shareOnFacebookMessenger(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
+        //  shareOnWhatsApp(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
+        //  shareViaFacebook(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
+
+    }
+
+    private void shareOnFacebookMessenger(Favourites favourites, String url) {
+
+        Intent sendIntent = new Intent();
+
+        sendIntent.setAction(Intent.ACTION_SEND);
+//        sendIntent.putExtra(Intent.EXTRA_TITLE,
+//                "Circuit.pk"
+//        );
+
+        sendIntent.putExtra(Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + favourites.getItemName() + "\n" +
+                        "New Price: " + favourites.getItemIndividualPrice() + "\n" +
+                        "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                        "Website: " +
+                        "https://circuit.pk/");
+
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        sendIntent.setType("text/plain");
+
+        sendIntent.setPackage(FACEBOOK_MESSENGER_PACKAGE);
+
+        try {
+            startActivity(sendIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            showToastShortTime("Please install facebook messenger");
+        }
+
+    }
+
+    private void shareViaFacebook(Favourites favourites, String url) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+
+//        shareIntent.putExtra(Intent.EXTRA_TITLE,
+//                "Circuit.pk"
+//        );
+
+        shareIntent.putExtra(Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + favourites.getItemName() + "\n" +
+                        "New Price: " + favourites.getItemIndividualPrice() + "\n" +
+                        "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                        "Website: " +
+                        "https://circuit.pk/");
+
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        shareIntent.setType("text/plain");
+
+        shareIntent.setPackage(FACEBOOK_APP_PACKAGE);
+        try {
+            startActivity(shareIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            showToastShortTime("Please install Facebook app.");
+        }
+    }
+
+
+    private void shareOnWhatsApp(Favourites favourites, String url) {
+        Intent whatsappIntent = new Intent();
+        whatsappIntent.setAction(Intent.ACTION_SEND);
+
+        // whatsappIntent.setType("image/*");
+        whatsappIntent.setType("text/plain");
+
+        whatsappIntent.setPackage("com.whatsapp");
+//        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+//        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        whatsappIntent.putExtra(Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + favourites.getItemName() + "\n" +
+                        "New Price: " + favourites.getItemIndividualPrice() + "\n" +
+                        "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                        "Website: " + "https://circuit.pk/");
+
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        try {
+            startActivity(whatsappIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            showToastShortTime("Whatsapp have not been installed.");
+        }
+
+    }
+
+
+    @Override
     public void hideLoadingProgressDialog() {
         progressBarRelativeLayout.setVisibility(View.GONE);
     }
@@ -352,12 +459,13 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
 
     private void onMessengerButtonClicked() {
-        callbackManager = CallbackManager.Factory.create();
+        //callbackManager = CallbackManager.Factory.create();
 
-        selectImage();
+        //  selectImage();
     }
 
-    private int GALLERY = 1, REQUEST_CAMERA = 2;
+
+    /*private int GALLERY = 1, REQUEST_CAMERA = 2;
     private static final int REQUEST_CODE_SHARE_TO_MESSENGER = 1;
     CallbackManager callbackManager;
 
@@ -434,6 +542,6 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                 REQUEST_CODE_SHARE_TO_MESSENGER,
                 shareToMessengerParams);
     }
-
+*/
 }
 

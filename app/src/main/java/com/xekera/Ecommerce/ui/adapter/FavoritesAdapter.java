@@ -124,6 +124,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public ImageView incrementImageButton;
         @BindView(R.id.counterTextview)
         public TextView counterTextview;
+        @BindView(R.id.imgShareProductDetails)
+        public ImageView imgShareProductDetails;
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);
@@ -133,8 +135,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             itemView.findViewById(R.id.imgRemove).setOnClickListener(this);
             itemView.findViewById(R.id.decrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.incrementImageButton).setOnClickListener(this);
+            itemView.findViewById(R.id.imgShareProductDetails).setOnClickListener(this);
 
-            itemView.findViewById(R.id.messenger_send_button).setOnClickListener(this);
+            // itemView.findViewById(R.id.messenger_send_button).setOnClickListener(this);
         }
 
         @Override
@@ -252,8 +255,31 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     break;
 
-                case R.id.messenger_send_button:
-                    iFvaouritesAddToCartAdapter.onClickButtonMessenger();
+//                case R.id.messenger_send_button:
+//                    iFvaouritesAddToCartAdapter.onClickButtonMessenger();
+//                    break;
+
+                case R.id.imgShareProductDetails:
+                    Bitmap bitmapShare = null;
+
+                    if (getLayoutPosition() == 0) {
+                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
+                    }
+                    else if (getLayoutPosition() == 1) {
+                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_sensor_module);
+
+                    }
+// else if (getLayoutPosition() == 2) {
+//                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_battery);
+//
+//                    } else if (getLayoutPosition() == 3) {
+//                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_wire);
+//
+//                    } else if (getLayoutPosition() == 4) {
+//                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_rectifier);
+//
+//                    }
+                    iFvaouritesAddToCartAdapter.onClickShareButton(productsItems.get(getLayoutPosition()), bitmapShare);
                     break;
 
             }
@@ -281,7 +307,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void refreshProduct() {
         notifyDataSetChanged();
-
     }
 
 
@@ -306,6 +331,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void removeItemFromCart(Favourites favourites);
 
         void onClickButtonMessenger();
+
+        void onClickShareButton(Favourites favourites, Bitmap bitmapAdd);
 
     }
 }

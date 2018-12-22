@@ -435,12 +435,23 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     boolean isContinueShoppingEnable = true;
     boolean isEnable = true;
+    boolean isCheckOutButtonEnable = true;
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnCheckout:
-                presenter.getCartCountList();
+                if (isCheckOutButtonEnable) {
+                    presenter.getCartCountList();
+                }
+                isCheckOutButtonEnable = false;
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        isCheckOutButtonEnable = true;
+                    }
+                }, 2000);
                 break;
 
             case R.id.btnContinueShopping:

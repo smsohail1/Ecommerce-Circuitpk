@@ -181,55 +181,48 @@
                           android:layout_height="match_parent"
                           android:orientation="vertical">
 
-                <android.support.v4.widget.NestedScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
 
-                >
-
-
-                    <LinearLayout android:layout_width="match_parent"
-                                  android:layout_height="match_parent"
-                                  android:orientation="vertical">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:orientation="vertical">
 
 
-                        <LinearLayout
-                                android:id="@+id/linearParent"
+                    <LinearLayout
+                            android:id="@+id/linearParent"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/linearLayoutItemDetails"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="2dp"
+
+                    >
+
+                        <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recyclerViewAddToCartDetails"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_below="@+id/linearLayoutItemDetails"
-                                android:layout_marginTop="3dp"
-                                android:layout_marginBottom="5dp"
+                                android:nestedScrollingEnabled="true"
 
-                        >
-
-                            <android.support.v7.widget.RecyclerView
-                                    android:id="@+id/recyclerViewAddToCartDetails"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:nestedScrollingEnabled="true"
-
-                            />
-                        </LinearLayout>
-
-
-                        <TextView
-                                android:id="@+id/txtNoCartItemFound"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/linerarParent"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="5dp"
-                                android:gravity="center_horizontal"
-                                android:textColor="@color/card_textview"
-                                android:textSize="@dimen/no_item_found_txt_size"
-                                android:text="@string/no_order_found"
-                                android:visibility="gone"
                         />
-
-
                     </LinearLayout>
-                </android.support.v4.widget.NestedScrollView>
+
+
+                    <TextView
+                            android:id="@+id/txtNoCartItemFound"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/linerarParent"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center_horizontal"
+                            android:textColor="@color/card_textview"
+                            android:textSize="@dimen/no_item_found_txt_size"
+                            android:text="@string/no_order_found"
+                            android:visibility="gone"
+                    />
+
+
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

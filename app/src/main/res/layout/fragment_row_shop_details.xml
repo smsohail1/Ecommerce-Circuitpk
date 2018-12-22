@@ -213,6 +213,7 @@
                                     android:layout_height="29dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="40dp"
                                     android:visibility="gone"
                                     android:background="@drawable/icon_share_selector"/>
 

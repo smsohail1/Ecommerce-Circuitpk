@@ -31,6 +31,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.varunest.sparkbutton.SparkButton;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
@@ -50,6 +54,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -97,18 +102,6 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     public ShopDetailsFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //  super.onActivityResult(requestCode, resultCode, data);
-
-        // if (resultCode == RESULT_OK) {
-//        if (requestCode == 55) {
-//            int addID = data.getIntExtra("addressID", 0);
-//            String addressLine = data.getStringExtra("addressLine");
-//            // }
-//        }
     }
 
 
@@ -695,46 +688,107 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void shareItemsDetails(ShoppingDetailModel productItems, Bitmap bitmapImg) {
-        requestPermissions();
-        if (!mPermissionDenied) {
-            try {
+        //requestPermissions();
+        //  if (!mPermissionDenied) {
+        try {
 
-                Intent share = new Intent(Intent.ACTION_SEND);
-                // share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                Intent share = new Intent(Intent.ACTION_SEND);
+//                // share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                share.setType("image/jpeg");
+//                ContentValues values = new ContentValues();
+//                values.put(MediaStore.Images.Media.TITLE, "title");
+//                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+//                Uri uri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                        values);
+//
+//                OutputStream outstream;
+//                try {
+//                    outstream = getActivity().getContentResolver().openOutputStream(uri);
+//                    bitmapImg.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+//                    outstream.close();
+//                } catch (Exception e) {
+//                    System.err.println(e.toString());
+//                }
+//
+//                share.putExtra(Intent.EXTRA_STREAM, uri);
+//                share.putExtra(Intent.EXTRA_TEXT, "Product Name: " + productItems.getProductName() + "\n" +
+//                        "Price: " + productItems.getProductPrice());
+//                share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//                startActivity(Intent.createChooser(share, "Share with friends"));
 
-                share.setType("image/jpeg");
+            shareOnFacebook();
+            // shareLinks();
 
-                ContentValues values = new ContentValues();
-                values.put(MediaStore.Images.Media.TITLE, "title");
-                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                Uri uri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        values);
+            // shareOnFacebookMessenger();
+
+        } catch (Exception e) {
+            Log.d("error", e.getMessage());
+            //showMissingPermissionError();
+        }
+        //} else {
+        //  showMissingPermissionError();
+        //}
+    }
+
+    public static final String FACEBOOK_MESSENGER_PACKAGE = "com.facebook.orca";
+    public static final String GOOGLE_PLAY_STORE_URI = "http://play.google.com/store/apps/details?id=";
+
+    protected void shareOnFacebookMessenger(Uri uri) {
+
+        Intent sendIntent = new Intent();
+
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TITLE,
+                "Check this app on: "
+                        + GOOGLE_PLAY_STORE_URI
+                        + "circit.pk"
+        );
 
 
-                OutputStream outstream;
-                try {
-                    outstream = getActivity().getContentResolver().openOutputStream(uri);
-                    bitmapImg.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-                    outstream.close();
-                } catch (Exception e) {
-                    System.err.println(e.toString());
-                }
+        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        sendIntent.setType("image/*");
 
-                share.putExtra(Intent.EXTRA_STREAM, uri);
-                share.putExtra(Intent.EXTRA_TEXT, "Product Name: " + productItems.getProductName() + "\n" +
-                        "Price: " + productItems.getProductPrice());
-                share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        sendIntent.setPackage(FACEBOOK_MESSENGER_PACKAGE);
 
-                startActivity(Intent.createChooser(share, "Share with friends"));
+        try {
+            startActivity(sendIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            showToastShortTime("Please install facebook messenger");
+        }
 
-            } catch (Exception e) {
-                Log.d("error", e.getMessage());
-                showMissingPermissionError();
-            }
-        } else {
-            showMissingPermissionError();
+    }
+
+
+    private int PICK_IMAGE_REQUEST = 1;
+    private ShareDialog shareDialog;
+
+    private void shareOnFacebook() {
+
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
+    }
+
+
+    public void shareLinks() {
+        shareDialog = new ShareDialog(this);  // intialize facebook shareDialog.
+
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setQuote("test")
+                    .setContentTitle("Androidlift")
+                    .setContentDescription("Androidlift blog")
+                    .setContentUrl(Uri.parse("http://androidlift.info"))
+                    .build();
+
+            shareDialog.show(linkContent);
         }
     }
+
 
     @Override
     public void removeItemFromCart(ShoppingDetailModel shoppingDetailModel) {

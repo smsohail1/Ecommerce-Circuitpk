@@ -178,7 +178,16 @@
 
                             </LinearLayout>
 
-                                <include layout="@layout/messenger_button_send_blue_round"/>
+                            <!--<include-->
+                            <!--layout="@layout/messenger_button_send_blue_round"/>-->
+                            <ImageView
+                                    android:id="@+id/imgShareProductDetails"
+                                    android:layout_width="22dp"
+                                    android:layout_height="29dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="40dp"
+                                    android:background="@drawable/icon_share_selector"/>
 
                         </LinearLayout>
 

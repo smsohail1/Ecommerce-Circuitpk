@@ -393,9 +393,10 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 case R.id.imgShareProductDetails:
 
-                    BitmapDrawable bitmapDrawableImg = (BitmapDrawable) imgProduct.getDrawable();
-                    Bitmap bitmapImage = bitmapDrawableImg.getBitmap();
+                    //  BitmapDrawable bitmapDrawableImg = (BitmapDrawable) imgProduct.getDrawable();
+                    //Bitmap bitmapImage = bitmapDrawableImg.getBitmap();
 
+                    Bitmap bitmapImage = null;
                     iShopDetailAdapter.shareItemsDetails(productsItems.get(getLayoutPosition()), bitmapImage);
                     break;
             }
