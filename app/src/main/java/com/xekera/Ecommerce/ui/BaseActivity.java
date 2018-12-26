@@ -420,6 +420,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         //for (int i = 0; i < bottomMenu.size(); i++) {
                         bottomMenuItem = bottomMenu.findItem(R.id.navigation_shop);
                         bottomMenuItem.setCheckable(true);
+                        bottomMenuItem.setChecked(true);
+
                         //}
 
                         fragment = new ShopFragment();
@@ -441,6 +443,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                         bottomMenuItem = bottomMenu.findItem(R.id.navigation_favourite);
                         bottomMenuItem.setCheckable(true);
+                        bottomMenuItem.setChecked(true);
 
                         fragment = new FavouritesFragment();
                         replaceFragmentWithContainer(fragment);
@@ -459,6 +462,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                         bottomMenuItem = bottomMenu.findItem(R.id.navigation_setting);
                         bottomMenuItem.setCheckable(true);
+                        bottomMenuItem.setChecked(true);
 
 
                         fragment = new SettingFragment();
@@ -478,7 +482,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         }
                         bottomMenuItem = bottomMenu.findItem(R.id.navigation_History);
                         bottomMenuItem.setCheckable(true);
-
+                        bottomMenuItem.setChecked(true);
 
                         fragment = new HistoryFragment();
                         replaceFragmentWithContainer(fragment);
@@ -508,15 +512,40 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         if (fragment instanceof SettingFragment || fragment instanceof ShopFragment ||
                 fragment instanceof HistoryFragment ||
                 fragment instanceof FavouritesFragment) {
+            Menu bottomMenu = navigation.getMenu();
+            MenuItem bottomMenuItem;
             // showBottomNavigation();
             if (fragment instanceof SettingFragment) {
                 navigation.setSelectedItemId(R.id.navigation_setting);
+
+                bottomMenuItem = bottomMenu.findItem(R.id.navigation_setting);
+                bottomMenuItem.setCheckable(true);
+                bottomMenuItem.setChecked(true);
+
+
             } else if (fragment instanceof ShopFragment) {
                 navigation.setSelectedItemId(R.id.navigation_shop);
+
+                bottomMenuItem = bottomMenu.findItem(R.id.navigation_shop);
+                bottomMenuItem.setCheckable(true);
+                bottomMenuItem.setChecked(true);
+
+
             } else if (fragment instanceof HistoryFragment) {
                 navigation.setSelectedItemId(R.id.navigation_History);
+
+                bottomMenuItem = bottomMenu.findItem(R.id.navigation_History);
+                bottomMenuItem.setCheckable(true);
+                bottomMenuItem.setChecked(true);
+
+
             } else if (fragment instanceof FavouritesFragment) {
                 navigation.setSelectedItemId(R.id.navigation_favourite);
+
+                bottomMenuItem = bottomMenu.findItem(R.id.navigation_favourite);
+                bottomMenuItem.setCheckable(true);
+                bottomMenuItem.setChecked(true);
+
             }
 
         }
@@ -640,6 +669,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
             backPressedOnce = true;
             toastUtil.showToastShortTime("Press back again to exit.", toastView);
+
             new Handler().postDelayed(new Runnable() {
 
                 @Override
