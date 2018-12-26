@@ -639,7 +639,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             }
 
             backPressedOnce = true;
-            Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_SHORT).show();
+            toastUtil.showToastShortTime("Press back again to exit.", toastView);
             new Handler().postDelayed(new Runnable() {
 
                 @Override
@@ -657,7 +657,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             }
 
             backPressedOnce = true;
-            Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_SHORT).show();
+            toastUtil.showToastShortTime("Press back again to exit.", toastView);
+
+            // Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
 
                 @Override
@@ -692,7 +694,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             }
 
             backPressedOnce = true;
-            Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_SHORT).show();
+            toastUtil.showToastShortTime("Press back again to exit.", toastView);
+            // Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
 
                 @Override
@@ -807,7 +810,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+            //   Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -16,10 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.view.*;
 import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -337,13 +334,63 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         onMessengerButtonClicked();
     }
 
+    boolean isShareButtonClick = true;
+
     @Override
-    public void onClickShareButton(Favourites favourites, Bitmap bitmapAdd) {
-        shareOnFacebookMessenger(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
+    public void onClickShareButton(final Favourites favourites, Bitmap bitmapAdd) {
+        if (isShareButtonClick) {
+            isShareButtonClick = false;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showShareDialog(getActivity(), favourites);
+                    isShareButtonClick = true;
+                }
+            }, 300);
+        }
+        //  shareOnFacebookMessenger(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
         //  shareOnWhatsApp(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
         //  shareViaFacebook(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
 
     }
+
+    private void showShareDialog(Context context, final Favourites favourites) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View v = dialog.getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+
+        dialog.setContentView(R.layout.dialog_share);
+
+        ImageView imgWhatsApp = dialog.findViewById(R.id.imgWhatsApp);
+        ImageView imgFacebook = dialog.findViewById(R.id.imgFacebook);
+        ImageView imgMessenger = dialog.findViewById(R.id.imgMessenger);
+
+        imgWhatsApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareOnWhatsApp(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
+            }
+        });
+
+        imgFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareViaFacebook(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
+
+            }
+        });
+
+        imgMessenger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareOnFacebookMessenger(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
+            }
+        });
+
+        dialog.show();
+    }
+
 
     private void shareOnFacebookMessenger(Favourites favourites, String url) {
 
@@ -359,13 +406,13 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                         "Product Name: " + favourites.getItemName() + "\n" +
                         "New Price: " + favourites.getItemIndividualPrice() + "\n" +
                         "Old Price: " + favourites.getItemCutPrice() + "\n" +
-                        "Website: " +
-                        "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/");
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
         sendIntent.setType("text/plain");
+        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         sendIntent.setPackage(FACEBOOK_MESSENGER_PACKAGE);
 
@@ -390,13 +437,13 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                         "Product Name: " + favourites.getItemName() + "\n" +
                         "New Price: " + favourites.getItemIndividualPrice() + "\n" +
                         "Old Price: " + favourites.getItemCutPrice() + "\n" +
-                        "Website: " +
-                        "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/");
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
         shareIntent.setType("text/plain");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         shareIntent.setPackage(FACEBOOK_APP_PACKAGE);
         try {
@@ -426,6 +473,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                         "Old Price: " + favourites.getItemCutPrice() + "\n" +
                         "Website: " + "https://circuit.pk/");
 
+        whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 

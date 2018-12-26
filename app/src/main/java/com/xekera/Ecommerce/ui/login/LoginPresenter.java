@@ -59,7 +59,6 @@ public class LoginPresenter implements LoginMVP.Presenter {
 
                             } else {
                                 view.showToastShortTime(response.getMessage());
-
                             }
                         }
                     }

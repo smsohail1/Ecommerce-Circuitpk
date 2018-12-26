@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+
+                android:fontFamily="@font/titilliu_web_semi_bold"
+                android:gravity="center_horizontal"
+                android:padding="6dp"
+                android:text="Share Via"
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_dp_user_pop_up_heading_size"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:padding="20dp">
+
+            <!--<TextView-->
+            <!--android:id="@+id/txtMessage"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text=""-->
+            <!--android:textAlignment="center"-->
+            <!--android:textStyle="bold"/>-->
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtMessage"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:gravity="center_horizontal"
+                              android:orientation="vertical">
+
+                    <ImageView
+                            android:id="@+id/imgWhatsApp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:background="@drawable/whatsapp_selector"/>
+
+                    <TextView
+                            android:id="@+id/textviewWhatsApp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="WhatsApp"
+                            android:textSize="@dimen/social_media_label_size"
+                            android:textColor="#444444"/>
+
+                </LinearLayout>
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:gravity="center_horizontal"
+                              android:layout_marginLeft="10dp"
+                              android:orientation="vertical">
+
+                    <ImageView
+                            android:id="@+id/imgFacebook"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:background="@drawable/facebook_share_selector"/>
+
+                    <TextView
+                            android:id="@+id/textviewFacebook"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Facebook"
+                            android:textSize="@dimen/social_media_label_size"
+                            android:layout_marginTop="5dp"
+
+                            android:textColor="#444444"/>
+
+                </LinearLayout>
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:gravity="center_horizontal"
+                              android:layout_marginLeft="10dp"
+
+                              android:orientation="vertical">
+
+                    <ImageView
+                            android:id="@+id/imgMessenger"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:background="@drawable/messenger_selector"/>
+
+                    <TextView
+                            android:id="@+id/textviewFacebookMessenger"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Messenger"
+                            android:textSize="@dimen/social_media_label_size"
+
+                            android:textColor="#444444"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
+
+
+
+
+
+
+
