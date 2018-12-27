@@ -125,7 +125,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     String selectedSpinnerTownCity = "";
     String selectedSpinnerTownCityDiffAddress = "";
     String selectedPaymentMode = "", selectedPaymentModeDiffAddress = "";
-    String selfPickup = "", selfPickupDiffAddress;
+    String selfPickup = "", selfPickupDiffAddress = "";
 
     List<String> cityTown;
     View toastView;
@@ -527,7 +527,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                             && utils.isTextNullOrEmpty(selfPickupDiffAddress)
                             ) {
                         flatChargesAmount = "100";
-                    } else if (selfPickupDiffAddress.equalsIgnoreCase("Self Pickup")) {
+                    } else if (!utils.isTextNullOrEmpty(selfPickupDiffAddress) &&
+                            selfPickupDiffAddress.equalsIgnoreCase("Self Pickup")) {
                         flatChargesAmount = "0";
                     } else {
                         flatChargesAmount = "250";
@@ -547,7 +548,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                             selectedSpinnerTownCity.equalsIgnoreCase("Rawalpindi"))
                             && utils.isTextNullOrEmpty(selfPickup)) {
                         flatChargesAmount = "100";
-                    } else if (selfPickup.equalsIgnoreCase("Self Pickup")) {
+                    } else if (!utils.isTextNullOrEmpty(selfPickup) && selfPickup.equalsIgnoreCase("Self Pickup")) {
                         flatChargesAmount = "0";
                     } else {
                         flatChargesAmount = "250";

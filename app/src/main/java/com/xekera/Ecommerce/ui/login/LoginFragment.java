@@ -284,14 +284,20 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
                                                        AccessToken currentAccessToken) {
-                if (currentAccessToken == null) {
-                    //  Log.d(TAG, "onLogout catched");
-                    // deleteContact();//This is my code
-                    sessionManager.clearAll();
-                    (((BaseActivity) getActivity())).setUserDetails();
-                    showToastShortTime("Logout Successfully.");
-                    //  custom_fb_button.setText("Login with Facebook");
-                    //  hideProgressDialogPleaseWait();
+                try {
+
+
+                    if (currentAccessToken == null) {
+                        //  Log.d(TAG, "onLogout catched");
+                        // deleteContact();//This is my code
+                        sessionManager.clearAll();
+                        (((BaseActivity) getActivity())).setUserDetails();
+                        showToastShortTime("Logout Successfully.");
+                        //  custom_fb_button.setText("Login with Facebook");
+                        //  hideProgressDialogPleaseWait();
+
+                    }
+                } catch (Exception ex) {
 
                 }
             }
@@ -341,7 +347,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
+        // super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void getUserProfile(AccessToken currentAccessToken) {
@@ -366,6 +372,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                             String[] myTaskParams = {first_name + last_name, "", "", email};
                             new FacebookUserRegister().execute(myTaskParams);
 
+                            // new Handler().postDelayed(new Runnable() {
+                            //   @Override
+                            // public void run() {
+                            //(((BaseActivity) getActivity())).popBackFromStack(new LoginFragment());
+
+                            //}
+                            //}, 100);
                             //  facebookUserRegister(first_name + last_name, "", "", email);
 
                             //  custom_fb_button.setText("Logout");

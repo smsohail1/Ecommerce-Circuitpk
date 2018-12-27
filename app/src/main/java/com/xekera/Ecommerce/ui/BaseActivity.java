@@ -547,6 +547,26 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 bottomMenuItem.setChecked(true);
 
             }
+        } else {
+
+            Menu bottomMenu = navigation.getMenu();
+            MenuItem bottomMenuItem;
+            bottomMenuItem = bottomMenu.findItem(R.id.navigation_shop);
+            bottomMenuItem.setCheckable(false);
+            bottomMenuItem.setChecked(false);
+
+            bottomMenuItem = bottomMenu.findItem(R.id.navigation_favourite);
+            bottomMenuItem.setCheckable(false);
+            bottomMenuItem.setChecked(false);
+
+            bottomMenuItem = bottomMenu.findItem(R.id.navigation_setting);
+            bottomMenuItem.setCheckable(false);
+            bottomMenuItem.setChecked(false);
+
+            bottomMenuItem = bottomMenu.findItem(R.id.navigation_History);
+            bottomMenuItem.setCheckable(false);
+            bottomMenuItem.setChecked(false);
+
 
         }
     }
@@ -1155,7 +1175,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                                 isEnable = true;
                                 //   finish();
                             }
-                        }, 200);
+                        }, 150);
                     }
                 } else if (sessionManager.getKeyIsFacebookLogin()) {
                     if (utils.isInternetAvailable()) {
@@ -1173,7 +1193,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                                         }
                                     }, 3000);
                                 }
-                            }, 200);
+                            }, 150);
                         }
                     } else {
                         toastUtil.showToastShortTime("Please connect to internet.", toastView);

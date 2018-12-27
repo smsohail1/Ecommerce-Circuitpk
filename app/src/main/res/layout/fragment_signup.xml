@@ -129,6 +129,7 @@
                             android:maxLines="1"
                             android:fontFamily="@font/titilliu_web_regular"
                             android:hint="@string/employee_code_hint_signup_edt"
+                            android:paddingRight="5dp"
                             android:inputType="text"
                             android:maxLength="20"
                             android:imeOptions="actionNext"
@@ -180,6 +181,7 @@
                             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
                             android:maxLines="1"
                             android:imeOptions="actionNext"
+                            android:paddingRight="5dp"
 
                             android:maxLength="15"
                             android:textCursorDrawable="@drawable/cursor_color"
@@ -214,6 +216,7 @@
                             android:textColor="@color/availibility_textview"
                             android:maxLines="1"
                             android:imeOptions="actionNext"
+                            android:paddingRight="5dp"
 
                             android:layout_marginBottom="10dp"
 
@@ -245,6 +248,7 @@
                             android:textColor="@color/availibility_textview"
                             android:maxLines="1"
                             android:imeOptions="actionDone"
+                            android:paddingRight="5dp"
 
                             android:layout_marginBottom="5dp"
                             android:textCursorDrawable="@drawable/cursor_color"

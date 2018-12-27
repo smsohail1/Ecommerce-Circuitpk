@@ -55,7 +55,7 @@
                     android:gravity="center_horizontal"
                     android:text="@string/order_submitted"
                     android:layout_gravity="center_horizontal"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="#494949"
                     android:layout_below="@+id/relativeParent"
                     android:padding="10dp"
                     android:textSize="@dimen/order_placed_textview_size"/>

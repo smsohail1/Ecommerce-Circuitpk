@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -72,7 +73,10 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     private int PICK_IMAGE_REQUEST = 1;
     public static final String FACEBOOK_MESSENGER_PACKAGE = "com.facebook.orca";
+    public static final String FACEBOOK_MESSENGER_LITE_PACKAGE = "com.facebook.mlite";
     public static final String FACEBOOK_APP_PACKAGE = "com.facebook.katana";
+    public static final String FACEBOOK_APP_LITE_PACKAGE = "com.facebook.lite";
+    public static final String WHATSAPP_PACKAGE = "com.whatsapp";
 
 
     public FavouritesFragment() {
@@ -369,22 +373,34 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         imgWhatsApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareOnWhatsApp(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
+                shareOnWhatsApp(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
             }
         });
 
         imgFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareViaFacebook(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
+                PackageManager pm = getActivity().getPackageManager();
+                boolean isInstalled = isPackageInstalled(FACEBOOK_APP_PACKAGE, pm);
+                if (isInstalled) {
+                    shareViaFacebook(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
+                } else {
+                    shareViaFacebookLite(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
 
+                }
             }
         });
 
         imgMessenger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareOnFacebookMessenger(favourites, "https://pbs.twimg.com/profile_images/664342624082526208/VH-iVYvv_400x400.jpg");
+                PackageManager pm = getActivity().getPackageManager();
+                boolean isInstalled = isPackageInstalled(FACEBOOK_MESSENGER_PACKAGE, pm);
+                if (isInstalled) {
+                    shareOnFacebookMessenger(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
+                } else {
+                    shareOnFacebookMessengerLite(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
+                }
             }
         });
 
@@ -419,7 +435,39 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         try {
             startActivity(sendIntent);
         } catch (android.content.ActivityNotFoundException ex) {
-            showToastShortTime("Please install facebook messenger");
+            toastUtil.showToastShortTime("Please install facebook messenger", toastView);
+        }
+
+    }
+
+    private void shareOnFacebookMessengerLite(Favourites favourites, String url) {
+
+        Intent sendIntent = new Intent();
+
+        sendIntent.setAction(Intent.ACTION_SEND);
+//        sendIntent.putExtra(Intent.EXTRA_TITLE,
+//                "Circuit.pk"
+//        );
+
+        sendIntent.putExtra(Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + favourites.getItemName() + "\n" +
+                        "New Price: " + favourites.getItemIndividualPrice() + "\n" +
+                        "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                        "Website: " + "https://circuit.pk/");
+
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        sendIntent.setType("text/plain");
+        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        sendIntent.setPackage(FACEBOOK_MESSENGER_LITE_PACKAGE);
+
+        try {
+            startActivity(sendIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            toastUtil.showToastShortTime("Please install facebook messenger", toastView);
         }
 
     }
@@ -449,7 +497,36 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         try {
             startActivity(shareIntent);
         } catch (android.content.ActivityNotFoundException ex) {
-            showToastShortTime("Please install Facebook app.");
+            toastUtil.showToastShortTime("Please install Facebook app.", toastView);
+        }
+    }
+
+    private void shareViaFacebookLite(Favourites favourites, String url) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+
+//        shareIntent.putExtra(Intent.EXTRA_TITLE,
+//                "Circuit.pk"
+//        );
+
+        shareIntent.putExtra(Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + favourites.getItemName() + "\n" +
+                        "New Price: " + favourites.getItemIndividualPrice() + "\n" +
+                        "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                        "Website: " + "https://circuit.pk/");
+
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        shareIntent.setType("text/plain");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        shareIntent.setPackage(FACEBOOK_APP_LITE_PACKAGE);
+        try {
+            startActivity(shareIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            toastUtil.showToastShortTime("Please install Facebook app.", toastView);
         }
     }
 
@@ -461,7 +538,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         // whatsappIntent.setType("image/*");
         whatsappIntent.setType("text/plain");
 
-        whatsappIntent.setPackage("com.whatsapp");
+        whatsappIntent.setPackage(WHATSAPP_PACKAGE);
 //        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
 //        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
@@ -481,9 +558,25 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         try {
             startActivity(whatsappIntent);
         } catch (android.content.ActivityNotFoundException ex) {
-            showToastShortTime("Whatsapp have not been installed.");
+            toastUtil.showToastShortTime("Whatsapp have not been installed.", toastView);
         }
 
+    }
+
+
+    private boolean isPackageInstalled(String packageName, PackageManager packageManager) {
+
+        boolean found = true;
+
+        try {
+
+            packageManager.getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+
+            found = false;
+        }
+
+        return found;
     }
 
 
