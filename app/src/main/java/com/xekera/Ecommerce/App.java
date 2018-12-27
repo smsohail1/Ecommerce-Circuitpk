@@ -4,9 +4,12 @@ package com.xekera.Ecommerce;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.xekera.Ecommerce.di.component.AppComponent;
 import com.xekera.Ecommerce.di.component.DaggerAppComponent;
 import com.xekera.Ecommerce.di.module.*;
+import io.fabric.sdk.android.Fabric;
 
 public class App extends Application {
     private AppComponent appComponent;
@@ -14,6 +17,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .utilModule(new UtilModule())

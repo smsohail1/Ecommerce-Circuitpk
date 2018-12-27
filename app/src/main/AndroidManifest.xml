@@ -78,6 +78,9 @@
                 android:exported="true"/>
 
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="2ce04c9942fd58eb89a3f24d9e4733550b97686e" />
     </application>
 
 </manifest>

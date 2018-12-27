@@ -77,6 +77,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     public static final String FACEBOOK_APP_PACKAGE = "com.facebook.katana";
     public static final String FACEBOOK_APP_LITE_PACKAGE = "com.facebook.lite";
     public static final String WHATSAPP_PACKAGE = "com.whatsapp";
+    public static final String TWITTER_PACKAGE = "com.twitter.android";
 
 
     public FavouritesFragment() {
@@ -369,10 +370,19 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         ImageView imgWhatsApp = dialog.findViewById(R.id.imgWhatsApp);
         ImageView imgFacebook = dialog.findViewById(R.id.imgFacebook);
         ImageView imgMessenger = dialog.findViewById(R.id.imgMessenger);
+        ImageView imgTwitter = dialog.findViewById(R.id.imgTwitter);
+
+        imgTwitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareOnTwitter(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
+            }
+        });
 
         imgWhatsApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /// selectImage();
                 shareOnWhatsApp(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
             }
         });
@@ -563,6 +573,73 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     }
 
+    private void shareOnTwitter(Favourites favourites, String url) {
+        Intent twitter = new Intent();
+        twitter.setAction(Intent.ACTION_SEND);
+
+        twitter.setType("text/plain");
+
+        twitter.setPackage(TWITTER_PACKAGE);
+//        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+//        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        twitter.putExtra(Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + favourites.getItemName() + "\n" +
+                        "New Price: " + favourites.getItemIndividualPrice() + "\n" +
+                        "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                        "Website: " + "https://circuit.pk/");
+
+        twitter.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        try {
+            startActivity(twitter);
+        } catch (android.content.ActivityNotFoundException ex) {
+            toastUtil.showToastShortTime("Twitter have not been installed.", toastView);
+        }
+
+    }
+
+
+    private void shareOnWhatsApp(Uri imagePath) {
+        Intent whatsappIntent = new Intent();
+        whatsappIntent.setAction(Intent.ACTION_SEND);
+
+        // whatsappIntent.setType("image/*");
+        whatsappIntent.setType("text/plain");
+
+        whatsappIntent.setPackage(WHATSAPP_PACKAGE);
+//        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+//        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        whatsappIntent.putExtra(Intent.EXTRA_TEXT,
+                "Website: " + "https://circuit.pk/");
+
+
+        // if (imagePath != null) {
+        whatsappIntent.putExtra(Intent.EXTRA_STREAM, imagePath);
+        whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        whatsappIntent.setType("image/*");
+        // }
+
+
+        // whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        try {
+            startActivity(whatsappIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            toastUtil.showToastShortTime("Whatsapp have not been installed.", toastView);
+        }
+
+    }
 
     private boolean isPackageInstalled(String packageName, PackageManager packageManager) {
 
@@ -606,7 +683,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     }
 
 
-    /*private int GALLERY = 1, REQUEST_CAMERA = 2;
+    private int GALLERY = 1, REQUEST_CAMERA = 2;
     private static final int REQUEST_CODE_SHARE_TO_MESSENGER = 1;
     CallbackManager callbackManager;
 
@@ -635,7 +712,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     public void onActivityResult(final int requestCode, final int resultCode,
                                  final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-         callbackManager.onActivityResult(requestCode, resultCode, data);
+        // callbackManager.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
 //            if (requestCode == SELECT_FILE)
 //                onSelectFromGalleryResult(data); //image is chosen from gallery
@@ -665,7 +742,8 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(),
                 thumbnail, "Image Description", null);
         Uri uri = Uri.parse(path);
-        shareToMessenger(uri);
+        shareOnWhatsApp(uri);
+        // shareToMessenger(uri);
     }
 
     private void shareToMessenger(Uri imagePath) {
@@ -683,6 +761,6 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                 REQUEST_CODE_SHARE_TO_MESSENGER,
                 shareToMessengerParams);
     }
-*/
+
 }
 

@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
 
-
 public class DashboardActivity extends BaseActivity {
 
     @Override
