@@ -702,12 +702,12 @@
                                     android:orientation="vertical">
 
 
-                                <RadioButton
-                                        android:id="@+id/radioButton2"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/check_payments"
-                                        android:textSize="@dimen/payment_mode_textview_size"/>
+                                <!--<RadioButton-->
+                                        <!--android:id="@+id/radioButton2"-->
+                                        <!--android:layout_width="wrap_content"-->
+                                        <!--android:layout_height="wrap_content"-->
+                                        <!--android:text="@string/check_payments"-->
+                                        <!--android:textSize="@dimen/payment_mode_textview_size"/>-->
 
                                 <RadioButton
                                         android:id="@+id/radioButton3"
@@ -738,12 +738,12 @@
                                         android:textSize="@dimen/payment_mode_textview_size"/>
 
 
-                                <RadioButton
-                                        android:id="@+id/radioButton7"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/card_payment"
-                                        android:textSize="@dimen/payment_mode_textview_size"/>
+                                <!--<RadioButton-->
+                                <!--android:id="@+id/radioButton7"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:text="@string/card_payment"-->
+                                <!--android:textSize="@dimen/payment_mode_textview_size"/>-->
                             </RadioGroup>
 
 
@@ -1424,12 +1424,12 @@
                                         android:orientation="vertical">
 
 
-                                    <RadioButton
-                                            android:id="@+id/radioButton2DiffAddress"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="@string/check_payments"
-                                            android:textSize="@dimen/payment_mode_textview_size"/>
+                                    <!--<RadioButton-->
+                                            <!--android:id="@+id/radioButton2DiffAddress"-->
+                                            <!--android:layout_width="wrap_content"-->
+                                            <!--android:layout_height="wrap_content"-->
+                                            <!--android:text="@string/check_payments"-->
+                                            <!--android:textSize="@dimen/payment_mode_textview_size"/>-->
 
                                     <RadioButton
                                             android:id="@+id/radioButton3DiffAddress"
@@ -1460,12 +1460,12 @@
                                             android:textSize="@dimen/payment_mode_textview_size"/>
 
 
-                                    <RadioButton
-                                            android:id="@+id/radioButton7DiffAddress"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="@string/card_payment"
-                                            android:textSize="@dimen/payment_mode_textview_size"/>
+                                    <!--<RadioButton-->
+                                            <!--android:id="@+id/radioButton7DiffAddress"-->
+                                            <!--android:layout_width="wrap_content"-->
+                                            <!--android:layout_height="wrap_content"-->
+                                            <!--android:text="@string/card_payment"-->
+                                            <!--android:textSize="@dimen/payment_mode_textview_size"/>-->
                                 </RadioGroup>
 
 
