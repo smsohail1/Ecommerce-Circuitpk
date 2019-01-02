@@ -100,7 +100,7 @@
                                         android:id="@+id/priceLabelTextView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/price_textview"
+                                        android:textColor="#7A7A7A"
                                         android:layout_marginLeft="5dp"
                                         android:textStyle="bold"
                                         android:text="Rs"
@@ -110,7 +110,7 @@
                                         android:id="@+id/priceTextView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/price_textview"
+                                        android:textColor="#7A7A7A"
                                         android:textStyle="bold"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
@@ -125,7 +125,7 @@
                                         android:id="@+id/flatRateLabelTextView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/price_textview"
+                                        android:textColor="#7A7A7A"
                                         android:layout_marginLeft="5dp"
                                         android:textStyle="bold"
                                         android:text="Shipping Rate: "
@@ -135,7 +135,7 @@
                                         android:id="@+id/flatRateTextView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/price_textview"
+                                        android:textColor="@color/history_label_color"
                                         android:textStyle="bold"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
@@ -150,7 +150,7 @@
                                         android:id="@+id/quantityLabelTextView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/price_textview"
+                                        android:textColor="#7A7A7A"
                                         android:layout_marginLeft="5dp"
                                         android:textStyle="bold"
                                         android:text="Qty: "
@@ -160,7 +160,7 @@
                                         android:id="@+id/quantityTextView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/price_textview"
+                                        android:textColor="#7A7A7A"
                                         android:textStyle="bold"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 

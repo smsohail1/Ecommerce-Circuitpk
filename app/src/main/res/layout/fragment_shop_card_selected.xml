@@ -37,7 +37,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
-                            android:textColor="@color/price_textview"
+                            android:textColor="#3b5999"
                             android:textStyle="bold"
                             android:textSize="@dimen/txt_product_name_card_selected_size"
                     />
@@ -129,7 +129,7 @@
                                             android:id="@+id/priceLabelTextView"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:textColor="@color/price_textview"
+                                            android:textColor="#3b5999"
                                             android:textStyle="bold"
                                             android:text="Rs"
                                             android:gravity="center_horizontal"
@@ -139,7 +139,7 @@
                                             android:id="@+id/priceTextView"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:textColor="@color/price_textview"
+                                            android:textColor="#3b5999"
                                             android:textStyle="bold"
                                             android:gravity="center_horizontal"
                                             android:textSize="@dimen/txt_product_name_card_selected_size"/>
@@ -626,9 +626,9 @@
                                             android:textStyle="bold"
                                             android:textSize="@dimen/txt_report_list_item_size"/>
 
-                                    <ImageView android:layout_width="wrap_content"
-                                               android:layout_height="wrap_content"
-                                               android:src="@drawable/icon"/>
+                                    <!--<ImageView android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:src="@drawable/icon"/>-->
 
                                     <TextView
                                             android:id="@+id/availabilitStockTextView"

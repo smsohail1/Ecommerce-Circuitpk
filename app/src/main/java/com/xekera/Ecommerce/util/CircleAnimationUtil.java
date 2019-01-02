@@ -37,7 +37,7 @@ public class CircleAnimationUtil {
 
     private WeakReference<Activity> mContextReference;
     private int mBorderWidth = 4;
-    private int mBorderColor = Color.RED;
+    private int mBorderColor = Color.parseColor("#3b5999");
     //    private CircleLayout mCircleLayout;
     private Bitmap mBitmap;
     private CircleImageView mImageView;

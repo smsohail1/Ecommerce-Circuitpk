@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--<color name="colorPrimary">#008577</color>-->
-    <color name="colorPrimary">#E10915</color>
+    <color name="colorPrimary">#3b5999</color>
     <!--<color name="colorPrimaryDark">#00574B</color>-->
-    <color name="colorPrimaryDark">#E10915</color>
+    <color name="colorPrimaryDark">#3b5999</color>
 
-    <color name="colorAccent">#E10915</color>
+    <color name="colorAccent">#3b5999</color>
 
     <color name="light_blue">#0182c3</color>
-    <color name="red_toolbar">#E42021</color>
+    <color name="red_toolbar">#3b5999</color>
     <color name="colorBlue">#6fcbfa</color>
     <color name="signup_field_background">#ecf0f1</color>
 
@@ -43,7 +43,7 @@
     <!--<color name="price_textview">#54595C</color>-->
     <color name="price_textview">#E10915</color>
 
-    <color name="card_textview">#E10915</color>
+    <color name="card_textview">#3b5999</color>
 
     <color name="different_address_checkbox">#54595C</color>
 
@@ -51,7 +51,7 @@
 
     <color name="category_label">#ffffff</color>
     <!--Bottom Navigation-->
-    <color name="bgBottomNavigation">#E10915</color>
+    <color name="bgBottomNavigation">#3b5999</color>
     <string name="title_shop"></string>
     <string name="title_favourite"></string>
     <string name="title_cart"></string>
@@ -85,7 +85,7 @@
     <color name="grey_dark_edt">#494949</color>
     <color name="grey_dark_edt_hint">#7A7A7A</color>
 
-    <color name="bottom_navigation_selected">#4867aa</color>
+    <color name="bottom_navigation_selected">#f1f1f1</color>
 
     <color name="red_edt_hint">#444444</color>
     <color name="light_black_text">#444444</color>
@@ -109,6 +109,7 @@
     <color name="green">#00FF2A</color>
     <color name="status_green">#00a563</color>
 
+    <color name="history_label_color">#708090</color>
     <color name="status_red">#E42021</color>
 
     <color name="status_blue">#0004ff</color>

@@ -31,16 +31,17 @@
         <!--<item name="colorButtonNormal">@color/colorPrimary</item>-->
         <!--<item name="colorControlHighlight">#4a4a4c</item>-->
 
-        <item name="colorButtonNormal">#4867aa</item>
-        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="colorControlHighlight">#f1f1f1</item>
     </style>
+
 
     <style name="ScreenButton" parent="Theme.AppCompat">
         <!--<item name="colorButtonNormal">@color/colorPrimary</item>-->
         <!--<item name="colorControlHighlight">#4a4a4c</item>-->
 
         <item name="colorButtonNormal">@color/colorPrimary</item>
-        <item name="colorControlHighlight">#4a4a4c</item>
+        <item name="colorControlHighlight">#f1f1f1</item>
     </style>
 
 

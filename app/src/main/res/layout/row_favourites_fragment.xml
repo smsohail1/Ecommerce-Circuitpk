@@ -156,7 +156,7 @@
                                         android:id="@+id/orderDateLabelTextView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/price_textview"
+                                        android:textColor="@color/row_product_name_textview"
                                         android:layout_marginLeft="5dp"
                                         android:text="Stock: "
                                         android:gravity="center_horizontal"
