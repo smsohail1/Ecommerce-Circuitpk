@@ -200,6 +200,7 @@ public class Utils {
                     editText.getWindowToken(), 0);
         }
     }
+    
 
     public void showSoftKeyboard(EditText editText) {
         if (context != null) {
@@ -404,7 +405,7 @@ public class Utils {
         }
     }
 
-    private void hideSoftKeyboard2(Activity activity) {
+    public void hideSoftKeyboard2(Activity activity) {
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);

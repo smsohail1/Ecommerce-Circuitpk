@@ -466,7 +466,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 productsItems.addAll(productsItemsSearch);
             } else if (charText.length() > 0) {
                 for (ShoppingDetailModel wp : productsItemsSearch) {
-                    if (wp.getProductName().toLowerCase(Locale.getDefault())
+                    if (wp.getProductName().toLowerCase(Locale.getDefault()).trim()
                             .contains(charText)) {
                         productsItems.add(wp);
 

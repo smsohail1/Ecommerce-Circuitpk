@@ -1,27 +1,26 @@
 package com.xekera.Ecommerce.ui.delivery_billing_details;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.*;
-import android.view.animation.AnimationUtils;
 import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.stripe.android.Stripe;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.RelationAdapter;
 import com.xekera.Ecommerce.ui.billing_total_amount_view.BillingTotalAmountViewFragment;
-import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
+import com.xekera.Ecommerce.ui.delivery_billing_details.stripe.StripePaymentActivity;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -131,6 +130,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     View toastView;
 
 
+    String cardNumber = "", expiryDate = "", CVCNumber = "";
+
     public DeliveyBillingDetailsFragment() {
         // Required empty public constructor
     }
@@ -169,6 +170,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
         presenter.setView(this);
 
         toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
+
 
         btnCheckout.setOnClickListener(this);
         userDetailsParentLayout.setOnClickListener(this);
@@ -292,6 +294,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
         });
 
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -301,11 +304,13 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                     if (selectedPaymentMode.equalsIgnoreCase("Easypay PK") ||
                             selectedPaymentMode.equalsIgnoreCase("JazzCash")) {
                         showDialog(getActivity(), "Cash Transfer Mobile No");
+                    } else if (selectedPaymentMode.equalsIgnoreCase("Credit Card (Stripe)")) {
+                        gotoStripeActivity();
                     }
                     // Toast.makeText(getActivity(), rb.getText(), Toast.LENGTH_SHORT).show();
                 } else {
                     selectedPaymentMode = "";
-                    Toast.makeText(getActivity(), "No PayMode Selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please Select PaymentMode", Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -323,11 +328,16 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                     if (selectedPaymentModeDiffAddress.equalsIgnoreCase("Easypay PK") ||
                             selectedPaymentModeDiffAddress.equalsIgnoreCase("JazzCash")) {
                         showDialog(getActivity(), "Cash Transfer Mobile No");
+                    } else if (selectedPaymentModeDiffAddress.equalsIgnoreCase("Credit Card (Stripe)")) {
+                        Intent intent = new Intent(getActivity(), StripePaymentActivity.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+
                     }
                     // Toast.makeText(getActivity(), rb.getText(), Toast.LENGTH_SHORT).show();
                 } else {
                     selectedPaymentModeDiffAddress = "";
-                    Toast.makeText(getActivity(), "No PayMode Selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please Select PaymentMode", Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -477,7 +487,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                                             final String company, final String phone,
                                             final String email, final String streetAddress1,
                                             final String townCity, final String paymode,
-                                            final String notes, final String selfPickup) {
+                                            final String notes, final String selfPickup, final String cardNumber, final String expiryDate, final String CVCNumber) {
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -485,7 +495,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                 BillingTotalAmountViewFragment billingTotalAmountViewFragment = new BillingTotalAmountViewFragment();
                 ((BaseActivity) getActivity()).addFragment
                         (billingTotalAmountViewFragment.newInstance(flatCharges, firstName, company, phone,
-                                email, streetAddress1, townCity, paymode, notes, selfPickup));
+                                email, streetAddress1, townCity, paymode, notes, selfPickup, cardNumber, expiryDate, CVCNumber));
 
             }
         }, 300);
@@ -501,6 +511,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnCheckout:
+
 
                 utils.hideSoftKeyboard(edtUsername);
                 utils.hideSoftKeyboard(edtCompanyName);
@@ -534,11 +545,29 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                         flatChargesAmount = "250";
                     }
 
+                    if (utils.isTextNullOrEmpty(selectedPaymentModeDiffAddress)) {
+                        showToastShortTime("Please select payment mode");
+                        return;
+                    }
+
+                    if (selectedPaymentModeDiffAddress.equalsIgnoreCase("Credit Card (Stripe)")) {
+                        if (sessionManager.getCardNumber().equalsIgnoreCase("") ||
+                                sessionManager.getExpiryDate().equalsIgnoreCase("") ||
+                                sessionManager.getCVCNumber().equalsIgnoreCase("")) {
+
+                            showToastShortTime("Please Enter Credit Card Details.");
+                            gotoStripeActivity();
+                            return;
+                        }
+                    }
+
                     presenter.saveDetails(edtUsernameDiffAddress.getText().toString(),
                             edtCompanyNameDiffAddress.getText().toString(), edtPhoneNoDiffAddress.getText().toString(),
                             edtEmailDiffAddress.getText().toString(), edtStreetAddress1DiffAddress.getText().toString(),
                             selectedSpinnerTownCityDiffAddress, selectedPaymentModeDiffAddress, edtNotes.getText().toString(),
-                            flatChargesAmount, selfPickupDiffAddress);
+                            flatChargesAmount, selfPickupDiffAddress, sessionManager.getCardNumber(), sessionManager.getExpiryDate(),
+                            sessionManager.getCVCNumber());
+
                 } else {
 
                     selectedSpinnerTownCity = cityTown.get(spinnerTownCity.getSelectedItemPosition());
@@ -553,11 +582,30 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                     } else {
                         flatChargesAmount = "250";
                     }
+
+
+                    if (utils.isTextNullOrEmpty(selectedPaymentMode)) {
+                        showToastShortTime("Please select payment mode");
+                        return;
+                    }
+
+                    if (selectedPaymentMode.equalsIgnoreCase("Credit Card (Stripe)")) {
+                        if (sessionManager.getCardNumber().equalsIgnoreCase("") ||
+                                sessionManager.getExpiryDate().equalsIgnoreCase("") ||
+                                sessionManager.getCVCNumber().equalsIgnoreCase("")) {
+
+                            showToastShortTime("Please Enter Credit Card Details.");
+                            gotoStripeActivity();
+
+                            return;
+                        }
+                    }
                     presenter.saveDetails(edtUsername.getText().toString(),
                             edtCompanyName.getText().toString(), edtPhoneNo.getText().toString(),
                             edtEmail.getText().toString(), edtStreetAddress1.getText().toString(),
                             selectedSpinnerTownCity, selectedPaymentMode, edtNotes.getText().toString(),
-                            flatChargesAmount, selfPickup);
+                            flatChargesAmount, selfPickup, sessionManager.getCardNumber(), sessionManager.getExpiryDate(),
+                            sessionManager.getCVCNumber());
                 }
 
 
@@ -642,6 +690,22 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
         }
 
     }
+
+    private void gotoStripeActivity() {
+        Intent intent = new Intent(getActivity(), StripePaymentActivity.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+
+    }
+
+
+//    public void setCardDetails(String cardNo, String expDate, String CVCNo) {
+//        cardNumber = cardNo;
+//        expiryDate = expDate;
+//        CVCNumber = CVCNo;
+//        Toast.makeText(getActivity(), "Card details saved successfully.", Toast.LENGTH_SHORT).show();
+//
+//    }
 
 
 //    @Override

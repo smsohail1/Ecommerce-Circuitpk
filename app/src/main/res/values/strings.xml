@@ -202,7 +202,9 @@
     <string name="error_valid_state_country">Please select valid state/country</string>
     <string name="error_valid_town_city">Please select valid town/city</string>
     <string name="postal_code_error">PostalCode/ZIP is required</string>
-    <string name="paymode_error">Please select payment modei</string>
+    <string name="paymode_error">Please select payment mode</string>
+    <string name="stripe_paymode_error">Please fill Credit Card details.</string>
+
 
     <!--History-->
     <string name="bnt_title_cancel_order">Cancel</string>
@@ -258,5 +260,18 @@
 
     <string name="new_password">New password</string>
     <string name="retype_new_password">Retype new password</string>
+
+
+    <!--Credit Card Label-->
+    <string name="card_header">NFN CARD</string>
+    <string name="card_number_sample">XXXX XXXX XXXX XXXX</string>
+    <string name="card_validity_label">VALID UPTO</string>
+    <string name="card_validity_sample">MM/YY</string>
+    <string name="card_name_sample">CARD HOLDER</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="card_holders_name">Card Holder\'s Name</string>
+    <string name="card_number">Card Number</string>
+    <string name="card_validity">Expires</string>
+    <string name="card_cvv">CVV/CVC Number</string>
 
 </resources>

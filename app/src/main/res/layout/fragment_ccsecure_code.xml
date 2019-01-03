@@ -1,0 +1,36 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+            android:id="@+id/cardViewCCSecureCode"
+            style="@style/CardStyle"
+            app:cardCornerRadius="1dp"
+            android:clickable="true"
+            app:elevation="4dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <TextView
+                    style="@style/CardLabel"
+                    android:text="@string/card_cvv"/>
+
+            <com.xekera.Ecommerce.util.CreditCardEditText
+                    android:id="@+id/et_cvv"
+                    style="@style/CardInput"
+                    android:hint="CVV/CVC"
+                    android:clickable="true"
+                    android:inputType="number"
+                    android:maxLength="3"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</FrameLayout>

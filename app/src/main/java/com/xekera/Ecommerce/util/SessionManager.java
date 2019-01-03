@@ -29,6 +29,10 @@ public class SessionManager {
     private static final String KEY_IS_FAVOURITE_LIST = "favourite_list";
 
 
+    public static String KEY_CARD_NUMBER = "card_no";
+    public static String KEY_CARD_EXPIRY_DATE = "card_expiry_date_detail";
+    public static String KEY_CARD_CVC = "card_cvc_no";
+
     private static final String KEY_LATITUDE = "delivery_latitude";
     private static final String KEY_LONGITUDE = "delivery_longitude";
     private static final String KEY_PLACE_NAME = "delivery_place_name";
@@ -59,8 +63,18 @@ public class SessionManager {
 
         editor.commit();
     }
+
+    public void createCreditCardSession(String cardNumber, String expiryDate, String CVCNumber) {
+        editor.putString(KEY_CARD_NUMBER, cardNumber);
+        editor.putString(KEY_CARD_EXPIRY_DATE, expiryDate);
+        editor.putString(KEY_CARD_CVC, CVCNumber);
+        editor.commit();
+
+    }
+
+
     public void createSignUpSession(String username, String phoneno, String userPassword, String email, boolean isSignUp
-                                    ) {
+    ) {
         //editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_USER_NAME, username);
         editor.putString(KEY_USER_PHONE, phoneno);
@@ -201,6 +215,21 @@ public class SessionManager {
         editor.remove(KEY_IS_SIGNUP);
         editor.remove(KEY_IS_FACEBOOK_LOGIN);
         editor.remove(KEY_PICTURE);
+        editor.remove(KEY_CARD_NUMBER);
+        editor.remove(KEY_CARD_EXPIRY_DATE);
+        editor.remove(KEY_CARD_CVC);
+
+        editor.apply();
+        editor.commit();
+    }
+
+
+    public void removeCreditCardSession() {
+
+        editor.remove(KEY_CARD_NUMBER);
+        editor.remove(KEY_CARD_EXPIRY_DATE);
+        editor.remove(KEY_CARD_CVC);
+
         editor.apply();
         editor.commit();
     }
@@ -274,7 +303,6 @@ public class SessionManager {
     public void setIsFavouriteList(Set<String> list) {
         editor.putStringSet(KEY_IS_FAVOURITE_LIST, list)
                 .commit();
-
     }
 
     public Set<String> getIsFavouriteList() {
@@ -282,21 +310,17 @@ public class SessionManager {
     }
 
 
+    public String getCVCNumber() {
+        return pref.getString(KEY_CARD_CVC, "");
+    }
+
+    public String getCardNumber() {
+        return pref.getString(KEY_CARD_NUMBER, "");
+    }
+
+    public String getExpiryDate() {
+        return pref.getString(KEY_CARD_EXPIRY_DATE, "");
+    }
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

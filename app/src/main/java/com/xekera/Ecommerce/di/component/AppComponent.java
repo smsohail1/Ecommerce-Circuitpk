@@ -15,6 +15,7 @@ import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.CartFragment;
 import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.FragmentFavourites;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
+import com.xekera.Ecommerce.ui.delivery_billing_details.stripe.StripePaymentActivity;
 import com.xekera.Ecommerce.ui.favourites.FavouritesFragment;
 import com.xekera.Ecommerce.ui.history.HistoryFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
@@ -49,6 +50,8 @@ public interface AppComponent {
 
 
     void inject(BaseActivity baseActivity);
+
+    void inject(StripePaymentActivity stripePaymentActivity);
 
     void inject(LoginBaseActivity loginBaseActivity);
 

@@ -336,7 +336,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                 try {
 
 
-                    String text = edtSearchProduct.getText().toString().toLowerCase(Locale.getDefault());
+                    String text = edtSearchProduct.getText().toString().toLowerCase(Locale.getDefault()).trim();
 
                     shopDetailsAdapter.filter(text);
 

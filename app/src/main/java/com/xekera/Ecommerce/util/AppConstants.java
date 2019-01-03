@@ -12,6 +12,12 @@ public class AppConstants {
     public static final String BASE_URL_LIVE = "https://apilkjhgfnfwbc.circuit.pk/apifolder/";
     public static final String URL_BECOME_A_SELLER = "https://circuit.pk/become-a-seller/";
 
+    public static final String PUBLISHABLE_KEY = "pk_test_D60AO4IYAVSOyjHBFbFPMtev";
+    public static final String APPLICATION_ID = "NnsQYFEDDotEQsBU0nI2rMhc7KdrLvbkkuYI5Mqt";
+    public static final String CLIENT_KEY = "DRZFknfqSgWK5FpswOO320vCh5Dt8grVN06vbfnQ";
+    public static final String BACK4PAPP_API = "https://parseapi.back4app.com/";
+
+
     //Sir farrukh contact number
     public static final String support_contact_no = "923345290597";
 

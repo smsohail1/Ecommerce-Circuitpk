@@ -35,13 +35,13 @@ public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.
     public void saveDetails(String firstName, String company, String phone,
                             String email, String streetAddress1,
                             String townCity, String paymode,
-                            String notes, String flatCharges, String selfPickup) {
+                            String notes, String flatCharges, String selfPickup, String cardNumber, String expiryDate, String CVCNumber) {
 
         if (validateInputFields(firstName, company, phone, email, streetAddress1,
-                townCity, paymode, notes, flatCharges, selfPickup)) {
+                townCity, paymode, notes, flatCharges, selfPickup, cardNumber, expiryDate, CVCNumber)) {
 
             view.showBillingAmountDetailView(flatCharges, firstName, company, phone, email, streetAddress1,
-                    townCity, paymode, notes, selfPickup);
+                    townCity, paymode, notes, selfPickup, cardNumber, expiryDate, CVCNumber);
         }
 
     }
@@ -50,7 +50,7 @@ public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.
     private boolean validateInputFields(String firstName, String company, String phone,
                                         String email, String streetAddress1,
                                         String townCity,
-                                        String paymode, String notes, String flatCharges, String selfPickup) {
+                                        String paymode, String notes, String flatCharges, String selfPickup, String cardNumber, String expiryDate, String CVCNumber) {
         if (utils.isTextNullOrEmpty(firstName)) {
             view.showToastShortTime(utils.getStringFromResourceId(R.string.firstname_error));
             return false;
@@ -97,6 +97,13 @@ public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.
         if (utils.isTextNullOrEmpty(paymode)) {
             view.showToastShortTime(utils.getStringFromResourceId(R.string.paymode_error));
             return false;
+        }
+
+        if (paymode.equalsIgnoreCase("Credit Card (Stripe)")) {
+            if (utils.isTextNullOrEmpty(cardNumber) || utils.isTextNullOrEmpty(expiryDate) || utils.isTextNullOrEmpty(CVCNumber)) {
+                view.showToastShortTime(utils.getStringFromResourceId(R.string.stripe_paymode_error));
+                return false;
+            }
         }
 
         return true;

@@ -8,13 +8,23 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cdflynn.android.library.checkview.CheckView;
+import com.parse.FunctionCallback;
+import com.parse.Parse;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+import com.stripe.android.Stripe;
+import com.stripe.android.TokenCallback;
+import com.stripe.android.model.Card;
+import com.stripe.android.model.Token;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
@@ -34,7 +44,10 @@ import java.text.SimpleDateFormat;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import static com.xekera.Ecommerce.util.AppConstants.*;
 
 
 /**
@@ -88,7 +101,9 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
 
     String flatCharges = "", firstName = "", lastName = "", companyName = "", phoneNo = "", email = "", streetAddress1 = "",
-            streetAddress2 = "", townCity = "", paymentMode = "", orderNotes = "", selfPikup = "";
+            streetAddress2 = "", townCity = "", paymentMode = "", orderNotes = "", selfPikup = "",
+            cardNumber = "", expiryDate = "", CVCNumber = "";
+
     List<String> cartItems;
     List<Booking> cartList;
 
@@ -115,6 +130,14 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         paymentMode = getArguments().getString(KEY_PAYMENT_MODE, "");
         orderNotes = getArguments().getString(KEY_ORDER_NOTES, "");
         selfPikup = getArguments().getString(KEY_SELF_PICKUP, "");
+
+
+        // Connect to Your Back4app Account
+        Parse.initialize(new Parse.Configuration.Builder(getActivity())
+                .applicationId(APPLICATION_ID)
+                .clientKey(CLIENT_KEY)
+                .server(BACK4PAPP_API).build());
+        Parse.setLogLevel(Parse.LOG_LEVEL_VERBOSE);
 
 
     }
@@ -225,7 +248,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     public BillingTotalAmountViewFragment newInstance(String flatCharges, String firstName, String company, String phone,
                                                       String email, String streetAddress1,
                                                       String townCity, String paymode,
-                                                      String notes, String selfPickup) {
+                                                      String notes, String selfPickup, String cardNumber, String expiryDate, String CVCNumber) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_FLAT_CHARGES, flatCharges);
         bundle.putString(KEY_FIRST_NAME, firstName);
@@ -350,19 +373,121 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         //  view.setCartCounts(addToCarts.size());
     }
 
+    Card card;
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnConfirmCheckout:
-                String formattedDate = "";
-                formattedDate = getCurrentDate();
-                presenter.insertBooking(cartList, formattedDate);
 
+                if (!utils.isTextNullOrEmptyOrZero(totalValueTextView.getText().toString())) {
+                    if (!utils.isTextNullOrEmpty(paymentMode)) {
+                        if (paymentMode.equalsIgnoreCase("Credit Card (Stripe)")) {
+                            if (utils.isInternetAvailable()) {
+
+                                String[] cardExpiryDate = sessionManager.getExpiryDate().split("/");
+                                card = new Card(sessionManager.getCardNumber(), Integer.valueOf(cardExpiryDate[0]), Integer.valueOf(cardExpiryDate[1]), sessionManager.getCVCNumber());
+                                showProgressDialogPleaseWait();
+                                sendStripeRequest(card);
+
+                            } else {
+                                showToastShortTime("Please connect to internet.");
+
+                            }
+                        } else {
+                            String formattedDate = "";
+                            formattedDate = getCurrentDate();
+                            presenter.insertBooking(cartList, formattedDate);
+
+                        }
+                    }
+                } else {
+                    showToastShortTime("Can't order items due to total amount is zero");
+
+                }
 //                presenter.deleteCartItems(cartItems);
                 break;
         }
 
     }
+
+
+    private void sendStripeRequest(Card card) {
+
+        Stripe stripe = new Stripe(getActivity());
+        stripe.createToken(
+                card,
+                PUBLISHABLE_KEY,
+                new TokenCallback() {
+                    public void onSuccess(Token token) {
+                        // Send token to your server
+                        if (token != null) {
+                            charge(token);
+                        } else {
+                            hideProgressDialogPleaseWait();
+                            showToastShortTime("Error while payment using stripe.");
+                            sessionManager.removeCreditCardSession();
+
+                        }
+
+                    }
+
+                    public void onError(Exception error) {
+                        hideProgressDialogPleaseWait();
+                        showToastShortTime(error.getMessage());
+                        sessionManager.removeCreditCardSession();
+
+                    }
+                }
+        );
+
+    }
+
+    private void charge(Token cardToken) {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        //  params.put("ItemName", "test");
+        params.put("cardToken", cardToken.getId());
+        // params.put("name", "Dominic Wong");
+        params.put("email", email);
+        params.put("orderID", 12345);
+        params.put("price", totalValueTextView.getText().toString());
+        //params.put("address", "HIHI");
+//        params.put("zip", "99999");
+//        params.put("city_state", "CA");
+        //startProgress("Purchasing Item");
+        ParseCloud.callFunctionInBackground("purchaseItem", params, new FunctionCallback<Object>() {
+            public void done(Object response, ParseException e) {
+                // finishProgress();
+                hideProgressDialogPleaseWait();
+
+                if (e == null) {
+
+                    if (response != null && response.toString().equalsIgnoreCase("Success")) {
+                        // showToastShortTime("Error while payment using stripe.");
+                        sessionManager.removeCreditCardSession();
+
+                        String formattedDate = "";
+                        formattedDate = getCurrentDate();
+                        presenter.insertBooking(cartList, formattedDate);
+                        //  Log.d("Cloud Response", "There were no exceptions! " + response.toString());
+
+                    }
+//                    Toast.makeText(getApplicationContext(),
+//                            "Item Purchased Successfully ",
+                    //          Toast.LENGTH_LONG).show();
+                } else {
+                    //  Log.d("Cloud Response", "Exception: " + e);
+                    showToastShortTime("Error while payment using stripe.");
+                    sessionManager.removeCreditCardSession();
+
+//                    Toast.makeText(getApplicationContext(),
+//                            e.getMessage().toString(),
+//                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
 
     private String getCurrentDate() {
         try {
@@ -374,4 +499,6 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
             return "";
         }
     }
+
+
 }

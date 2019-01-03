@@ -184,7 +184,7 @@ public class ContinueShoppingFragment extends Fragment implements ContinueShoppi
                 try {
 
 
-                    String text = edtSearchProduct.getText().toString().toLowerCase(Locale.getDefault());
+                    String text = edtSearchProduct.getText().toString().toLowerCase(Locale.getDefault()).trim();
 
 
                     ContinueShoppingAdapter.filter(text);
@@ -223,7 +223,7 @@ public class ContinueShoppingFragment extends Fragment implements ContinueShoppi
 
     @Override
     public void showToastShortTime(String message) {
-        toastUtil.showToastShortTime(message,toastView);
+        toastUtil.showToastShortTime(message, toastView);
     }
 
     @Override
@@ -484,7 +484,6 @@ public class ContinueShoppingFragment extends Fragment implements ContinueShoppi
 
 //            shopDetails.add(new ContinueShoppingObjectModel("Jumper Wire", "600", false, 0, img,
 //                    byteArray[0], 33, R.drawable.detail_wire, ""));
-
 
 
             //  shopDetails.add(new ContinueShoppingObjectModel("Telivision", "30000", false, 0,

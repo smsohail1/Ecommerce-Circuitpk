@@ -20,7 +20,7 @@ public interface DeliveyBillingDetailsMVP {
         void showBillingAmountDetailView(String flatCharges, String firstName, String company, String phone,
                                          String email, String streetAddress1,
                                          String townCity, String paymode,
-                                         String notes, String selfPickup);
+                                         String notes, String selfPickup,String cardNumber, String expiryDate, String CVCNumber);
 
     }
 
@@ -30,7 +30,7 @@ public interface DeliveyBillingDetailsMVP {
         void saveDetails(String firstName, String company, String phone, String email,
                          String streetAddress1,
                          String townCity, String paymode, String notes,
-                         String flatCharges, String selfPickup);
+                         String flatCharges, String selfPickup,String cardNumber,String expiryDate ,String CVCNumber);
 
     }
 

@@ -391,7 +391,7 @@ public class ContinueShoppingAdapter extends RecyclerView.Adapter<RecyclerView.V
                 productsItems.addAll(productsItemsSearch);
             } else if (charText.length() > 0) {
                 for (ContinueShoppingObjectModel wp : productsItemsSearch) {
-                    if (wp.getProductName().toLowerCase(Locale.getDefault())
+                    if (wp.getProductName().toLowerCase(Locale.getDefault()).trim()
                             .contains(charText)) {
                         productsItems.add(wp);
 
