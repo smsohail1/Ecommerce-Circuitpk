@@ -28,15 +28,50 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:textStyle="bold"
-                      android:textSize="@dimen/screen_label_text_size"
-                      android:textColor="@color/card_textview"
-                      android:layout_marginTop="5dp"
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+            >
 
-                      android:layout_gravity="center_horizontal"
-                      android:text="@string/label_history"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textStyle="bold"
+                          android:textSize="@dimen/screen_label_text_size"
+                          android:textColor="@color/card_textview"
+                          android:layout_marginTop="5dp"
+                          android:layout_marginLeft="4dp"
+                          android:text="@string/label_history"/>
+
+
+                <RelativeLayout android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginRight="5dp"
+                                android:background="@drawable/date_picker_drawable"
+
+                >
+                    <EditText
+                            android:id="@+id/datePickerEdittext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#494949"
+                            android:padding="5dp"
+                            android:background="@drawable/selector_date_picker"
+                            android:clickable="true"
+                            android:cursorVisible="false"
+                            android:gravity="center_horizontal"
+                            android:textColorHint="#494949"
+                            android:focusable="false"
+                            android:hint="Select Date"
+                            android:textSize="@dimen/txt_report_list_item_size" android:layout_marginTop="0dp"
+                            android:layout_alignParentTop="true"/>
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
 
             <LinearLayout
                     android:id="@+id/TotalAmountParentLayout"

@@ -192,8 +192,8 @@
 
 
     <string name="firstname_error">First name is required</string>
-    <string name="lastname_error">Last name name is required</string>
-    <string name="phone_error">Mobile no is required</string>
+    <string name="lastname_error">Last name is required</string>
+    <string name="phone_error">Mobile number is required</string>
     <string name="email_error">Email is is required</string>
     <string name="house_no_error">Apartment name,House no and street name is required</string>
     <string name="country_error">Please select Country name</string>

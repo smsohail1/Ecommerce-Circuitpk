@@ -83,6 +83,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
     View toastView;
+    boolean isProgressBarShowing = false;
 
 
     public AddToCartFragment() {
@@ -212,8 +213,8 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        isProgressBarShowing = true;
         progressBarRelativeLayout.setVisibility(View.VISIBLE);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -257,7 +258,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     @Override
     public void showRecylerViewProductsDetail(AddToCartAdapter addToCartAdapter) {
         progressBarRelativeLayout.setVisibility(View.GONE);
-
+        isProgressBarShowing = false;
         recyclerViewAddToCartDetails.setAdapter(addToCartAdapter);
 
     }
@@ -265,6 +266,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     @Override
     public void hideLoadingProgressDialog() {
         progressBarRelativeLayout.setVisibility(View.GONE);
+        isProgressBarShowing = false;
     }
 
     @Override
@@ -441,46 +443,61 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnCheckout:
-                if (isCheckOutButtonEnable) {
-                    presenter.getCartCountList();
-                }
-                isCheckOutButtonEnable = false;
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        isCheckOutButtonEnable = true;
+                if (!isProgressBarShowing) {
+                    if (isCheckOutButtonEnable) {
+                        presenter.getCartCountList();
                     }
-                }, 2000);
-                break;
-
-            case R.id.btnContinueShopping:
-
-                if (isContinueShoppingEnable) {
-                    isContinueShoppingEnable = false;
+                    isCheckOutButtonEnable = false;
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            isContinueShoppingEnable = true;
-
-                            ((BaseActivity) getActivity()).replaceFragment(new ContinueShoppingFragment());
+                            isCheckOutButtonEnable = true;
                         }
-                    }, 150);
+                    }, 2000);
+                } else {
+                    showToastShortTime("Loading data...!");
+
+                }
+                break;
+
+            case R.id.btnContinueShopping:
+                if (!isProgressBarShowing) {
+
+                    if (isContinueShoppingEnable) {
+                        isContinueShoppingEnable = false;
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                isContinueShoppingEnable = true;
+
+                                ((BaseActivity) getActivity()).replaceFragment(new ContinueShoppingFragment());
+                            }
+                        }, 150);
+                    }
+                } else {
+                    showToastShortTime("Loading data...!");
+
                 }
                 break;
 
             case R.id.btnCoupon:
-                if (isEnable) {
-                    isEnable = false;
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            isEnable = true;
-                            showCouponDialog(getActivity(), "Coupon");
+                if (!isProgressBarShowing) {
 
-                        }
-                    }, 200);
+                    if (isEnable) {
+                        isEnable = false;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                isEnable = true;
+                                showCouponDialog(getActivity(), "Coupon");
+
+                            }
+                        }, 200);
+                    }
+                } else {
+                    showToastShortTime("Loading data...!");
                 }
                 break;
         }

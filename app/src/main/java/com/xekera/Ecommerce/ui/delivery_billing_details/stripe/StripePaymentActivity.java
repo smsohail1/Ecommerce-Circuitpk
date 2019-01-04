@@ -184,7 +184,7 @@ public class StripePaymentActivity extends FragmentActivity implements FragmentM
 
         } else if (TextUtils.isEmpty(cardValidity) || !CreditCardUtils.isValidDate(cardValidity)) {
             //  Toast.makeText(StripePaymentActivity.this, "Enter correct expiry date", Toast.LENGTH_SHORT).show();
-            toastUtil.showCustomToastShortTime("Enter correct expiry date", toastView);
+            toastUtil.showCustomToastShortTime("Any expiration date in the future is considered valid.", toastView);
 
             viewPager.setCurrentItem(1);
             // flipCardOnBackPressed();
@@ -228,6 +228,7 @@ public class StripePaymentActivity extends FragmentActivity implements FragmentM
 
         } else {
 
+            hideSoftKeyboard(StripePaymentActivity.this);
             toastUtil.showCustomToastShortTime("Card details saved successfully.", toastView);
 
             sessionManager.createCreditCardSession(cardNumber, cardValidity, cardCVV);
@@ -237,7 +238,7 @@ public class StripePaymentActivity extends FragmentActivity implements FragmentM
                     finish();
 
                 }
-            }, 1000);
+            }, 400);
 
         }
     }

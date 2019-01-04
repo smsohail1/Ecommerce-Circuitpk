@@ -2,6 +2,7 @@ package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -36,6 +37,7 @@ import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
+import com.xekera.Ecommerce.ui.delivery_billing_details.stripe.StripePaymentActivity;
 import com.xekera.Ecommerce.util.*;
 
 import java.util.Calendar;
@@ -384,11 +386,18 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                     if (!utils.isTextNullOrEmpty(paymentMode)) {
                         if (paymentMode.equalsIgnoreCase("Credit Card (Stripe)")) {
                             if (utils.isInternetAvailable()) {
+                                if (!utils.isTextNullOrEmpty(sessionManager.getExpiryDate()) ||
+                                        !utils.isTextNullOrEmpty(sessionManager.getCardNumber()) ||
+                                        !utils.isTextNullOrEmpty(sessionManager.getCVCNumber())) {
+                                    String[] cardExpiryDate = sessionManager.getExpiryDate().split("/");
+                                    card = new Card(sessionManager.getCardNumber(), Integer.valueOf(cardExpiryDate[0]), Integer.valueOf(cardExpiryDate[1]), sessionManager.getCVCNumber());
+                                    showProgressDialogPleaseWait();
+                                    sendStripeRequest(card);
+                                } else {
+                                    showToastShortTime("Please Enter Credit Card Details.");
+                                    gotoStripeActivity();
 
-                                String[] cardExpiryDate = sessionManager.getExpiryDate().split("/");
-                                card = new Card(sessionManager.getCardNumber(), Integer.valueOf(cardExpiryDate[0]), Integer.valueOf(cardExpiryDate[1]), sessionManager.getCVCNumber());
-                                showProgressDialogPleaseWait();
-                                sendStripeRequest(card);
+                                }
 
                             } else {
                                 showToastShortTime("Please connect to internet.");
@@ -400,6 +409,8 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                             presenter.insertBooking(cartList, formattedDate);
 
                         }
+                    } else {
+                        showToastShortTime("Please select payment mode");
                     }
                 } else {
                     showToastShortTime("Can't order items due to total amount is zero");
@@ -408,6 +419,13 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 //                presenter.deleteCartItems(cartItems);
                 break;
         }
+
+    }
+
+    private void gotoStripeActivity() {
+        Intent intent = new Intent(getActivity(), StripePaymentActivity.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
 
     }
 
@@ -436,6 +454,12 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                         hideProgressDialogPleaseWait();
                         showToastShortTime(error.getMessage());
                         sessionManager.removeCreditCardSession();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                gotoStripeActivity();
+                            }
+                        }, 300);
 
                     }
                 }
@@ -449,8 +473,8 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         params.put("cardToken", cardToken.getId());
         // params.put("name", "Dominic Wong");
         params.put("email", email);
-        params.put("orderID", 12345);
-        params.put("price", totalValueTextView.getText().toString());
+        params.put("orderID", "12345");
+        params.put("price", Integer.valueOf(totalValueTextView.getText().toString()));
         //params.put("address", "HIHI");
 //        params.put("zip", "99999");
 //        params.put("city_state", "CA");
@@ -470,6 +494,10 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                         formattedDate = getCurrentDate();
                         presenter.insertBooking(cartList, formattedDate);
                         //  Log.d("Cloud Response", "There were no exceptions! " + response.toString());
+
+                    } else {
+                        showToastShortTime("Error while payment using stripe.");
+                        sessionManager.removeCreditCardSession();
 
                     }
 //                    Toast.makeText(getApplicationContext(),

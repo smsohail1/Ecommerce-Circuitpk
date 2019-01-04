@@ -67,6 +67,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.facebook.*;
+import com.facebook.internal.CallbackManagerImpl;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.squareup.picasso.Picasso;
@@ -1766,7 +1767,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 toastUtil.showToastShortTime("Profile pic updated", toastView);
             } catch (Exception e) {
                 toastUtil.showToastShortTime("Error while updating profile picture", toastView);
-
             }
         }
 

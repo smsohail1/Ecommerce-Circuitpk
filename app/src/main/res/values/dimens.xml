@@ -94,6 +94,7 @@
     <dimen name="btn_add_update_height">28dp</dimen>
     <dimen name="btn_atake_photo_height">40dp</dimen>
     <dimen name="copied_height">35dp</dimen>
+    <dimen name="date_picker_edt_height">40dp</dimen>
     <dimen name="checbox_width">180dp</dimen>
 
     <dimen name="delete_width">20dp</dimen>

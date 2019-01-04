@@ -2,6 +2,7 @@ package com.xekera.Ecommerce.ui.history;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -32,10 +33,11 @@ import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
+import java.util.Calendar;
 import java.util.List;
 
 
-public class HistoryFragment extends Fragment implements HistoryMVP.View, HistoryAdapter.IHistoryCancelOrderAdapter {
+public class HistoryFragment extends Fragment implements HistoryMVP.View, HistoryAdapter.IHistoryCancelOrderAdapter, View.OnClickListener {
 
 
     @BindView(R.id.recyclerViewAddToCartDetails)
@@ -54,6 +56,9 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     @BindView(R.id.progressBarRelativeLayout)
     protected RelativeLayout progressBarRelativeLayout;
 
+    @BindView(R.id.datePickerEdittext)
+    protected EditText datePickerEdittext;
+
     @Inject
     protected HistoryMVP.Presenter presenter;
     @Inject
@@ -67,6 +72,13 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
     HistoryAdapter adapter;
     View toastView;
+
+    DatePickerDialog datePickerDialog;
+    int year;
+    int month;
+    int dayOfMonth;
+    Calendar calendar;
+
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -110,6 +122,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         presenter.setView(this);
         //  ((BaseActivity) getActivity()).showBottomNavigation();
 
+        datePickerEdittext.setOnClickListener(this);
         toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -469,4 +482,37 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.datePickerEdittext:
+                utils.hideSoftKeyboard(datePickerEdittext);
+
+                showDatePickerDialog();
+                break;
+        }
+    }
+
+    private void showDatePickerDialog() {
+        try {
+
+            calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+            datePickerDialog = new DatePickerDialog(getActivity(),
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                            datePickerEdittext.setText(day + "-" + (month + 1) + "-" + year);
+                        }
+                    }, year, month, dayOfMonth);
+            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+            datePickerDialog.show();
+        } catch (Exception e) {
+
+        }
+    }
+
 }
+
