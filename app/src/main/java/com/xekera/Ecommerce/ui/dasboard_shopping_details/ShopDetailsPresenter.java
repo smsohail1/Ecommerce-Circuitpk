@@ -425,7 +425,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
-                    view.showSnackBarShortTime("Cart updated successfully.");
+                    view.showToastShortTime("Cart updated successfully.");
                     getUpdatedTotalCountForDecrement(imgProductCopy);
 
 
@@ -473,7 +473,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
             @Override
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
-                    view.showSnackBarShortTime("Cart updated successfully.");
+                    view.showToastShortTime("Cart updated successfully.");
 
                     getUpdatedTotalCountForDecrement(imgProductCopy);
                 } else {

@@ -79,6 +79,8 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     int dayOfMonth;
     Calendar calendar;
 
+    boolean isProgressBarShowing = false;
+
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -129,6 +131,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
         progressBarRelativeLayout.setVisibility(View.VISIBLE);
 
+        isProgressBarShowing = true;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -158,7 +161,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     @Override
     public void showRecylerViewProductsDetail(HistoryAdapter historyAdapter) {
         progressBarRelativeLayout.setVisibility(View.GONE);
-
+        isProgressBarShowing = false;
         recyclerViewAddToCartDetails.setAdapter(historyAdapter);
 
 
@@ -229,6 +232,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         //   if (adapter == null) {
         adapter = new HistoryAdapter(getActivity(), addToCarts, this);
         showRecylerViewProductsDetail(adapter);
+
         // } else {
         //    adapter.removeAll();
         //   adapter.addAll(addToCarts);
@@ -247,6 +251,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     @Override
     public void hideLoadingProgressDialog() {
         progressBarRelativeLayout.setVisibility(View.GONE);
+        isProgressBarShowing = false;
     }
 
     private void showOrderCompleteSuccessDialog(Context context) {
@@ -486,9 +491,12 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.datePickerEdittext:
-                utils.hideSoftKeyboard(datePickerEdittext);
-
-                showDatePickerDialog();
+                if (!isProgressBarShowing) {
+                    utils.hideSoftKeyboard(datePickerEdittext);
+                    showDatePickerDialog();
+                } else {
+                    showToastShortTime("Loadind Data...");
+                }
                 break;
         }
     }

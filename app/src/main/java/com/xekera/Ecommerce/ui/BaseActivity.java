@@ -1062,6 +1062,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
             return true;
 
+        } else if (id == R.id.nav_follow_us) {
+            
+            showFollowUsDialog(BaseActivity.this);
+
+
+            return true;
+
         }
 
         /*else if (id == R.id.nav_login) {
@@ -1155,7 +1162,29 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             @Override
             public void onClick(View view) {
                 // if (sessionManager.getKeyIsFacebookLogin() || sessionManager.isSignUp() || sessionManager.isLoggedIn()) {
-                if (sessionManager.isLoggedIn()) {
+                if (sessionManager.getKeyIsFacebookLogin()) {
+                    if (utils.isInternetAvailable()) {
+                        if (isEnable) {
+                            isEnable = false;
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    fb_button.performClick();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            dialog.dismiss();
+                                            isEnable = true;
+                                        }
+                                    }, 3000);
+                                }
+                            }, 150);
+                        }
+                    } else {
+                        toastUtil.showToastShortTime("Please connect to internet.", toastView);
+                    }
+
+                } else if (sessionManager.isLoggedIn()) {
                     if (isEnable) {
                         isEnable = false;
                         new Handler().postDelayed(new Runnable() {
@@ -1178,28 +1207,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                             }
                         }, 150);
                     }
-                } else if (sessionManager.getKeyIsFacebookLogin()) {
-                    if (utils.isInternetAvailable()) {
-                        if (isEnable) {
-                            isEnable = false;
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    fb_button.performClick();
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            dialog.dismiss();
-                                            isEnable = true;
-                                        }
-                                    }, 3000);
-                                }
-                            }, 150);
-                        }
-                    } else {
-                        toastUtil.showToastShortTime("Please connect to internet.", toastView);
-                    }
-
                 } else {
                     isEnable = true;
                     toastUtil.showToastShortTime("Please login first.", toastView);
@@ -1224,6 +1231,71 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         dialog.show();
     }
 
+    private void showFollowUsDialog(Context context) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View v = dialog.getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+
+        dialog.setContentView(R.layout.dialog_follow_us);
+
+
+        ImageView imgFacebook = dialog.findViewById(R.id.imgFacebook);
+        ImageView imgTwitter = dialog.findViewById(R.id.imgTwitter);
+        ImageView imgGPlus = dialog.findViewById(R.id.imgGPlus);
+        ImageView imgPinterest = dialog.findViewById(R.id.imgPinterest);
+        ImageView imgYoutube = dialog.findViewById(R.id.imgYoutube);
+
+        imgFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent becomeASellerIntent = new Intent(Intent.ACTION_VIEW);
+                becomeASellerIntent.setData(Uri.parse(AppConstants.URL_CIRCUIT_PK_FACEBOOK_PAGE_URL));
+                startActivity(Intent.createChooser(becomeASellerIntent, "Choose browser"));
+
+            }
+        });
+
+        imgTwitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent becomeASellerIntent = new Intent(Intent.ACTION_VIEW);
+                becomeASellerIntent.setData(Uri.parse(AppConstants.URL_CIRCUIT_PK_TWITTER_PAGE_URL));
+                startActivity(Intent.createChooser(becomeASellerIntent, "Choose browser"));
+
+            }
+        });
+        imgGPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent becomeASellerIntent = new Intent(Intent.ACTION_VIEW);
+                becomeASellerIntent.setData(Uri.parse(AppConstants.URL_CIRCUIT_PK_GOOGLE_PLUS_PAGE_URL));
+                startActivity(Intent.createChooser(becomeASellerIntent, "Choose browser"));
+
+            }
+        });
+        imgPinterest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent becomeASellerIntent = new Intent(Intent.ACTION_VIEW);
+                becomeASellerIntent.setData(Uri.parse(AppConstants.URL_CIRCUIT_PK_PINTEREST_PAGE_URL));
+                startActivity(Intent.createChooser(becomeASellerIntent, "Choose browser"));
+
+            }
+        });
+        imgYoutube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent becomeASellerIntent = new Intent(Intent.ACTION_VIEW);
+                becomeASellerIntent.setData(Uri.parse(AppConstants.URL_CIRCUIT_PK_YOUTUBE_PAGE_URL));
+                startActivity(Intent.createChooser(becomeASellerIntent, "Choose browser"));
+
+            }
+        });
+
+
+        dialog.show();
+    }
 
     public void enableHomeIcon(boolean b) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

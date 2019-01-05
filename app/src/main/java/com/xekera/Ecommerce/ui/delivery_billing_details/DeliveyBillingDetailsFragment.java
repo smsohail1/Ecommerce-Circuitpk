@@ -329,10 +329,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                             selectedPaymentModeDiffAddress.equalsIgnoreCase("JazzCash")) {
                         showDialog(getActivity(), "Cash Transfer Mobile No");
                     } else if (selectedPaymentModeDiffAddress.equalsIgnoreCase("Credit Card (Stripe)")) {
-                        Intent intent = new Intent(getActivity(), StripePaymentActivity.class);
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-
+                        gotoStripeActivity();
                     }
                     // Toast.makeText(getActivity(), rb.getText(), Toast.LENGTH_SHORT).show();
                 } else {

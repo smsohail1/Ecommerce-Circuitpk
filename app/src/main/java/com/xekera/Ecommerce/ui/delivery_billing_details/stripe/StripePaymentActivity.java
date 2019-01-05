@@ -165,7 +165,7 @@ public class StripePaymentActivity extends FragmentActivity implements FragmentM
 //
 //        }
         if (TextUtils.isEmpty(cardNumber) || !CreditCardUtils.isValid(cardNumber.replace(" ", ""))) {
-            toastUtil.showCustomToastShortTime("Enter Valid card number", toastView);
+            toastUtil.showToastShortTime("Enter Valid card number", toastView);
             // Toast.makeText(StripePaymentActivity.this, "Enter Valid card number", Toast.LENGTH_SHORT).show();
             viewPager.setCurrentItem(0);
             //   flipCardOnBackPressed();
@@ -184,7 +184,7 @@ public class StripePaymentActivity extends FragmentActivity implements FragmentM
 
         } else if (TextUtils.isEmpty(cardValidity) || !CreditCardUtils.isValidDate(cardValidity)) {
             //  Toast.makeText(StripePaymentActivity.this, "Enter correct expiry date", Toast.LENGTH_SHORT).show();
-            toastUtil.showCustomToastShortTime("Any expiration date in the future is considered valid.", toastView);
+            toastUtil.showToastShortTime("Any expiration date in the future is considered valid.", toastView);
 
             viewPager.setCurrentItem(1);
             // flipCardOnBackPressed();
@@ -208,7 +208,7 @@ public class StripePaymentActivity extends FragmentActivity implements FragmentM
 //            }, 200);
 
         } else if (TextUtils.isEmpty(cardCVV) || cardCVV.length() < 3) {
-            toastUtil.showCustomToastShortTime("Enter valid security number", toastView);
+            toastUtil.showToastShortTime("Enter valid security number", toastView);
             //  Toast.makeText(StripePaymentActivity.this, "Enter valid security number", Toast.LENGTH_SHORT).show();
             viewPager.setCurrentItem(2);
 
@@ -229,7 +229,7 @@ public class StripePaymentActivity extends FragmentActivity implements FragmentM
         } else {
 
             hideSoftKeyboard(StripePaymentActivity.this);
-            toastUtil.showCustomToastShortTime("Card details saved successfully.", toastView);
+            toastUtil.showToastShortTime("Card details saved successfully.", toastView);
 
             sessionManager.createCreditCardSession(cardNumber, cardValidity, cardCVV);
             new Handler().postDelayed(new Runnable() {
@@ -238,7 +238,7 @@ public class StripePaymentActivity extends FragmentActivity implements FragmentM
                     finish();
 
                 }
-            }, 400);
+            }, 200);
 
         }
     }

@@ -43,6 +43,8 @@ public class ToastUtil {
 
             toast.setView(toastView);
             toast.setDuration(Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM, 0, 100);
+
             //    toast.setGravity(Gravity.FILL_HORIZONTAL, 0, 0);
             // toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();

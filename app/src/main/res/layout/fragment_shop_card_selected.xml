@@ -19,17 +19,18 @@
                       android:layout_height="match_parent"
                       android:orientation="vertical"
                       android:weightSum="1.0"
+                      android:padding="5dp"
+
         >
             <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="0dp"
+                          android:layout_height="wrap_content"
                           android:orientation="vertical"
-                          android:layout_weight="0.3"
             >
 
                 <LinearLayout
                         android:id="@+id/productNameLayout"
                         android:layout_width="match_parent"
-                        android:padding="5dp"
+                        android:padding="3dp"
                         android:layout_height="wrap_content">
 
                     <TextView
@@ -43,11 +44,13 @@
                     />
                 </LinearLayout>
                 <RelativeLayout android:layout_width="match_parent"
-                                android:layout_height="200dp">
+                                android:layout_height="200dp"
+
+                >
                     <ImageView
                             android:id="@+id/imgProduct"
-                            android:layout_width="match_parent"
-                            android:layout_height="220dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="200dp"
                             android:layout_centerInParent="true"
                             android:gravity="center_horizontal"
 
@@ -56,8 +59,8 @@
 
                     <ImageView
                             android:id="@+id/imgProductCopy"
-                            android:layout_width="match_parent"
-                            android:layout_height="220dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="200dp"
                             android:gravity="center_horizontal"
                             android:layout_centerInParent="true"
                             android:visibility="gone"
@@ -68,9 +71,10 @@
                 <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerViewImageDetails"
                         android:layout_width="match_parent"
-                        android:layout_height="55dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:nestedScrollingEnabled="true"
+
 
                 />
 
@@ -81,14 +85,14 @@
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="0dp"
                           android:orientation="vertical"
-                          android:layout_weight="0.7"
+                          android:layout_weight="1.0"
                           android:weightSum="1.0"
             >
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="0.2"
+                        android:layout_weight="0.3"
                         android:orientation="vertical">
                     <android.support.v7.widget.CardView
                             android:id="@+id/cardViewParent"
@@ -107,7 +111,7 @@
                                 android:id="@+id/linearParent"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:padding="10dp"
+                                android:padding="5dp"
                                 android:orientation="vertical">
 
                             <LinearLayout
@@ -548,7 +552,7 @@
                         <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:padding="10dp"
+                                android:padding="5dp"
                                 android:orientation="vertical">
                             <LinearLayout android:layout_width="match_parent"
                                           android:layout_height="match_parent"
@@ -570,7 +574,6 @@
                                         android:textColor="@color/availibility_textview"
                                         android:text="@string/product_desc"
                                         android:lineSpacingExtra="2dp"
-
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
                             </LinearLayout>
@@ -585,7 +588,7 @@
                         android:id="@+id/linearAvailibilityLayout"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="0.2"
+                        android:layout_weight="0.1"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">>
 
@@ -606,7 +609,7 @@
                         <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:padding="10dp"
+                                android:padding="5dp"
                                 android:orientation="vertical">
                             <LinearLayout android:layout_width="match_parent"
                                           android:layout_height="match_parent"
@@ -676,7 +679,7 @@
                 <LinearLayout android:layout_width="match_parent"
                               android:layout_height="0dp"
                               android:layout_weight="0.2"
-                              android:padding="15dp"
+                              android:padding="10dp"
                               android:gravity="bottom"
                 >
                     <Button

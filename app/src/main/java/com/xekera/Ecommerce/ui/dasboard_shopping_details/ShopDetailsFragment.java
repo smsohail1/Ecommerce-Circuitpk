@@ -85,6 +85,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     @Inject
     protected AppDatabase appDatabase;
 
+    boolean isProgressBarShowing = false;
 
     public static final String KEY_SHOP_NAME_DETAILS = "shop_details_name";
 
@@ -335,10 +336,11 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                 // TODO Auto-generated method stub
                 try {
 
+                    if (!isProgressBarShowing) {
+                        String text = edtSearchProduct.getText().toString().toLowerCase(Locale.getDefault()).trim();
 
-                    String text = edtSearchProduct.getText().toString().toLowerCase(Locale.getDefault()).trim();
-
-                    shopDetailsAdapter.filter(text);
+                        shopDetailsAdapter.filter(text);
+                    }
 
                 } catch (Exception ex) {
 
@@ -431,6 +433,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     public void setUI(List<Favourites> favList) {
 
         try {
+            isProgressBarShowing = true;
 
             List<String> img;
             img = new ArrayList<>();
@@ -522,7 +525,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
             shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this, sessionManager, tasksList);
             showRecylerViewProductsDetail(shopDetailsAdapter);
-
+            isProgressBarShowing = false;
             presenter.setActionListener(new ShopDetailsPresenter.ProductItemActionListener() {
                 @Override
                 public void onItemTap(ImageView imageView, int cartsCount) {

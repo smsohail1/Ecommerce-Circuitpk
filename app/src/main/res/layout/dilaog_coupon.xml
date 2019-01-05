@@ -50,7 +50,7 @@
                         android:textColor="@color/availibility_textview"
                         android:background="@drawable/rounded_edit_text"
                         android:paddingLeft="5dp"
-                        android:maxLength="40"
+                        android:maxLength="15"
                         android:textColorHint="#E10915"
                         android:textCursorDrawable="@drawable/cursor_color"
                         android:textSize="14sp"
@@ -68,7 +68,7 @@
                         android:textColor="@color/white"
                         android:layout_marginLeft="5dp"
                         android:textAllCaps="false"
-                        android:textSize="11sp"/>
+                        android:textSize="14sp"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

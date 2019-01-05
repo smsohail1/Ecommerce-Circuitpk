@@ -21,8 +21,8 @@
 
         <ImageView
                 android:id="@+id/imageViewMultipleProduct"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/placeholder"/>
     </android.support.v7.widget.CardView>
 </LinearLayout>

@@ -456,7 +456,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                         }
                     }, 2000);
                 } else {
-                    showToastShortTime("Loading data...!");
+                    showToastShortTime("Loading data...");
 
                 }
                 break;
@@ -477,7 +477,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                         }, 150);
                     }
                 } else {
-                    showToastShortTime("Loading data...!");
+                    showToastShortTime("Loading data...");
 
                 }
                 break;
@@ -497,7 +497,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                         }, 200);
                     }
                 } else {
-                    showToastShortTime("Loading data...!");
+                    showToastShortTime("Loading data...");
                 }
                 break;
         }
