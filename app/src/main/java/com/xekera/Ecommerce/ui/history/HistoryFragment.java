@@ -17,6 +17,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +37,15 @@ import com.xekera.Ecommerce.util.*;
 import javax.inject.Inject;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
-public class HistoryFragment extends Fragment implements HistoryMVP.View, HistoryAdapter.IHistoryCancelOrderAdapter, View.OnClickListener {
+public class HistoryFragment extends Fragment implements HistoryMVP.View, HistoryAdapter.IHistoryCancelOrderAdapter,
+        HistoryAdapter.ISearchOrderAmount, View.OnClickListener {
 
 
+    @BindView(R.id.edtSearchProduct)
+    protected EditText edtSearchProduct;
     @BindView(R.id.recyclerViewAddToCartDetails)
     protected RecyclerView recyclerViewAddToCartDetails;
     @BindView(R.id.linearParent)
@@ -58,6 +64,8 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
     @BindView(R.id.datePickerEdittext)
     protected EditText datePickerEdittext;
+    @BindView(R.id.linearLayoutItemDetails)
+    protected LinearLayout linearLayoutItemDetails;
 
     @Inject
     protected HistoryMVP.Presenter presenter;
@@ -97,6 +105,8 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         super.onResume();
         try {
             // ((BaseActivity) getActivity()).showBottomNavigation();
+            edtSearchProduct.setText("");
+            datePickerEdittext.setText("");
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -125,11 +135,47 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         //  ((BaseActivity) getActivity()).showBottomNavigation();
 
         datePickerEdittext.setOnClickListener(this);
+        linearLayoutItemDetails.setOnClickListener(this);
+
         toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
+        edtSearchProduct.setText("");
+        datePickerEdittext.setText("");
 
         progressBarRelativeLayout.setVisibility(View.VISIBLE);
+
+
+        edtSearchProduct.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+                try {
+
+                    if (!isProgressBarShowing) {
+                        String text = edtSearchProduct.getText().toString().toLowerCase(Locale.getDefault()).trim();
+                        adapter.filter(text);
+                    }
+
+                } catch (Exception ex) {
+
+                }
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1,
+                                          int arg2, int arg3) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+                                      int arg3) {
+                // TODO Auto-generated method stub
+            }
+        });
 
         isProgressBarShowing = true;
         new Handler().postDelayed(new Runnable() {
@@ -230,7 +276,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     @Override
     public void setAdapter(List<Booking> addToCarts) {
         //   if (adapter == null) {
-        adapter = new HistoryAdapter(getActivity(), addToCarts, this);
+        adapter = new HistoryAdapter(getActivity(), addToCarts, this, this);
         showRecylerViewProductsDetail(adapter);
 
         // } else {
@@ -346,6 +392,11 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
                 }
             }, 400);
         }
+    }
+
+    @Override
+    public void hideSoftkeyboard() {
+        utils.hideSoftKeyboard(edtSearchProduct);
     }
 
     boolean isPhoneBtnEnable = true;
@@ -495,9 +546,14 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
                     utils.hideSoftKeyboard(datePickerEdittext);
                     showDatePickerDialog();
                 } else {
-                    showToastShortTime("Loadind Data...");
+                    showToastShortTime("Loading Data...");
                 }
                 break;
+
+            case R.id.linearLayoutItemDetails:
+                utils.hideSoftKeyboard(edtSearchProduct);
+                break;
+
         }
     }
 
@@ -522,5 +578,10 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         }
     }
 
+    @Override
+    public void showTotalAmount(String itemTotalPrice) {
+        totalValueTextView.setText(itemTotalPrice);
+
+    }
 }
 

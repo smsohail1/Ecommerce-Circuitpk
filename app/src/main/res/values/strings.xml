@@ -210,6 +210,7 @@
     <!--History-->
     <string name="bnt_title_cancel_order">Cancel</string>
     <string name="no_order_found">No order placed.</string>
+    <string name="edt_hint_order">Search order by name</string>
 
 
     <!--Favourites-->

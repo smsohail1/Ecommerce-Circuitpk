@@ -493,6 +493,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                         });
             } catch (Exception ex) {
             }
+
             List<String> tasksList;
             Set<String> list = sessionManager.getIsFavouriteList();
             tasksList = new ArrayList<String>(list);

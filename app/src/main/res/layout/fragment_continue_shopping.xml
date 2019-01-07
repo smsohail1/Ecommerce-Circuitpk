@@ -29,6 +29,7 @@
                 android:hint="@string/edt_shop_details"
                 android:inputType="text"
                 android:maxLength="50"
+                android:paddingRight="10dp"
                 android:textColorHint="@color/colorPrimary"
                 android:textCursorDrawable="@drawable/search_edt_cursor_color"
                 android:textColor="#54595C"

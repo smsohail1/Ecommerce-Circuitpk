@@ -15,7 +15,6 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="2dp"
             app:cardCornerRadius="2dp"
-
             android:foreground="?android:attr/selectableItemBackground"
             app:cardElevation="2dp">
 
@@ -102,7 +101,6 @@
                                         android:layout_height="wrap_content"
                                         android:textColor="#7A7A7A"
                                         android:layout_marginLeft="5dp"
-                                        android:textStyle="bold"
                                         android:text="Rs"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
@@ -111,7 +109,6 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textColor="#7A7A7A"
-                                        android:textStyle="bold"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
                             </LinearLayout>
@@ -127,7 +124,6 @@
                                         android:layout_height="wrap_content"
                                         android:textColor="#7A7A7A"
                                         android:layout_marginLeft="5dp"
-                                        android:textStyle="bold"
                                         android:text="Shipping Rate: "
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
@@ -135,8 +131,7 @@
                                         android:id="@+id/flatRateTextView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/history_label_color"
-                                        android:textStyle="bold"
+                                        android:textColor="#7A7A7A"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
                             </LinearLayout>
@@ -152,7 +147,6 @@
                                         android:layout_height="wrap_content"
                                         android:textColor="#7A7A7A"
                                         android:layout_marginLeft="5dp"
-                                        android:textStyle="bold"
                                         android:text="Qty: "
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
@@ -161,7 +155,6 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textColor="#7A7A7A"
-                                        android:textStyle="bold"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
                             </LinearLayout>

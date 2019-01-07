@@ -18,22 +18,40 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.model.Booking;
+import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.history.HistoryPresenter;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
+import javax.inject.Inject;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     List<Booking> productsItems;
+    List<Booking> productsItemsSearch;
+
     // IShopDetailAdapter iShopDetailAdapter;
     HistoryPresenter historyPresenter;
     IHistoryCancelOrderAdapter iHistoryCancelOrderAdapter;
+    ISearchOrderAmount iSearchOrderAmount;
 
-    public HistoryAdapter(Context context, List<Booking> productsItems, IHistoryCancelOrderAdapter iHistoryCancelOrderAdapter) {
+    public HistoryAdapter(Context context, List<Booking> productsItems, IHistoryCancelOrderAdapter iHistoryCancelOrderAdapter, ISearchOrderAmount iSearchOrderAmount) {
         this.context = context;
         this.productsItems = productsItems;
         this.iHistoryCancelOrderAdapter = iHistoryCancelOrderAdapter;
+        this.iSearchOrderAmount = iSearchOrderAmount;
+        this.productsItemsSearch = new ArrayList<>();
+        this.productsItemsSearch.addAll(productsItems);
     }
 
 
@@ -118,6 +136,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             itemView.setOnClickListener(this);
             itemView.findViewById(R.id.btnCancel).setOnClickListener(this);
             itemView.findViewById(R.id.btnTrackOrder).setOnClickListener(this);
+            itemView.findViewById(R.id.cardViewParent).setOnClickListener(this);
 
         }
 
@@ -130,7 +149,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 case R.id.btnTrackOrder:
                     iHistoryCancelOrderAdapter.trackOrder(productsItems.get(getLayoutPosition()).getOrderID());
                     break;
-
+                case R.id.cardViewParent:
+                    iHistoryCancelOrderAdapter.hideSoftkeyboard();
+                    break;
             }
         }
 
@@ -164,6 +185,55 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void cancelOrder(String orderID);
 
         void trackOrder(String orderID);
+
+        void hideSoftkeyboard();
     }
+
+    public interface ISearchOrderAmount {
+        void showTotalAmount(String itemTotalPrice);
+    }
+
+    long totalAmount = 0;
+
+    public void filter(String charText) {
+        try {
+            charText = charText.toLowerCase(Locale.getDefault());
+            productsItems.clear();
+            if (charText.length() == 0) {
+                productsItems.addAll(productsItemsSearch);
+                totalAmount = 0;
+                for (Booking wp : productsItemsSearch) {
+                    totalAmount = totalAmount + (Long.valueOf(wp.getItemPrice()) + Long.valueOf(wp.getFlatCharges()));
+                }
+                if (productsItemsSearch != null && productsItemsSearch.size() > 0) {
+                    iSearchOrderAmount.showTotalAmount(String.valueOf(totalAmount));
+                } else {
+                    iSearchOrderAmount.showTotalAmount("0");
+                }
+
+            } else if (charText.length() > 0) {
+                totalAmount = 0;
+                for (Booking wp : productsItemsSearch) {
+                    if (wp.getItemName().toLowerCase(Locale.getDefault()).trim()
+                            .contains(charText)) {
+                        productsItems.add(wp);
+                        totalAmount = totalAmount + (Long.valueOf(wp.getItemPrice()) + Long.valueOf(wp.getFlatCharges()));
+                    }
+                }
+                if (productsItemsSearch != null && productsItemsSearch.size() > 0) {
+                    iSearchOrderAmount.showTotalAmount(String.valueOf(totalAmount));
+                } else {
+                    iSearchOrderAmount.showTotalAmount("0");
+                }
+            }
+            notifyDataSetChanged();
+
+
+        } catch (Exception ex)
+
+        {
+        }
+    }
+
 }
 
