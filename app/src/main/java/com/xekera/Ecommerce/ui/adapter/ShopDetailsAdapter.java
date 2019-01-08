@@ -1,15 +1,24 @@
 package com.xekera.Ecommerce.ui.adapter;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.varunest.sparkbutton.SparkButton;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
+import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.util.SessionManager;
 
 import java.util.*;
@@ -177,6 +187,9 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             //     productDetailsDataListViewHolder.linearParent.setBackgroundColor(ContextCompat.getColor(context, R.color.grey_light_report_item_bg_light));
             //}
 
+            // final Animation animationFadeOut = AnimationUtils.loadAnimation(context, R.anim.fade_out_transition_element);
+            //productDetailsDataListViewHolder.cardViewParent.startAnimation(animationFadeOut);
+
 
         }
     }
@@ -259,12 +272,21 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     }
                     cardViewParent.setClickable(false);
-                    iShopDetailAdapter.onCardClick(productsItems.get(getLayoutPosition()).getProductName(),
-                            productsItems.get(getLayoutPosition()).getProductPrice(),
-                            productsItems.get(getLayoutPosition()).getCutPrice(),
-                            productsItems.get(getLayoutPosition()).getItemQuantity(),
-                            productsItems.get(getLayoutPosition()).getImage()
-                            , bitmapImg);
+
+                    try {
+
+
+                        iShopDetailAdapter.onCardClick(productsItems.get(getLayoutPosition()).getProductName(),
+                                productsItems.get(getLayoutPosition()).getProductPrice(),
+                                productsItems.get(getLayoutPosition()).getCutPrice(),
+                                productsItems.get(getLayoutPosition()).getItemQuantity(),
+                                productsItems.get(getLayoutPosition()).getImage()
+                                , bitmapImg);
+
+                    } catch (Exception e) {
+
+                    }
+
                     break;
 
                 case R.id.AddImageView:

@@ -18,7 +18,8 @@
             android:clickable="true"
             app:cardBackgroundColor="@color/selector_card_view_colors"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+    >
 
 
         <LinearLayout
@@ -91,12 +92,15 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/row_product_name_textview"
                                     android:layout_marginLeft="5dp"
-                                    android:textSize="@dimen/txt_report_list_item_size"/>
+                                    android:textSize="@dimen/txt_report_list_item_size"
+                            />
 
-                            <LinearLayout android:layout_width="wrap_content"
-                                          android:layout_height="wrap_content"
-                                          android:layout_marginTop="3dp"
-                                          android:orientation="horizontal">
+                            <LinearLayout
+                                    android:id="@+id/priceLinearParent"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:orientation="horizontal">
                                 <TextView
                                         android:id="@+id/priceLabelTextView"
                                         android:layout_width="wrap_content"
@@ -117,10 +121,12 @@
 
                             </LinearLayout>
 
-                            <LinearLayout android:layout_width="wrap_content"
-                                          android:layout_height="wrap_content"
-                                          android:layout_marginTop="3dp"
-                                          android:orientation="horizontal">
+                            <LinearLayout
+                                    android:id="@+id/discountLinearParent"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:orientation="horizontal">
                                 <TextView
                                         android:id="@+id/discountPriceLabelTextView"
                                         android:layout_width="wrap_content"
@@ -146,10 +152,12 @@
                             </LinearLayout>
 
 
-                            <LinearLayout android:layout_width="wrap_content"
-                                          android:layout_height="wrap_content"
-                                          android:layout_marginTop="3dp"
-                                          android:orientation="horizontal">
+                            <LinearLayout
+                                    android:id="@+id/stockLinearParent"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:orientation="horizontal">
                                 <TextView
                                         android:id="@+id/availabilityLabelTextView"
                                         android:layout_width="wrap_content"

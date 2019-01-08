@@ -28,12 +28,14 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -934,6 +936,21 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         disbaleHomeIcon(true);
     }
 
+    //With bundle for activity transition
+    public void replaceFragmentForActivityTranstion(Fragment fragment) {
+        manager = getSupportFragmentManager();
+        if (fragment != null) {
+            manager.beginTransaction()
+                    .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                    .replace(R.id.fragmentContainer, fragment)
+                    .addToBackStack(null)
+                    .commit();
+
+
+        }
+        disbaleHomeIcon(true);
+    }
+
     public void addTargetFragmentWithLockedHumberIcon(Fragment fragment) {
 //        manager = getSupportFragmentManager();
 //        if (fragment != null) {
@@ -1063,7 +1080,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             return true;
 
         } else if (id == R.id.nav_follow_us) {
-            
+
             showFollowUsDialog(BaseActivity.this);
 
 

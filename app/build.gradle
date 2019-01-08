@@ -102,6 +102,7 @@ dependencies {
     implementation 'com.stripe:stripe-android:6.1.2'
     implementation "com.github.parse-community.Parse-SDK-Android:parse:1.18.5"
 
+
 }
 
 crashlytics {

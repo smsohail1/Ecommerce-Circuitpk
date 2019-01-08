@@ -3,24 +3,27 @@ package com.xekera.Ecommerce.ui.shop_card_selected;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionInflater;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
@@ -96,6 +99,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     @BindView(R.id.productNameTextview)
     protected TextView productNameTextview;
 
+
     @Inject
     protected ShopCardSelectedMVP.Presenter presenter;
     @Inject
@@ -120,6 +124,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     ShoppingDetailModel shoppingDetailModel;
     Bitmap bitmapImage;
     String productName = "", price = "", cutPrice = "", quantity = "";
+
     List<String> imgList;
 
 
@@ -158,7 +163,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             quantity = getArguments().getString(KEY_SHOP_CARD_SELECTED_QUANTITY);
             imgList = getArguments().getStringArrayList(KEY_SHOP_CARD_SELECTED_IMAGE_LIST);
 
+
             bitmapImage = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_IMAGE);
+
 
 //            String bitmapStr = "";
 //            bitmapStr = getArguments().getString(KEY_SHOP_CARD_SELECTED_IMAGE);
@@ -244,12 +251,15 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                 productNameLabelTextView.setText(productName);
             }
 
+
             if (!utils.isTextNullOrEmpty(productName)) {
                 productNameTextview.setText(productName);
             }
 
             if (bitmapImage != null) {
                 imgProduct.setImageBitmap(bitmapImage);
+
+
 //                Glide.with(getActivity())
 //                        .load(byteArray)
 //                        .asBitmap()
@@ -343,8 +353,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             ButterKnife.bind(this, v);
             presenter.setView(this);
 
-            toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
+            toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
             // ((BaseActivity) getActivity()).hideBottomNavigation();
 
             incrementImageButton.setOnClickListener(this);
@@ -363,9 +373,19 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
             presenter.setMultipleImagesItems(getActivity(), imgList);
 
+
         } catch (Exception e) {
 
         }
+    }
+
+
+    public Bitmap screenShot(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
+                view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
     }
 
     @Override
@@ -533,6 +553,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             bundle.putString(KEY_SHOP_CARD_SELECTED_QUANTITY, String.valueOf(quantity));
             bundle.putStringArrayList(KEY_SHOP_CARD_SELECTED_IMAGE_LIST, (ArrayList<String>) imgList);
             bundle.putParcelable(KEY_SHOP_CARD_SELECTED_IMAGE, bitmapImg);
+
             fragment = new ShopCardSelectedFragment();
             fragment.setArguments(bundle);
             return fragment;
@@ -635,7 +656,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
 //                            presenter.updateItemCountInDB(String.valueOf(noOfProductsIntDecrement)
 //                                    , productNameLabelTextView.getText().toString());
-                            showToastShortTime( "Please select atleast one quantity.");
+                            showToastShortTime("Please select atleast one quantity.");
                             return;
                         }
                         noOfProductsIntDecrement = noOfProductsIntDecrement - 1;

@@ -9,10 +9,6 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
-/**
- * Created by umair.irshad on 5/8/2018.
- */
-
 public class CustomView extends ImageView {
 
     /** Bits defining the horizontal axis. */
