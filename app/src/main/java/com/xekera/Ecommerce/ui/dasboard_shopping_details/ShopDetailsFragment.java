@@ -43,6 +43,7 @@ import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 import com.varunest.sparkbutton.SparkButton;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.AppDatabase;
@@ -106,6 +107,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     List<Favourites> favList;
     View toastView;
+
 
 
     public ShopDetailsFragment() {
@@ -681,7 +683,6 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
             public void run() {
 
                 ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
-
 
                 ((BaseActivity) getActivity()).replaceFragmentForActivityTranstion(shopCardSelectedFragment.newInstance(productName,
                         price, cutPrice, quantity, imgList, bitmapImg));

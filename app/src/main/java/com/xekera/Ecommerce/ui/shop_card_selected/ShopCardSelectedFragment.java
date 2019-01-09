@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,7 +28,14 @@ import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.stripe.android.RequestOptions;
 import com.varunest.sparkbutton.SparkButton;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.AppDatabase;
@@ -40,6 +48,7 @@ import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsPresenter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.home_delivery_Address.DeliveryAddressActivity;
+import com.xekera.Ecommerce.ui.shop_card_selected.multiple_image_slider_view.MultipeImageSliderViewFragment;
 import com.xekera.Ecommerce.util.*;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -49,6 +58,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import javax.inject.Inject;
+import javax.sql.DataSource;
 import java.io.ByteArrayOutputStream;
 import java.sql.BatchUpdateException;
 import java.text.SimpleDateFormat;
@@ -98,7 +108,10 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     protected TextView availabilitStockTextView;
     @BindView(R.id.productNameTextview)
     protected TextView productNameTextview;
-
+    @BindView(R.id.avloadingIndicatorView)
+    protected AVLoadingIndicatorView avloadingIndicatorView;
+    @BindView(R.id.imgFullScreen)
+    protected ImageView imgFullScreen;
 
     @Inject
     protected ShopCardSelectedMVP.Presenter presenter;
@@ -259,7 +272,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             if (bitmapImage != null) {
                 imgProduct.setImageBitmap(bitmapImage);
 
-
+                avloadingIndicatorView.setVisibility(View.GONE);
+                imgProduct.setVisibility(View.VISIBLE);
+                imgFullScreen.setVisibility(View.VISIBLE);
 //                Glide.with(getActivity())
 //                        .load(byteArray)
 //                        .asBitmap()
@@ -362,11 +377,11 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             deliveryAddressImageView.setOnClickListener(this);
             favouriteButton.setOnClickListener(this);
             btnAddToCart.setOnClickListener(this);
+            imgFullScreen.setOnClickListener(this);
             progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
             recyclerViewImageDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 
             //   shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shakeanimation);
-
 
             setProductDetails();
             presenter.setIsFavourite(productName);
@@ -442,35 +457,69 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     public void setSelectedImage(String clickedUrl) {
         try {
 
+            avloadingIndicatorView.setVisibility(View.VISIBLE);
+            imgProduct.setVisibility(View.GONE);
+            imgFullScreen.setVisibility(View.GONE);
+
 
             if (!utils.isTextNullOrEmpty(clickedUrl)) {
-                Glide.with(getActivity()).load(clickedUrl)
-                        .asBitmap()
-//                    .fitCenter()
-//                    .centerCrop()
-                        .placeholder(R.drawable.placeholder)
-                        .error(R.drawable.placeholder)
-                        .into(imgProduct);
+                try {
+                    Glide.with(getActivity()).load(clickedUrl)
+                            .asBitmap()
+                            .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.placeholder)
 
-//                Glide.with(getActivity()).load(clickedUrl)
-////                    .fitCenter()
-////                    .centerCrop()
-//                        .placeholder(R.drawable.placeholder)
-//                        .error(R.drawable.placeholder)
-//                        .into(imgProductCopy);
+//                        .listener(new RequestListener<String, GlideDrawable>() {
+//                            @Override
+//                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//                                avloadingIndicatorView.setVisibility(View.GONE);
+//                                imgProduct.setVisibility(View.VISIBLE);
+//
+//                                return false;
+//                            }
+//
+//                            @Override
+//                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+//                                avloadingIndicatorView.setVisibility(View.GONE);
+//                                imgProduct.setVisibility(View.VISIBLE);
+//                                return false;
+//                            }
+//                        })
+//                        .into(imgProduct);
+
+                            .into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                    avloadingIndicatorView.setVisibility(View.GONE);
+                                    imgProduct.setImageBitmap(resource);
+                                    imgProduct.setVisibility(View.VISIBLE);
+                                    imgFullScreen.setVisibility(View.VISIBLE);
+
+                                }
+
+                                @Override
+                                public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                    super.onLoadFailed(e, errorDrawable);
+                                    avloadingIndicatorView.setVisibility(View.GONE);
+                                    imgProduct.setVisibility(View.VISIBLE);
+                                    imgFullScreen.setVisibility(View.VISIBLE);
+
+
+                                }
+                            });
+
+
+                } catch (Exception e) {
+
+                }
             } else {
-                Glide.with(getActivity())
-                        .load(R.drawable.placeholder)
-                        .asBitmap()
-                        .placeholder(R.drawable.placeholder)
-                        .error(R.drawable.placeholder)
-                        .into(imgProduct);
-
-                //  imgProduct.setImageResource(R.drawable.placeholder);
-
-                //  imgProductCopy.setImageResource(R.drawable.placeholder);
+                avloadingIndicatorView.setVisibility(View.GONE);
+                imgProduct.setVisibility(View.VISIBLE);
+                imgProduct.setImageResource(R.drawable.placeholder);
+                imgFullScreen.setVisibility(View.GONE);
 
             }
+
         } catch (Exception e) {
 
         }
@@ -765,6 +814,15 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                         "N", byteArray, itemCutPrice, price, formattedDate);
                 presenter.saveProductDetails(addToCart);
 
+                break;
+
+            case R.id.imgFullScreen:
+                if (imgList != null && imgList.size() > 0) {
+                    ((BaseActivity) getActivity()).replaceFragment(new MultipeImageSliderViewFragment().newInstance(imgList));
+                    //  multipeImageSliderViewFragment.newInstance(imgList);
+                } else {
+                    showToastShortTime("No image found");
+                }
                 break;
         }
     }

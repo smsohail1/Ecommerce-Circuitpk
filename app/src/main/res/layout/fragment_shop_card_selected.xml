@@ -47,6 +47,7 @@
                         android:id="@+id/relativeLayoutImgParent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="true"
 
                 >
                     <ImageView
@@ -54,6 +55,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/product_detail_img_size"
                             android:gravity="center_horizontal"
+                            android:src="@drawable/placeholder"
+                            android:visibility="gone"
+                            android:clickable="true"
+
+
+                    />
+                    <com.wang.avi.AVLoadingIndicatorView
+                            android:id="@+id/avloadingIndicatorView"
+                            android:layout_width="@dimen/loader_width"
+                            android:layout_height="@dimen/product_detail_img_size"
+                            android:padding="15dp"
+                            android:layout_centerHorizontal="true"
+                            app:indicatorName="LineScaleIndicator"
+                            app:indicatorColor="@color/colorPrimary"
+                            android:clickable="true"
+
 
                     />
                     <!--<com.github.chrisbanes.photoview.PhotoView-->
@@ -62,15 +79,31 @@
                     <!--android:layout_height="@dimen/product_detail_img_size"-->
                     <!--android:src="@drawable/icon_pinterest"-->
                     <!--/>-->
+                    <ImageView
+                            android:id="@+id/imgFullScreen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_facebook"
+                            android:layout_alignRight="@id/imgProduct"
+                            android:layout_marginTop="10dp"
+                            android:padding="2dp"
+                            android:layout_marginRight="10dp"
+                            android:visibility="gone"
+                            android:clickable="true"
 
+
+                    />
 
                     <ImageView
                             android:id="@+id/imgProductCopy"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/product_detail_img_size"
                             android:gravity="center_horizontal"
-                            android:layout_centerInParent="true"
                             android:visibility="gone"
+                            android:src="@drawable/placeholder"
+                            android:clickable="true"
+
+
                     />
 
                 </RelativeLayout>

@@ -112,6 +112,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     productDetailsDataListViewHolder.imgProduct.setImageResource(R.drawable.details_rectifier);
                     productDetailsDataListViewHolder.imgProductCopy.setImageResource(R.drawable.details_rectifier);
                 }
+
             } catch (Exception e) {
 
             }
@@ -222,7 +223,6 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public CardView cardViewParent;
         @BindView(R.id.imgShareProductDetails)
         public ImageView imgShareProductDetails;
-
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);
