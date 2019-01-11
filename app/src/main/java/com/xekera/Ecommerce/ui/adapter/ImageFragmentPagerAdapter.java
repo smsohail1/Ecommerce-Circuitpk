@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.stripe.android.RequestOptions;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.R;
 
@@ -55,8 +56,9 @@ public class ImageFragmentPagerAdapter extends PagerAdapter {
         try {
             Glide.with(context).load(imgList.get(position))
                     .asBitmap()
+                    .override(500, 500)
                     .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder)
+                    .error(R.drawable.placeholder_error)
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

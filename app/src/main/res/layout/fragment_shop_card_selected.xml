@@ -56,8 +56,8 @@
                             android:layout_height="@dimen/product_detail_img_size"
                             android:gravity="center_horizontal"
                             android:src="@drawable/placeholder"
-                            android:visibility="gone"
                             android:clickable="true"
+                            android:visibility="gone"
 
 
                     />
@@ -83,14 +83,14 @@
                             android:id="@+id/imgFullScreen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/icon_facebook"
+                            android:src="@drawable/selector_next_image"
                             android:layout_alignRight="@id/imgProduct"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             android:padding="2dp"
+                            android:layout_alignParentRight="true"
                             android:layout_marginRight="10dp"
-                            android:visibility="gone"
                             android:clickable="true"
-
+                            android:visibility="gone"
 
                     />
 
@@ -132,16 +132,16 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.4"
                         android:orientation="vertical">
                     <android.support.v7.widget.CardView
                             android:id="@+id/cardViewParent"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="3dp"
+                            android:layout_marginBottom="1dp"
                             android:layout_marginLeft="3dp"
                             android:layout_marginRight="3dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             app:cardCornerRadius="2dp"
                             app:cardElevation="2dp"
                             android:foreground="?android:attr/selectableItemBackground">
@@ -290,7 +290,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="4dp"
                                     android:layout_marginLeft="5dp"
 
                             >
@@ -323,6 +323,7 @@
                                     android:orientation="horizontal"
                                     android:layout_marginLeft="5dp"
                                     android:weightSum="1.0"
+                                    android:padding="1dp"
                                     android:layout_marginTop="5dp"
                             >
 
@@ -346,6 +347,7 @@
                                               android:layout_weight="0.35"
                                               android:layout_marginRight="5dp"
                                               android:gravity="right"
+                                              android:layout_gravity="center_vertical"
 
                                 >
 
@@ -718,7 +720,7 @@
 
                 <LinearLayout android:layout_width="match_parent"
                               android:layout_height="0dp"
-                              android:layout_weight="0.2"
+                              android:layout_weight="0.1"
                               android:padding="10dp"
                               android:gravity="bottom"
                 >

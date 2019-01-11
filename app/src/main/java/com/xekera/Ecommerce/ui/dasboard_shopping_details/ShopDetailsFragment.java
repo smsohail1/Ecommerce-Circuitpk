@@ -109,7 +109,6 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     View toastView;
 
 
-
     public ShopDetailsFragment() {
         // Required empty public constructor
     }
@@ -447,12 +446,13 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
             List<String> img;
             img = new ArrayList<>();
             img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
-            img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
+            img.add("https://core-electronics.com.au/media/catalog/product/cache/1/image/fe1bcd18654db18f328c2faaaf3c690a/a/r/arduinouno-tri-org_2.jpg");
+            // img.add("https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8b209b87443cca9d7d140ec0dd49fe21&w=1000&q=80");
             img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/1/2/12v-battery-intelligent-automatic-charging-controller-board-anti-overcharge-protection-charger-discharging-control-relay-module.jpg");
-            img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_hidden_gsm_supported_voice_recorder_black.jpg");
-            img.add("https://dzvfs5sz5rprz.cloudfront.net/media/catalog/product/cache/1/image/1200x/9df78eab33525d08d6e5fb8d27136e95/m/e/mega_shop_usb_range_extender_black.jpg");
-            img.add("https://www.bhphotovideo.com/images/images2000x2000/kingston_dt100g3_16gb_16gb_data_traveler_100_964342.jpg");
-            img.add("https://a.pololu-files.com/picture/0J1479.1200.jpg?6d28c13f103617525228f0936ec16321");
+            img.add("https://cdn.shopify.com/s/files/1/0243/7593/products/DSC_5527_HR_web_grande.jpg?v=1476222056");
+            img.add("https://cdn.instructables.com/FVR/H9FV/J1WW2UOV/FVRH9FVJ1WW2UOV.RECT600.jpg");
+            img.add("https://cdn.solarbotics.com/products/photos/fd9395aa7662bc7c459a4ddcb586f24e/ARDX-IMG_4690.jpg");
+            img.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRL9InyGqcA_0QjvAy5XDWOR2jgV0ldNqAt1Yvk4FZvzbYHNM-7g");
 
             edtSearchProduct.setText("");
             shopDetails.clear();

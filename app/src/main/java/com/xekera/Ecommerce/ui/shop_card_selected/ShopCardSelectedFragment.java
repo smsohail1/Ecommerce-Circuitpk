@@ -467,7 +467,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                     Glide.with(getActivity()).load(clickedUrl)
                             .asBitmap()
                             .placeholder(R.drawable.placeholder)
-                            .error(R.drawable.placeholder)
+                            .error(R.drawable.placeholder_error)
 
 //                        .listener(new RequestListener<String, GlideDrawable>() {
 //                            @Override
@@ -817,11 +817,17 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                 break;
 
             case R.id.imgFullScreen:
-                if (imgList != null && imgList.size() > 0) {
-                    ((BaseActivity) getActivity()).replaceFragment(new MultipeImageSliderViewFragment().newInstance(imgList));
-                    //  multipeImageSliderViewFragment.newInstance(imgList);
-                } else {
-                    showToastShortTime("No image found");
+                try {
+
+                    if (imgList != null && imgList.size() > 0) {
+                        ((BaseActivity) getActivity()).replaceFragment(new MultipeImageSliderViewFragment().newInstance(imgList));
+                        //  multipeImageSliderViewFragment.newInstance(imgList);
+                    } else {
+                        showToastShortTime("No image found");
+                    }
+
+                } catch (Exception e) {
+
                 }
                 break;
         }

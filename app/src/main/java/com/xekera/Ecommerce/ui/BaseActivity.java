@@ -936,6 +936,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         disbaleHomeIcon(true);
     }
 
+
+
     //With bundle for activity transition
     public void replaceFragmentForActivityTranstion(Fragment fragment) {
         manager = getSupportFragmentManager();
