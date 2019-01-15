@@ -124,7 +124,7 @@
 
     <string name="product_desc">This DC-DC step down module is based on the MP1584EN chip, which is capable of driving a
         3 A load and converts input voltages between 4.5 V to 28 V into a lower voltage between 0.8 V to 20 V. This is
-        suitable for applications which need a highly efficient power converter
+        suitable for applications which need a highly efficient power converter.
     </string>
 
     <string name="edt_address2_hint">Enter Plot No</string>

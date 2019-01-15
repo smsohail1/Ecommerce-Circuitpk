@@ -108,6 +108,8 @@
     <dimen name="multiple_width">52dp</dimen>
     <dimen name="multiple_height">50dp</dimen>
     <dimen name="delete_height">20dp</dimen>
+    <dimen name="view_all_img_size">35dp</dimen>
+
     <dimen name="fb_button_width">170dp</dimen>
     <dimen name="fb_button_height">32dp</dimen>
     <dimen name="create_your_account_text_size">21dp</dimen>

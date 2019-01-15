@@ -81,12 +81,12 @@
                     <!--/>-->
                     <ImageView
                             android:id="@+id/imgFullScreen"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="@dimen/view_all_img_size"
+                            android:layout_height="@dimen/view_all_img_size"
                             android:src="@drawable/selector_next_image"
                             android:layout_alignRight="@id/imgProduct"
                             android:layout_marginTop="5dp"
-                            android:padding="2dp"
+                            android:padding="5dp"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="10dp"
                             android:clickable="true"
@@ -123,9 +123,8 @@
 
 
             <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="0dp"
+                          android:layout_height="wrap_content"
                           android:orientation="vertical"
-                          android:layout_weight="1.0"
                           android:weightSum="1.0"
             >
 
@@ -573,8 +572,8 @@
                         android:id="@+id/linearDescriptionLayout"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="0.4"
-                        android:layout_marginTop="10dp"
+                        android:layout_weight="0.3"
+                        android:layout_marginTop="5dp"
                         android:orientation="vertical">
 
                     <android.support.v7.widget.CardView
@@ -586,7 +585,6 @@
                             android:layout_marginRight="3dp"
                             android:layout_marginTop="2dp"
                             app:cardCornerRadius="2dp"
-
                             android:focusable="true"
                             android:clickable="true"
                             android:foreground="?android:attr/selectableItemBackground"
@@ -631,7 +629,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="0.1"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="vertical">>
 
                     <android.support.v7.widget.CardView
@@ -720,8 +718,8 @@
 
                 <LinearLayout android:layout_width="match_parent"
                               android:layout_height="0dp"
-                              android:layout_weight="0.1"
-                              android:padding="10dp"
+                              android:layout_weight="0.2"
+                              android:padding="3dp"
                               android:gravity="bottom"
                 >
 
