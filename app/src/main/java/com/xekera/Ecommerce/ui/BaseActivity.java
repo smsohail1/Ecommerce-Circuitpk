@@ -937,7 +937,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
 
-
     //With bundle for activity transition
     public void replaceFragmentForActivityTranstion(Fragment fragment) {
         manager = getSupportFragmentManager();
@@ -1185,19 +1184,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     if (utils.isInternetAvailable()) {
                         if (isEnable) {
                             isEnable = false;
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    fb_button.performClick();
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            dialog.dismiss();
-                                            isEnable = true;
-                                        }
-                                    }, 3000);
-                                }
-                            }, 150);
+                            fb_button.performClick();
+                            callFacebook(dialog);
+
                         }
                     } else {
                         toastUtil.showToastShortTime("Please connect to internet.", toastView);
@@ -1232,9 +1221,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 }
             }
         });
-        cancel.setOnClickListener(new View.OnClickListener()
-
-        {
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new Handler().postDelayed(new Runnable() {
@@ -1248,6 +1235,32 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         });
 
         dialog.show();
+    }
+
+    private void callFacebook(final Dialog dialog) {
+
+        AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
+                                                       AccessToken currentAccessToken) {
+                try {
+
+
+                    if (currentAccessToken == null) {
+                        dialog.dismiss();
+                        isEnable = true;
+                        sessionManager.clearAll();
+                        setUserDetails();
+                        toastUtil.showToastShortTime("Logout Successfully.", toastView);
+
+                    }
+                } catch (Exception ex) {
+
+                }
+            }
+        };
+        accessTokenTracker.startTracking();
+
     }
 
     private void showFollowUsDialog(Context context) {
@@ -1753,7 +1766,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     if ((hasReadPermission == PackageManager.PERMISSION_GRANTED) &&
                             (hasWritePermission == PackageManager.PERMISSION_GRANTED) &&
                             (camera == PackageManager.PERMISSION_GRANTED)
-                            ) {
+                    ) {
                         //permissionsGranted();
                         mPermissionDenied = false;
 
