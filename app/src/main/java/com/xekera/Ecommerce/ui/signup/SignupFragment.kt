@@ -247,6 +247,12 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
     }
 
+    override fun signUp() {
+        Handler().postDelayed({
+            (activity as BaseActivity).popBackstack()
+        }, 200)
+
+    }
 
     override fun showToastLongTime(message: String) {
         toastUtil?.showToastLongTime(message)

@@ -328,13 +328,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
             @Override
             public void onCancel() {
                 // App code
-                int d = 0;
+                showToastShortTime("Error while login from facebook.");
             }
 
             @Override
             public void onError(FacebookException exception) {
                 // App code
-                int d = 0;
+                showToastShortTime("Error while login from facebook.");
 
             }
         });

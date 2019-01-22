@@ -362,7 +362,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 //            }
 //        }, 100);
 
-        if (sessionManager.isSignUp() || sessionManager.isLoggedIn()) {
+        if (sessionManager.isSignUp() || sessionManager.isLoggedIn() || sessionManager.getKeyIsFacebookLogin()) {
 
             Fragment fragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
             if (!(fragment instanceof DeliveyBillingDetailsFragment)) {

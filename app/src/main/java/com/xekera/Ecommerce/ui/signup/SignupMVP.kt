@@ -15,6 +15,7 @@ public interface SignupMVP {
         fun showSnackBarShortTime(message: String, view: android.view.View)
         fun showSnackBarLongTime(message: String, view: android.view.View)
         fun signUpSuccessfully();
+        fun signUp();
     }
 
     interface Presenter {
@@ -30,7 +31,11 @@ public interface SignupMVP {
 
     interface Model {
         fun signUP(
-            userName: String, password: String, phoneNo: String, emailID: String, iNetworkLoginSignup: INetworkLoginSignup<SignUpSuccessResponse>
+            userName: String,
+            password: String,
+            phoneNo: String,
+            emailID: String,
+            iNetworkLoginSignup: INetworkLoginSignup<SignUpSuccessResponse>
         )
     }
 }

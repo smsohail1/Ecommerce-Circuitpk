@@ -69,7 +69,11 @@ public class SignupPresenter : SignupMVP.Presenter {
                         } else {
 
                             if (response.status) {
-
+                                if (sessionManager!!.isSignUp()) {
+                                    view?.showToastShortTime(response.message)
+                                    view?.signUp();
+                                    return
+                                }
                                 sessionManager?.createSignUpSession(
                                     userName,
                                     phoneNo,

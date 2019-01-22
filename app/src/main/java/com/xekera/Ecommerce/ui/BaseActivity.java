@@ -70,6 +70,7 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.facebook.*;
 import com.facebook.internal.CallbackManagerImpl;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.squareup.picasso.Picasso;
@@ -1185,6 +1186,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         if (isEnable) {
                             isEnable = false;
                             fb_button.performClick();
+                            //LoginManager.getInstance().logOut();
                             callFacebook(dialog);
 
                         }

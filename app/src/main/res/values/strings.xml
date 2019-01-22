@@ -218,8 +218,7 @@
     <string name="label_no_favourite_item_found">No items added in Favourite.</string>
 
     <string name="facebook_app_id">295767961056627</string>
-    <string name="fb_login_protocol_scheme">D5d/6FwSpoLk7lMgx5NCrwPeDHA=</string>
-
+    <!--<string name="fb_login_protocol_scheme">D5d/6FwSpoLk7lMgx5NCrwPeDHA=</string>-->
 
     <!--About Us-->
     <string name="who_are_we">We transform your ideas into enterprise solutions, from
