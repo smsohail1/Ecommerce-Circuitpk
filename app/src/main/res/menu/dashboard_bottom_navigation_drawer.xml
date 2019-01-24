@@ -18,10 +18,10 @@
         <!--android:icon="@drawable/nav_bottom_cart"-->
         <!--android:title="@string/title_cart"/>-->
 
-        <item
-                android:id="@+id/navigation_setting"
-                android:icon="@drawable/icon_setting_bottom_navigation"
-                android:title="@string/title_setting"/>
+        <!--<item-->
+        <!--android:id="@+id/navigation_setting"-->
+        <!--android:icon="@drawable/icon_setting_bottom_navigation"-->
+        <!--android:title="@string/title_setting"/>-->
 
         <item
                 android:id="@+id/navigation_History"

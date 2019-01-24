@@ -221,15 +221,29 @@
     <!--<string name="fb_login_protocol_scheme">D5d/6FwSpoLk7lMgx5NCrwPeDHA=</string>-->
 
     <!--About Us-->
-    <string name="who_are_we">We transform your ideas into enterprise solutions, from
-        designing boards and creating test plans, custom hardware development, board
-        bringups and system level products with carefully analyzed mechanical and/or
-        thermal product designs, we foster innovation, and we are capable to meet your
-        requirements and expectations. We can also make improvements to your existing
-        products and designs making them fully engineered for future prospects.
-        our expert systems and protocols to bring efficiencies in project delivery for
-        our clients. Our highly dedicated engineers eagerly transform your ideas into
-        turnkey product designs.
+    <string name="who_are_we">Circuit.pk is the fastest growing online electronics components store in Pakistan.
+        Our aim is to fulfill our customers’ needs better than anyone else and to use modern technologies.
+        We are Pakistan’s first online electronics components shopping solution, which also provides lab facility for
+        students and hobbyists to actually practice their skills and create projects by using our own electronics
+        components lab.
+        Our vision for initiating electronics lab service is to help engineers and hobbyists to achieve their goals of
+        making a
+        world class electronics project. We will help them find the solution. Our motive is, “your projects, our
+        components”.\n\n
+        We will also provide mentoring and supervision by our senior firmware engineers and electronic engineers.We have
+        a large
+        stock of electronic components, embedded boards, sensor modules etc. Our inventory is not only limited to that,
+        but we
+        also provide adapters, power supply modules, and different Arduino Kits for beginners.\n\n
+        At Circuit.pk, we don’t just provide products of your need, we provide an unmatched experience to our
+        customers by giving them high quality electronic components, quick delivery, better customer support and much
+        more.\n\n
+        We are also providing new sellers and entrepreneurs to leverage the business of online shopping in Pakistan.
+        “Become a Seller”, is not just a feature. It is an opportunity for all those who are afraid of getting into
+        a full-time online selling business. Circuit.pk provides a vendor’s portal for our registered sellers.\n\n
+        Our Live Chat feature will help you take quick decisions regarding any issue you will face in your
+        buying journey ever. Order tracking will help you find the status of your order. Comparing products was never
+        that easy before, but we made it simple and easy to use for our online visitors.
     </string>
     <string name="our_experience">Our ascendancy, in our field of expertise from inventing R&amp;D
         solutions to their automation, is a result of working with the best. Our team’s

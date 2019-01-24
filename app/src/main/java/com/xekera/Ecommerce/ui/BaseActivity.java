@@ -453,7 +453,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         replaceFragmentWithContainer(fragment);
                     }
                     return true;
-                case R.id.navigation_setting:
+               /* case R.id.navigation_setting:
 
                     if (!(fragmentContainer instanceof SettingFragment)) {
 
@@ -476,7 +476,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     //  navigation.setSelectedItemId(R.id.navigation_History);
 
                     return true;
-
+*/
                 case R.id.navigation_History:
 
                     if (!(fragmentContainer instanceof HistoryFragment)) {
@@ -513,13 +513,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         getSupportFragmentManager().popBackStackImmediate();
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-        if (fragment instanceof SettingFragment || fragment instanceof ShopFragment ||
+        //fragment instanceof SettingFragment ||
+        if (fragment instanceof ShopFragment ||
                 fragment instanceof HistoryFragment ||
                 fragment instanceof FavouritesFragment) {
             Menu bottomMenu = navigation.getMenu();
             MenuItem bottomMenuItem;
             // showBottomNavigation();
-            if (fragment instanceof SettingFragment) {
+            /*if (fragment instanceof SettingFragment) {
                 navigation.setSelectedItemId(R.id.navigation_setting);
 
                 bottomMenuItem = bottomMenu.findItem(R.id.navigation_setting);
@@ -527,7 +528,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 bottomMenuItem.setChecked(true);
 
 
-            } else if (fragment instanceof ShopFragment) {
+            } else */
+
+            if (fragment instanceof ShopFragment) {
                 navigation.setSelectedItemId(R.id.navigation_shop);
 
                 bottomMenuItem = bottomMenu.findItem(R.id.navigation_shop);
@@ -563,10 +566,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             bottomMenuItem.setCheckable(false);
             bottomMenuItem.setChecked(false);
 
-            bottomMenuItem = bottomMenu.findItem(R.id.navigation_setting);
+          /*  bottomMenuItem = bottomMenu.findItem(R.id.navigation_setting);
             bottomMenuItem.setCheckable(false);
             bottomMenuItem.setChecked(false);
-
+*/
             bottomMenuItem = bottomMenu.findItem(R.id.navigation_History);
             bottomMenuItem.setCheckable(false);
             bottomMenuItem.setChecked(false);
@@ -1061,7 +1064,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 return true;
 
             }
-        } else if (id == R.id.nav_Setting) {
+        }
+        /*else if (id == R.id.nav_Setting) {
             if (!(fragmentContainer instanceof SettingFragment)) {
                 navigateToScreen(R.id.navigation_setting);
                 drawer.closeDrawer(GravityCompat.START);
@@ -1070,7 +1074,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 return true;
 
             }
-        } else if (id == R.id.nav_become_a_seller) {
+        } */
+        else if (id == R.id.nav_become_a_seller) {
 
 
             Intent becomeASellerIntent = new Intent(Intent.ACTION_VIEW);
