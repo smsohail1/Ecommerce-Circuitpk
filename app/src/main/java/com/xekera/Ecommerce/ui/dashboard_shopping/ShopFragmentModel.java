@@ -1,6 +1,9 @@
 package com.xekera.Ecommerce.ui.dashboard_shopping;
 
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
+import com.xekera.Ecommerce.data.rest.response.CategoryResponse;
+import com.xekera.Ecommerce.data.rest.response.LoginSuccessResponse;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
@@ -12,6 +15,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.List;
 
@@ -65,6 +71,35 @@ public class ShopFragmentModel implements ShopFragmentMVP.Model {
             IFetchCartDetailsList.onErrorReceived(e);
         }
     }
+
+    @Override
+    public void getDashboardItemsDetails(final INetworkListGeneral<CategoryResponse> iNetworkListGeneral) {
+        Call<CategoryResponse> call = xekeraAPI.getCategory();
+        call.enqueue(new Callback<CategoryResponse>() {
+            @Override
+            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
+                try {
+                    CategoryResponse categoryResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(categoryResponse);
+//                    if(messageResponse == null){
+//                        iNetworkLoginSignup.onErrorList(getMessageResponse(utils.getStringFromResourceId(R.string.error),
+//                                utils.getStringFromResourceId(R.string.null_response_received)));
+//                        return;
+//                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoryResponse> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
+            }
+        });
+    }
+
 
     interface IFetchCartDetailsList {
         void onCartDetailsReceived(List<AddToCart> AddToCartList);

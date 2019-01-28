@@ -530,15 +530,16 @@ public class ContinueShoppingFragment extends Fragment implements ContinueShoppi
 
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap) {
+                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap,String imgUrl) {
 
-        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap);
+        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap,imgUrl);
     }
 
     @Override
-    public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy) {
+    public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
+                                       byte[] byteImage, ImageView imgProductCopy,String imgUrl) {
 
-        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy);
+        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy,imgUrl);
 
     }
 
@@ -616,15 +617,15 @@ public class ContinueShoppingFragment extends Fragment implements ContinueShoppi
                             final List<String> imgList, final Bitmap bitmapImg) {
         utils.hideSoftKeyboard(edtSearchProduct);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
-                ((BaseActivity) getActivity()).replaceFragment(shopCardSelectedFragment.newInstance(productName, price,
-                        cutPrice, quantity, imgList, bitmapImg));
-            }
-        }, 200);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
+//                ((BaseActivity) getActivity()).replaceFragment(shopCardSelectedFragment.newInstance(productName, price,
+//                        cutPrice, quantity, imgList, bitmapImg));
+//            }
+//        }, 200);
 
     }
 

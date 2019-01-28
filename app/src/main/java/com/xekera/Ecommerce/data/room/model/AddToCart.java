@@ -7,6 +7,8 @@ import android.arch.persistence.room.PrimaryKey;
 import android.graphics.Bitmap;
 import io.reactivex.annotations.NonNull;
 
+import java.util.List;
+
 @Entity(tableName = "add_to_cart")
 public class AddToCart {
     @PrimaryKey(autoGenerate = true)
@@ -40,6 +42,17 @@ public class AddToCart {
     private byte[] itemImage;
     @ColumnInfo(name = "transmission_status")
     private String transmissionStatus;
+    @ColumnInfo(name = "image")
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 
     public AddToCart() {
 
@@ -69,7 +82,7 @@ public class AddToCart {
 
     public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity, String transmissionStatus,
                      byte[] itemImage, String itemCutPrice
-            , String itemIndividualPrice, String createdDate) {
+            , String itemIndividualPrice, String createdDate, String image) {
         this.orderID = orderID;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
@@ -79,6 +92,7 @@ public class AddToCart {
         this.itemCutPrice = itemCutPrice;
         this.itemIndividualPrice = itemIndividualPrice;
         this.createdDate = createdDate;
+        this.image = image;
     }
 
     public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity, String transmissionStatus,

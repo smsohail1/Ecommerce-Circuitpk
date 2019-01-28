@@ -533,7 +533,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                     if ((selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Islamabad") ||
                             selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Rawalpindi"))
                             && utils.isTextNullOrEmpty(selfPickupDiffAddress)
-                            ) {
+                    ) {
                         flatChargesAmount = "100";
                     } else if (!utils.isTextNullOrEmpty(selfPickupDiffAddress) &&
                             selfPickupDiffAddress.equalsIgnoreCase("Self Pickup")) {

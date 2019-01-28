@@ -262,7 +262,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         //   getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
+        // ((BaseActivity) getActivity()).addDashboardFragment(new ContinueShopFragment());
 
         // attaching bottom sheet behaviour - hide / show on scroll
         // CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
@@ -578,6 +578,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
     }
 
+    public void uncheckHomeScreen() {
+
+        Menu bottomMenu = navigation.getMenu();
+        MenuItem bottomMenuItem;
+        bottomMenuItem = bottomMenu.findItem(R.id.navigation_shop);
+        bottomMenuItem.setCheckable(false);
+        bottomMenuItem.setChecked(false);
+    }
+
     public void navigateToScreen(final int menuId) {
         //   showBottomNavigation();
         View view = navigation.findViewById(menuId);
@@ -589,10 +598,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 //            //((ShopDetailsFragment) fragment).showBackImageIcon();
 //            //((ShopDetailsFragment) fragment).hideLoginIcon();
 //            //((ShopDetailsFragment) fragment).hideHumbergIcon();
-//        } else if (fragment instanceof ShopFragment) {
-//            //((ShopFragment) fragment).setTitle();
-//            //((ShopFragment) fragment).showLoginIcon();
-//            //((ShopFragment) fragment).showHumbergIcon();
+//        } else if (fragment instanceof ContinueShopFragment) {
+//            //((ContinueShopFragment) fragment).setTitle();
+//            //((ContinueShopFragment) fragment).showLoginIcon();
+//            //((ContinueShopFragment) fragment).showHumbergIcon();
 //        } else if (fragment instanceof ShopCardSelectedFragment) {
 //            //((ShopDetailsFragment) fragment).showBackImageIcon();
 //            //((ShopDetailsFragment) fragment).hideLoginIcon();
@@ -612,9 +621,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         } else if (fragment instanceof ShopFragment) {
             ((ShopFragment) fragment).setTitle();
-            //((ShopFragment) fragment).showLoginIcon();
-            //((ShopFragment) fragment).showHumbergIcon();
-            //((ShopFragment) fragment).hideBackImageIcon();
+            //((ContinueShopFragment) fragment).showLoginIcon();
+            //((ContinueShopFragment) fragment).showHumbergIcon();
+            //((ContinueShopFragment) fragment).hideBackImageIcon();
         } else if (fragment instanceof ShopCardSelectedFragment) {
             //((ShopCardSelectedFragment) fragment).showBackImageIcon();
             //((ShopCardSelectedFragment) fragment).hideLoginIcon();
@@ -706,7 +715,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 }
             }, 2000);
 
-        } else if (fragment instanceof ShopFragment) {
+        }
+        else if (fragment instanceof ShopFragment) {
             enableHomeIcon(true);
 
             if (backPressedOnce) {
@@ -726,7 +736,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 }
             }, 2000);
 
-        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+        }
+        else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             enableHomeIcon(true);
             super.onBackPressed();
             popBackstack();
@@ -1028,7 +1039,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         } else if (id == R.id.navProduct) {
             if (!(fragmentContainer instanceof ShopFragment)) {
 
-                // replaceFragmentWithContainer(new ShopFragment());
+                // replaceFragmentWithContainer(new ContinueShopFragment());
                 navigateToScreen(R.id.navigation_shop);
                 drawer.closeDrawer(GravityCompat.START);
                 // setNavigationBackground("#E10915");

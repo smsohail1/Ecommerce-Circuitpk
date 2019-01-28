@@ -703,11 +703,11 @@
 
 
                                 <!--<RadioButton-->
-                                        <!--android:id="@+id/radioButton2"-->
-                                        <!--android:layout_width="wrap_content"-->
-                                        <!--android:layout_height="wrap_content"-->
-                                        <!--android:text="@string/check_payments"-->
-                                        <!--android:textSize="@dimen/payment_mode_textview_size"/>-->
+                                <!--android:id="@+id/radioButton2"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:text="@string/check_payments"-->
+                                <!--android:textSize="@dimen/payment_mode_textview_size"/>-->
 
                                 <RadioButton
                                         android:id="@+id/radioButton3"
@@ -721,6 +721,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="@string/easy_paisa"
+                                        android:visibility="gone"
                                         android:textSize="@dimen/payment_mode_textview_size"/>
 
                                 <RadioButton
@@ -728,6 +729,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/jazzcash"
+                                        android:visibility="gone"
                                         android:textSize="@dimen/payment_mode_textview_size"/>
 
                                 <RadioButton
@@ -1425,11 +1427,11 @@
 
 
                                     <!--<RadioButton-->
-                                            <!--android:id="@+id/radioButton2DiffAddress"-->
-                                            <!--android:layout_width="wrap_content"-->
-                                            <!--android:layout_height="wrap_content"-->
-                                            <!--android:text="@string/check_payments"-->
-                                            <!--android:textSize="@dimen/payment_mode_textview_size"/>-->
+                                    <!--android:id="@+id/radioButton2DiffAddress"-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:text="@string/check_payments"-->
+                                    <!--android:textSize="@dimen/payment_mode_textview_size"/>-->
 
                                     <RadioButton
                                             android:id="@+id/radioButton3DiffAddress"
@@ -1443,6 +1445,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:text="@string/easy_paisa"
+                                            android:visibility="gone"
                                             android:textSize="@dimen/payment_mode_textview_size"/>
 
                                     <RadioButton
@@ -1450,6 +1453,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/jazzcash"
+                                            android:visibility="gone"
                                             android:textSize="@dimen/payment_mode_textview_size"/>
 
                                     <RadioButton
@@ -1461,11 +1465,11 @@
 
 
                                     <!--<RadioButton-->
-                                            <!--android:id="@+id/radioButton7DiffAddress"-->
-                                            <!--android:layout_width="wrap_content"-->
-                                            <!--android:layout_height="wrap_content"-->
-                                            <!--android:text="@string/card_payment"-->
-                                            <!--android:textSize="@dimen/payment_mode_textview_size"/>-->
+                                    <!--android:id="@+id/radioButton7DiffAddress"-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:text="@string/card_payment"-->
+                                    <!--android:textSize="@dimen/payment_mode_textview_size"/>-->
                                 </RadioGroup>
 
 
@@ -1506,6 +1510,7 @@
                             android:layout_marginRight="5dp"
                             android:padding="5dp"
                             android:textSize="@dimen/txt_report_list_item_size"
+                            android:maxLength="500"
                     />
 
                     <Button

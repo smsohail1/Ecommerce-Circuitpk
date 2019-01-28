@@ -70,6 +70,8 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     protected TextView totalValueTextView;
     @BindView(R.id.btnConfirmCheckout)
     protected Button btnConfirmCheckout;
+    @BindView(R.id.gstValueTextView)
+    protected TextView gstValueTextView;
 
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
 
@@ -232,11 +234,14 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
     @Override
     public void setSubTotal(String setSubToal) {
-        if (!utils.isTextNullOrEmpty(setSubToal)) {
+        if (!utils.isTextNullOrEmptyOrZero(setSubToal)) {
             subTotalValueTextView.setText(setSubToal);
             String flatShippingRateStr = shippingValueTextView.getText().toString();
+            long gstAmount = Long.valueOf(gstValueTextView.getText().toString());
+
             long flatShippingRateLong = 0;
-            flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr);
+            flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr) +
+                    gstAmount;
             totalValueTextView.setText(String.valueOf(flatShippingRateLong));
 
         } else {
@@ -382,7 +387,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         switch (view.getId()) {
             case R.id.btnConfirmCheckout:
 
-                if (!utils.isTextNullOrEmptyOrZero(totalValueTextView.getText().toString())) {
+                if (!utils.isTextNullOrEmptyOrZero(subTotalValueTextView.getText().toString())) {
                     if (!utils.isTextNullOrEmpty(paymentMode)) {
                         if (paymentMode.equalsIgnoreCase("Credit Card (Stripe)")) {
                             if (utils.isInternetAvailable()) {
@@ -406,14 +411,19 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                         } else {
                             String formattedDate = "";
                             formattedDate = getCurrentDate();
-                            presenter.insertBooking(cartList, formattedDate);
+                            showProgressDialogPleaseWait();
+
+                            presenter.insertBooking(cartList, formattedDate, firstName + lastName, companyName,
+                                    phoneNo, email, streetAddress1 + townCity, paymentMode, orderNotes, selfPikup,
+                                    flatCharges);
+
 
                         }
                     } else {
                         showToastShortTime("Please select payment mode");
                     }
                 } else {
-                    showToastShortTime("Can't order items due to total amount is zero");
+                    showToastShortTime("Can't order items due to sub total total is zero");
 
                 }
 //                presenter.deleteCartItems(cartItems);
@@ -492,7 +502,9 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
                         String formattedDate = "";
                         formattedDate = getCurrentDate();
-                        presenter.insertBooking(cartList, formattedDate);
+                        presenter.insertBooking(cartList, formattedDate, firstName + lastName, companyName,
+                                phoneNo, email, streetAddress1 + townCity, paymentMode, orderNotes, selfPikup,
+                                flatCharges);
                         //  Log.d("Cloud Response", "There were no exceptions! " + response.toString());
 
                     } else {

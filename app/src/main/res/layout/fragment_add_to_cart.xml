@@ -81,6 +81,7 @@
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/availibility_textview"
                                         android:layout_toRightOf="@+id/subTotalRsLabelTextView"
+                                        android:text="0"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
                             </RelativeLayout>
                         </RelativeLayout>
@@ -151,7 +152,7 @@
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/availibility_textview"
                                         android:layout_toRightOf="@+id/gstLableTextView"
-                                        android:text="0"
+                                        android:text="15"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
                             </RelativeLayout>
                         </RelativeLayout>
@@ -188,6 +189,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_toRightOf="@+id/TotalRsTextView"
                                         android:textColor="@color/availibility_textview"
+                                        android:text="0"
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
                             </RelativeLayout>
@@ -217,6 +219,7 @@
                                         android:layout_gravity="center_vertical"
                                         android:textAllCaps="false"
                                         android:textSize="11sp"
+                                        android:visibility="gone"
 
                                 />
 

@@ -51,8 +51,20 @@
                         android:layout_marginTop="5dp"
                         android:src="@drawable/placeholder"
                         android:layout_marginBottom="3dp"
+                        android:visibility="gone"
                 />
 
+
+                <com.wang.avi.AVLoadingIndicatorView
+                        android:id="@+id/avloadingIndicatorView"
+                        android:layout_width="70dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="10dp"
+                        app:indicatorName="LineScaleIndicator"
+                        app:indicatorColor="@color/colorPrimary"
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="visible"
+                />
 
             </LinearLayout>
 

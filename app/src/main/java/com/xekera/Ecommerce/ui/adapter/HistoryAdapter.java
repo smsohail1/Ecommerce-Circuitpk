@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +18,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.model.Booking;
@@ -63,7 +67,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return productDetailDataListViewHolder;
     }
 
-    byte[] bytes;
+    // byte[] bytes;
     BitmapFactory.Options options;
 
 
@@ -71,7 +75,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Booking booking = productsItems.get(position);
         if (holder instanceof productDetailsDataListViewHolder) {
-            productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
+            final productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
             productDetailsDataListViewHolder.productNameLabelTextView.setText(booking.getItemName());
             productDetailsDataListViewHolder.priceTextView.setText(booking.getItemIndividualPrice());
@@ -81,26 +85,60 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             try {
 
-
-                //   options = new BitmapFactory.Options();
-                //  options.inJustDecodeBounds = true;
-                // options.inSampleSize = 2;
-
-                bytes = booking.getItemImage();
-                // Create a bitmap from the byte array
-                // Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-
-                // productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
-
                 Glide.with(context)
-                        .load(bytes)
+                        .load(booking.getImgUrl())
                         .asBitmap()
                         .placeholder(R.drawable.placeholder)
-                        .into(productDetailsDataListViewHolder.imgProduct);
+                        .error(R.drawable.placeholder)
+                        // .override(130, 50)
+                        .centerCrop()
+
+                        // .into(homeViewHolder.imgHomeItem);
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
+                                productDetailsDataListViewHolder.imgProduct.setImageBitmap(resource);
+                                productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
+
+
+                            }
+
+                            @Override
+                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                super.onLoadFailed(e, errorDrawable);
+                                productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
+                                productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
+
+
+                            }
+                        });
 
             } catch (Exception e) {
 
             }
+//            try {
+//
+//
+//                //   options = new BitmapFactory.Options();
+//                //  options.inJustDecodeBounds = true;
+//                // options.inSampleSize = 2;
+//
+//                bytes = booking.getItemImage();
+//                // Create a bitmap from the byte array
+//                // Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+//
+//                // productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
+//
+//                Glide.with(context)
+//                        .load(bytes)
+//                        .asBitmap()
+//                        .placeholder(R.drawable.placeholder)
+//                        .into(productDetailsDataListViewHolder.imgProduct);
+//
+//            } catch (Exception e) {
+//
+//            }
 
 
         }
@@ -128,6 +166,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public Button btnCancel;
         @BindView(R.id.btnTrackOrder)
         public Button btnTrackOrder;
+        @BindView(R.id.avloadingIndicatorView)
+        public AVLoadingIndicatorView avloadingIndicatorView;
 
 
         public productDetailsDataListViewHolder(View itemView) {
@@ -229,9 +269,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             notifyDataSetChanged();
 
 
-        } catch (Exception ex)
-
-        {
+        } catch (Exception ex) {
         }
     }
 

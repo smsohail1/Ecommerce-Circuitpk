@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.login;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
+import com.xekera.Ecommerce.data.rest.response.ForgotPasswordResponse;
 import com.xekera.Ecommerce.data.rest.response.LoginSuccessResponse;
 import com.xekera.Ecommerce.data.rest.response.SignUpSuccessResponse;
 import com.xekera.Ecommerce.util.Utils;
@@ -67,6 +68,30 @@ public class LoginModel implements LoginMVP.Model {
 
             @Override
             public void onFailure(Call<SignUpSuccessResponse> call, Throwable t) {
+                iNetworkLoginSignup.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void resetPassword(String password, String emailID, final INetworkLoginSignup<ForgotPasswordResponse> iNetworkLoginSignup) {
+        Call<ForgotPasswordResponse> call = xakeraAPI.setForgotPassword(password, emailID);
+        call.enqueue(new Callback<ForgotPasswordResponse>() {
+            @Override
+            public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
+                try {
+                    ForgotPasswordResponse forgotPasswordResponse = response.body();
+
+                    iNetworkLoginSignup.onSuccess(forgotPasswordResponse);
+
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ForgotPasswordResponse> call, Throwable t) {
                 iNetworkLoginSignup.onFailure(t);
             }
         });

@@ -165,10 +165,13 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
     @Override
     public void setMultipleImagesItems(Context context, List<String> images) {
         List<MultipleImagesItem> imagesItems = new ArrayList<>();
+//        for (int i = 0; i < images.length; i++) {
+//            imagesItems.add(new MultipleImagesItem(images[i]));
 
         for (String img : images) {
             imagesItems.add(new MultipleImagesItem(img));
         }
+        // }
         productsImagesAdapter = new ProductsImagesAdapter(imagesItems, this, context);
         view.showRecylerViewProductsImages(productsImagesAdapter);
 
@@ -224,8 +227,8 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
 
-                    AddToCart addToCart = new AddToCart("4341", productName, String.valueOf(totalPrice), String.valueOf(quantity),
-                            "N", byteImage, String.valueOf(cutPrice), String.valueOf(price), formattedDate);
+                    AddToCart addToCart = new AddToCart("", productName, String.valueOf(totalPrice), String.valueOf(quantity),
+                            "N", byteImage, String.valueOf(cutPrice), String.valueOf(price), formattedDate, "");
                     noProductFound(addToCart, imgProductCopy);
                     return;
                 } else {

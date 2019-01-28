@@ -9,6 +9,7 @@ import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.xekera.Ecommerce.di.component.AppComponent;
 import com.xekera.Ecommerce.di.component.DaggerAppComponent;
 import com.xekera.Ecommerce.di.module.*;
+import com.xekera.Ecommerce.ui.continue_shopping.ContinueShopFragment;
 import io.fabric.sdk.android.Fabric;
 
 public class App extends Application {
@@ -34,6 +35,8 @@ public class App extends Application {
                 .billingTotalAmountViewModule(new BillingTotalAmountViewModule())
                 .historyModule(new HistoryModule())
                 .favouritesModule(new FavouritesModule())
+                .continueShoppingNewModule(new ContinueShoppingNewModule())
+                //.(new ContinueShopFragment())
                 .build();
     }
 

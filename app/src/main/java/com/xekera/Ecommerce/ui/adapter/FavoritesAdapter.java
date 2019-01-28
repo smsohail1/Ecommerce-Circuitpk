@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
@@ -46,7 +50,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     Bitmap compressedBitmap;
-    byte[] bytes;
+    // byte[] bytes;
     BitmapFactory.Options options;
 
 
@@ -54,7 +58,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Favourites favourites = productsItems.get(position);
         if (holder instanceof productDetailsDataListViewHolder) {
-            productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
+            final productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
             productDetailsDataListViewHolder.productNameLabelTextView.setText(favourites.getItemName());
             productDetailsDataListViewHolder.priceTextView.setText(favourites.getItemIndividualPrice());
@@ -64,33 +68,69 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             try {
 
-//                options = new BitmapFactory.Options();
-//                //  options.inJustDecodeBounds = true;
-//                options.inSampleSize = 2;
-
-                bytes = favourites.getItemImage();
-//                // Create a bitmap from the byte array
-//                compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-//
-//                productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
-//                productDetailsDataListViewHolder.imgProductCopy.setImageBitmap(compressedBitmap);
-
-
                 Glide.with(context)
-                        .load(bytes)
+                        .load(favourites.getImage())
                         .asBitmap()
                         .placeholder(R.drawable.placeholder)
-                        .into(productDetailsDataListViewHolder.imgProduct);
+                        .error(R.drawable.placeholder)
+                        // .override(130, 50)
+                        .centerCrop()
 
-                Glide.with(context)
-                        .load(bytes)
-                        .asBitmap()
-                        .placeholder(R.drawable.placeholder)
-                        .into(productDetailsDataListViewHolder.imgProductCopy);
+                        // .into(homeViewHolder.imgHomeItem);
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
+                                productDetailsDataListViewHolder.imgProduct.setImageBitmap(resource);
+                                productDetailsDataListViewHolder.imgProductCopy.setImageBitmap(resource);
+                                productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
+
+
+                            }
+
+                            @Override
+                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                super.onLoadFailed(e, errorDrawable);
+                                productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
+                                productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
+
+
+                            }
+                        });
 
             } catch (Exception e) {
 
             }
+
+//            try {
+//
+////                options = new BitmapFactory.Options();
+////                //  options.inJustDecodeBounds = true;
+////                options.inSampleSize = 2;
+//
+//               // bytes = favourites.getItemImage();
+////                // Create a bitmap from the byte array
+////                compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+////
+////                productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
+////                productDetailsDataListViewHolder.imgProductCopy.setImageBitmap(compressedBitmap);
+//
+//
+//                Glide.with(context)
+//                        .load(bytes)
+//                        .asBitmap()
+//                        .placeholder(R.drawable.placeholder)
+//                        .into(productDetailsDataListViewHolder.imgProduct);
+//
+//                Glide.with(context)
+//                        .load(bytes)
+//                        .asBitmap()
+//                        .placeholder(R.drawable.placeholder)
+//                        .into(productDetailsDataListViewHolder.imgProductCopy);
+//
+//            } catch (Exception e) {
+//
+//            }
 
 
         }
@@ -126,6 +166,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public TextView counterTextview;
         @BindView(R.id.imgShareProductDetails)
         public ImageView imgShareProductDetails;
+        @BindView(R.id.avloadingIndicatorView)
+        public AVLoadingIndicatorView avloadingIndicatorView;
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);
@@ -173,7 +215,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 String.valueOf(productPriceDec * itemQuantityDec),
                                 productsItems.get(getLayoutPosition()).getItemName(),
                                 Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
-                                productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy);
+                                productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy,
+                                productsItems.get(getLayoutPosition()).getImage());
 
                     } else {
                         dec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) - 1;
@@ -187,7 +230,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 String.valueOf(productPriceDec * itemQuantityDec),
                                 productsItems.get(getLayoutPosition()).getItemName(),
                                 Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
-                                productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy);
+                                productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy,
+                                productsItems.get(getLayoutPosition()).getImage());
 
                     }
 
@@ -221,28 +265,29 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     Bitmap bitmapAdd = null;
 
-                    if (getLayoutPosition() == 0) {
-                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
-                    } else if (getLayoutPosition() == 1) {
-                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_sensor_module);
-
-                    } else if (getLayoutPosition() == 2) {
-                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_battery);
-
-                    } else if (getLayoutPosition() == 3) {
-                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_wire);
-
-                    } else if (getLayoutPosition() == 4) {
-                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_rectifier);
-
-                    }
+//                    if (getLayoutPosition() == 0) {
+//                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
+//                    } else if (getLayoutPosition() == 1) {
+//                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_sensor_module);
+//
+//                    } else if (getLayoutPosition() == 2) {
+//                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_battery);
+//
+//                    } else if (getLayoutPosition() == 3) {
+//                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_wire);
+//
+//                    } else if (getLayoutPosition() == 4) {
+//                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_rectifier);
+//
+//                    }
 
                     iFvaouritesAddToCartAdapter.onIncrementButtonClick(Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()),
                             String.valueOf(productPrice),
                             String.valueOf(productPrice * itemQuantity),
                             productsItems.get(getLayoutPosition()).getItemName(),
                             Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
-                            productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy, bitmapAdd);
+                            productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy, bitmapAdd,
+                            productsItems.get(getLayoutPosition()).getImage());
 
 
 //                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
@@ -260,15 +305,14 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //                    break;
 
                 case R.id.imgShareProductDetails:
-                    Bitmap bitmapShare = null;
+                   // Bitmap bitmapShare = null;
 
-                    if (getLayoutPosition() == 0) {
-                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
-                    }
-                    else if (getLayoutPosition() == 1) {
-                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_sensor_module);
-
-                    }
+//                    if (getLayoutPosition() == 0) {
+//                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
+//                    } else if (getLayoutPosition() == 1) {
+//                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_sensor_module);
+//
+//                    }
 // else if (getLayoutPosition() == 2) {
 //                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_battery);
 //
@@ -279,7 +323,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_rectifier);
 //
 //                    }
-                    iFvaouritesAddToCartAdapter.onClickShareButton(productsItems.get(getLayoutPosition()), bitmapShare);
+                    iFvaouritesAddToCartAdapter.onClickShareButton(productsItems.get(getLayoutPosition()));
                     break;
 
             }
@@ -323,16 +367,16 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void removeFavourites(Favourites favourites, int position);
 
         void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap);
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl);
 
         void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy);
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, String imgUrl);
 
         void removeItemFromCart(Favourites favourites);
 
         void onClickButtonMessenger();
 
-        void onClickShareButton(Favourites favourites, Bitmap bitmapAdd);
+        void onClickShareButton(Favourites favourites);
 
     }
 }

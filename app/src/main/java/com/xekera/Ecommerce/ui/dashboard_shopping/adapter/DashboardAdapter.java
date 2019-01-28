@@ -1,6 +1,8 @@
 package com.xekera.Ecommerce.ui.dashboard_shopping.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,17 +12,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.rest.response.Category;
 import com.xekera.Ecommerce.ui.dashboard_shopping.model.DashboardItem;
 
 import java.util.List;
 
 public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<DashboardItem> items;
+    private List<Category> items;
     private IDashboardAdapter iDashboardAdapter;
     Context context;
 
-    public DashboardAdapter(List<DashboardItem> items, IDashboardAdapter iDashboardAdapter, Context context) {
+    public DashboardAdapter(List<Category> items, Context context, IDashboardAdapter iDashboardAdapter) {
         this.items = items;
         this.iDashboardAdapter = iDashboardAdapter;
         this.context = context;
@@ -36,16 +43,37 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        DashboardItem homeItem = items.get(position);
+        Category homeItem = items.get(position);
         if (holder instanceof HomeViewHolder) {
-            HomeViewHolder homeViewHolder = (HomeViewHolder) holder;
-            homeViewHolder.imgHomeItem.setImageResource(homeItem.getImgResId());
-            homeViewHolder.txtHomeItem.setText(homeItem.getNameResId());
+            final HomeViewHolder homeViewHolder = (HomeViewHolder) holder;
+            //homeViewHolder.imgHomeItem.setImageResource(homeItem.getImgResId());
+            homeViewHolder.txtHomeItem.setText(homeItem.getName());
 
-            // homeViewHolder.imgHomeItem.setImageResource(homeItem.getImgResId());
-//            Glide.with(context)
-//                    .load(R.drawable.icon_barcode)
-//                    .into(hom);
+            Glide.with(context)
+                    .load(homeItem.getImage())
+                    .asBitmap()
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
+                    // .override(130, 50)
+                    .centerCrop()
+
+                    // .into(homeViewHolder.imgHomeItem);
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            homeViewHolder.avLoadingIndicatorView.setVisibility(View.GONE);
+                            homeViewHolder.imgHomeItem.setImageBitmap(resource);
+                            homeViewHolder.imgHomeItem.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                            super.onLoadFailed(e, errorDrawable);
+                            homeViewHolder.avLoadingIndicatorView.setVisibility(View.GONE);
+                            homeViewHolder.imgHomeItem.setVisibility(View.VISIBLE);
+
+                        }
+                    });
 
         }
     }
@@ -56,14 +84,15 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-
     public class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.imgHomeItem)
         protected ImageView imgHomeItem;
         @BindView(R.id.txtHomeItem)
         protected TextView txtHomeItem;
-       @BindView(R.id.imageProduct)
+        @BindView(R.id.imageProduct)
         protected LinearLayout imageProduct;
+        @BindView(R.id.avloadingIndicatorView)
+        protected AVLoadingIndicatorView avLoadingIndicatorView;
 
         public HomeViewHolder(View itemView) {
             super(itemView);
@@ -78,7 +107,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public interface IDashboardAdapter {
-        void onHomeItemClick(DashboardItem homeItem);
+        void onHomeItemClick(Category categories);
     }
 }
 

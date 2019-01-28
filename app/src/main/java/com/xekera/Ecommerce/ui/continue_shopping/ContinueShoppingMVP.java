@@ -48,9 +48,10 @@ public interface ContinueShoppingMVP {
         void setRecylerViewItems(Context context, List<ContinueShoppingObjectModel> items);
 
         void saveProductDetails(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[]
-                byteImage, ImageView imgProductCopy, Bitmap bitmap);
+                byteImage, ImageView imgProductCopy, Bitmap bitmap,String imgUrl);
 
-        void saveProductDecrementDetails(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy);
+        void saveProductDecrementDetails(long quantity, String price, String totalPrice,
+                                         String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy,String imgUrl);
 
 
         void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice, ImageView imgProductCopy);

@@ -88,7 +88,7 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
 //        //BottomNavigationView navigationView = (BottomNavigationView) getView().findViewById(R.id.navigation);
 //
 //        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-//        // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
+//        // ((BaseActivity) getActivity()).addDashboardFragment(new ContinueShopFragment());
 //
 //        // attaching bottom sheet behaviour - hide / show on scroll
 //        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
@@ -111,11 +111,11 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
 //                case R.id.navigation_shop:
 //                    //  Toast.makeText(getActivity(), "Shop is selected", Toast.LENGTH_SHORT).show();
 ////                    ((BaseActivity) getActivity()).popBackstack();
-//                    //((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
+//                    //((BaseActivity) getActivity()).addDashboardFragment(new ContinueShopFragment());
 //
 //                    ((BaseActivity) getActivity()).popBackstack();
 //
-//                    fragment = new ShopFragment();
+//                    fragment = new ContinueShopFragment();
 //                    addFragment(fragment);
 //                    return true;
 //                case R.id.navigation_favourite:
@@ -152,7 +152,8 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
         // load fragment
         if (fragment != null) {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragmentContainer, fragment);
+            // transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
+            transaction.add(R.id.fragmentContainer, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
         }

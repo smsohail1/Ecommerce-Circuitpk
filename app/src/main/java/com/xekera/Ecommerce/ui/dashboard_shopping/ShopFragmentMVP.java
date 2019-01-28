@@ -3,6 +3,10 @@ package com.xekera.Ecommerce.ui.dashboard_shopping;
 
 import android.content.Context;
 import android.transition.Slide;
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
+import com.xekera.Ecommerce.data.rest.response.Category;
+import com.xekera.Ecommerce.data.rest.response.CategoryResponse;
+import com.xekera.Ecommerce.data.rest.response.SignUpSuccessResponse;
 import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
@@ -24,11 +28,20 @@ public interface ShopFragmentMVP {
 
         void showToastLongTime(String message);
 
-        void showShoppingDetailPage(DashboardItem homeItem);
+        void showShoppingDetailPage(Category homeItem);
 
         void setDashboardViewPagerAdapter(SliderAdapter sliderAdapter);
 
         void setCounts(int counts);
+
+        void hideCircularProgressBar();
+
+        void showCircularProgressBar();
+
+        void getTotalCartsCounts();
+
+        void showData();
+
 
     }
 
@@ -36,6 +49,8 @@ public interface ShopFragmentMVP {
         void setView(ShopFragmentMVP.View view);
 
         void setDashboardItems(Context context);
+
+        void setDashboardItemsDetails(Context context);
 
         void setViewPagerItems(Context context, List<Integer> color,
                                List<String> colorName, List<String> img);
@@ -47,6 +62,7 @@ public interface ShopFragmentMVP {
     interface Model {
         void getCartDetails(ShopFragmentModel.IFetchCartDetailsList iFetchCartDetailsList);
 
+        void getDashboardItemsDetails(INetworkListGeneral<CategoryResponse> iNetworkListGeneral);
 
     }
 }

@@ -268,7 +268,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
 
     @Override
     public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
-                                   final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final Bitmap bitmap) {
+                                   final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final Bitmap bitmap, final String imgUrl) {
         model.getProductCount(productName, new ContinueShoppingModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -280,7 +280,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
                     formattedDate = getCurrentDate();
 
                     AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
-                            "N", bmp, String.valueOf(cutPrice), price, formattedDate);
+                            "N", bmp, String.valueOf(cutPrice), price, formattedDate, imgUrl);
                     noProductFound(addToCart, imgProductCopy);
                     return;
                 } else {
@@ -313,7 +313,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
 
     @Override
     public void saveProductDecrementDetails(final long quantity, final String price, final String totalPrice, final String productName,
-                                            final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy) {
+                                            final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final String imgUrl) {
         model.getProductCount(productName, new ContinueShoppingModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -323,7 +323,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
                     formattedDate = getCurrentDate();
 
                     AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
-                            "N", byteImage, String.valueOf(cutPrice), price, formattedDate);
+                            "N", byteImage, String.valueOf(cutPrice), price, formattedDate, imgUrl);
                     noProductFoundForDecrement(addToCart, imgProductCopy);
                     return;
                 } else {

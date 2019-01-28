@@ -172,11 +172,11 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
                             // byte[] itemImage = new byte[0];
                             List<Booking> bookingList = new ArrayList<>();
                             for (AddToCart addToCart : addToCarts) {
-                                Booking booking = new Booking("44", addToCart.getItemName(),
+                                Booking booking = new Booking("", addToCart.getItemName(),
                                         addToCart.getItemIndividualPrice(), addToCart.getItemPrice(),
                                         addToCart.getItemCutPrice(), addToCart.getItemQuantity(),
                                         firstName, company, phone, email, streetAddress1, townCity, paymode, notes, flatCharges, "", addToCart.getItemImage(),
-                                        "N",selfPickup);
+                                        "N", selfPickup, addToCart.getImage());
                                 bookingList.add(booking);
                             }
                             return bookingList;

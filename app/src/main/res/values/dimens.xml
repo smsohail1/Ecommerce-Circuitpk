@@ -75,7 +75,7 @@
     <dimen name="txt_category_label_continue_shopping_size">12sp</dimen>
     <dimen name="social_media_label_size">12sp</dimen>
 
-    <dimen name="txt_product_name_card_selected_size">25sp</dimen>
+    <dimen name="txt_product_name_card_selected_size">22sp</dimen>
 
     <dimen name="edt_field_size">15dp</dimen>
     <dimen name="txt_child_status_item_size">16dp</dimen>

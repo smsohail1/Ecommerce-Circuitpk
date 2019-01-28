@@ -2,6 +2,9 @@ package com.xekera.Ecommerce.ui.dashboard_shopping;
 
 import android.content.Context;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
+import com.xekera.Ecommerce.data.rest.response.Category;
+import com.xekera.Ecommerce.data.rest.response.CategoryResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
 import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
@@ -34,7 +37,7 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
 
     @Override
     public void setDashboardItems(Context context) {
-        List<DashboardItem> homeItems = new ArrayList<>();
+      /*  List<DashboardItem> homeItems = new ArrayList<>();
         homeItems.add(new DashboardItem(R.string.ardino, R.drawable.arduino));
         homeItems.add(new DashboardItem(R.string.ardino_kit, R.drawable.arduino_kit));
         homeItems.add(new DashboardItem(R.string.audio_amplifier, R.drawable.
@@ -69,7 +72,56 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
 
 
         homeAdapter = new DashboardAdapter(homeItems, this, context);
-        view.setHomeRecyclerViewAdapter(homeAdapter);
+        view.setHomeRecyclerViewAdapter(homeAdapter);*/
+    }
+
+    @Override
+    public void setDashboardItemsDetails(final Context context) {
+        model.getDashboardItemsDetails(new INetworkListGeneral<CategoryResponse>() {
+            @Override
+            public void onSuccess(CategoryResponse response) {
+                if (response == null) {
+                    view.showToastShortTime("No category found");
+                    view.hideCircularProgressBar();
+                    view.getTotalCartsCounts();
+                    return;
+                } else {
+                    List<Category> categoryList = response.getCategories();
+                    if (categoryList.size() > 0) {
+
+                        homeAdapter = new DashboardAdapter(categoryList, context, new DashboardAdapter.IDashboardAdapter() {
+                            @Override
+                            public void onHomeItemClick(Category categories) {
+                                view.showShoppingDetailPage(categories);
+
+                            }
+                        });
+                        view.setHomeRecyclerViewAdapter(homeAdapter);
+                        view.showData();
+                        view.getTotalCartsCounts();
+
+                    } else {
+                        view.showToastShortTime("No category found");
+                        view.hideCircularProgressBar();
+                        view.getTotalCartsCounts();
+
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideCircularProgressBar();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while fetching category.");
+                }
+                view.getTotalCartsCounts();
+
+            }
+        });
     }
 
     @Override
@@ -107,9 +159,9 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
     }
 
     @Override
-    public void onHomeItemClick(DashboardItem homeItem) {
+    public void onHomeItemClick(Category categories) {
         // switch (homeItem.getNameResId()) {
-        view.showShoppingDetailPage(homeItem);
+        view.showShoppingDetailPage(categories);
 
 //            case R.string.ardino: {
 //                view.startDeliveryBackgroundService();

@@ -4,6 +4,10 @@ package com.xekera.Ecommerce.ui.dasboard_shopping_details;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
+import com.xekera.Ecommerce.data.rest.response.CategoryResponse;
+import com.xekera.Ecommerce.data.rest.response.Product;
+import com.xekera.Ecommerce.data.rest.response.ProductResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.adapter.ShopDetailsAdapter;
@@ -46,6 +50,22 @@ public interface ShopDetailsMVP {
         void setUI(List<Favourites> favList);
 
         void setIsFavourites(boolean isFavourites, int position);
+
+        void hideCircularProgressBar();
+
+        void showCircularProgressBar();
+
+        void showData();
+
+        void hideData();
+
+        void showAllData();
+
+        void hideAllData();
+
+        void setAdapterItems(List<Product> products);
+
+        void getFavourites(ProductResponse response);
     }
 
     interface Presenter {
@@ -53,10 +73,12 @@ public interface ShopDetailsMVP {
 
         void setRecylerViewItems(Context context, List<ShoppingDetailModel> items);
 
-        void saveProductDetails(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[]
-                byteImage, ImageView imgProductCopy, Bitmap bitmap);
+        void saveProductDetails(long quantity, String price, String totalPrice, String productName, long cutPrice,
+                                ImageView imgProductCopy, Bitmap bitmap, String imgUrl);
 
-        void saveProductDecrementDetails(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy);
+        void saveProductDecrementDetails(long quantity, String price, String totalPrice,
+                                         String productName, long cutPrice, ImageView imgProductCopy,
+                                         Bitmap bitmapAdd, String imgUrl);
 
 
         void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice, ImageView imgProductCopy);
@@ -66,18 +88,20 @@ public interface ShopDetailsMVP {
 
         void setActionListener(ShopDetailsPresenter.ProductItemActionListener actionListener);
 
-        void removeItem(ShoppingDetailModel shoppingDetailModel);
+        void removeItem(Product shoppingDetailModel);
 
 
         void removeItem(String productName, int position);
 
         void addItemToFavourites(Favourites favourites, boolean isChecked);
 
-        void getFavouritesList();
+        void getFavouritesList(ProductResponse response);
 
         void getFavouritesListByProductName(String productName, int position);
 
-        void isAlreadyAddedInFavourites(ShoppingDetailModel productItems, int position, Bitmap bitmap);
+        void isAlreadyAddedInFavourites(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl);
+
+        void setProductItemsDetails(Context context, String sku);
     }
 
     interface Model {
@@ -105,6 +129,9 @@ public interface ShopDetailsMVP {
 
 
         void checkItemAlreadyAddedOrNot(String itemName, ShopDetailsModel.IFetchCartDetailsList iFetchCartDetailsList);
+
+        void getProductItemsDetails(String sku, INetworkListGeneral<ProductResponse> iNetworkListGeneral);
+
 
     }
 }

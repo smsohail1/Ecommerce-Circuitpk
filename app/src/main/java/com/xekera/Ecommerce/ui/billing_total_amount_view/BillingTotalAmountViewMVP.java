@@ -58,7 +58,9 @@ public interface BillingTotalAmountViewMVP {
 
         void deleteCartItems(List<String> items);
 
-        void insertBooking(List<Booking> addToCart, String dateTime);
+        void insertBooking(List<Booking> addToCart, String dateTime, String name,
+                           String companyName, String phoneNo, String email, String address, String paymentMode, String orderNotes,
+                           String selfPikup, String flatCharges);
 
         void addItemsToBooking(List<AddToCart> addToCarts, String firstName, String company, String phone,
                                String email, String streetAddress1,

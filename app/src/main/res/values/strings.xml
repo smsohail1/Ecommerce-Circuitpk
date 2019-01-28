@@ -11,6 +11,7 @@
 
     <string name="password_error_login">Password is required</string>
     <string name="password_length_error_login">Password must be minimum 6 characters.</string>
+    <string name="retype_password_length_error_login">Retype Password must be minimum 6 characters.</string>
 
     <string name="phone_no_length_error">Phone number must be minimum 11 characters.</string>
 

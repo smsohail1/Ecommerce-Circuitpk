@@ -44,6 +44,10 @@ public interface HistoryMVP {
         void showOrderCompleteSuccessDialog();
 
         void hideLoadingProgressDialog();
+
+        void showSearchData();
+
+        void hideSearchDate();
     }
 
     interface Presenter {

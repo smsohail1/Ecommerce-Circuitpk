@@ -29,6 +29,16 @@ public class Favourites {
     private String createdDate;
     @ColumnInfo(name = "item_image")
     private byte[] itemImage;
+    @ColumnInfo(name = "image")
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public int getId() {
         return id;
@@ -119,7 +129,8 @@ public class Favourites {
 //    }
 
     public Favourites(String itemName, String itemIndividualPrice, String itemCutPrice,
-                      String itemStockStatus, String createdDate, byte[] itemImage, String itemQuantity, String itemTotalPrice) {
+                      String itemStockStatus, String createdDate, byte[] itemImage, String itemQuantity,
+                      String itemTotalPrice, String image) {
         this.itemName = itemName;
         this.itemIndividualPrice = itemIndividualPrice;
         this.itemCutPrice = itemCutPrice;
@@ -128,6 +139,7 @@ public class Favourites {
         this.itemImage = itemImage;
         this.itemQuantity = itemQuantity;
         this.itemTotalPrice = itemTotalPrice;
+        this.image = image;
     }
 
 

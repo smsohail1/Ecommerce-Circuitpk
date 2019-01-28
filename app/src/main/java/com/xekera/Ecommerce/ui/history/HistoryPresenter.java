@@ -44,6 +44,7 @@ public class HistoryPresenter implements HistoryMVP.Presenter {
                     view.setParentFields();
                     view.txtNoCartItemFound();
                     view.hideLoadingProgressDialog();
+                    view.hideSearchDate();
                     //  view.setCartCounterTextview(0);
                     //view.setCartCounts(0);
                     return;
@@ -52,6 +53,7 @@ public class HistoryPresenter implements HistoryMVP.Presenter {
 
                     view.showRecyclerView();
                     view.setAdapter(addToCarts);
+                    view.showSearchData();
                     //view.showOrderCompleteSuccessDialog();
                     // setAdapter(addToCarts);
                 }

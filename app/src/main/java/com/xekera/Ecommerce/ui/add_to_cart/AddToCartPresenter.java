@@ -242,7 +242,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
 
     @Override
     public void saveProductDetails(final String quantity, final long individualPrice, final String itemPrice, final String productName,
-                                   final String cutPrice, final byte[] bytes) {
+                                   final String cutPrice, final byte[] bytes, final String imgUrl) {
         model.getProductCount(productName, new AddToCartModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -251,7 +251,7 @@ public class AddToCartPresenter implements AddToCartMVP.Presenter {
                     formattedDate = getCurrentDate();
 
                     AddToCart addToCart = new AddToCart("43", productName, itemPrice, quantity, "N",
-                            bytes, cutPrice, String.valueOf(individualPrice), formattedDate);
+                            bytes, cutPrice, String.valueOf(individualPrice), formattedDate, imgUrl);
                     noProductFound(addToCart);
                     return;
                 } else {

@@ -5,6 +5,11 @@ import android.arch.persistence.room.Query;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
+import com.xekera.Ecommerce.data.rest.response.Category;
+import com.xekera.Ecommerce.data.rest.response.CategoryResponse;
+import com.xekera.Ecommerce.data.rest.response.Product;
+import com.xekera.Ecommerce.data.rest.response.ProductResponse;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.FavouritesDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
@@ -15,6 +20,7 @@ import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 import com.xekera.Ecommerce.ui.continue_shopping.ContinueShoppingModel;
 import com.xekera.Ecommerce.ui.continue_shopping.ContinueShoppingObjectModel;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
+import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
 import com.xekera.Ecommerce.ui.favourites.FavouritesModel;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedModel;
 import com.xekera.Ecommerce.util.AppConstants;
@@ -64,16 +70,16 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     }
 
     @Override
-    public void removeItem(final ShoppingDetailModel shoppingDetailModel) {
+    public void removeItem(final Product shoppingDetailModel) {
 
-        model.checkItemAlreadyAddedOrNot(shoppingDetailModel.getProductName(), new ShopDetailsModel.IFetchCartDetailsList() {
+        model.checkItemAlreadyAddedOrNot(shoppingDetailModel.getName(), new ShopDetailsModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCarts) {
                 if (addToCarts == null || addToCarts.size() == 0) {
                     //view.showToastShortTime("Item not available in cart");
                     return;
                 } else {
-                    removeItem(shoppingDetailModel.getProductName());
+                    removeItem(shoppingDetailModel.getName());
 
                 }
             }
@@ -132,7 +138,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     }
 
     @Override
-    public void getFavouritesList() {
+    public void getFavouritesList(ProductResponse response) {
         model.getFavouriteDetailsList(new ShopDetailsModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> favourites) {
@@ -179,32 +185,36 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     }
 
     @Override
-    public void isAlreadyAddedInFavourites(final ShoppingDetailModel productItems, final int position, final Bitmap bitmap) {
-        model.getFavouriteDetailsListByName(productItems.getProductName(), new ShopDetailsModel.IFetchOrderDetailsList() {
+    public void isAlreadyAddedInFavourites(final Product productItems, final int position, final Bitmap bitmap,
+                                           final String quantity, final String imgUrl) {
+        model.getFavouriteDetailsListByName(productItems.getName(), new ShopDetailsModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> favourites) {
                 if (favourites == null || favourites.size() == 0) {
-                    byte[] bmp = bitmapToByteArray(bitmap);
-
-                    long totalPrice = Long.valueOf(productItems.getProductPrice()) * Long.valueOf(productItems.getItemQuantity());
+                    //   byte[] bmp = bitmapToByteArray(bitmap);
+                    byte[] bmp = new byte[0];
 
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
                     Favourites fav;
-                    if (productItems.getItemQuantity() == 0) {
-                        fav = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
-                                String.valueOf(productItems.getCutPrice()), "In Stock", formattedDate,
-                                bmp, "0", String.valueOf(totalPrice));
+                    if (Long.valueOf(quantity) == 0) {
+                        long totalPrice = Long.valueOf(productItems.getPrice()) * 1;
+
+                        fav = new Favourites(productItems.getName(), productItems.getPrice(),
+                                String.valueOf(productItems.getRegularPrice()), "In Stock", formattedDate,
+                                bmp, "1", String.valueOf(totalPrice), imgUrl);
                     } else {
-                        fav = new Favourites(productItems.getProductName(), productItems.getProductPrice(),
-                                String.valueOf(productItems.getCutPrice()), "In Stock", formattedDate,
-                                bmp, String.valueOf(productItems.getItemQuantity()), String.valueOf(totalPrice));
+                        long totalPrice = Long.valueOf(productItems.getPrice()) * Long.valueOf(quantity);
+
+                        fav = new Favourites(productItems.getName(), productItems.getPrice(),
+                                String.valueOf(productItems.getRegularPrice()), "In Stock", formattedDate,
+                                bmp, String.valueOf(quantity), String.valueOf(totalPrice), imgUrl);
                     }
 
                     addItemToFavourites(fav, true);
 
                 } else {
-                    removeItem(productItems.getProductName(), position);
+                    removeItem(productItems.getName(), position);
 
                 }
             }
@@ -213,6 +223,47 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
             public void onErrorReceived(Exception ex) {
                 ex.printStackTrace();
                 view.showToastShortTime(ex.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void setProductItemsDetails(Context context, String sku) {
+
+        model.getProductItemsDetails(sku, new INetworkListGeneral<ProductResponse>() {
+            @Override
+            public void onSuccess(ProductResponse response) {
+                if (response == null) {
+                    view.showToastShortTime("No product available.");
+                    view.hideCircularProgressBar();
+                    return;
+                } else {
+                    List<Product> productResponses = response.getProduct();
+                    if (productResponses.size() > 0) {
+
+                        //view.getFavourites(response);
+                        view.setAdapterItems(productResponses);
+
+                    } else {
+                        view.showToastShortTime("No product available.");
+                        view.hideCircularProgressBar();
+                        view.hideData();
+                        view.hideAllData();
+//
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideCircularProgressBar();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while fetching products.");
+                }
+
             }
         });
     }
@@ -325,19 +376,19 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     @Override
     public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
-                                   final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final Bitmap bitmap) {
+                                   final long cutPrice, final ImageView imgProductCopy, final Bitmap bitmap, final String imgUrl) {
         model.getProductCount(productName, new ShopDetailsModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
                 if (addToCartList == null || addToCartList.size() == 0) {
 
-                    byte[] bmp = bitmapToByteArray(bitmap);
-
+                    //  byte[] bmp = bitmapToByteArray(bitmap);
+                    byte[] bmp = new byte[0];
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
 
-                    AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
-                            "N", bmp, String.valueOf(cutPrice), price, formattedDate);
+                    AddToCart addToCart = new AddToCart("", productName, totalPrice, String.valueOf(quantity),
+                            "N", bmp, String.valueOf(cutPrice), price, formattedDate, imgUrl);
                     noProductFound(addToCart, imgProductCopy);
                     return;
                 } else {
@@ -367,7 +418,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     @Override
     public void saveProductDecrementDetails(final long quantity, final String price, final String totalPrice, final String productName,
-                                            final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy) {
+                                            final long cutPrice, final ImageView imgProductCopy, final Bitmap bitmapAdd, final String imgUrl) {
         model.getProductCount(productName, new ShopDetailsModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -375,9 +426,10 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
-
-                    AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
-                            "N", byteImage, String.valueOf(cutPrice), price, formattedDate);
+                    // byte[] byteImg = bitmapToByteArray(bitmapAdd);
+                    byte[] byteImg = new byte[0];
+                    AddToCart addToCart = new AddToCart("", productName, totalPrice, String.valueOf(quantity),
+                            "N", byteImg, String.valueOf(cutPrice), price, formattedDate, imgUrl);
                     noProductFoundForDecrement(addToCart, imgProductCopy);
                     return;
                 } else {
@@ -473,7 +525,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
             @Override
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
-                    view.showToastShortTime("Cart updated successfully.");
+                    // view.showToastShortTime("Cart updated successfully.");
 
                     getUpdatedTotalCountForDecrement(imgProductCopy);
                 } else {

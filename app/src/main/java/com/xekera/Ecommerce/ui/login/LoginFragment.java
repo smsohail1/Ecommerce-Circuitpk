@@ -1,53 +1,45 @@
 package com.xekera.Ecommerce.ui.login;
 
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.*;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.facebook.*;
-import com.facebook.login.Login;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.squareup.picasso.Picasso;
+import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.dashboard.DashboardActivity;
-import com.xekera.Ecommerce.ui.signup.SignUpActivity;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
 import com.xekera.Ecommerce.util.*;
-
-import javax.inject.Inject;
-
-import com.facebook.login.LoginResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 
 
@@ -468,28 +460,34 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                 break;
 
             case R.id.textviewForgotPassword:
-                if (isForgotPasswordBtnEnable) {
-                    isForgotPasswordBtnEnable = false;
-                    textviewForgotPassword.setTextColor(Color.parseColor("#4867aa"));
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            isForgotPasswordBtnEnable = true;
-                            textviewForgotPassword.setTextColor(Color.parseColor("#444444"));
-                            showForgotPasswordDialog(getActivity());
+                if (sessionManager.isLoggedIn()) {
+                    showToastShortTime("User already loggedIn.Logout first.");
+                } else {
+                    if (isForgotPasswordBtnEnable) {
+                        isForgotPasswordBtnEnable = false;
+                        textviewForgotPassword.setTextColor(Color.parseColor("#4867aa"));
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                isForgotPasswordBtnEnable = true;
+                                textviewForgotPassword.setTextColor(Color.parseColor("#444444"));
+                                showForgotPasswordDialog(getActivity());
 
-                        }
-                    }, 300);
+                            }
+                        }, 300);
+                    }
                 }
+
                 break;
 
         }
     }
 
     // boolean isResetPasswordEnable = true;
+    Dialog dialog;
 
     private void showForgotPasswordDialog(Context context) {
-        final Dialog dialog = new Dialog(context);
+        dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View v = dialog.getWindow().getDecorView();
         v.setBackgroundResource(android.R.color.transparent);
@@ -497,8 +495,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         dialog.setContentView(R.layout.dialog_forgot_password);
 
         Button btnReset = dialog.findViewById(R.id.btnReset);
-        EditText edtPasswordShowHide = dialog.findViewById(R.id.edtPasswordShowHide);
-        EditText edtConfirmPasswordShowHide = dialog.findViewById(R.id.edtConfirmPasswordShowHide);
+        final ShowHidePasswordEditText edtPasswordShowHide = dialog.findViewById(R.id.edtPasswordShowHide);
+        final ShowHidePasswordEditText edtConfirmPasswordShowHide = dialog.findViewById(R.id.edtConfirmPasswordShowHide);
+        final EditText edtEmailId = dialog.findViewById(R.id.edtEmailId);
 
         //   if (isResetPasswordEnable) {
         //     isResetPasswordEnable = false;
@@ -506,19 +505,61 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //                   isResetPasswordEnable = true;
-                        showToastShortTime("Password reset successfully.");
-                        dialog.dismiss();
 
-                    }
-                }, 200);
+                //           isResetPasswordEnable = true;
+                // showToastShortTime("Password reset successfully.");
+                String password = edtPasswordShowHide.getText().toString();
+                String reTypePassword = edtConfirmPasswordShowHide.getText().toString();
+                String emaild = edtEmailId.getText().toString();
+                if (isFormValid(password, reTypePassword, emaild)) {
+                    presenter.resetPassword(password, edtEmailId.getText().toString());
+                }
+
             }
         });
         //}
         dialog.show();
+    }
+
+
+    private boolean isFormValid(String password, String retypePassword, String emailID) {
+        if (utils.isTextNullOrEmpty(password)) {
+            showToastShortTime("Password is reqeuired.");
+            return false;
+        }
+        if (password.length() < 6) {
+            showToastShortTime(utils.getStringFromResourceId(R.string.password_length_error_login));
+            return false;
+        }
+        if (utils.isTextNullOrEmpty(retypePassword)) {
+            showToastShortTime("Retype password is required.");
+            return false;
+        }
+
+        if (retypePassword.length() < 6) {
+            showToastShortTime(utils.getStringFromResourceId(R.string.retype_password_length_error_login));
+            return false;
+        }
+
+        if (!password.equals(retypePassword)) {
+            showToastShortTime("Password not matched.");
+            return false;
+        }
+        if (utils.isTextNullOrEmpty(emailID)) {
+            showToastShortTime("Email ID is required.");
+            return false;
+        }
+
+        if (!isEmailValid(emailID)) {
+            showToastShortTime("Email ID is invalid.");
+            return false;
+
+        }
+        return true;
+    }
+
+    boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
 
@@ -586,6 +627,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         }, 100);
 
 
+    }
+
+    @Override
+    public void hideForgotPasswordDialog() {
+        dialog.dismiss();
     }
 
     private void turnGPSOn() {

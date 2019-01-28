@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.transition.TransitionInflater;
 import android.util.Base64;
 import android.util.Log;
@@ -133,10 +134,13 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     public static final String KEY_SHOP_CARD_SELECTED_QUANTITY = "shop_card_selected_quantity";
     public static final String KEY_SHOP_CARD_SELECTED_IMAGE_LIST = "shop_card_selected_image_list";
     public static final String KEY_SHOP_CARD_SELECTED_IMAGE = "shop_card_selected_image";
+    public static final String KEY_SHOP_CARD_SELECTED_ABOUT = "shop_card_selected_about";
+    public static final String KEY_SHOP_CARD_SELECTED_SKU = "shop_card_selected_sku";
+
 
     ShoppingDetailModel shoppingDetailModel;
     Bitmap bitmapImage;
-    String productName = "", price = "", cutPrice = "", quantity = "";
+    String productName = "", price = "", cutPrice = "", quantity = "", about = "", sku = "";
 
     List<String> imgList;
 
@@ -168,17 +172,22 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
 
             //  shoppingDetailModel = (ShoppingDetailModel) getArguments().getSerializable(KEY_SHOP_CARD_SELECTED_DETAILS);
-
             imgList = new ArrayList<>();
+
             productName = getArguments().getString(KEY_SHOP_CARD_SELECTED_PRODUCT_NAME);
             price = getArguments().getString(KEY_SHOP_CARD_SELECTED_PRICE);
             cutPrice = getArguments().getString(KEY_SHOP_CARD_SELECTED_CUT_PRICE);
             quantity = getArguments().getString(KEY_SHOP_CARD_SELECTED_QUANTITY);
             imgList = getArguments().getStringArrayList(KEY_SHOP_CARD_SELECTED_IMAGE_LIST);
+//            Log.d("imsblist1", imgList[0]);
+//            Log.d("imsblist2", imgList[1]);
+//            Log.d("imsblist3", imgList[2]);
 
 
             bitmapImage = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_IMAGE);
 
+            about = getArguments().getString(KEY_SHOP_CARD_SELECTED_ABOUT);
+            sku = getArguments().getString(KEY_SHOP_CARD_SELECTED_SKU);
 
 //            String bitmapStr = "";
 //            bitmapStr = getArguments().getString(KEY_SHOP_CARD_SELECTED_IMAGE);
@@ -269,71 +278,26 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                 productNameTextview.setText(productName);
             }
 
-            if (bitmapImage != null) {
-                imgProduct.setImageBitmap(bitmapImage);
 
-                avloadingIndicatorView.setVisibility(View.GONE);
-                imgProduct.setVisibility(View.VISIBLE);
-                imgFullScreen.setVisibility(View.VISIBLE);
-//                Glide.with(getActivity())
-//                        .load(byteArray)
-//                        .asBitmap()
-//                        .placeholder(R.drawable.placeholder)
-//                        .into(imgProduct);
-
-
-                try {
-                    Observable.just(appDatabase)
-                            .map(new Function<AppDatabase, Boolean>() {
-                                @Override
-                                public Boolean apply(AppDatabase appDatabase) throws Exception {
-                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                    bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                    byteArray = stream.toByteArray();
-
-
-                                    return true;
-                                }
-                            })
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Observer<Boolean>() {
-                                @Override
-                                public void onSubscribe(Disposable d) {
-
-                                }
-
-                                @Override
-                                public void onNext(Boolean success) {
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onComplete() {
-
-                                }
-                            });
-                } catch (Exception ex) {
-                }
-
+            if (!utils.isTextNullOrEmpty(about)) {
+                descriptionValueTextView.setText(Html.fromHtml(about.trim()));
             }
 
-
-            // if (bitmapImage != null)
-            //   imgProductCopy.setImageBitmap(bitmapImage);
-
+            if (!utils.isTextNullOrEmpty(sku)) {
+                availabilitValueTextView.setText(sku);
+            }
 
             if (!utils.isTextNullOrEmpty(price)) {
                 priceTextView.setText(price);
             }
 
+            if (!utils.isTextNullOrEmpty(cutPrice)) {
+                discountPriceTextView.setText(cutPrice);
+            }
+
             // if (shoppingDetailModel != null) {
             // discountPriceTextView.setText(shoppingDetailModel.getProductPrice());
-            discountPriceTextView.setText("120");
+            //discountPriceTextView.setText("120");
 
             //}
 
@@ -342,9 +306,96 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             }
 
 
-        } catch (Exception e) {
+            //if (bitmapImage != null) {
+            //imgProduct.setImageBitmap(bitmapImage);
+            if (imgList != null && imgList.size() > 0) {
+
+                avloadingIndicatorView.setVisibility(View.VISIBLE);
+                imgProduct.setVisibility(View.GONE);
+                imgProductCopy.setVisibility(View.GONE);
+                imgFullScreen.setVisibility(View.VISIBLE);
+
+                Glide.with(getActivity())
+                        .load(imgList.get(0))
+                        .asBitmap()
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.placeholder)
+                        // .override(130, 50)
+                        .centerCrop()
+
+                        // .into(homeViewHolder.imgHomeItem);
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                avloadingIndicatorView.setVisibility(View.GONE);
+                                imgProduct.setImageBitmap(resource);
+                                imgProduct.setVisibility(View.VISIBLE);
+                                imgProductCopy.setImageBitmap(resource);
+                                imgProductCopy.setVisibility(View.GONE);
+
+                            }
+
+                            @Override
+                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                super.onLoadFailed(e, errorDrawable);
+                                avloadingIndicatorView.setVisibility(View.GONE);
+                                imgProduct.setVisibility(View.VISIBLE);
+
+                            }
+                        });
+
+
+//                try {
+//                    Observable.just(appDatabase)
+//                            .map(new Function<AppDatabase, Boolean>() {
+//                                @Override
+//                                public Boolean apply(AppDatabase appDatabase) throws Exception {
+//                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                                    bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                                    byteArray = stream.toByteArray();
+//
+//
+//                                    return true;
+//                                }
+//                            })
+//                            .subscribeOn(Schedulers.io())
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(new Observer<Boolean>() {
+//                                @Override
+//                                public void onSubscribe(Disposable d) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onNext(Boolean success) {
+//                                }
+//
+//                                @Override
+//                                public void onError(Throwable e) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onComplete() {
+//
+//                                }
+//                            });
+//                } catch (Exception ex) {
+//                    Log.d("sd", ":fdd");
+//                }
+
+            }
+
+
+            // if (bitmapImage != null)
+            //   imgProductCopy.setImageBitmap(bitmapImage);
+
+
+        } catch (
+                Exception e) {
 
         }
+
     }
 
 
@@ -368,7 +419,12 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             ButterKnife.bind(this, v);
             presenter.setView(this);
 
+            if (imgList.size() == 1) {
+                recyclerViewImageDetails.setVisibility(View.GONE);
+            } else {
+                recyclerViewImageDetails.setVisibility(View.VISIBLE);
 
+            }
             toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
             // ((BaseActivity) getActivity()).hideBottomNavigation();
 
@@ -590,7 +646,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //    }
 
     public ShopCardSelectedFragment newInstance(String productName, String price, long cutPrice, long quantity,
-                                                List<String> imgList, Bitmap bitmapImg) {
+                                                List<String> imgList, Bitmap bitmapImg, String about, String sku) {
         ShopCardSelectedFragment fragment = null;
         try {
 
@@ -602,6 +658,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             bundle.putString(KEY_SHOP_CARD_SELECTED_QUANTITY, String.valueOf(quantity));
             bundle.putStringArrayList(KEY_SHOP_CARD_SELECTED_IMAGE_LIST, (ArrayList<String>) imgList);
             bundle.putParcelable(KEY_SHOP_CARD_SELECTED_IMAGE, bitmapImg);
+            bundle.putString(KEY_SHOP_CARD_SELECTED_ABOUT, about);
+            bundle.putString(KEY_SHOP_CARD_SELECTED_SKU, sku);
 
             fragment = new ShopCardSelectedFragment();
             fragment.setArguments(bundle);
@@ -638,9 +696,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                         noOfProductsIntIncrement = 0;
                         counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
 
-                        if (shoppingDetailModel != null) {
-                            shoppingDetailModel.setItemQuantity(0);
-                        }
+//                        if (shoppingDetailModel != null) {
+//                            shoppingDetailModel.setItemQuantity(0);
+//                        }
                         return;
                     } else {
                         try {
@@ -649,9 +707,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                             noOfProductsIntIncrement = noOfProductsIntIncrement + 1;
                             counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
 
-                            if (shoppingDetailModel != null) {
-                                shoppingDetailModel.setItemQuantity(noOfProductsIntIncrement);
-                            }
+//                            if (shoppingDetailModel != null) {
+//                                shoppingDetailModel.setItemQuantity(noOfProductsIntIncrement);
+//                            }
 
 //                            long itemQuantity = Long.valueOf(counterTextview.getText().toString());
 //                            long productPrice = Long.valueOf(priceTextView.getText().toString());
@@ -682,23 +740,24 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                     String noOfProductsDecrement = counterTextview.getText().toString();
                     long noOfProductsIntDecrement = Long.valueOf(noOfProductsDecrement);
                     if (utils.isTextNullOrEmpty(noOfProductsDecrement) || noOfProductsIntDecrement < 0) {
-                        showToastShortTime("Product not available");
+                        // showToastShortTime("Product not available");
                         //  shoppingDetailModel.setItemQuantity(0);
                         //decrementCounter = 0;
                         noOfProductsIntDecrement = 0;
                         counterTextview.setText(String.valueOf(noOfProductsIntDecrement));
 
-                        if (shoppingDetailModel != null) {
-                            shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
-                        }
+//                        if (shoppingDetailModel != null) {
+//                            shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
+//                        }
 
                         return;
                     } else {
                         if (noOfProductsIntDecrement == 0) {
                             counterTextview.setText(String.valueOf(noOfProductsIntDecrement));
-                            if (shoppingDetailModel != null) {
-                                shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
-                            }
+//                            if (shoppingDetailModel != null) {
+//                                shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
+//                            }
+
                             //   shoppingDetailModel.setItemQuantity(1);
                             // decrementCounter = 1;
                             noOfProductsIntDecrement = 0;
@@ -714,9 +773,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                         //        , productNameLabelTextView.getText().toString());
                         counterTextview.setText(String.valueOf(noOfProductsIntDecrement));
 
-                        if (shoppingDetailModel != null) {
-                            shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
-                        }
+//                        if (shoppingDetailModel != null) {
+//                            shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
+//                        }
 
 //                        long itemQuantity = Long.valueOf(counterTextview.getText().toString());
 //                        long productPrice = Long.valueOf(priceTextView.getText().toString());
@@ -771,7 +830,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
                     Favourites favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
                             availabilityInStock, formattedDate,
-                            byteArray, quantity, String.valueOf(totalPrice));
+                            byteArray, quantity, String.valueOf(totalPrice), imgList.get(0));
                     presenter.addItemToFavourites(favourites, favourite);
 
 
@@ -810,8 +869,8 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //                    byteArray = stream.toByteArray();
 //
 //                }
-                AddToCart addToCart = new AddToCart("1", productName, String.valueOf(totalAmount), quantity,
-                        "N", byteArray, itemCutPrice, price, formattedDate);
+                AddToCart addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
+                        "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0));
                 presenter.saveProductDetails(addToCart);
 
                 break;

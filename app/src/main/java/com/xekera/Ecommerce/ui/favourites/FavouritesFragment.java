@@ -283,7 +283,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                             , favourites.getItemQuantity(),
                             "N", favourites.getItemImage(), favourites.getItemCutPrice(),
                             favourites.getItemIndividualPrice(),
-                            formattedDate);
+                            formattedDate, favourites.getImage());
                     presenter.insertSelectedFavouritesToCart(addToCart, position, img);
                     isShowing = true;
                 }
@@ -316,15 +316,16 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap) {
+                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl) {
 
-        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap);
+        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap, imgUrl);
     }
 
     @Override
-    public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy) {
+    public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
+                                       byte[] byteImage, ImageView imgProductCopy, String imgUrl) {
 
-        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy);
+        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, imgUrl);
 
     }
 
@@ -342,7 +343,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     boolean isShareButtonClick = true;
 
     @Override
-    public void onClickShareButton(final Favourites favourites, Bitmap bitmapAdd) {
+    public void onClickShareButton(final Favourites favourites) {
         if (isShareButtonClick) {
             isShareButtonClick = false;
             new Handler().postDelayed(new Runnable() {
@@ -375,7 +376,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         imgTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareOnTwitter(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
+                shareOnTwitter(favourites, favourites.getImage());
             }
         });
 
@@ -383,7 +384,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
             @Override
             public void onClick(View view) {
                 /// selectImage();
-                shareOnWhatsApp(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
+                shareOnWhatsApp(favourites, favourites.getImage());
             }
         });
 
@@ -393,9 +394,9 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                 PackageManager pm = getActivity().getPackageManager();
                 boolean isInstalled = isPackageInstalled(FACEBOOK_APP_PACKAGE, pm);
                 if (isInstalled) {
-                    shareViaFacebook(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
+                    shareViaFacebook(favourites, favourites.getImage());
                 } else {
-                    shareViaFacebookLite(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
+                    shareViaFacebookLite(favourites, favourites.getImage());
 
                 }
             }
@@ -407,9 +408,9 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                 PackageManager pm = getActivity().getPackageManager();
                 boolean isInstalled = isPackageInstalled(FACEBOOK_MESSENGER_PACKAGE, pm);
                 if (isInstalled) {
-                    shareOnFacebookMessenger(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
+                    shareOnFacebookMessenger(favourites, favourites.getImage());
                 } else {
-                    shareOnFacebookMessengerLite(favourites, "https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/520x330/604a3538c15e081937dbfbd20aa60aad/a/0/a000066_featured_4.jpg");
+                    shareOnFacebookMessengerLite(favourites, favourites.getImage());
                 }
             }
         });

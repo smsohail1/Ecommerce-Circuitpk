@@ -32,10 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.facebook.share.model.ShareLinkContent;
@@ -46,6 +43,8 @@ import com.varunest.sparkbutton.SparkButton;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.rest.response.Product;
+import com.xekera.Ecommerce.data.rest.response.ProductResponse;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.BaseActivity;
@@ -79,6 +78,12 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     protected EditText edtSearchProduct;
     @BindView(R.id.recyclerViewProductDetails)
     protected RecyclerView recyclerViewProductDetails;
+    @BindView(R.id.progressbar)
+    protected ProgressBar progressbar;
+    @BindView(R.id.searchParent)
+    protected LinearLayout searchParent;
+    @BindView(R.id.allData)
+    protected LinearLayout allData;
 
     @Inject
     protected ShopDetailsMVP.Presenter presenter;
@@ -128,7 +133,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         super.onResume();
         presenter.setView(this);
 
-        presenter.getFavouritesList();
+        //presenter.getFavouritesList();
+
         //  ((BaseActivity) getActivity()).hideBottomNavigation();
 
 //
@@ -310,6 +316,69 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
         shopDetails = new ArrayList<ShoppingDetailModel>();
 
+        isProgressBarShowing = true;
+        hideData();
+        if (utils.isInternetAvailable()) {
+            progressbar.setVisibility(View.VISIBLE);
+
+            //presenter.setDashboardItems(getActivity());
+            if (!utils.isTextNullOrEmpty(productName)) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        presenter.setProductItemsDetails(getActivity(), productName);
+
+                    }
+                }, 600);
+            } else {
+                showToastShortTime("Product name not available");
+            }
+
+//            try {
+//                isProgressBarShowing = true;
+//
+//                List<String> img;
+//                img = new ArrayList<>();
+//                img.add("https://megaeshop.pk/media/catalog/product/cache/1/image/7dfa28859a690c9f1afbf103da25e678/o/e/oea-o-5mu1tcbm201606236016__46.jpg");
+//
+//                edtSearchProduct.setText("");
+//                shopDetails.clear();
+//                final byte[][] byteArray = {new byte[0]};
+//
+//
+//                List<String> tasksList;
+//                Set<String> list = sessionManager.getIsFavouriteList();
+//                tasksList = new ArrayList<String>(list);
+//
+//
+//                shopDetails.add(new ShoppingDetailModel("Arduino", "5000", false, 0, img,
+//                        byteArray[0], 30, favList, R.drawable.arduino_detail));
+//
+//
+//                shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), shopDetails, this, sessionManager, tasksList);
+//                showRecylerViewProductsDetail(shopDetailsAdapter);
+//                isProgressBarShowing = false;
+//                presenter.setActionListener(new ShopDetailsPresenter.ProductItemActionListener() {
+//                    @Override
+//                    public void onItemTap(ImageView imageView, int cartsCount) {
+//                        if (imageView != null) {
+//                            ((BaseActivity) getActivity()).makeFlyAnimation(imageView, cartsCount);
+//                            ((BaseActivity) getActivity()).addItemToCart(cartsCount);
+//
+//                        }
+//                    }
+//                });
+//
+//            } catch (Exception e) {
+//
+//            }
+
+            //presenter.getTotalCounts();
+        } else {
+            showToastShortTime("Please connect to internet.");
+        }
+        //((BaseActivity) getActivity()).uncheckHomeScreen();
+
 
 //        shopDetails.add(new ShoppingDetailModel("arduino", "5000", false, 1));
 //
@@ -409,6 +478,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     }
 
+
     @Override
     public void setCountZero(int counts) {
         ((BaseActivity) getActivity()).addItemToCart(0);
@@ -441,7 +511,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     public void setUI(List<Favourites> favList) {
 
         try {
-            isProgressBarShowing = true;
+          /*  isProgressBarShowing = true;
 
             List<String> img;
             img = new ArrayList<>();
@@ -546,7 +616,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                     }
                 }
             });
-
+*/
         } catch (Exception e) {
 
         }
@@ -576,34 +646,35 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     }
 
     @Override
-    public void onAddButtonClick(ShoppingDetailModel productItems) {
+    public void onAddButtonClick(Product productItems) {
 
     }
 
     @Override
-    public void onViewDetailsButtonClick(ShoppingDetailModel productItems) {
+    public void onViewDetailsButtonClick(Product productItems) {
 
     }
 
 
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap) {
+                                       ImageView imgProductCopy, Bitmap bitmap, String imgUrl) {
 
-        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap);
+        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmap, imgUrl);
     }
 
     @Override
-    public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[] byteImage, ImageView imgProductCopy) {
+    public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
+                                       ImageView imgProductCopy, Bitmap bitmapAdd, String imgUrl) {
 
-        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy);
+        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmapAdd, imgUrl);
 
     }
 
     @Override
-    public void onFavouriteButtonClick(ShoppingDetailModel productItems, int position, Bitmap bitmap) {
+    public void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl) {
 
-        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap);
+        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap, quantity, imgUrl);
 
      /*   if (!productItems.isFavourite()) {
             presenter.removeItem(productItems.getProductName(), position);
@@ -675,7 +746,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void onCardClick(final String productName, final String price, final long cutPrice, final long quantity,
-                            final List<String> imgList, final Bitmap bitmapImg) {
+                            final List<String> imgList, final Bitmap bitmapImg, final String about, final String sku) {
         utils.hideSoftKeyboard(edtSearchProduct);
 
         new Handler().postDelayed(new Runnable() {
@@ -685,7 +756,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                 ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
 
                 ((BaseActivity) getActivity()).replaceFragmentForActivityTranstion(shopCardSelectedFragment.newInstance(productName,
-                        price, cutPrice, quantity, imgList, bitmapImg));
+                        price, cutPrice, quantity, imgList, bitmapImg, about, sku));
             }
         }, 200);
 
@@ -701,7 +772,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
 
     @Override
-    public void shareItemsDetails(ShoppingDetailModel productItems, Bitmap bitmapImg) {
+    public void shareItemsDetails(Product productItems, Bitmap bitmapImg) {
         //requestPermissions();
         //  if (!mPermissionDenied) {
         try {
@@ -787,6 +858,82 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     }
 
+    @Override
+    public void showData() {
+        searchParent.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideData() {
+        searchParent.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showAllData() {
+        allData.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideAllData() {
+        allData.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setAdapterItems(List<Product> products) {
+
+//        String[][] separated = new String[0][0];
+//        int p = 0;
+//        for (int k = 0; k < products.size(); k++) {
+//            // for (int j = 0; j < 1; j++) {
+//
+//            if (products.get(k).getImageJson().contains(",")) {
+//                separated[k][p] = String.valueOf(products.get(k).getImageJson().split(","));
+//            } else {
+//                separated[k][p] = String.valueOf(products.get(k).getImageJson());
+//            }
+//
+//            //}
+//        }
+//        Log.d("kkjk1", separated[0][0]);
+//        Log.d("kkjk2", separated[1][0]);
+//        Log.d("kkjk3", separated[2][0]);
+
+        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), products, this);
+        showRecylerViewProductsDetail(shopDetailsAdapter);
+        hideCircularProgressBar();
+        showAllData();
+        showData();
+        isProgressBarShowing = false;
+        presenter.setActionListener(new ShopDetailsPresenter.ProductItemActionListener() {
+            @Override
+            public void onItemTap(ImageView imageView, int cartsCount) {
+                if (imageView != null) {
+                    ((BaseActivity) getActivity()).makeFlyAnimation(imageView, cartsCount);
+                    ((BaseActivity) getActivity()).addItemToCart(cartsCount);
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getFavourites(ProductResponse response) {
+        presenter.getFavouritesList(response);
+
+    }
+
+    @Override
+    public void hideCircularProgressBar() {
+        progressbar.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void showCircularProgressBar() {
+        progressbar.setVisibility(View.VISIBLE);
+
+    }
+
 
     public void shareLinks() {
         shareDialog = new ShareDialog(this);  // intialize facebook shareDialog.
@@ -805,7 +952,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
 
     @Override
-    public void removeItemFromCart(ShoppingDetailModel shoppingDetailModel) {
+    public void removeItemFromCart(Product shoppingDetailModel) {
         // showSnackBarShortTime("Please select atleast one item", getView());
         presenter.removeItem(shoppingDetailModel);
 
@@ -854,7 +1001,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
                     if ((hasReadPermission == PackageManager.PERMISSION_GRANTED) &&
                             (hasWritePermission == PackageManager.PERMISSION_GRANTED)
-                            ) {
+                    ) {
                         //permissionsGranted();
                         mPermissionDenied = false;
                     } else {

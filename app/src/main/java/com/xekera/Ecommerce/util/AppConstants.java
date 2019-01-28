@@ -3,7 +3,7 @@ package com.xekera.Ecommerce.util;
 
 public class AppConstants {
 
-    public static final String BASE_URL_LIVE = "https://apilkjhgfnfwbc.circuit.pk/apifolder/";
+    public static final String BASE_URL_LIVE = "http://apilkjhgfnfwbc.circuit.pk/apifolder/";
     public static final String URL_BECOME_A_SELLER = "https://circuit.pk/become-a-seller/";
     public static final String URL_CIRCUIT_PK_FACEBOOK_PAGE_URL = "https://www.facebook.com/circuit.pk/";
     public static final String URL_CIRCUIT_PK_TWITTER_PAGE_URL = "https://twitter.com/circuit_pk";

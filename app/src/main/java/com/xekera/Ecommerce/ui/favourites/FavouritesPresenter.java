@@ -262,19 +262,19 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
     @Override
     public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
-                                   final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final Bitmap bitmap) {
+                                   final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final Bitmap bitmap, final String imgUrl) {
         model.getTotalCountsByName(productName, new FavouritesModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> bookings) {
                 if (bookings == null || bookings.size() == 0) {
 
-                    byte[] bmp = bitmapToByteArray(bitmap);
-
+                    // byte[] bmp = bitmapToByteArray(bitmap);
+                    byte[] bmp = new byte[0];
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
 
                     Favourites favourites = new Favourites(productName, price, String.valueOf(cutPrice),
-                            "In Stock", formattedDate, bmp, String.valueOf(quantity), totalPrice);
+                            "In Stock", formattedDate, bmp, String.valueOf(quantity), totalPrice, imgUrl);
 
                     noProductFound(favourites, imgProductCopy);
 
@@ -308,7 +308,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             @Override
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
-                    view.showToastShortTime("Item updated successfully.");
+                    // view.showToastShortTime("Item updated successfully.");
 
                     // getUpdatedTotalCount(imgProductCopy);
                 } else {
@@ -387,7 +387,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
     @Override
     public void saveProductDecrementDetails(final long quantity, final String price, final String totalPrice, final String productName,
-                                            final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy) {
+                                            final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final String imgUrl) {
         model.getProductCount(productName, new FavouritesModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> bookings) {
@@ -401,7 +401,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 //                    noProductFoundForDecrement(addToCart, imgProductCopy);
                     byte[] itemImage;
                     Favourites favourites = new Favourites(productName, price, String.valueOf(cutPrice),
-                            "In Stock", formattedDate, byteImage, String.valueOf(quantity), totalPrice);
+                            "In Stock", formattedDate, byteImage, String.valueOf(quantity), totalPrice, imgUrl);
 
                     noProductFoundForDecrement(favourites, imgProductCopy);
 
@@ -498,7 +498,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
-                    view.showToastShortTime("Cart updated successfully.");
+                    //view.showToastShortTime("Updated successfully.");
                     //  getUpdatedTotalCountForDecrement(imgProductCopy);
 
 
@@ -520,7 +520,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             @Override
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
-                    view.showToastShortTime("Item updated successfully.");
+                    //view.showToastShortTime("Item updated successfully.");
 
                     //  getUpdatedTotalCountForDecrement(imgProductCopy);
                 } else {

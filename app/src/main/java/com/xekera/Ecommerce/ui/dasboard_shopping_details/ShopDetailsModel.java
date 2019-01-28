@@ -1,6 +1,9 @@
 package com.xekera.Ecommerce.ui.dasboard_shopping_details;
 
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
+import com.xekera.Ecommerce.data.rest.response.CategoryResponse;
+import com.xekera.Ecommerce.data.rest.response.ProductResponse;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
 import com.xekera.Ecommerce.data.room.dao.FavouritesDao;
@@ -17,6 +20,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.List;
 
@@ -479,6 +485,29 @@ public class ShopDetailsModel implements ShopDetailsMVP.Model {
             iFetchCartDetailsList.onErrorReceived(e);
         }
 
+    }
+
+    @Override
+    public void getProductItemsDetails(String sku, final INetworkListGeneral<ProductResponse> iNetworkListGeneral) {
+        Call<ProductResponse> call = xekeraAPI.getProducts(sku);
+        call.enqueue(new Callback<ProductResponse>() {
+            @Override
+            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                try {
+                    ProductResponse productResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(productResponse);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductResponse> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
+            }
+        });
     }
 
 

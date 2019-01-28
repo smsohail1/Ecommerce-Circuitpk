@@ -16,11 +16,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.rest.response.Category;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
@@ -40,6 +42,8 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     protected RecyclerView recyclerViewHome;
     @BindView(R.id.progressbar)
     protected ProgressBar progressbar;
+    @BindView(R.id.dataShow)
+    protected LinearLayout dataShow;
 //    @BindView(R.id.viewPager)
 //    protected ViewPager viewPager;
 //    @BindView(R.id.indicator)
@@ -81,7 +85,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     @Override
     public void onResume() {
         super.onResume();
-        presenter.setView(this);
+        // presenter.setView(this);
 
         // ((BaseActivity) getActivity()).showBottomNavigation();
 
@@ -128,14 +132,14 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
 
 
 //        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-//        // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
+//        // ((BaseActivity) getActivity()).addDashboardFragment(new ContinueShopFragment());
 //
 //        // attaching bottom sheet behaviour - hide / show on scroll
 //        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
 //        layoutParams.setBehavior(new BottomNavigationBehavior());
 
 //        Fragment fragment;
-//        fragment = new ShopFragment();
+//        fragment = new ContinueShopFragment();
 //        addFragment(fragment);
 
     }
@@ -185,12 +189,20 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
         recyclerViewHome.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerViewHome.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
 
-        progressbar.setVisibility(View.VISIBLE);
+        dataShow.setVisibility(View.INVISIBLE);
+        if (utils.isInternetAvailable()) {
+            progressbar.setVisibility(View.VISIBLE);
 
-        presenter.setDashboardItems(getActivity());
+            //presenter.setDashboardItems(getActivity());
+            presenter.setDashboardItemsDetails(getActivity());
+            //presenter.getTotalCounts();
+        } else {
+            showToastShortTime("Please connect to internet.");
+            getTotalCartsCounts();
+
+        }
 
 
-        presenter.getTotalCounts();
         // setViewPagerItems();
 
     }
@@ -276,17 +288,24 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     }
 
     @Override
-    public void showShoppingDetailPage(final DashboardItem homeItem) {
+    public void showShoppingDetailPage(final Category homeItem) {
 
         try {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ShopDetailsFragment shopDetailsFragment = new ShopDetailsFragment();
-                    ((BaseActivity) getActivity()).replaceFragment(shopDetailsFragment.newInstance(utils.getStringFromResourceId(homeItem.getNameResId())));
+            if (utils.isInternetAvailable()) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((BaseActivity) getActivity()).uncheckHomeScreen();
 
-                }
-            }, 200);
+                        ShopDetailsFragment shopDetailsFragment = new ShopDetailsFragment();
+                        ((BaseActivity) getActivity()).replaceFragment(shopDetailsFragment.newInstance(homeItem.getCatSku()));
+
+                    }
+                }, 200);
+            } else {
+                showToastShortTime("Please connect to internet.");
+
+            }
         } catch (Exception e) {
 
         }
@@ -306,6 +325,28 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
     public void setCounts(int counts) {
         ((BaseActivity) getActivity()).showTotalCartsCount(counts);
 
+    }
+
+    @Override
+    public void hideCircularProgressBar() {
+        progressbar.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void showCircularProgressBar() {
+        progressbar.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void getTotalCartsCounts() {
+        presenter.getTotalCounts();
+    }
+
+    @Override
+    public void showData() {
+        dataShow.setVisibility(View.VISIBLE);
     }
 
 
@@ -384,7 +425,7 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
 
                         if ((hasReadPermission == PackageManager.PERMISSION_GRANTED) &&
                                 (hasWritePermission == PackageManager.PERMISSION_GRANTED)
-                                ) {
+                        ) {
                             //permissionsGranted();
                         }
                     } else {

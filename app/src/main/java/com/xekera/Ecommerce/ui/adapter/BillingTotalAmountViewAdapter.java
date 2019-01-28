@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.billing_total_amount_view.BillingTotalAmountViewPresenter;
@@ -47,9 +51,9 @@ public class BillingTotalAmountViewAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final AddToCart addToCart = productsItems.get(position);
-        byte[] bytes;
+        //  byte[] bytes;
         if (holder instanceof productDetailsDataListViewHolder) {
-            productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
+            final productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
             productDetailsDataListViewHolder.productNameLabelTextView.setText(addToCart.getItemName());
             productDetailsDataListViewHolder.priceTextView.setText(addToCart.getItemPrice());
@@ -57,26 +61,58 @@ public class BillingTotalAmountViewAdapter extends RecyclerView.Adapter<Recycler
 
             try {
 
-
-                //options = new BitmapFactory.Options();
-                //  options.inJustDecodeBounds = true;
-                // options.inSampleSize = 2;
-
-                bytes = addToCart.getItemImage();
-                // Create a bitmap from the byte array
-                //Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-
-                //productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
-
                 Glide.with(context)
-                        .load(bytes)
+                        .load(addToCart.getImage())
                         .asBitmap()
                         .placeholder(R.drawable.placeholder)
-                        .into(productDetailsDataListViewHolder.imgProduct);
+                        .error(R.drawable.placeholder)
+                        // .override(130, 50)
+                        .centerCrop()
+
+                        // .into(homeViewHolder.imgHomeItem);
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
+                                productDetailsDataListViewHolder.imgProduct.setImageBitmap(resource);
+                                productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
+
+                            }
+
+                            @Override
+                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                super.onLoadFailed(e, errorDrawable);
+                                productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
+                                productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
+
+                            }
+                        });
 
             } catch (Exception e) {
 
             }
+//            try {
+//
+//
+//                //options = new BitmapFactory.Options();
+//                //  options.inJustDecodeBounds = true;
+//                // options.inSampleSize = 2;
+//
+//                bytes = addToCart.getItemImage();
+//                // Create a bitmap from the byte array
+//                //Bitmap compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+//
+//                //productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
+//
+//                Glide.with(context)
+//                        .load(bytes)
+//                        .asBitmap()
+//                        .placeholder(R.drawable.placeholder)
+//                        .into(productDetailsDataListViewHolder.imgProduct);
+//
+//            } catch (Exception e) {
+//
+//            }
 
         }
     }
@@ -95,6 +131,8 @@ public class BillingTotalAmountViewAdapter extends RecyclerView.Adapter<Recycler
         public CardView cardViewParent;
         @BindView(R.id.quantityTextView)
         public TextView quantityTextView;
+        @BindView(R.id.avloadingIndicatorView)
+        public AVLoadingIndicatorView avloadingIndicatorView;
 
 
         public productDetailsDataListViewHolder(View itemView) {

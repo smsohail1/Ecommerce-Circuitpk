@@ -66,6 +66,8 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     protected EditText datePickerEdittext;
     @BindView(R.id.linearLayoutItemDetails)
     protected LinearLayout linearLayoutItemDetails;
+    @BindView(R.id.searchParent)
+    protected LinearLayout searchParent;
 
     @Inject
     protected HistoryMVP.Presenter presenter;
@@ -106,7 +108,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         try {
             // ((BaseActivity) getActivity()).showBottomNavigation();
             edtSearchProduct.setText("");
-            datePickerEdittext.setText("");
+            // datePickerEdittext.setText("");
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -134,17 +136,17 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         presenter.setView(this);
         //  ((BaseActivity) getActivity()).showBottomNavigation();
 
-        datePickerEdittext.setOnClickListener(this);
+        // datePickerEdittext.setOnClickListener(this);
         linearLayoutItemDetails.setOnClickListener(this);
 
         toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
         edtSearchProduct.setText("");
-        datePickerEdittext.setText("");
+        //  datePickerEdittext.setText("");
 
         progressBarRelativeLayout.setVisibility(View.VISIBLE);
-
+        hideSearchDate();
 
         edtSearchProduct.addTextChangedListener(new TextWatcher() {
 
@@ -298,6 +300,17 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     public void hideLoadingProgressDialog() {
         progressBarRelativeLayout.setVisibility(View.GONE);
         isProgressBarShowing = false;
+    }
+
+    @Override
+    public void showSearchData() {
+        searchParent.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideSearchDate() {
+        searchParent.setVisibility(View.GONE);
+
     }
 
     private void showOrderCompleteSuccessDialog(Context context) {
@@ -541,14 +554,14 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.datePickerEdittext:
-                if (!isProgressBarShowing) {
-                    utils.hideSoftKeyboard(datePickerEdittext);
-                    showDatePickerDialog();
-                } else {
-                    showToastShortTime("Loading Data...");
-                }
-                break;
+//            case R.id.datePickerEdittext:
+//                if (!isProgressBarShowing) {
+//                    utils.hideSoftKeyboard(datePickerEdittext);
+//                    showDatePickerDialog();
+//                } else {
+//                    showToastShortTime("Loading Data...");
+//                }
+//                break;
 
             case R.id.linearLayoutItemDetails:
                 utils.hideSoftKeyboard(edtSearchProduct);
@@ -557,26 +570,26 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         }
     }
 
-    private void showDatePickerDialog() {
-        try {
-
-            calendar = Calendar.getInstance();
-            year = calendar.get(Calendar.YEAR);
-            month = calendar.get(Calendar.MONTH);
-            dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-            datePickerDialog = new DatePickerDialog(getActivity(),
-                    new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                            datePickerEdittext.setText(day + "-" + (month + 1) + "-" + year);
-                        }
-                    }, year, month, dayOfMonth);
-            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-            datePickerDialog.show();
-        } catch (Exception e) {
-
-        }
-    }
+//    private void showDatePickerDialog() {
+//        try {
+//
+//            calendar = Calendar.getInstance();
+//            year = calendar.get(Calendar.YEAR);
+//            month = calendar.get(Calendar.MONTH);
+//            dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+//            datePickerDialog = new DatePickerDialog(getActivity(),
+//                    new DatePickerDialog.OnDateSetListener() {
+//                        @Override
+//                        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+//                            datePickerEdittext.setText(day + "-" + (month + 1) + "-" + year);
+//                        }
+//                    }, year, month, dayOfMonth);
+//            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+//            datePickerDialog.show();
+//        } catch (Exception e) {
+//
+//        }
+//    }
 
     @Override
     public void showTotalAmount(String itemTotalPrice) {

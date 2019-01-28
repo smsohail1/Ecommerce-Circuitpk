@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.login;
 
 import android.view.View;
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
+import com.xekera.Ecommerce.data.rest.response.ForgotPasswordResponse;
 import com.xekera.Ecommerce.data.rest.response.LoginSuccessResponse;
 import com.xekera.Ecommerce.data.rest.response.SignUpSuccessResponse;
 
@@ -29,6 +30,8 @@ public interface LoginMVP {
 
 
         void loggedInSuccessfully();
+
+        void  hideForgotPasswordDialog();
     }
 
     interface Presenter {
@@ -39,6 +42,8 @@ public interface LoginMVP {
         void oncClickBtnSignUp();
 
         void registerFacebookUser(String username, String password, String phoneNo, String emailID);
+
+        void resetPassword(String password, String emailID);
     }
 
     interface Model {
@@ -46,6 +51,9 @@ public interface LoginMVP {
 
         void registerFacebookUser(String username, String password, String phoneNo, String emailID,
                                   INetworkLoginSignup<SignUpSuccessResponse> iNetworkLoginSignup);
+
+        void resetPassword(String password, String emailID, INetworkLoginSignup<ForgotPasswordResponse> iNetworkLoginSignup);
+
     }
 }
 

@@ -33,6 +33,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_weight="0.3"
+                    android:gravity="center_horizontal"
                     android:padding="5dp">
 
 
@@ -41,9 +42,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="70dp"
                         android:gravity="center_horizontal"
-                        android:src="@drawable/ardino"
+                        android:src="@drawable/placeholder"
+                        android:visibility="gone"
                 />
 
+                <com.wang.avi.AVLoadingIndicatorView
+                        android:id="@+id/avloadingIndicatorView"
+                        android:layout_width="70dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="10dp"
+                        app:indicatorName="LineScaleIndicator"
+                        app:indicatorColor="@color/colorPrimary"
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="visible"
+                />
 
             </LinearLayout>
 

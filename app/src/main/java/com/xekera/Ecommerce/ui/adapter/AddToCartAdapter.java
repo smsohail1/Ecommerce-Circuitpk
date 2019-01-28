@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartPresenter;
@@ -55,36 +59,70 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final AddToCart addToCart = productsItems.get(position);
-        byte[] bytes;
+        //  byte[] bytes;
         if (holder instanceof productDetailsDataListViewHolder) {
-            productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
+            final productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
             productDetailsDataListViewHolder.productNameLabelTextView.setText(addToCart.getItemName());
             productDetailsDataListViewHolder.priceTextView.setText(addToCart.getItemIndividualPrice());
             productDetailsDataListViewHolder.counterTextview.setText(addToCart.getItemQuantity());
             productDetailsDataListViewHolder.discountPriceTextView.setText(addToCart.getItemCutPrice());
 
+
             try {
 
-//                options = new BitmapFactory.Options();
-//                //  options.inJustDecodeBounds = true;
-//                options.inSampleSize = 2;
-//
-                bytes = addToCart.getItemImage();
-//                // Create a bitmap from the byte array
-//                compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
-//
-//                productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
-
                 Glide.with(context)
-                        .load(bytes)
+                        .load(addToCart.getImage())
                         .asBitmap()
                         .placeholder(R.drawable.placeholder)
-                        .into(productDetailsDataListViewHolder.imgProduct);
+                        .error(R.drawable.placeholder)
+                        // .override(130, 50)
+                        .centerCrop()
+
+                        // .into(homeViewHolder.imgHomeItem);
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
+                                productDetailsDataListViewHolder.imgProduct.setImageBitmap(resource);
+                                productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
+
+                            }
+
+                            @Override
+                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                super.onLoadFailed(e, errorDrawable);
+                                productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
+                                productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
+
+                            }
+                        });
 
             } catch (Exception e) {
 
             }
+
+//            try {
+//
+////                options = new BitmapFactory.Options();
+////                //  options.inJustDecodeBounds = true;
+////                options.inSampleSize = 2;
+////
+//               // bytes = addToCart.getItemImage();
+////                // Create a bitmap from the byte array
+////                compressedBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+////
+////                productDetailsDataListViewHolder.imgProduct.setImageBitmap(compressedBitmap);
+//
+////                Glide.with(context)
+////                        .load(bytes)
+////                        .asBitmap()
+////                        .placeholder(R.drawable.placeholder)
+////                        .into(productDetailsDataListViewHolder.imgProduct);
+//
+//            } catch (Exception e) {
+//
+//            }
             // ImageView imageView = productDetailsDataListViewHolder.imgProduct;
 
 
@@ -130,7 +168,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public ImageView imgRemoveProduct;
         @BindView(R.id.discountPriceTextView)
         public TextView discountPriceTextView;
-
+        @BindView(R.id.avloadingIndicatorView)
+        public AVLoadingIndicatorView avloadingIndicatorView;
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);
@@ -169,7 +208,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 String.valueOf(productPrice * itemQuantity),
                                 productsItems.get(getLayoutPosition()).getItemName(),
                                 productsItems.get(getLayoutPosition()).getItemCutPrice(),
-                                productsItems.get(getLayoutPosition()).getItemImage());
+                                productsItems.get(getLayoutPosition()).getItemImage(),
+                                productsItems.get(getLayoutPosition()).getImage());
 
                     } else {
                         productsItems.get(getLayoutPosition()).setItemQuantity("1");
@@ -185,7 +225,9 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 String.valueOf(productPrice * itemQuantity),
                                 productsItems.get(getLayoutPosition()).getItemName(),
                                 productsItems.get(getLayoutPosition()).getItemCutPrice(),
-                                productsItems.get(getLayoutPosition()).getItemImage());
+                                productsItems.get(getLayoutPosition()).getItemImage(),
+                                productsItems.get(getLayoutPosition()).getImage()
+                        );
 
 //                        addToCartPresenter.updateItemCountInDB(productsItems.get(getLayoutPosition()).getItemQuantity(),
 //                                String.valueOf(productPrice * itemQuantity),
@@ -209,7 +251,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             String.valueOf(productPrice * itemQuantity),
                             productsItems.get(getLayoutPosition()).getItemName(),
                             productsItems.get(getLayoutPosition()).getItemCutPrice(),
-                            productsItems.get(getLayoutPosition()).getItemImage());
+                            productsItems.get(getLayoutPosition()).getItemImage(),
+                            productsItems.get(getLayoutPosition()).getImage());
 
 //                    addToCartPresenter.updateItemCountInDB(productsItems.get(getLayoutPosition()).getItemQuantity(),
 //                            String.valueOf(productPrice * itemQuantity),
@@ -296,7 +339,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void onDecrementButtonClick(AddToCart productItems);
 
         void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
-                                String cutPrice, byte[] bytes);
+                                String cutPrice, byte[] bytes, String imgUrl);
 
         void removeItemFromCart(AddToCart productItems, int position);
     }

@@ -20,6 +20,7 @@ import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
+import com.xekera.Ecommerce.ui.continue_shopping.ContinueShopFragment;
 import com.xekera.Ecommerce.ui.continue_shopping.ContinueShoppingFragment;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
@@ -59,6 +60,8 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     protected Button btnContinueShopping;
     @BindView(R.id.btnCoupon)
     protected Button btnCoupon;
+    @BindView(R.id.gstValueTextView)
+    protected TextView gstValueTextView;
 
     @BindView(R.id.progressBarRelativeLayout)
     protected RelativeLayout progressBarRelativeLayout;
@@ -138,14 +141,14 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
 
 //        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-//        // ((BaseActivity) getActivity()).addDashboardFragment(new ShopFragment());
+//        // ((BaseActivity) getActivity()).addDashboardFragment(new ContinueShopFragment());
 //
 //        // attaching bottom sheet behaviour - hide / show on scroll
 //        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
 //        layoutParams.setBehavior(new BottomNavigationBehavior());
 
 //        Fragment fragment;
-//        fragment = new ShopFragment();
+//        fragment = new ContinueShopFragment();
 //        addFragment(fragment);
 
     }
@@ -159,7 +162,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 //            switch (item.getItemId()) {
 //                case R.id.navigation_shop:
 //
-//                    fragment = new ShopFragment();
+//                    fragment = new ContinueShopFragment();
 //                    addFragment(fragment);
 //                    return true;
 //                case R.id.navigation_favourite:
@@ -221,7 +224,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                 presenter.fetchCartDetails();
 
             }
-        }, 600);
+        }, 500);
 
     }
 
@@ -281,15 +284,17 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     @Override
     public void setSubTotal(String setSubToal) {
-        if (!utils.isTextNullOrEmpty(setSubToal)) {
+        if (!utils.isTextNullOrEmptyOrZero(setSubToal)) {
             subTotalValueTextView.setText(setSubToal);
             String flatShippingRateStr = shippingValueTextView.getText().toString();
+            long gstAmount = Long.valueOf(gstValueTextView.getText().toString());
             long flatShippingRateLong = 0;
-            flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr);
+            flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr) + gstAmount;
             totalValueTextView.setText(String.valueOf(flatShippingRateLong));
 
         } else {
             subTotalValueTextView.setText("0");
+            //   totalValueTextView.setText("0");
         }
 
 
@@ -306,9 +311,10 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     }
 
     @Override
-    public void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName, String cutPrice, byte[] bytes) {
+    public void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
+                                   String cutPrice, byte[] bytes, String imgUrl) {
         presenter.saveProductDetails(quantity, individualPrice, itemPrice, productName,
-                cutPrice, bytes);
+                cutPrice, bytes, imgUrl);
     }
 
     @Override
@@ -445,7 +451,11 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
             case R.id.btnCheckout:
                 if (!isProgressBarShowing) {
                     if (isCheckOutButtonEnable) {
-                        presenter.getCartCountList();
+                        if (!utils.isTextNullOrEmptyOrZero(subTotalValueTextView.getText().toString())) {
+                            presenter.getCartCountList();
+                        } else {
+                            showToastShortTime("Can't order items due to sub total is zero");
+                        }
                     }
                     isCheckOutButtonEnable = false;
 
@@ -472,10 +482,11 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                             public void run() {
                                 isContinueShoppingEnable = true;
 
-                                ((BaseActivity) getActivity()).replaceFragment(new ContinueShoppingFragment());
+                                ((BaseActivity) getActivity()).replaceFragment(new ContinueShopFragment());
                             }
                         }, 150);
                     }
+
                 } else {
                     showToastShortTime("Loading data...");
 

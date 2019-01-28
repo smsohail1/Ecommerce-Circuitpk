@@ -142,6 +142,7 @@
                                     android:background="@drawable/notification_circle"
                                     android:gravity="center"
                                     android:minWidth="13dip"
+                                    android:text="0"
                                     android:minHeight="13dip"
                                     android:padding="0.2dp"
                                     android:textColor="#424242"
