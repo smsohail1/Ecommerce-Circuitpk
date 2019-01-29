@@ -263,7 +263,7 @@ public class ContinueShoppingAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 productsItems.get(getLayoutPosition()).getProductName(),
                                 productsItems.get(getLayoutPosition()).getCutPrice(),
                                 productsItems.get(getLayoutPosition()).getByteImage(), imgProductCopy,
-                                "");
+                                "", "");
 
                     } else {
                         productsItems.get(getLayoutPosition()).setItemQuantity(0);
@@ -316,7 +316,7 @@ public class ContinueShoppingAdapter extends RecyclerView.Adapter<RecyclerView.V
                             productsItems.get(getLayoutPosition()).getProductName(),
                             productsItems.get(getLayoutPosition()).getCutPrice(),
                             productsItems.get(getLayoutPosition()).getByteImage(), imgProductCopy, bitmapAdd,
-                            "");
+                            "", "");
 
 
 //                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
@@ -368,10 +368,10 @@ public class ContinueShoppingAdapter extends RecyclerView.Adapter<RecyclerView.V
         //void onFavouriteButtonClick(ContinueShoppingObjectModel productItems, int position, Bitmap bitmap);
 
         void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl);
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID);
 
         void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, String imgUrl);
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID);
 
 
         void onCardClick(String productName, String price, long cutPrice, long quantity, List<String> imgList, Bitmap bitmapImg);

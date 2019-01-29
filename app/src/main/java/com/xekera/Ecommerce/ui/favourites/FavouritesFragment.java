@@ -283,7 +283,8 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                             , favourites.getItemQuantity(),
                             "N", favourites.getItemImage(), favourites.getItemCutPrice(),
                             favourites.getItemIndividualPrice(),
-                            formattedDate, favourites.getImage());
+                            formattedDate, favourites.getImage(),
+                            favourites.getProduct_id());
                     presenter.insertSelectedFavouritesToCart(addToCart, position, img);
                     isShowing = true;
                 }
@@ -316,16 +317,18 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl) {
+                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl,String productID) {
 
-        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap, imgUrl);
+        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap,
+                imgUrl,productID);
     }
 
     @Override
     public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       byte[] byteImage, ImageView imgProductCopy, String imgUrl) {
+                                       byte[] byteImage, ImageView imgProductCopy, String imgUrl,String productID) {
 
-        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, imgUrl);
+        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy,
+                imgUrl,productID);
 
     }
 

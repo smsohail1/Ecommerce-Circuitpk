@@ -530,16 +530,16 @@ public class ContinueShoppingFragment extends Fragment implements ContinueShoppi
 
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap,String imgUrl) {
+                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID) {
 
-        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap,imgUrl);
+        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap, imgUrl, productID);
     }
 
     @Override
     public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       byte[] byteImage, ImageView imgProductCopy,String imgUrl) {
+                                       byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID) {
 
-        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy,imgUrl);
+        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, imgUrl, productID);
 
     }
 
@@ -688,7 +688,7 @@ public class ContinueShoppingFragment extends Fragment implements ContinueShoppi
 
                     if ((hasReadPermission == PackageManager.PERMISSION_GRANTED) &&
                             (hasWritePermission == PackageManager.PERMISSION_GRANTED)
-                            ) {
+                    ) {
                         //permissionsGranted();
                         mPermissionDenied = false;
                     } else {

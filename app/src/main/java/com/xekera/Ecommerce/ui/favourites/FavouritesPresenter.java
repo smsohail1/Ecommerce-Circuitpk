@@ -262,7 +262,8 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
     @Override
     public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
-                                   final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final Bitmap bitmap, final String imgUrl) {
+                                   final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy,
+                                   final Bitmap bitmap, final String imgUrl, final String productID) {
         model.getTotalCountsByName(productName, new FavouritesModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> bookings) {
@@ -274,7 +275,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
                     formattedDate = getCurrentDate();
 
                     Favourites favourites = new Favourites(productName, price, String.valueOf(cutPrice),
-                            "In Stock", formattedDate, bmp, String.valueOf(quantity), totalPrice, imgUrl);
+                            "In Stock", formattedDate, bmp, String.valueOf(quantity), totalPrice, imgUrl, productID);
 
                     noProductFound(favourites, imgProductCopy);
 
@@ -387,7 +388,8 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
     @Override
     public void saveProductDecrementDetails(final long quantity, final String price, final String totalPrice, final String productName,
-                                            final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final String imgUrl) {
+                                            final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy,
+                                            final String imgUrl, final String productID) {
         model.getProductCount(productName, new FavouritesModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> bookings) {
@@ -401,7 +403,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 //                    noProductFoundForDecrement(addToCart, imgProductCopy);
                     byte[] itemImage;
                     Favourites favourites = new Favourites(productName, price, String.valueOf(cutPrice),
-                            "In Stock", formattedDate, byteImage, String.valueOf(quantity), totalPrice, imgUrl);
+                            "In Stock", formattedDate, byteImage, String.valueOf(quantity), totalPrice, imgUrl, productID);
 
                     noProductFoundForDecrement(favourites, imgProductCopy);
 

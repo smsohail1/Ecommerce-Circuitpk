@@ -22,7 +22,7 @@ public class BillingTotalAmountViewModule {
     }
 
     @Provides
-    public BillingTotalAmountViewMVP.Model provideBillingTotalAmountViewModel(AppDatabase appDatabase, Utils utils) {
-        return new BillingTotalAmountViewModel(appDatabase, utils);
+    public BillingTotalAmountViewMVP.Model provideBillingTotalAmountViewModel(AppDatabase appDatabase, Utils utils, XekeraAPI xekeraAPI) {
+        return new BillingTotalAmountViewModel(appDatabase, utils, xekeraAPI);
     }
 }

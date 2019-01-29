@@ -153,7 +153,6 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                     super.onLoadFailed(e, errorDrawable);
                                     productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
                                     productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
-
                                 }
                             });
 
@@ -307,7 +306,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 Long.valueOf(counterTextview.getText().toString()),
                                 productsItems.get(getLayoutPosition()).getImageJson()
                                 , bitmap, productsItems.get(getLayoutPosition()).getAboutProduct(),
-                                productsItems.get(getLayoutPosition()).getProductSku());
+                                productsItems.get(getLayoutPosition()).getProductSku(),
+                                productsItems.get(getLayoutPosition()).getId());
 
                     } catch (Exception e) {
 
@@ -375,7 +375,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     iShopDetailAdapter.onFavouriteButtonClick(productsItems.get(getLayoutPosition()), getLayoutPosition(),
                             bitmapFavourite, counterTextview.getText().toString(),
-                            productsItems.get(getLayoutPosition()).getImageJson().get(0));
+                            productsItems.get(getLayoutPosition()).getImageJson().get(0),
+                            productsItems.get(getLayoutPosition()).getId());
                     break;
                 case R.id.decrementImageButton:
                     //  decrementCounter = decrementCounter - 1;
@@ -416,7 +417,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 String.valueOf(productPrice * itemQuantity),
                                 productsItems.get(getLayoutPosition()).getName(),
                                 Long.valueOf(productsItems.get(getLayoutPosition()).getRegularPrice()),
-                                imgProductCopy, bitmapAdd, productsItems.get(getLayoutPosition()).getImageJson().get(0));
+                                imgProductCopy, bitmapAdd, productsItems.get(getLayoutPosition()).getImageJson().get(0),
+                                productsItems.get(getLayoutPosition()).getId());
 
                     } else {
                         // productsItems.get(getLayoutPosition()).setItemQuantity(0);
@@ -491,7 +493,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             String.valueOf(productPrice * itemQuantity),
                             productsItems.get(getLayoutPosition()).getName(),
                             Long.valueOf(productsItems.get(getLayoutPosition()).getRegularPrice()), imgProductCopy,
-                            bitmapAdd, productsItems.get(getLayoutPosition()).getImageJson().get(0));
+                            bitmapAdd, productsItems.get(getLayoutPosition()).getImageJson().get(0),
+                            productsItems.get(getLayoutPosition()).getId());
 
 
 //                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
@@ -548,18 +551,18 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void onViewDetailsButtonClick(Product productItems);
 
-        void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl);
+        void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl, String productID);
 
         void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, ImageView imgProductCopy, Bitmap bitmap, String imgUrl);
+                                    long cutPrice, ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID);
 
         void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, ImageView imgProductCopy, Bitmap bitmapAdd, String imgUrl);
+                                    long cutPrice, ImageView imgProductCopy, Bitmap bitmapAdd, String imgUrl, String productID);
 
 
         //void onCardClick(ShoppingDetailModel productItems, Bitmap bitmapImg);
         void onCardClick(String productName, String price, long cutPrice, long quantity, List<String> imgList,
-                         Bitmap bitmapImg, String about, String sku);
+                         Bitmap bitmapImg, String about, String sku, String productID);
 
 
         void shareItemsDetails(Product productItems, Bitmap bitmapImg);

@@ -22,6 +22,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.rest.response.OrderList;
+import com.xekera.Ecommerce.data.rest.response.Product;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
@@ -41,15 +43,15 @@ import java.util.Locale;
 
 public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
-    List<Booking> productsItems;
-    List<Booking> productsItemsSearch;
+    List<OrderList> productsItems;
+    List<OrderList> productsItemsSearch;
 
     // IShopDetailAdapter iShopDetailAdapter;
     HistoryPresenter historyPresenter;
     IHistoryCancelOrderAdapter iHistoryCancelOrderAdapter;
     ISearchOrderAmount iSearchOrderAmount;
 
-    public HistoryAdapter(Context context, List<Booking> productsItems, IHistoryCancelOrderAdapter iHistoryCancelOrderAdapter, ISearchOrderAmount iSearchOrderAmount) {
+    public HistoryAdapter(Context context, List<OrderList> productsItems, IHistoryCancelOrderAdapter iHistoryCancelOrderAdapter, ISearchOrderAmount iSearchOrderAmount) {
         this.context = context;
         this.productsItems = productsItems;
         this.iHistoryCancelOrderAdapter = iHistoryCancelOrderAdapter;
@@ -62,7 +64,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_history_fragment, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_history_order_id, parent, false);
         productDetailsDataListViewHolder productDetailDataListViewHolder = new productDetailsDataListViewHolder(v);
         return productDetailDataListViewHolder;
     }
@@ -73,50 +75,48 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final Booking booking = productsItems.get(position);
+        final OrderList booking = productsItems.get(position);
         if (holder instanceof productDetailsDataListViewHolder) {
             final productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
-            productDetailsDataListViewHolder.productNameLabelTextView.setText(booking.getItemName());
-            productDetailsDataListViewHolder.priceTextView.setText(booking.getItemIndividualPrice());
-            productDetailsDataListViewHolder.flatRateTextView.setText(booking.getFlatCharges());
-            productDetailsDataListViewHolder.quantityTextView.setText(booking.getItemQuantity());
-            productDetailsDataListViewHolder.orderDateTextView.setText(booking.getCreatedDate());
+            productDetailsDataListViewHolder.OrderId.setText(booking.getOrderID());
+            productDetailsDataListViewHolder.Status.setText(booking.getOrderStatus());
+            productDetailsDataListViewHolder.orderDate.setText(booking.getOrderOn());
 
-            try {
-
-                Glide.with(context)
-                        .load(booking.getImgUrl())
-                        .asBitmap()
-                        .placeholder(R.drawable.placeholder)
-                        .error(R.drawable.placeholder)
-                        // .override(130, 50)
-                        .centerCrop()
-
-                        // .into(homeViewHolder.imgHomeItem);
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
-                                productDetailsDataListViewHolder.imgProduct.setImageBitmap(resource);
-                                productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
-
-
-                            }
-
-                            @Override
-                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                                super.onLoadFailed(e, errorDrawable);
-                                productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
-                                productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
-
-
-                            }
-                        });
-
-            } catch (Exception e) {
-
-            }
+//            try {
+//
+//                Glide.with(context)
+//                        .load(booking.getImgUrl())
+//                        .asBitmap()
+//                        .placeholder(R.drawable.placeholder)
+//                        .error(R.drawable.placeholder)
+//                        // .override(130, 50)
+//                        .centerCrop()
+//
+//                        // .into(homeViewHolder.imgHomeItem);
+//                        .into(new SimpleTarget<Bitmap>() {
+//                            @Override
+//                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+//                                productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
+//                                productDetailsDataListViewHolder.imgProduct.setImageBitmap(resource);
+//                                productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
+//
+//
+//                            }
+//
+//                            @Override
+//                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+//                                super.onLoadFailed(e, errorDrawable);
+//                                productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
+//                                productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
+//
+//
+//                            }
+//                        });
+//
+//            } catch (Exception e) {
+//
+//            }
 //            try {
 //
 //
@@ -146,35 +146,24 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     public class productDetailsDataListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.linearParent)
-        protected LinearLayout linearParent;
-        @BindView(R.id.productNameLabelTextView)
-        public TextView productNameLabelTextView;
-        @BindView(R.id.priceTextView)
-        public TextView priceTextView;
-        @BindView(R.id.imgProduct)
-        public ImageView imgProduct;
+        @BindView(R.id.OrderId)
+        public TextView OrderId;
+        @BindView(R.id.Status)
+        public TextView Status;
+        @BindView(R.id.orderDate)
+        public TextView orderDate;
         @BindView(R.id.cardViewParent)
         public CardView cardViewParent;
-        @BindView(R.id.orderDateTextView)
-        public TextView orderDateTextView;
-        @BindView(R.id.flatRateTextView)
-        public TextView flatRateTextView;
-        @BindView(R.id.quantityTextView)
-        public TextView quantityTextView;
-        @BindView(R.id.btnCancel)
-        public Button btnCancel;
         @BindView(R.id.btnTrackOrder)
         public Button btnTrackOrder;
-        @BindView(R.id.avloadingIndicatorView)
-        public AVLoadingIndicatorView avloadingIndicatorView;
+      //  @BindView(R.id.avloadingIndicatorView)
+       // public AVLoadingIndicatorView avloadingIndicatorView;
 
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
-            itemView.findViewById(R.id.btnCancel).setOnClickListener(this);
             itemView.findViewById(R.id.btnTrackOrder).setOnClickListener(this);
             itemView.findViewById(R.id.cardViewParent).setOnClickListener(this);
 
@@ -183,15 +172,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.btnCancel:
-                    iHistoryCancelOrderAdapter.cancelOrder(productsItems.get(getLayoutPosition()).getOrderID());
-                    break;
+
                 case R.id.btnTrackOrder:
                     iHistoryCancelOrderAdapter.trackOrder(productsItems.get(getLayoutPosition()).getOrderID());
                     break;
-                case R.id.cardViewParent:
-                    iHistoryCancelOrderAdapter.hideSoftkeyboard();
-                    break;
+
             }
         }
 
@@ -214,7 +199,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
 
-    public void addAll(List<Booking> addToCarts) {
+    public void addAll(List<OrderList> addToCarts) {
         int currentListSize = this.productsItems.size();
         this.productsItems.addAll(addToCarts);
         notifyItemRangeInserted(currentListSize, addToCarts.size());
@@ -233,7 +218,31 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void showTotalAmount(String itemTotalPrice);
     }
 
-    long totalAmount = 0;
+
+    public void filter(String charText) {
+        try {
+
+            charText = charText.toLowerCase(Locale.getDefault());
+            productsItems.clear();
+            if (charText.length() == 0) {
+
+                productsItems.addAll(productsItemsSearch);
+            } else if (charText.length() > 0) {
+                for (OrderList wp : productsItemsSearch) {
+                    if (wp.getOrderID().toLowerCase(Locale.getDefault()).trim()
+                            .contains(charText)) {
+                        productsItems.add(wp);
+
+                    }
+                }
+            }
+
+            notifyDataSetChanged();
+        } catch (Exception ex) {
+        }
+    }
+
+    /*long totalAmount = 0;
 
     public void filter(String charText) {
         try {
@@ -271,7 +280,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         } catch (Exception ex) {
         }
-    }
+    }*/
 
 }
 

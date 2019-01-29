@@ -2,6 +2,10 @@ package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
 import android.util.Log;
 import com.google.gson.Gson;
+import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
+import com.xekera.Ecommerce.data.rest.response.LoginSuccessResponse;
+import com.xekera.Ecommerce.data.rest.response.SignUpSuccessResponse;
+import com.xekera.Ecommerce.data.rest.response.SubmitOrderResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
@@ -9,6 +13,9 @@ import com.xekera.Ecommerce.ui.adapter.BillingTotalAmountViewAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
+import okhttp3.ResponseBody;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +75,8 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
         model.removeSelectedCartDetails(items, new BillingTotalAmountViewModel.IRemoveSelectedItemDetails() {
             @Override
             public void onSuccess() {
+                view.hideProgressDialogPleaseWait();
+
                 view.itemRemovedFromCart();
             }
 
@@ -82,29 +91,53 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
 
     @Override
     public void insertBooking(final List<Booking> addToCart, String dateTime, final String name,
-                              final String companyName, final String phoneNo, final String email, String address, String paymentMode, String orderNotes,
-                              String selfPikup, String flatCharges) {
+                              final String companyName, final String phoneNo, final String email, final String address,
+                              final String paymentMode, final String orderNotes,
+                              final String selfPikup, final String flatCharges) {
         model.insertBooking(addToCart, dateTime, new BillingTotalAmountViewModel.IBookingInsert() {
             @Override
             public void onSuccess(boolean success) {
                 if (success) {
-//                    List<String> items = new ArrayList<>();
-//                    items.add(name);
-//                    items.add(companyName);
-//                    items.add(phoneNo);
-//                    items.add(email);
 
-                    view.deleteItemsFromCart();
+                    // view.deleteItemsFromCart();
                     String jsonObjectStr = new Gson().toJson(addToCart);
-                    String addressData = "Address:" + "{" +
-                            "phone:" + phoneNo + "," +
-                            "email:" + email
-
+                    String addressData = "\"Address\":" + "{" +
+                            "\"Phone\":" + "\"" + phoneNo + "\"" + "," +
+                            "\"Email\":" + "\"" + email + "\"" + "," +
+                            "\"Address\":" + "\"" + address + "\"" + "," +
+                            "\"Payment\":" + "\"" + paymentMode + "\"" + "," +
+                            "\"Message\":" + "\"" + orderNotes + "\"" + "," +
+                            "\"selfPikup\":" + "\"" + selfPikup + "\"" + "," +
+                            "\"flatCharges\":" + "\"" + flatCharges + "\"" + "," +
+                            "\"Company\":" + "\"" + companyName + "\"" + "," +
+                            "\"name\":" + "\"" + name + "\""
                             + "}";
-                    String fullData = "{prolist:" + jsonObjectStr;
-                    Log.d("test_Data", "data=" + fullData + "," + addressData);
-                    int i = 0;
-                    return;
+                    String fullData = "{\"prolist\":" + jsonObjectStr + "," + addressData + "}";
+                    //String obj = new Gson().toJson(fullData);
+                    //  Log.d("jkjk", obj);
+//                    JSONObject jsnobject = null;
+//                    try {
+//                        jsnobject = new JSONObject(fullData);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//
+//                    }
+
+                    // Log.d("test_Data", "jsondata=" + jsnobject);
+                    model.postOrderDetails(fullData, new INetworkLoginSignup<ResponseBody>() {
+                        @Override
+                        public void onSuccess(ResponseBody response) {
+                            //Log.d("messh1", response.getMessage() + "," + response.getStatus());
+                            view.deleteItemsFromCart();
+
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            view.hideProgressDialogPleaseWait();
+                            view.showToastShortTime("Can't submit order.Error while submit data.");
+                        }
+                    });
                 } else {
                     view.showToastShortTime("Error while saving data");
                 }

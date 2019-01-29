@@ -51,6 +51,16 @@ public class Booking {
     private String selfPickUp;
     @ColumnInfo(name = "imgUrl")
     private String imgUrl;
+    @ColumnInfo(name = "product_id")
+    private String product_id;
+
+    public String getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
+    }
 
 
     public Booking(String orderID, String itemName, String itemIndividualPrice, String itemPrice,
@@ -58,7 +68,7 @@ public class Booking {
                    String companyName, String phoneNo, String emailAddress,
                    String streetAddress1, String townCity,
                    String paymentType, String orderNotes, String flatCharges, String createdDate,
-                   byte[] itemImage, String transmissionStatus, String selfPickUp, String imgUrl) {
+                   byte[] itemImage, String transmissionStatus, String selfPickUp, String imgUrl, String product_id) {
         this.orderID = orderID;
         this.itemName = itemName;
         this.itemIndividualPrice = itemIndividualPrice;
@@ -79,6 +89,7 @@ public class Booking {
         this.transmissionStatus = transmissionStatus;
         this.selfPickUp = selfPickUp;
         this.imgUrl = imgUrl;
+        this.product_id = product_id;
     }
 
 

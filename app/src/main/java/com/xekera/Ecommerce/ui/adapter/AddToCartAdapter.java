@@ -209,7 +209,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 productsItems.get(getLayoutPosition()).getItemName(),
                                 productsItems.get(getLayoutPosition()).getItemCutPrice(),
                                 productsItems.get(getLayoutPosition()).getItemImage(),
-                                productsItems.get(getLayoutPosition()).getImage());
+                                productsItems.get(getLayoutPosition()).getImage(),
+                                productsItems.get(getLayoutPosition()).getProduct_id());
 
                     } else {
                         productsItems.get(getLayoutPosition()).setItemQuantity("1");
@@ -226,7 +227,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 productsItems.get(getLayoutPosition()).getItemName(),
                                 productsItems.get(getLayoutPosition()).getItemCutPrice(),
                                 productsItems.get(getLayoutPosition()).getItemImage(),
-                                productsItems.get(getLayoutPosition()).getImage()
+                                productsItems.get(getLayoutPosition()).getImage(),
+                                productsItems.get(getLayoutPosition()).getProduct_id()
                         );
 
 //                        addToCartPresenter.updateItemCountInDB(productsItems.get(getLayoutPosition()).getItemQuantity(),
@@ -252,7 +254,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             productsItems.get(getLayoutPosition()).getItemName(),
                             productsItems.get(getLayoutPosition()).getItemCutPrice(),
                             productsItems.get(getLayoutPosition()).getItemImage(),
-                            productsItems.get(getLayoutPosition()).getImage());
+                            productsItems.get(getLayoutPosition()).getImage(), productsItems.get(getLayoutPosition()).getProduct_id());
 
 //                    addToCartPresenter.updateItemCountInDB(productsItems.get(getLayoutPosition()).getItemQuantity(),
 //                            String.valueOf(productPrice * itemQuantity),
@@ -339,7 +341,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void onDecrementButtonClick(AddToCart productItems);
 
         void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
-                                String cutPrice, byte[] bytes, String imgUrl);
+                                String cutPrice, byte[] bytes, String imgUrl, String prodcutID);
 
         void removeItemFromCart(AddToCart productItems, int position);
     }

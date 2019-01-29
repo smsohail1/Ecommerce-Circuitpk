@@ -1,9 +1,14 @@
 package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
+import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
+import com.xekera.Ecommerce.data.rest.response.SignUpSuccessResponse;
+import com.xekera.Ecommerce.data.rest.response.SubmitOrderResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.adapter.BillingTotalAmountViewAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
+import okhttp3.ResponseBody;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -84,6 +89,8 @@ public interface BillingTotalAmountViewMVP {
                                String townCity, String paymode,
                                String notes, String flatCharges, String selfPickup,
                                BillingTotalAmountViewModel.IFetchCartBookingDetailsList iFetchCartDetailsList);
+
+        void postOrderDetails(String fullData, INetworkLoginSignup<ResponseBody> iNetworkLoginSignup);
 
     }
 }

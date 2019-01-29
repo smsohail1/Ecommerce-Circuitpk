@@ -1,17 +1,16 @@
-package com.xekera.Ecommerce.ui.history;
+package com.xekera.Ecommerce.ui.history.history_description;
 
-import android.content.Context;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
-import com.xekera.Ecommerce.data.rest.response.CategoryResponse;
+import com.xekera.Ecommerce.data.rest.response.Fulldetail;
+import com.xekera.Ecommerce.data.rest.response.HistoryDetailsResponse;
 import com.xekera.Ecommerce.data.rest.response.HistoryOrderIdResponse;
 import com.xekera.Ecommerce.data.rest.response.OrderList;
 import com.xekera.Ecommerce.data.room.model.Booking;
-import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
-import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
+import com.xekera.Ecommerce.ui.adapter.HistoryDesciptionAdapter;
 
 import java.util.List;
 
-public interface HistoryMVP {
+public interface HistoryDesciptionMVP {
 
     interface View {
 
@@ -25,7 +24,7 @@ public interface HistoryMVP {
 
         void showSnackBarShortTime(String message);
 
-        void showRecylerViewProductsDetail(HistoryAdapter addToCartAdapter);
+        void showRecylerViewProductsDetail(HistoryDesciptionAdapter addToCartAdapter);
 
         void showRecyclerView();
 
@@ -57,28 +56,28 @@ public interface HistoryMVP {
 
         void hideProgressDialogPleaseWait();
 
-        void setHistoryAdapter(List<OrderList> response);
-
+        void setHistoryAdapter(List<Fulldetail> response);
     }
 
     interface Presenter {
-        void setView(HistoryMVP.View view);
+        void setView(HistoryDesciptionMVP.View view);
 
         void fetchOrderDetails();
 
         void fetchCartsCount();
 
-        void fetchOrderHistoryID(String username, String emailID);
+        void fetchOrderIdDescription(String orderId);
+
 
     }
 
     interface Model {
 
-        void getOrderDetailsList(HistoryModel.IFetchOrderDetailsList iFetchOrderDetailsList);
+        void getOrderDetailsList(HistoryDesciptionModel.IFetchOrderDetailsList iFetchOrderDetailsList);
 
-        void getCartDetailsList(HistoryModel.IFetchCartDetailsList iFetchCartDetailsList);
+        void getCartDetailsList(HistoryDesciptionModel.IFetchCartDetailsList iFetchCartDetailsList);
 
-        void fetchOrderHistoryId(String username, String emailID, INetworkListGeneral<HistoryOrderIdResponse> iNetworkListGeneral);
+        void fetchOrderHistoryIdDescription(String orderId, INetworkListGeneral<HistoryDetailsResponse> iNetworkListGeneral);
 
     }
 }

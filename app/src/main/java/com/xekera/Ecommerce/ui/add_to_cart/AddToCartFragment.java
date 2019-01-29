@@ -177,8 +177,8 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 //                case R.id.navigation_History:
 //                    //  Toast.makeText(getActivity(), "History is selected", Toast.LENGTH_SHORT).show();
 //                    //((BaseActivity) getActivity()).popBackstack();
-//                    //((BaseActivity) getActivity()).addDashboardFragment(new HistoryFragment());
-//                    fragment = new HistoryFragment();
+//                    //((BaseActivity) getActivity()).addDashboardFragment(new HistoryDesciptionFragment());
+//                    fragment = new HistoryDesciptionFragment();
 //                    addFragment(fragment);
 //                    return true;
 //            }
@@ -312,9 +312,9 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     @Override
     public void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
-                                   String cutPrice, byte[] bytes, String imgUrl) {
+                                   String cutPrice, byte[] bytes, String imgUrl,String prodcutID) {
         presenter.saveProductDetails(quantity, individualPrice, itemPrice, productName,
-                cutPrice, bytes, imgUrl);
+                cutPrice, bytes, imgUrl,prodcutID);
     }
 
     @Override

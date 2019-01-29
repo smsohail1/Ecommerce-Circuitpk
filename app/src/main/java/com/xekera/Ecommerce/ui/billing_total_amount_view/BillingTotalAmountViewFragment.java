@@ -483,7 +483,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         params.put("cardToken", cardToken.getId());
         // params.put("name", "Dominic Wong");
         params.put("email", email);
-        params.put("orderID", "12345");
+        // params.put("orderID", "");
         params.put("price", Integer.valueOf(totalValueTextView.getText().toString()));
         //params.put("address", "HIHI");
 //        params.put("zip", "99999");

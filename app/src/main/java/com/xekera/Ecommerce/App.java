@@ -36,6 +36,7 @@ public class App extends Application {
                 .historyModule(new HistoryModule())
                 .favouritesModule(new FavouritesModule())
                 .continueShoppingNewModule(new ContinueShoppingNewModule())
+                .historyDesciptionModule(new HistoryDesciptionModule())
                 //.(new ContinueShopFragment())
                 .build();
     }

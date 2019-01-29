@@ -186,7 +186,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     @Override
     public void isAlreadyAddedInFavourites(final Product productItems, final int position, final Bitmap bitmap,
-                                           final String quantity, final String imgUrl) {
+                                           final String quantity, final String imgUrl, final String productID) {
         model.getFavouriteDetailsListByName(productItems.getName(), new ShopDetailsModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> favourites) {
@@ -202,13 +202,13 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
                         fav = new Favourites(productItems.getName(), productItems.getPrice(),
                                 String.valueOf(productItems.getRegularPrice()), "In Stock", formattedDate,
-                                bmp, "1", String.valueOf(totalPrice), imgUrl);
+                                bmp, "1", String.valueOf(totalPrice), imgUrl, productID);
                     } else {
                         long totalPrice = Long.valueOf(productItems.getPrice()) * Long.valueOf(quantity);
 
                         fav = new Favourites(productItems.getName(), productItems.getPrice(),
                                 String.valueOf(productItems.getRegularPrice()), "In Stock", formattedDate,
-                                bmp, String.valueOf(quantity), String.valueOf(totalPrice), imgUrl);
+                                bmp, String.valueOf(quantity), String.valueOf(totalPrice), imgUrl, productID);
                     }
 
                     addItemToFavourites(fav, true);
@@ -376,7 +376,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     @Override
     public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
-                                   final long cutPrice, final ImageView imgProductCopy, final Bitmap bitmap, final String imgUrl) {
+                                   final long cutPrice, final ImageView imgProductCopy, final Bitmap bitmap, final String imgUrl, final String productID) {
         model.getProductCount(productName, new ShopDetailsModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -388,7 +388,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
                     formattedDate = getCurrentDate();
 
                     AddToCart addToCart = new AddToCart("", productName, totalPrice, String.valueOf(quantity),
-                            "N", bmp, String.valueOf(cutPrice), price, formattedDate, imgUrl);
+                            "N", bmp, String.valueOf(cutPrice), price, formattedDate, imgUrl, productID);
                     noProductFound(addToCart, imgProductCopy);
                     return;
                 } else {
@@ -418,7 +418,8 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     @Override
     public void saveProductDecrementDetails(final long quantity, final String price, final String totalPrice, final String productName,
-                                            final long cutPrice, final ImageView imgProductCopy, final Bitmap bitmapAdd, final String imgUrl) {
+                                            final long cutPrice, final ImageView imgProductCopy, final Bitmap bitmapAdd,
+                                            final String imgUrl, final String productID) {
         model.getProductCount(productName, new ShopDetailsModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -429,7 +430,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
                     // byte[] byteImg = bitmapToByteArray(bitmapAdd);
                     byte[] byteImg = new byte[0];
                     AddToCart addToCart = new AddToCart("", productName, totalPrice, String.valueOf(quantity),
-                            "N", byteImg, String.valueOf(cutPrice), price, formattedDate, imgUrl);
+                            "N", byteImg, String.valueOf(cutPrice), price, formattedDate, imgUrl, productID);
                     noProductFoundForDecrement(addToCart, imgProductCopy);
                     return;
                 } else {

@@ -44,6 +44,16 @@ public class AddToCart {
     private String transmissionStatus;
     @ColumnInfo(name = "image")
     private String image;
+    @ColumnInfo(name = "product_id")
+    private String product_id;
+
+    public String getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
+    }
 
     public String getImage() {
         return image;
@@ -82,7 +92,7 @@ public class AddToCart {
 
     public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity, String transmissionStatus,
                      byte[] itemImage, String itemCutPrice
-            , String itemIndividualPrice, String createdDate, String image) {
+            , String itemIndividualPrice, String createdDate, String image, String product_id) {
         this.orderID = orderID;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
@@ -93,6 +103,7 @@ public class AddToCart {
         this.itemIndividualPrice = itemIndividualPrice;
         this.createdDate = createdDate;
         this.image = image;
+        this.product_id = product_id;
     }
 
     public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity, String transmissionStatus,

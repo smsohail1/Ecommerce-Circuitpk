@@ -44,7 +44,7 @@
                           android:textColor="@color/card_textview"
                           android:layout_marginTop="5dp"
                           android:layout_marginLeft="3dp"
-                          android:text="@string/label_history"/>
+                          android:text="Order Details"/>
 
 
                 <RelativeLayout android:layout_width="wrap_content"

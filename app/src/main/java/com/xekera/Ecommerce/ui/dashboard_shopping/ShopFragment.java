@@ -196,7 +196,8 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
             //presenter.setDashboardItems(getActivity());
             presenter.setDashboardItemsDetails(getActivity());
             //presenter.getTotalCounts();
-        } else {
+        }
+        else {
             showToastShortTime("Please connect to internet.");
             getTotalCartsCounts();
 

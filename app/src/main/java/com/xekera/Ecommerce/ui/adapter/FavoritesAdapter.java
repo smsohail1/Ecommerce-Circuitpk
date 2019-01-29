@@ -216,7 +216,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 productsItems.get(getLayoutPosition()).getItemName(),
                                 Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
                                 productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy,
-                                productsItems.get(getLayoutPosition()).getImage());
+                                productsItems.get(getLayoutPosition()).getImage(),
+                                productsItems.get(getLayoutPosition()).getProduct_id());
 
                     } else {
                         dec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) - 1;
@@ -231,7 +232,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 productsItems.get(getLayoutPosition()).getItemName(),
                                 Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
                                 productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy,
-                                productsItems.get(getLayoutPosition()).getImage());
+                                productsItems.get(getLayoutPosition()).getImage(),
+                                productsItems.get(getLayoutPosition()).getProduct_id());
 
                     }
 
@@ -287,7 +289,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             productsItems.get(getLayoutPosition()).getItemName(),
                             Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
                             productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy, bitmapAdd,
-                            productsItems.get(getLayoutPosition()).getImage());
+                            productsItems.get(getLayoutPosition()).getImage(),
+                            productsItems.get(getLayoutPosition()).getProduct_id());
 
 
 //                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
@@ -305,7 +308,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //                    break;
 
                 case R.id.imgShareProductDetails:
-                   // Bitmap bitmapShare = null;
+                    // Bitmap bitmapShare = null;
 
 //                    if (getLayoutPosition() == 0) {
 //                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
@@ -367,10 +370,10 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void removeFavourites(Favourites favourites, int position);
 
         void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl);
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID);
 
         void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, String imgUrl);
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID);
 
         void removeItemFromCart(Favourites favourites);
 

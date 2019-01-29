@@ -43,6 +43,7 @@
     <!--<color name="price_textview">#54595C</color>-->
     <color name="price_textview">#E10915</color>
 
+    <color name="history_id_row">#54595C</color>
     <color name="card_textview">#3b5999</color>
 
     <color name="different_address_checkbox">#54595C</color>

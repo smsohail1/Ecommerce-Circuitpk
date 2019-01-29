@@ -1,4 +1,4 @@
-package com.xekera.Ecommerce.ui.history;
+package com.xekera.Ecommerce.ui.history.history_description;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,22 +28,24 @@ import butterknife.ButterKnife;
 import cdflynn.android.library.checkview.CheckView;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
-import com.xekera.Ecommerce.data.rest.response.HistoryOrderIdResponse;
+import com.xekera.Ecommerce.data.rest.response.Fulldetail;
 import com.xekera.Ecommerce.data.rest.response.OrderList;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.BaseActivity;
-import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
-import com.xekera.Ecommerce.ui.history.history_description.HistoryDesciptionFragment;
+import com.xekera.Ecommerce.ui.adapter.HistoryDesciptionAdapter;
+import com.xekera.Ecommerce.ui.adapter.HistoryDesciptionAdapter;
+import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 
-public class HistoryFragment extends Fragment implements HistoryMVP.View, HistoryAdapter.IHistoryCancelOrderAdapter,
-        HistoryAdapter.ISearchOrderAmount, View.OnClickListener {
+public class HistoryDesciptionFragment extends Fragment implements HistoryDesciptionMVP.View, HistoryDesciptionAdapter.IHistoryCancelOrderAdapter,
+        HistoryDesciptionAdapter.ISearchOrderAmount, View.OnClickListener {
 
 
     @BindView(R.id.edtSearchProduct)
@@ -73,7 +74,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     protected LinearLayout searchParent;
 
     @Inject
-    protected HistoryMVP.Presenter presenter;
+    protected HistoryDesciptionMVP.Presenter presenter;
     @Inject
     protected Utils utils;
     @Inject
@@ -83,7 +84,11 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     @Inject
     protected SessionManager sessionManager;
 
-    HistoryAdapter adapter;
+    private ProgressCustomDialogController progressDialogControllerPleaseWait;
+
+    public static final String KEY_SHOP_CARD_SELECTED_PRODUCT_ORDER = "shop_card_selected_product_id_order";
+
+    HistoryDesciptionAdapter adapter;
     View toastView;
 
     DatePickerDialog datePickerDialog;
@@ -94,9 +99,9 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
     boolean isProgressBarShowing = false;
 
-    private ProgressCustomDialogController progressDialogControllerPleaseWait;
+    String orderID = "";
 
-    public HistoryFragment() {
+    public HistoryDesciptionFragment() {
         // Required empty public constructor
     }
 
@@ -104,6 +109,13 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
+        try {
+
+            orderID = getArguments().getString(KEY_SHOP_CARD_SELECTED_PRODUCT_ORDER);
+
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -111,7 +123,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         super.onResume();
         try {
             // ((BaseActivity) getActivity()).showBottomNavigation();
-            edtSearchProduct.setText("");
+            //edtSearchProduct.setText("");
             // datePickerEdittext.setText("");
 
         } catch (Exception ex) {
@@ -123,7 +135,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_history, container, false);
+        View v = inflater.inflate(R.layout.fragment_history_discription, container, false);
 
         initializeViews(v);
 
@@ -144,7 +156,6 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         linearLayoutItemDetails.setOnClickListener(this);
 
         toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
-
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -190,23 +201,39 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
             @Override
             public void run() {
 
-                //   presenter.fetchOrderDetails();
+                //  presenter.fetchOrderDetails();
                 if (utils.isInternetAvailable()) {
                     // progressbar.setVisibility(View.VISIBLE);
 
-                    if (utils.isTextNullOrEmpty(sessionManager.getusername()) || utils.isTextNullOrEmpty(sessionManager.getEmail())) {
-                        showToastShortTime("First log in to view past orders.");
-                    } else {
-                        presenter.fetchOrderHistoryID(sessionManager.getusername(), sessionManager.getEmail());
-                    }
+                    presenter.fetchOrderIdDescription(orderID);
+
                 } else {
                     showToastShortTime("Please connect to internet to view past orders.");
 
                 }
+
             }
         }, 600);
     }
 
+
+    @Override
+    public void showProgressDialogPleaseWait() {
+        progressDialogControllerPleaseWait.showDialog();
+
+    }
+
+    @Override
+    public void hideProgressDialogPleaseWait() {
+        progressDialogControllerPleaseWait.hideDialog();
+
+    }
+
+    @Override
+    public void setHistoryAdapter(List<Fulldetail> response) {
+        adapter = new HistoryDesciptionAdapter(getActivity(), response, this, this);
+        showRecylerViewProductsDetail(adapter);
+    }
 
     @Override
     public void showToastShortTime(String message) {
@@ -224,10 +251,10 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     }
 
     @Override
-    public void showRecylerViewProductsDetail(HistoryAdapter historyAdapter) {
+    public void showRecylerViewProductsDetail(HistoryDesciptionAdapter HistoryDesciptionAdapter) {
         progressBarRelativeLayout.setVisibility(View.GONE);
         isProgressBarShowing = false;
-        recyclerViewAddToCartDetails.setAdapter(historyAdapter);
+        recyclerViewAddToCartDetails.setAdapter(HistoryDesciptionAdapter);
 
 
     }
@@ -295,17 +322,16 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     @Override
     public void setAdapter(List<Booking> addToCarts) {
         //   if (adapter == null) {
-        //adapter = new HistoryAdapter(getActivity(), addToCarts, this, this);
+        //  adapter = new HistoryDesciptionAdapter(getActivity(), addToCarts, this, this);
         // showRecylerViewProductsDetail(adapter);
 
         // } else {
         //    adapter.removeAll();
         //   adapter.addAll(addToCarts);
         // }
-        getSubTotal(addToCarts);
+        //getSubTotal(addToCarts);
 
     }
-
 
     @Override
     public void showOrderCompleteSuccessDialog() {
@@ -329,24 +355,6 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     public void hideSearchDate() {
         searchParent.setVisibility(View.GONE);
 
-    }
-
-    @Override
-    public void showProgressDialogPleaseWait() {
-        progressDialogControllerPleaseWait.showDialog();
-
-    }
-
-    @Override
-    public void hideProgressDialogPleaseWait() {
-        progressDialogControllerPleaseWait.hideDialog();
-
-    }
-
-    @Override
-    public void setHistoryAdapter(List<OrderList> response) {
-        adapter = new HistoryAdapter(getActivity(), response, this, this);
-        showRecylerViewProductsDetail(adapter);
     }
 
     private void showOrderCompleteSuccessDialog(Context context) {
@@ -384,6 +392,21 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
         dialog.show();
     }
 
+    public HistoryDesciptionFragment newInstance(String orderID) {
+        HistoryDesciptionFragment fragment = null;
+        try {
+
+
+            Bundle bundle = new Bundle();
+            bundle.putString(KEY_SHOP_CARD_SELECTED_PRODUCT_ORDER, orderID);
+
+            fragment = new HistoryDesciptionFragment();
+            fragment.setArguments(bundle);
+            return fragment;
+        } catch (Exception e) {
+            return fragment;
+        }
+    }
 
     private void getSubTotal(List<Booking> addToCarts) {
         long price = 0;
@@ -430,20 +453,16 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     boolean isEnable = true;
 
     @Override
-    public void trackOrder(final String orderID) {
+    public void trackOrder(String orderID) {
         if (isEnable) {
             isEnable = false;
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    showDialog(getActivity(), "Track Order Details");
                     isEnable = true;
-                    HistoryDesciptionFragment historyDesciptionFragment = new HistoryDesciptionFragment();
-
-                    ((BaseActivity) getActivity()).addFragment(historyDesciptionFragment.newInstance(orderID));
-                    // showDialog(getActivity(), "Track Order Details");
-                    //isEnable = true;
                 }
-            }, 100);
+            }, 400);
         }
     }
 

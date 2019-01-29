@@ -658,23 +658,25 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       ImageView imgProductCopy, Bitmap bitmap, String imgUrl) {
+                                       ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID) {
 
-        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmap, imgUrl);
+        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmap, imgUrl, productID);
     }
 
     @Override
     public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       ImageView imgProductCopy, Bitmap bitmapAdd, String imgUrl) {
+                                       ImageView imgProductCopy, Bitmap bitmapAdd, String imgUrl, String productID) {
 
-        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmapAdd, imgUrl);
+        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmapAdd,
+                imgUrl, productID);
 
     }
 
     @Override
-    public void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl) {
+    public void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl,
+                                       String productID) {
 
-        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap, quantity, imgUrl);
+        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap, quantity, imgUrl, productID);
 
      /*   if (!productItems.isFavourite()) {
             presenter.removeItem(productItems.getProductName(), position);
@@ -746,7 +748,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void onCardClick(final String productName, final String price, final long cutPrice, final long quantity,
-                            final List<String> imgList, final Bitmap bitmapImg, final String about, final String sku) {
+                            final List<String> imgList, final Bitmap bitmapImg, final String about, final String sku, final String productID) {
         utils.hideSoftKeyboard(edtSearchProduct);
 
         new Handler().postDelayed(new Runnable() {
@@ -756,7 +758,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                 ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
 
                 ((BaseActivity) getActivity()).replaceFragmentForActivityTranstion(shopCardSelectedFragment.newInstance(productName,
-                        price, cutPrice, quantity, imgList, bitmapImg, about, sku));
+                        price, cutPrice, quantity, imgList, bitmapImg, about, sku, productID));
             }
         }, 200);
 

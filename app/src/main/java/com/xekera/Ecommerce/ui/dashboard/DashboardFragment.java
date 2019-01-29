@@ -138,8 +138,8 @@ public class DashboardFragment extends Fragment implements DashboardMVP.View {
 //                case R.id.navigation_History:
 //                    //  Toast.makeText(getActivity(), "History is selected", Toast.LENGTH_SHORT).show();
 //                    //((BaseActivity) getActivity()).popBackstack();
-//                    //((BaseActivity) getActivity()).addDashboardFragment(new HistoryFragment());
-//                    fragment = new HistoryFragment();
+//                    //((BaseActivity) getActivity()).addDashboardFragment(new HistoryDesciptionFragment());
+//                    fragment = new HistoryDesciptionFragment();
 //                    addFragment(fragment);
 //                    return true;
 //            }

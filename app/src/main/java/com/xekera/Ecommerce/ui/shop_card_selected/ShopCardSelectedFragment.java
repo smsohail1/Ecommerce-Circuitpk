@@ -136,11 +136,12 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     public static final String KEY_SHOP_CARD_SELECTED_IMAGE = "shop_card_selected_image";
     public static final String KEY_SHOP_CARD_SELECTED_ABOUT = "shop_card_selected_about";
     public static final String KEY_SHOP_CARD_SELECTED_SKU = "shop_card_selected_sku";
+    public static final String KEY_SHOP_CARD_SELECTED_PRODUCT_ID = "shop_card_selected_product_id";
 
 
     ShoppingDetailModel shoppingDetailModel;
     Bitmap bitmapImage;
-    String productName = "", price = "", cutPrice = "", quantity = "", about = "", sku = "";
+    String productName = "", price = "", cutPrice = "", quantity = "", about = "", sku = "", producdID = "";
 
     List<String> imgList;
 
@@ -188,6 +189,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
             about = getArguments().getString(KEY_SHOP_CARD_SELECTED_ABOUT);
             sku = getArguments().getString(KEY_SHOP_CARD_SELECTED_SKU);
+            producdID = getArguments().getString(KEY_SHOP_CARD_SELECTED_PRODUCT_ID);
 
 //            String bitmapStr = "";
 //            bitmapStr = getArguments().getString(KEY_SHOP_CARD_SELECTED_IMAGE);
@@ -646,7 +648,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //    }
 
     public ShopCardSelectedFragment newInstance(String productName, String price, long cutPrice, long quantity,
-                                                List<String> imgList, Bitmap bitmapImg, String about, String sku) {
+                                                List<String> imgList, Bitmap bitmapImg, String about, String sku, String productID) {
         ShopCardSelectedFragment fragment = null;
         try {
 
@@ -660,6 +662,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             bundle.putParcelable(KEY_SHOP_CARD_SELECTED_IMAGE, bitmapImg);
             bundle.putString(KEY_SHOP_CARD_SELECTED_ABOUT, about);
             bundle.putString(KEY_SHOP_CARD_SELECTED_SKU, sku);
+            bundle.putString(KEY_SHOP_CARD_SELECTED_PRODUCT_ID, productID);
 
             fragment = new ShopCardSelectedFragment();
             fragment.setArguments(bundle);
@@ -830,7 +833,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
                     Favourites favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
                             availabilityInStock, formattedDate,
-                            byteArray, quantity, String.valueOf(totalPrice), imgList.get(0));
+                            byteArray, quantity, String.valueOf(totalPrice), imgList.get(0), producdID);
                     presenter.addItemToFavourites(favourites, favourite);
 
 
@@ -870,7 +873,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //
 //                }
                 AddToCart addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
-                        "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0));
+                        "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID);
                 presenter.saveProductDetails(addToCart);
 
                 break;

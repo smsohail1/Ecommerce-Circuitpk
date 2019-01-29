@@ -1,15 +1,14 @@
-package com.xekera.Ecommerce.ui.history;
+package com.xekera.Ecommerce.ui.history.history_description;
 
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
+import com.xekera.Ecommerce.data.rest.response.HistoryDetailsResponse;
 import com.xekera.Ecommerce.data.rest.response.HistoryOrderIdResponse;
-import com.xekera.Ecommerce.data.rest.response.LoginSuccessResponse;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
 import com.xekera.Ecommerce.data.room.dao.BookingDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
-import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 import com.xekera.Ecommerce.util.Utils;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -23,12 +22,12 @@ import retrofit2.Response;
 
 import java.util.List;
 
-public class HistoryModel implements HistoryMVP.Model {
+public class HistoryDesciptionModel implements HistoryDesciptionMVP.Model {
     private AppDatabase appDatabase;
     private Utils utils;
     private XekeraAPI xekeraAPI;
 
-    public HistoryModel(AppDatabase appDatabase, Utils utils, XekeraAPI xekeraAPI) {
+    public HistoryDesciptionModel(AppDatabase appDatabase, Utils utils, XekeraAPI xekeraAPI) {
         this.appDatabase = appDatabase;
         this.utils = utils;
         this.xekeraAPI = xekeraAPI;
@@ -113,15 +112,15 @@ public class HistoryModel implements HistoryMVP.Model {
     }
 
     @Override
-    public void fetchOrderHistoryId(String username, String emailID, final INetworkListGeneral<HistoryOrderIdResponse> iNetworkListGeneral) {
-        Call<HistoryOrderIdResponse> call = xekeraAPI.getOrderHistroryId(username, emailID);
-        call.enqueue(new Callback<HistoryOrderIdResponse>() {
+    public void fetchOrderHistoryIdDescription(String orderId, final INetworkListGeneral<HistoryDetailsResponse> iNetworkListGeneral) {
+        Call<HistoryDetailsResponse> call = xekeraAPI.getOrderHistoryIdDetail(orderId);
+        call.enqueue(new Callback<HistoryDetailsResponse>() {
             @Override
-            public void onResponse(Call<HistoryOrderIdResponse> call, Response<HistoryOrderIdResponse> response) {
+            public void onResponse(Call<HistoryDetailsResponse> call, Response<HistoryDetailsResponse> response) {
                 try {
-                    HistoryOrderIdResponse historyOrderIdResponse = response.body();
+                    HistoryDetailsResponse historyDetailsResponse = response.body();
 
-                    iNetworkListGeneral.onSuccess(historyOrderIdResponse);
+                    iNetworkListGeneral.onSuccess(historyDetailsResponse);
 //                    if(messageResponse == null){
 //                        iNetworkLoginSignup.onErrorList(getMessageResponse(utils.getStringFromResourceId(R.string.error),
 //                                utils.getStringFromResourceId(R.string.null_response_received)));
@@ -135,7 +134,7 @@ public class HistoryModel implements HistoryMVP.Model {
             }
 
             @Override
-            public void onFailure(Call<HistoryOrderIdResponse> call, Throwable t) {
+            public void onFailure(Call<HistoryDetailsResponse> call, Throwable t) {
                 iNetworkListGeneral.onFailure(t);
             }
         });

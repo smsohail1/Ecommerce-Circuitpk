@@ -1,28 +1,27 @@
-package com.xekera.Ecommerce.ui.history;
+package com.xekera.Ecommerce.ui.history.history_description;
 
-import android.app.Dialog;
 import android.content.Context;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
+import com.xekera.Ecommerce.data.rest.response.HistoryDetailsResponse;
 import com.xekera.Ecommerce.data.rest.response.HistoryOrderIdResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
-import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 
 import java.util.List;
 
-public class HistoryPresenter implements HistoryMVP.Presenter {
-    private HistoryMVP.View view;
-    private HistoryMVP.Model model;
+public class HistoryDesciptionPresenter implements HistoryDesciptionMVP.Presenter {
+    private HistoryDesciptionMVP.View view;
+    private HistoryDesciptionMVP.Model model;
     private SessionManager sessionManager;
     private Utils utils;
     private Context context;
     private HistoryAdapter adapter;
 
 
-    public HistoryPresenter(Context context, HistoryMVP.Model model, SessionManager sessionManager, Utils utils) {
+    public HistoryDesciptionPresenter(Context context, HistoryDesciptionMVP.Model model, SessionManager sessionManager, Utils utils) {
         this.context = context;
         this.model = model;
         this.sessionManager = sessionManager;
@@ -30,7 +29,7 @@ public class HistoryPresenter implements HistoryMVP.Presenter {
     }
 
     @Override
-    public void setView(HistoryMVP.View view) {
+    public void setView(HistoryDesciptionMVP.View view) {
         this.view = view;
 
     }
@@ -38,7 +37,7 @@ public class HistoryPresenter implements HistoryMVP.Presenter {
     @Override
     public void fetchOrderDetails() {
 
-        model.getOrderDetailsList(new HistoryModel.IFetchOrderDetailsList() {
+        model.getOrderDetailsList(new HistoryDesciptionModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Booking> addToCarts) {
                 if (addToCarts == null || addToCarts.size() == 0) {
@@ -54,7 +53,7 @@ public class HistoryPresenter implements HistoryMVP.Presenter {
                     view.hideNoCartItemFound();
 
                     view.showRecyclerView();
-                    // view.setAdapter(addToCarts);
+                    view.setAdapter(addToCarts);
                     view.showSearchData();
                     //view.showOrderCompleteSuccessDialog();
                     // setAdapter(addToCarts);
@@ -73,7 +72,7 @@ public class HistoryPresenter implements HistoryMVP.Presenter {
 
     @Override
     public void fetchCartsCount() {
-        model.getCartDetailsList(new HistoryModel.IFetchCartDetailsList() {
+        model.getCartDetailsList(new HistoryDesciptionModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCarts) {
                 if (addToCarts == null || addToCarts.size() == 0) {
@@ -99,27 +98,40 @@ public class HistoryPresenter implements HistoryMVP.Presenter {
     }
 
     @Override
-    public void fetchOrderHistoryID(String username, String emailID) {
+    public void fetchOrderIdDescription(String orderId) {
         view.showProgressDialogPleaseWait();
-        model.fetchOrderHistoryId(username, emailID, new INetworkListGeneral<HistoryOrderIdResponse>() {
+        model.fetchOrderHistoryIdDescription(orderId, new INetworkListGeneral<HistoryDetailsResponse>() {
             @Override
-            public void onSuccess(HistoryOrderIdResponse response) {
+            public void onSuccess(HistoryDetailsResponse response) {
                 view.hideProgressDialogPleaseWait();
                 if (response == null) {
-                    view.showToastShortTime("Server not responding.");
-
+                    view.showToastShortTime("No order found.");
+                    view.hideSearchDate();
+                    view.hideLoadingProgressDialog();
                     return;
                 } else {
-                    if (response.getOrderList().size() == 0) {
+                    if (response.getFulldetail() == null) {
                         view.showToastShortTime("No order found.");
-                        return;
+                        view.hideSearchDate();
+                        view.hideLoadingProgressDialog();
 
+                        return;
+                    }
+
+                    if (response.getFulldetail().size() == 0) {
+                        view.showToastShortTime("No order found.");
+                        view.hideSearchDate();
+                        view.hideLoadingProgressDialog();
+
+                        return;
                     } else {
-                        view.setHistoryAdapter(response.getOrderList());
+                        view.setHistoryAdapter(response.getFulldetail());
+                        view.showSearchData();
+                        view.hideLoadingProgressDialog();
+
                     }
                 }
             }
-
 
             @Override
             public void onFailure(Throwable t) {
