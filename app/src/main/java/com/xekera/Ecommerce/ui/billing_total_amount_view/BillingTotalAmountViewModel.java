@@ -1,8 +1,10 @@
 package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
+import com.xekera.Ecommerce.data.rest.INetworkPostOrder;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.data.rest.response.SubmitAddressResponse;
+import com.xekera.Ecommerce.data.rest.response.SubmitOrderSingleListResponse;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
 import com.xekera.Ecommerce.data.room.dao.BookingDao;
@@ -337,14 +339,16 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
     }
 
     @Override
-    public void setOrderDetailsDescription(String fullData, final INetworkLoginSignup<ResponseBody> iNetworkLoginSignup) {
-        Call<ResponseBody> call = xekeraAPI.postOrderListDeatils(fullData);
-        call.enqueue(new Callback<ResponseBody>() {
+    public void setOrderDetailsDescription(String product_id,
+                                           String itemQuantity, String itemPrice,
+                                           String last_id, final int countsID, final INetworkPostOrder<SubmitOrderSingleListResponse> iNetworkLoginSignup) {
+        Call<SubmitOrderSingleListResponse> call = xekeraAPI.postOrderListDeatils(product_id, itemQuantity, itemPrice, last_id);
+        call.enqueue(new Callback<SubmitOrderSingleListResponse>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<SubmitOrderSingleListResponse> call, Response<SubmitOrderSingleListResponse> response) {
                 try {
-                    ResponseBody submitOrderResponse = response.body();
-                    iNetworkLoginSignup.onSuccess(submitOrderResponse);
+                    SubmitOrderSingleListResponse submitOrderResponse = response.body();
+                    iNetworkLoginSignup.onSuccess(submitOrderResponse, countsID);
 
                     //  boolean update = updateOrderID("");
 
@@ -354,7 +358,7 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<SubmitOrderSingleListResponse> call, Throwable t) {
                 iNetworkLoginSignup.onFailure(t);
             }
         });

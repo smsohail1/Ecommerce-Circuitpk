@@ -1,7 +1,9 @@
 package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
+import com.xekera.Ecommerce.data.rest.INetworkPostOrder;
 import com.xekera.Ecommerce.data.rest.response.SubmitAddressResponse;
+import com.xekera.Ecommerce.data.rest.response.SubmitOrderSingleListResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.adapter.BillingTotalAmountViewAdapter;
@@ -100,7 +102,9 @@ public interface BillingTotalAmountViewMVP {
                               String payment,
                               String message, INetworkLoginSignup<SubmitAddressResponse> iNetworkLoginSignup);
 
-        void setOrderDetailsDescription(String fullData, INetworkLoginSignup<ResponseBody> iNetworkLoginSignup);
+        void setOrderDetailsDescription(String product_id,
+                                        String itemQuantity, String itemPrice,
+                                        String last_id, int countsID, INetworkPostOrder<SubmitOrderSingleListResponse> iNetworkLoginSignup);
 
     }
 }

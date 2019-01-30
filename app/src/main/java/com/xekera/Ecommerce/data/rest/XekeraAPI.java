@@ -1,11 +1,13 @@
 package com.xekera.Ecommerce.data.rest;
 
 import com.xekera.Ecommerce.data.rest.response.*;
+import com.xekera.Ecommerce.data.room.model.AddToCart;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface XekeraAPI {
 
@@ -76,6 +78,23 @@ public interface XekeraAPI {
     //Call<ResponseBody> postOrderDeatils(@Body String jsonData);
 
     @FormUrlEncoded
-    @POST(WEB_API_SUBMIT_ORDER + "submitorder.php")
-    Call<ResponseBody> postOrderListDeatils(@Field("jsondata") String data);
+    @POST(WEB_API_SUBMIT_ORDER + "submitdata.php")
+    Call<SubmitOrderSingleListResponse> postOrderListDeatils(@Field("product_id") String product_id,
+                                            @Field("itemQuantity") String itemQuantity,
+                                            @Field("itemPrice") String itemPrice,
+                                            @Field("last_id") String last_id
+    );
+
+
+    @Headers({
+            "Content-type: application/json"
+    })
+    @POST(WEB_API_SUBMIT_ORDER + "submitdata.php")
+    Call<ResponseBody> postOrderListDeatils1(@Body String arrayOfSids);
+
+
+//    @FormUrlEncoded
+//    @POST(WEB_API_SUBMIT_ORDER + "submitdata.php")
+//    Call<ResponseBody> postOrderListDeatils3(@Field("productlist[]") List<AddToCart> arrayOfSids);
+
 }
