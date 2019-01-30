@@ -1,11 +1,8 @@
 package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
-import android.util.Log;
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
-import com.xekera.Ecommerce.data.rest.response.LoginSuccessResponse;
-import com.xekera.Ecommerce.data.rest.response.SignUpSuccessResponse;
-import com.xekera.Ecommerce.data.rest.response.SubmitOrderResponse;
+import com.xekera.Ecommerce.data.rest.response.SubmitAddressResponse;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
 import com.xekera.Ecommerce.data.room.dao.BookingDao;
@@ -19,7 +16,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
-import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,6 +43,45 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
                         @Override
                         public List<AddToCart> apply(AddToCartDao addToCartDao) throws Exception {
                             return addToCartDao.getAllCartOrderDetails();
+                        }
+                    }).
+                    subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Observer<List<AddToCart>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<AddToCart> AddToCartList) {
+                            iFetchCartDetailsList.onCartDetailsReceived(AddToCartList);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            iFetchCartDetailsList.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception e) {
+            iFetchCartDetailsList.onErrorReceived(e);
+        }
+
+    }
+
+    @Override
+    public void getCartDetailsListItems(final IFetchCartDetailsList iFetchCartDetailsList) {
+        try {
+            Observable.just(appDatabase.getAddToCartDao()).
+                    map(new Function<AddToCartDao, List<AddToCart>>() {
+                        @Override
+                        public List<AddToCart> apply(AddToCartDao addToCartDao) throws Exception {
+                            return addToCartDao.getAllCartCountItems();
                         }
                     }).
                     subscribeOn(Schedulers.io()).
@@ -169,6 +204,49 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
     }
 
     @Override
+    public void updateBooking(final String orderId, final IBookingInsert iBookingInsert) {
+        try {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
+                        @Override
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+                            appDatabase.getAddToCartDao().updateWithOrderId(orderId);
+                            return true;
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean updated) {
+                            iBookingInsert.onSuccess(updated);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            if (e.getMessage() != null) {
+                                iBookingInsert.onErrorReceived((Exception) e);
+                            }
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception ex) {
+            iBookingInsert.onErrorReceived(ex);
+        }
+
+    }
+
+    @Override
     public void addItemsToBooking(final List<AddToCart> addToCarts, final String firstName, final String company, final String phone,
                                   final String email, final String streetAddress1,
                                   final String townCity, final String paymode,
@@ -222,15 +300,53 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
     }
 
     @Override
-    public void postOrderDetails(String fullData, final INetworkLoginSignup<ResponseBody> postOrder) {
-        Call<ResponseBody> call = xekeraAPI.postOrderDeatils(fullData);
+    public void postOrderDetails(String name,
+                                 String address,
+                                 String email,
+                                 String company,
+                                 String phone,
+                                 String payment,
+                                 String message, final INetworkLoginSignup<SubmitAddressResponse> postOrder) {
+        Call<SubmitAddressResponse> call = xekeraAPI.postOrderDeatils(name,
+                address,
+                email,
+                company,
+                phone,
+                payment,
+                message);
+        call.enqueue(new Callback<SubmitAddressResponse>() {
+            @Override
+            public void onResponse(Call<SubmitAddressResponse> call, Response<SubmitAddressResponse> response) {
+                try {
+                    SubmitAddressResponse submitOrderResponse = response.body();
+                    postOrder.onSuccess(submitOrderResponse);
+
+                    //  boolean update = updateOrderID("");
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SubmitAddressResponse> call, Throwable t) {
+                postOrder.onFailure(t);
+            }
+        });
+
+    }
+
+    @Override
+    public void setOrderDetailsDescription(String fullData, final INetworkLoginSignup<ResponseBody> iNetworkLoginSignup) {
+        Call<ResponseBody> call = xekeraAPI.postOrderListDeatils(fullData);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     ResponseBody submitOrderResponse = response.body();
-                    postOrder.onSuccess(submitOrderResponse);
+                    iNetworkLoginSignup.onSuccess(submitOrderResponse);
 
+                    //  boolean update = updateOrderID("");
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -239,11 +355,56 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                postOrder.onFailure(t);
+                iNetworkLoginSignup.onFailure(t);
             }
         });
-
     }
+
+    Boolean update = false;
+    String message = "";
+
+//    private boolean updateOrderID(final String orderID) {
+//        try {
+//            Observable.just(appDatabase)
+//                    .map(new Function<AppDatabase, Boolean>() {
+//                        @Override
+//                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+//                            appDatabase.getAddToCartDao().updateWithOrderId(orderID);
+//                            return true;
+//                        }
+//                    })
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<Boolean>() {
+//                        @Override
+//                        public void onSubscribe(Disposable d) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onNext(Boolean updated) {
+//                            update = updated;
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//                            if (e.getMessage() != null) {
+//                                message = e.getMessage();
+//                            }
+//
+//                        }
+//
+//                        @Override
+//                        public void onComplete() {
+//
+//                        }
+//                    });
+//        } catch (Exception ex) {
+//            message = ex.getMessage();
+//
+//        }
+//
+//    }
 
     interface IFetchCartDetailsList {
         void onCartDetailsReceived(List<AddToCart> AddToCartList);

@@ -5,6 +5,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
+import java.util.HashMap;
+
 public interface XekeraAPI {
 
     String WEB_API_SIGN_UP_URL = "_login_&_signup_/_login_&_signup_/User/";
@@ -56,12 +58,24 @@ public interface XekeraAPI {
 //            "Content-Type: application/json"
 ////            "x-access-token: eyJhbGciOiJIU"
 //    })
-    @FormUrlEncoded
     // @Headers({"Content-Type: application/json;charset=UTF-8"})
+    // @Headers({"Content-Type: application/json;charset=UTF-8"})
+//    @POST(WEB_API_SUBMIT_ORDER + "submitorder.php?jsondata=")
+    @FormUrlEncoded
     @POST(WEB_API_SUBMIT_ORDER + "submitorder.php")
+
     //  @Multipart
     // Call<SubmitOrderResponse> postOrderDeatils(@Body String jsonData);
-    Call<ResponseBody> postOrderDeatils(@Field("jsondata") String jsonData);
+    Call<SubmitAddressResponse> postOrderDeatils(@Field("name") String name,
+                                                 @Field("address") String address,
+                                                 @Field("email") String email,
+                                                 @Field("company") String company,
+                                                 @Field("phone") String phone,
+                                                 @Field("payment") String payment,
+                                                 @Field("message") String message);
+    //Call<ResponseBody> postOrderDeatils(@Body String jsonData);
 
-
+    @FormUrlEncoded
+    @POST(WEB_API_SUBMIT_ORDER + "submitorder.php")
+    Call<ResponseBody> postOrderListDeatils(@Field("jsondata") String data);
 }

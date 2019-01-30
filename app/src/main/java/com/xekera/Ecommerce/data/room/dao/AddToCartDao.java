@@ -38,6 +38,9 @@ public interface AddToCartDao {
     List<AddToCart> getAllCartCount();
 
 
+    @Query("SELECT * FROM add_to_cart")
+    List<AddToCart> getAllCartCountItems();
+
     @Query("DELETE FROM add_to_cart where item_name =:itemName")
     void deleteItem(String itemName);
 
@@ -55,6 +58,9 @@ public interface AddToCartDao {
 
     @Query("UPDATE add_to_cart SET item_quantity = :quantity , item_price = :itemPrice , item_cut_price = :cutPrice , created_date = :createdDate where item_name = :itemName")
     void updateItemCountWithDate(String quantity, String itemPrice, String itemName, String cutPrice, String createdDate);
+
+    @Query("UPDATE add_to_cart SET product_id = :orderId")
+    void updateWithOrderId(String orderId);
 
 
 //    @Query("SELECT sum(item_price) FROM add_to_cart")

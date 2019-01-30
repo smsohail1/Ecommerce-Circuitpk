@@ -312,6 +312,8 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     @Override
     public void itemRemovedFromCart() {
         //  showToastLongTime("Order Submitted Successfully.");
+
+        ((BaseActivity) getActivity()).showTotalCartsCount(0);
         showOrderCompleteSuccessDialog(getActivity());
 
         new Handler().postDelayed(new Runnable() {
@@ -415,7 +417,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
                             presenter.insertBooking(cartList, formattedDate, firstName + lastName, companyName,
                                     phoneNo, email, streetAddress1 + townCity, paymentMode, orderNotes, selfPikup,
-                                    flatCharges);
+                                    flatCharges, sessionManager.getusername());
 
 
                         }
@@ -504,7 +506,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                         formattedDate = getCurrentDate();
                         presenter.insertBooking(cartList, formattedDate, firstName + lastName, companyName,
                                 phoneNo, email, streetAddress1 + townCity, paymentMode, orderNotes, selfPikup,
-                                flatCharges);
+                                flatCharges, sessionManager.getusername());
                         //  Log.d("Cloud Response", "There were no exceptions! " + response.toString());
 
                     } else {
