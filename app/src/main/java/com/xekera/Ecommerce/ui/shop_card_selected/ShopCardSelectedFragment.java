@@ -833,7 +833,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
                     Favourites favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
                             availabilityInStock, formattedDate,
-                            byteArray, quantity, String.valueOf(totalPrice), imgList.get(0), producdID);
+                            byteArray, quantity, String.valueOf(totalPrice), imgList.get(0), producdID, "0");
                     presenter.addItemToFavourites(favourites, favourite);
 
 
@@ -873,7 +873,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //
 //                }
                 AddToCart addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
-                        "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID);
+                        "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID, "0");
                 presenter.saveProductDetails(addToCart);
 
                 break;

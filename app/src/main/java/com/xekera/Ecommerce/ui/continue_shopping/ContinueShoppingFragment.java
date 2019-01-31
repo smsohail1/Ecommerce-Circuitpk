@@ -530,16 +530,16 @@ public class ContinueShoppingFragment extends Fragment implements ContinueShoppi
 
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID) {
+                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID,String isEmailSent) {
 
-        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap, imgUrl, productID);
+        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap, imgUrl, productID,isEmailSent);
     }
 
     @Override
     public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID) {
+                                       byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID,String isEmailSent) {
 
-        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, imgUrl, productID);
+        presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, imgUrl, productID,isEmailSent);
 
     }
 

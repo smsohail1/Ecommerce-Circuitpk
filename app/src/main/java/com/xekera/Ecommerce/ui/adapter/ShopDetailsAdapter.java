@@ -376,7 +376,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     iShopDetailAdapter.onFavouriteButtonClick(productsItems.get(getLayoutPosition()), getLayoutPosition(),
                             bitmapFavourite, counterTextview.getText().toString(),
                             productsItems.get(getLayoutPosition()).getImageJson().get(0),
-                            productsItems.get(getLayoutPosition()).getId());
+                            productsItems.get(getLayoutPosition()).getId(),"0");
                     break;
                 case R.id.decrementImageButton:
                     //  decrementCounter = decrementCounter - 1;
@@ -418,7 +418,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 productsItems.get(getLayoutPosition()).getName(),
                                 Long.valueOf(productsItems.get(getLayoutPosition()).getRegularPrice()),
                                 imgProductCopy, bitmapAdd, productsItems.get(getLayoutPosition()).getImageJson().get(0),
-                                productsItems.get(getLayoutPosition()).getId());
+                                productsItems.get(getLayoutPosition()).getId(), "0");
 
                     } else {
                         // productsItems.get(getLayoutPosition()).setItemQuantity(0);
@@ -494,7 +494,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             productsItems.get(getLayoutPosition()).getName(),
                             Long.valueOf(productsItems.get(getLayoutPosition()).getRegularPrice()), imgProductCopy,
                             bitmapAdd, productsItems.get(getLayoutPosition()).getImageJson().get(0),
-                            productsItems.get(getLayoutPosition()).getId());
+                            productsItems.get(getLayoutPosition()).getId(), "0");
 
 
 //                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
@@ -551,13 +551,14 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void onViewDetailsButtonClick(Product productItems);
 
-        void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl, String productID);
+        void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl, String productID,String isEmailFav);
 
         void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID);
+                                    long cutPrice, ImageView imgProductCopy, Bitmap bitmap, String imgUrl,
+                                    String productID, String isEmailSent);
 
         void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, ImageView imgProductCopy, Bitmap bitmapAdd, String imgUrl, String productID);
+                                    long cutPrice, ImageView imgProductCopy, Bitmap bitmapAdd, String imgUrl, String productID, String isEmailSent);
 
 
         //void onCardClick(ShoppingDetailModel productItems, Bitmap bitmapImg);

@@ -2,24 +2,25 @@ package com.xekera.Ecommerce.data.rest.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.xekera.Ecommerce.data.rest.response.HistoryOrderDescriptionAddressResponse.Address;
 import com.xekera.Ecommerce.data.rest.response.HistoryProductResponse.Product;
 
 import java.util.List;
 
 public class HistoryOrderIdDiscriptionResponse {
-    @SerializedName("Product")
+    @SerializedName("Products")
     @Expose
-    private List<Product> product = null;
+    private Products products;
     @SerializedName("Address")
     @Expose
     private Address address;
 
-    public List<Product> getProduct() {
-        return product;
+    public Products getProducts() {
+        return products;
     }
 
-    public void setProduct(List<Product> product) {
-        this.product = product;
+    public void setProducts(Products products) {
+        this.products = products;
     }
 
     public Address getAddress() {
@@ -29,6 +30,5 @@ public class HistoryOrderIdDiscriptionResponse {
     public void setAddress(Address address) {
         this.address = address;
     }
-
 
 }

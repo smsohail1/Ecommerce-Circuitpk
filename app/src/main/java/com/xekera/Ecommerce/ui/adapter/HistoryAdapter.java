@@ -79,10 +79,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder instanceof productDetailsDataListViewHolder) {
             final productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
-            productDetailsDataListViewHolder.OrderId.setText(booking.getOrderID());
-            productDetailsDataListViewHolder.Status.setText(booking.getOrderStatus());
-            productDetailsDataListViewHolder.orderDate.setText(booking.getOrderOn());
-
+            if (booking.getOrderID() != null && !booking.getOrderID().equalsIgnoreCase("")) {
+                productDetailsDataListViewHolder.OrderId.setText(booking.getOrderID());
+            }
+            if (booking.getOrderStatus() != null && !booking.getOrderStatus().equalsIgnoreCase("")) {
+                productDetailsDataListViewHolder.Status.setText(booking.getOrderStatus());
+            }
+            if (booking.getOrderOn() != null && !booking.getOrderOn().equalsIgnoreCase("")) {
+                productDetailsDataListViewHolder.orderDate.setText(booking.getOrderOn());
+            }
 //            try {
 //
 //                Glide.with(context)
@@ -156,8 +161,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public CardView cardViewParent;
         @BindView(R.id.btnTrackOrder)
         public Button btnTrackOrder;
-      //  @BindView(R.id.avloadingIndicatorView)
-       // public AVLoadingIndicatorView avloadingIndicatorView;
+        //  @BindView(R.id.avloadingIndicatorView)
+        // public AVLoadingIndicatorView avloadingIndicatorView;
 
 
         public productDetailsDataListViewHolder(View itemView) {

@@ -73,10 +73,10 @@ public interface FavouritesMVP {
         void removeFromFavourites(Favourites favourites, int position);
 
         void saveProductDetails(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[]
-                byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID);
+                byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID,String isEmailFav);
 
         void saveProductDecrementDetails(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                         byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID);
+                                         byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID,String isEmailFav);
 
         void removeItem(Favourites favourites);
 

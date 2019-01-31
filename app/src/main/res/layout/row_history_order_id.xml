@@ -31,35 +31,67 @@
                     android:layout_weight="0.8"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-
                     android:padding="15dp"
                     android:orientation="vertical">
-                <TextView
-                        android:id="@+id/OrderId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="fdfdf"
-                        android:textColor="@color/history_id_row"
-                        android:layout_marginLeft="5dp"
-                        android:textSize="@dimen/text_history_id_size"/>
-                <TextView
-                        android:id="@+id/Status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="dfdfd"
-                        android:textColor="@color/history_id_row"
-                        android:gravity="center_horizontal"
-                        android:textSize="@dimen/text_history_id_size"/>
-                <TextView
-                        android:id="@+id/orderDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="dfdfd"
-                        android:gravity="right"
-                        android:textColor="@color/history_id_row"
-                        android:layout_marginRight="5dp"
-                        android:textSize="@dimen/text_history_id_size"/>
 
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal">
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:textColor="@color/history_id_row"
+                              android:textStyle="bold"
+                              android:text="OrderId:"/>
+                    <TextView
+                            android:id="@+id/OrderId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@color/history_id_row"
+                            android:layout_marginLeft="5dp"
+                            android:textSize="@dimen/text_history_id_size"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="5dp"
+                              android:orientation="horizontal">
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:textColor="@color/history_id_row"
+                              android:textStyle="bold"
+                              android:text="Status:"/>
+                    <TextView
+                            android:id="@+id/Status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/history_id_row"
+                            android:gravity="center_horizontal"
+                            android:textSize="@dimen/text_history_id_size"/>
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="5dp"
+                              android:orientation="horizontal">
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:textColor="@color/history_id_row"
+                              android:textStyle="bold"
+                              android:text="Date:"/>
+                    <TextView
+                            android:id="@+id/orderDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:gravity="right"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/history_id_row"
+                            android:layout_marginRight="5dp"
+                            android:textSize="@dimen/text_history_id_size"/>
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout android:layout_width="wrap_content"
                           android:layout_height="match_parent"

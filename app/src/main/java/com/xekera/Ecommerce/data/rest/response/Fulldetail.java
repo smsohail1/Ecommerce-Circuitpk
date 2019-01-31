@@ -5,19 +5,19 @@ import com.google.gson.annotations.SerializedName;
 import com.xekera.Ecommerce.data.rest.response.HistoryOrderDescriptionAddressResponse.Address;
 
 public class Fulldetail {
-    @SerializedName("Productlis")
+    @SerializedName("Products")
     @Expose
-    private Productlis productlis;
+    private Products products;
     @SerializedName("Address")
     @Expose
     private Address address;
 
-    public Productlis getProductlis() {
-        return productlis;
+    public Products getProducts() {
+        return products;
     }
 
-    public void setProductlis(Productlis productlis) {
-        this.productlis = productlis;
+    public void setProducts(Products products) {
+        this.products = products;
     }
 
     public Address getAddress() {
@@ -27,6 +27,5 @@ public class Fulldetail {
     public void setAddress(Address address) {
         this.address = address;
     }
-
 
 }

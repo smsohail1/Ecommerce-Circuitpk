@@ -6,123 +6,125 @@ import com.google.gson.annotations.SerializedName;
 public class Address {
     @SerializedName("Order_id")
     @Expose
-    private Object orderId;
+    private String orderId;
     @SerializedName("Cust_name")
     @Expose
-    private Object custName;
+    private String custName;
     @SerializedName("username")
     @Expose
-    private Object username;
+    private String username;
     @SerializedName("EmailAddress")
     @Expose
-    private Object emailAddress;
+    private String emailAddress;
     @SerializedName("Address")
     @Expose
-    private Object address;
+    private String address;
     @SerializedName("PhoneNumber")
     @Expose
-    private Object phoneNumber;
+    private String phoneNumber;
     @SerializedName("CompanyName")
     @Expose
-    private Object companyName;
+    private String companyName;
     @SerializedName("PaymentMode")
     @Expose
-    private Object paymentMode;
+    private String paymentMode;
     @SerializedName("Message")
     @Expose
-    private Object message;
+    private String message;
     @SerializedName("AddedOn")
     @Expose
-    private Object addedOn;
+    private String addedOn;
     @SerializedName("Order_Status")
     @Expose
-    private Object orderStatus;
+    private String orderStatus;
 
-    public Object getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Object orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
-    public Object getCustName() {
+    public String getCustName() {
         return custName;
     }
 
-    public void setCustName(Object custName) {
+    public void setCustName(String custName) {
         this.custName = custName;
     }
 
-    public Object getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(Object username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public Object getEmailAddress() {
+    public String getEmailAddress() {
         return emailAddress;
     }
 
-    public void setEmailAddress(Object emailAddress) {
+    public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
 
-    public Object getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Object address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public Object getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Object phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public Object getCompanyName() {
+    public String getCompanyName() {
         return companyName;
     }
 
-    public void setCompanyName(Object companyName) {
+    public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
-    public Object getPaymentMode() {
+    public String getPaymentMode() {
         return paymentMode;
     }
 
-    public void setPaymentMode(Object paymentMode) {
+    public void setPaymentMode(String paymentMode) {
         this.paymentMode = paymentMode;
     }
 
-    public Object getMessage() {
+    public String getMessage() {
         return message;
     }
 
-    public void setMessage(Object message) {
+    public void setMessage(String message) {
         this.message = message;
     }
 
-    public Object getAddedOn() {
+    public String getAddedOn() {
         return addedOn;
     }
 
-    public void setAddedOn(Object addedOn) {
+    public void setAddedOn(String addedOn) {
         this.addedOn = addedOn;
     }
 
-    public Object getOrderStatus() {
+    public String getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(Object orderStatus) {
+    public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
+
+
 }

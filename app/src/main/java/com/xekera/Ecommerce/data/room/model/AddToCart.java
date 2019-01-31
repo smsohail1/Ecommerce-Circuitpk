@@ -46,6 +46,17 @@ public class AddToCart {
     private String image;
     @ColumnInfo(name = "product_id")
     private String product_id;
+    @ColumnInfo(name = "is_email_cart")
+    private String isEmailCart;
+
+    public String getIsEmailCart() {
+        return isEmailCart;
+    }
+
+    public void setIsEmailCart(String isEmailCart) {
+        this.isEmailCart = isEmailCart;
+    }
+
 
     public String getProduct_id() {
         return product_id;
@@ -92,7 +103,7 @@ public class AddToCart {
 
     public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity, String transmissionStatus,
                      byte[] itemImage, String itemCutPrice
-            , String itemIndividualPrice, String createdDate, String image, String product_id) {
+            , String itemIndividualPrice, String createdDate, String image, String product_id, String isEmailCart) {
         this.orderID = orderID;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
@@ -104,6 +115,7 @@ public class AddToCart {
         this.createdDate = createdDate;
         this.image = image;
         this.product_id = product_id;
+        this.isEmailCart = isEmailCart;
     }
 
     public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity, String transmissionStatus,

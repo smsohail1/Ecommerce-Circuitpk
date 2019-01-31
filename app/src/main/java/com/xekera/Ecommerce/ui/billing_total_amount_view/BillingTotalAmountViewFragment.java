@@ -110,6 +110,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
     List<String> cartItems;
     List<Booking> cartList;
+    List<AddToCart> cartArrayList;
 
     View toastView;
 
@@ -299,13 +300,16 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
     @Override
     public void cartLists(List<AddToCart> addToCarts) {
+        cartArrayList = new ArrayList<>();
         cartItems = new ArrayList<String>();
+        cartArrayList = addToCarts;
+
         for (AddToCart addToCart : addToCarts) {
             cartItems.add(addToCart.getItemName());
         }
 
-        presenter.addItemsToBooking(addToCarts, firstName, companyName, phoneNo, email, streetAddress1,
-                townCity, paymentMode, orderNotes, flatCharges, selfPikup);
+//        presenter.addItemsToBooking(addToCarts, firstName, companyName, phoneNo, email, streetAddress1,
+//                townCity, paymentMode, orderNotes, flatCharges, selfPikup);
     }
 
 
@@ -389,6 +393,10 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         switch (view.getId()) {
             case R.id.btnConfirmCheckout:
 
+
+//                presenter.addItemsToBooking(addToCarts, firstName, companyName, phoneNo, email, streetAddress1,
+//                        townCity, paymentMode, orderNotes, flatCharges, selfPikup);
+
                 if (!utils.isTextNullOrEmptyOrZero(subTotalValueTextView.getText().toString())) {
                     if (!utils.isTextNullOrEmpty(paymentMode)) {
                         if (paymentMode.equalsIgnoreCase("Credit Card (Stripe)")) {
@@ -412,13 +420,21 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                             }
                         } else {
                             String formattedDate = "";
-                            formattedDate = getCurrentDate();
-                            showProgressDialogPleaseWait();
+                            // formattedDate = getCurrentDate();
+                            if (utils.isInternetAvailable()) {
 
-                            presenter.insertBooking(cartList, formattedDate, firstName + lastName, companyName,
-                                    phoneNo, email, streetAddress1 + townCity, paymentMode, orderNotes, selfPikup,
-                                    flatCharges, sessionManager.getusername());
+                                showProgressDialogPleaseWait();
 
+//                            presenter.insertBooking(cartArrayList, formattedDate, firstName + lastName, companyName,
+//                                    phoneNo, email, streetAddress1 + townCity, paymentMode, orderNotes, selfPikup,
+//                                    flatCharges, sessionManager.getusername());
+                                presenter.addItemsToBooking(cartArrayList, firstName + lastName, companyName,
+                                        phoneNo, email, streetAddress1 + townCity
+                                        , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername());
+                            } else {
+                                showToastShortTime("Please connect to internet.");
+
+                            }
 
                         }
                     } else {
@@ -433,6 +449,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         }
 
     }
+
 
     private void gotoStripeActivity() {
         Intent intent = new Intent(getActivity(), StripePaymentActivity.class);
@@ -485,7 +502,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         params.put("cardToken", cardToken.getId());
         // params.put("name", "Dominic Wong");
         params.put("email", email);
-        // params.put("orderID", "");
+        params.put("orderID", "");
         params.put("price", Integer.valueOf(totalValueTextView.getText().toString()));
         //params.put("address", "HIHI");
 //        params.put("zip", "99999");
@@ -494,7 +511,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         ParseCloud.callFunctionInBackground("purchaseItem", params, new FunctionCallback<Object>() {
             public void done(Object response, ParseException e) {
                 // finishProgress();
-                hideProgressDialogPleaseWait();
+                //  hideProgressDialogPleaseWait();
 
                 if (e == null) {
 
@@ -503,22 +520,28 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                         sessionManager.removeCreditCardSession();
 
                         String formattedDate = "";
-                        formattedDate = getCurrentDate();
-                        presenter.insertBooking(cartList, formattedDate, firstName + lastName, companyName,
-                                phoneNo, email, streetAddress1 + townCity, paymentMode, orderNotes, selfPikup,
-                                flatCharges, sessionManager.getusername());
+                        // formattedDate = getCurrentDate();
+//                        presenter.insertBooking(cartArrayList, formattedDate, firstName + lastName, companyName,
+//                                phoneNo, email, streetAddress1 + townCity, paymentMode, orderNotes, selfPikup,
+//                                flatCharges, sessionManager.getusername());
+//
+                        presenter.addItemsToBooking(cartArrayList, firstName + lastName, companyName,
+                                phoneNo, email, streetAddress1 + townCity
+                                , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername());
+
                         //  Log.d("Cloud Response", "There were no exceptions! " + response.toString());
 
                     } else {
+                        hideProgressDialogPleaseWait();
                         showToastShortTime("Error while payment using stripe.");
                         sessionManager.removeCreditCardSession();
-
                     }
 //                    Toast.makeText(getApplicationContext(),
 //                            "Item Purchased Successfully ",
                     //          Toast.LENGTH_LONG).show();
                 } else {
                     //  Log.d("Cloud Response", "Exception: " + e);
+                    hideProgressDialogPleaseWait();
                     showToastShortTime("Error while payment using stripe.");
                     sessionManager.removeCreditCardSession();
 

@@ -21,7 +21,9 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.rest.response.Fulldetail;
+import com.xekera.Ecommerce.data.rest.response.HistoryOrderDescriptionAddressResponse.Address;
 import com.xekera.Ecommerce.data.rest.response.OrderList;
+import com.xekera.Ecommerce.data.rest.response.ProList;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.history.HistoryPresenter;
 
@@ -31,20 +33,24 @@ import java.util.Locale;
 
 public class HistoryDesciptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
-    List<Fulldetail> productsItems;
-    List<Fulldetail> productsItemsSearch;
+    List<ProList> productsItems;
+    List<ProList> productsItemsSearch;
+    Address address;
 
     // IShopDetailAdapter iShopDetailAdapter;
     HistoryDesciptionAdapter.IHistoryCancelOrderAdapter iHistoryCancelOrderAdapter;
     HistoryDesciptionAdapter.ISearchOrderAmount iSearchOrderAmount;
 
-    public HistoryDesciptionAdapter(Context context, List<Fulldetail> productsItems, HistoryDesciptionAdapter.IHistoryCancelOrderAdapter iHistoryCancelOrderAdapter, HistoryDesciptionAdapter.ISearchOrderAmount iSearchOrderAmount) {
+    public HistoryDesciptionAdapter(Context context, List<ProList> productsItems,
+                                    Address address,
+                                    HistoryDesciptionAdapter.IHistoryCancelOrderAdapter iHistoryCancelOrderAdapter, HistoryDesciptionAdapter.ISearchOrderAmount iSearchOrderAmount) {
         this.context = context;
         this.productsItems = productsItems;
         this.iHistoryCancelOrderAdapter = iHistoryCancelOrderAdapter;
         this.iSearchOrderAmount = iSearchOrderAmount;
         this.productsItemsSearch = new ArrayList<>();
         this.productsItemsSearch.addAll(productsItems);
+        this.address = address;
     }
 
 
@@ -59,37 +65,40 @@ public class HistoryDesciptionAdapter extends RecyclerView.Adapter<RecyclerView.
     // byte[] bytes;
     BitmapFactory.Options options;
 
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final Fulldetail booking = productsItems.get(position);
+        final ProList booking = productsItems.get(position);
         if (holder instanceof HistoryDesciptionAdapter.productDetailsDataListViewHolder) {
             final HistoryDesciptionAdapter.productDetailsDataListViewHolder productDetailsDataListViewHolder = (HistoryDesciptionAdapter.productDetailsDataListViewHolder) holder;
 
-            if (booking.getProductlis().getName() != null) {
-                productDetailsDataListViewHolder.productNameLabelTextView.setText(booking.getProductlis().getName());
+            if (booking.getName() != null) {
+                productDetailsDataListViewHolder.productNameLabelTextView.setText(booking.getName());
             }
-            if (booking.getProductlis().getPrice() != null) {
-                productDetailsDataListViewHolder.priceTextView.setText(booking.getProductlis().getPrice());
+            if (booking.getPrice() != null) {
+                long totalAmount = Long.valueOf(booking.getPrice()) * Long.valueOf(booking.getItemQuantity());
+                productDetailsDataListViewHolder.priceTextView.setText(String.valueOf(totalAmount));
             }
-            if (booking.getAddress().getCustName() != null) {
-                productDetailsDataListViewHolder.nameValueTextView.setText(booking.getAddress().getCustName().toString());
+
+            if (booking.getItemQuantity() != null) {
+                productDetailsDataListViewHolder.quantityTextView.setText(booking.getItemQuantity());
             }
-            if (booking.getAddress().getOrderId() != null) {
-                productDetailsDataListViewHolder.orderIdValueTextView.setText(booking.getAddress().getOrderId().toString());
+            if (address.getCustName() != null) {
+                productDetailsDataListViewHolder.nameValueTextView.setText(address.getCustName());
+            }
+            if (address.getAddress() != null) {
+                productDetailsDataListViewHolder.orderIdValueTextView.setText(address.getOrderId());
 
             }
-            if (booking.getAddress().getPhoneNumber() != null) {
-                productDetailsDataListViewHolder.PhoneNoValueTextView.setText(booking.getAddress().getPhoneNumber().toString());
+            if (address.getPhoneNumber() != null) {
+                productDetailsDataListViewHolder.PhoneNoValueTextView.setText(address.getPhoneNumber());
 
             }
-            if (booking.getAddress().getEmailAddress() != null) {
-                productDetailsDataListViewHolder.emailValueTextView.setText(booking.getAddress().getEmailAddress().toString());
-
+            if (address.getEmailAddress() != null) {
+                productDetailsDataListViewHolder.emailValueTextView.setText(address.getEmailAddress());
             }
 
             try {
-                if (booking.getProductlis().getImageJson() == null) {
+                if (booking.getImageJson() == null) {
                     Glide.with(context)
                             .load(R.drawable.placeholder)
                             .asBitmap()
@@ -120,7 +129,7 @@ public class HistoryDesciptionAdapter extends RecyclerView.Adapter<RecyclerView.
                             });
                 } else {
                     Glide.with(context)
-                            .load(booking.getProductlis().getImageJson())
+                            .load(booking.getImageJson())
                             .asBitmap()
                             .placeholder(R.drawable.placeholder)
                             .error(R.drawable.placeholder)
@@ -151,6 +160,7 @@ public class HistoryDesciptionAdapter extends RecyclerView.Adapter<RecyclerView.
             } catch (Exception e) {
 
             }
+
 //            try {
 //
 //
@@ -198,6 +208,8 @@ public class HistoryDesciptionAdapter extends RecyclerView.Adapter<RecyclerView.
         public TextView PhoneNoValueTextView;
         @BindView(R.id.emailValueTextView)
         public TextView emailValueTextView;
+        @BindView(R.id.quantityTextView)
+        public TextView quantityTextView;
 
         @BindView(R.id.avloadingIndicatorView)
         public AVLoadingIndicatorView avloadingIndicatorView;
@@ -236,9 +248,9 @@ public class HistoryDesciptionAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
 
-    public void addAll(List<Fulldetail> addToCarts) {
+    public void addAll(List<List<ProList>> addToCarts) {
         int currentListSize = this.productsItems.size();
-        this.productsItems.addAll(addToCarts);
+        //  this.productsItems.addAll(addToCarts);
         notifyItemRangeInserted(currentListSize, addToCarts.size());
     }
 
@@ -294,28 +306,28 @@ public class HistoryDesciptionAdapter extends RecyclerView.Adapter<RecyclerView.
 //        } catch (Exception ex) {
 //        }
 //    }
-    public void filter(String charText) {
-        try {
-
-            charText = charText.toLowerCase(Locale.getDefault());
-            productsItems.clear();
-            if (charText.length() == 0) {
-
-                productsItems.addAll(productsItemsSearch);
-            } else if (charText.length() > 0) {
-                for (Fulldetail wp : productsItemsSearch) {
-                    if (wp.getProductlis().getName().toLowerCase(Locale.getDefault()).trim()
-                            .contains(charText)) {
-                        productsItems.add(wp);
-
-                    }
-                }
-            }
-
-            notifyDataSetChanged();
-        } catch (Exception ex) {
-        }
-    }
+//    public void filter(String charText) {
+//        try {
+//
+//            charText = charText.toLowerCase(Locale.getDefault());
+//            productsItems.clear();
+//            if (charText.length() == 0) {
+//
+//                productsItems.addAll(productsItemsSearch);
+//            } else if (charText.length() > 0) {
+//                for (Fulldetail wp : productsItemsSearch) {
+//                    if (wp.getProducts().getProList().getName().toLowerCase(Locale.getDefault()).trim()
+//                            .contains(charText)) {
+//                        productsItems.add(wp);
+//
+//                    }
+//                }
+//            }
+//
+//            notifyDataSetChanged();
+//        } catch (Exception ex) {
+//        }
+//    }
 
 }
 

@@ -658,25 +658,25 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID) {
+                                       ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID, String isEmailSent) {
 
-        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmap, imgUrl, productID);
+        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmap, imgUrl, productID, isEmailSent);
     }
 
     @Override
     public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       ImageView imgProductCopy, Bitmap bitmapAdd, String imgUrl, String productID) {
+                                       ImageView imgProductCopy, Bitmap bitmapAdd, String imgUrl, String productID, String isEmailSent) {
 
         presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmapAdd,
-                imgUrl, productID);
+                imgUrl, productID, isEmailSent);
 
     }
 
     @Override
     public void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl,
-                                       String productID) {
+                                       String productID,String isEmailFav) {
 
-        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap, quantity, imgUrl, productID);
+        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap, quantity, imgUrl, productID,isEmailFav);
 
      /*   if (!productItems.isFavourite()) {
             presenter.removeItem(productItems.getProductName(), position);

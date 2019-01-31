@@ -81,12 +81,18 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
             @Override
             public void onSuccess(CategoryResponse response) {
                 if (response == null) {
-                    view.showToastShortTime("No category found");
+                    view.showToastShortTime("Error while fetch data");
                     view.hideCircularProgressBar();
                     view.getTotalCartsCounts();
                     return;
                 } else {
                     List<Category> categoryList = response.getCategories();
+                    if (categoryList == null) {
+                        view.showToastShortTime("Error while fetch data");
+                        view.hideCircularProgressBar();
+                        view.getTotalCartsCounts();
+                        return;
+                    }
                     if (categoryList.size() > 0) {
 
                         homeAdapter = new DashboardAdapter(categoryList, context, new DashboardAdapter.IDashboardAdapter() {

@@ -182,7 +182,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
     public void onIncrementButtonClicked(long quantity, long price, long totalPrice, String productName, String cutPrice,
                                          byte[] byteImage, ImageView imgProductCopy) {
         saveProductDetails(quantity, price, totalPrice, productName,
-                cutPrice, byteImage, imgProductCopy, "");
+                cutPrice, byteImage, imgProductCopy, "", "0");
     }
 
 
@@ -219,7 +219,8 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
 
 
     public void saveProductDetails(final long quantity, final long price, final long totalPrice, final String productName,
-                                   final String cutPrice, final byte[] byteImage, final ImageView imgProductCopy, final String productID) {
+                                   final String cutPrice, final byte[] byteImage, final ImageView imgProductCopy,
+                                   final String productID, final String isEmailSent) {
         model.getProductCount(productName, new ShopCardSelectedModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -228,7 +229,8 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
                     formattedDate = getCurrentDate();
 
                     AddToCart addToCart = new AddToCart("", productName, String.valueOf(totalPrice), String.valueOf(quantity),
-                            "N", byteImage, String.valueOf(cutPrice), String.valueOf(price), formattedDate, "", productID);
+                            "N", byteImage, String.valueOf(cutPrice), String.valueOf(price), formattedDate,
+                            "", productID, isEmailSent);
                     noProductFound(addToCart, imgProductCopy);
                     return;
                 } else {

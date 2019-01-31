@@ -217,7 +217,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
                                 productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy,
                                 productsItems.get(getLayoutPosition()).getImage(),
-                                productsItems.get(getLayoutPosition()).getProduct_id());
+                                productsItems.get(getLayoutPosition()).getProduct_id(), "0");
 
                     } else {
                         dec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) - 1;
@@ -233,7 +233,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
                                 productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy,
                                 productsItems.get(getLayoutPosition()).getImage(),
-                                productsItems.get(getLayoutPosition()).getProduct_id());
+                                productsItems.get(getLayoutPosition()).getProduct_id(), "0");
 
                     }
 
@@ -290,7 +290,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
                             productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy, bitmapAdd,
                             productsItems.get(getLayoutPosition()).getImage(),
-                            productsItems.get(getLayoutPosition()).getProduct_id());
+                            productsItems.get(getLayoutPosition()).getProduct_id(), "0");
 
 
 //                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
@@ -370,10 +370,11 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void removeFavourites(Favourites favourites, int position);
 
         void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID);
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl,
+                                    String productID, String isEmailFav);
 
         void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID);
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID, String isEmailFav);
 
         void removeItemFromCart(Favourites favourites);
 

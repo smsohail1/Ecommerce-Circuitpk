@@ -279,12 +279,12 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                     }
                     long totalPrice = Long.valueOf(favourites.getItemIndividualPrice()) * Long.valueOf(favourites.getItemQuantity());
 
-                    AddToCart addToCart = new AddToCart("15", favourites.getItemName(), String.valueOf(totalPrice)
+                    AddToCart addToCart = new AddToCart("", favourites.getItemName(), String.valueOf(totalPrice)
                             , favourites.getItemQuantity(),
                             "N", favourites.getItemImage(), favourites.getItemCutPrice(),
                             favourites.getItemIndividualPrice(),
                             formattedDate, favourites.getImage(),
-                            favourites.getProduct_id());
+                            favourites.getProduct_id(), favourites.getIsEmailFav());
                     presenter.insertSelectedFavouritesToCart(addToCart, position, img);
                     isShowing = true;
                 }
@@ -317,18 +317,18 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl,String productID) {
+                                       byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID, String isEmailFav) {
 
         presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap,
-                imgUrl,productID);
+                imgUrl, productID, isEmailFav);
     }
 
     @Override
     public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       byte[] byteImage, ImageView imgProductCopy, String imgUrl,String productID) {
+                                       byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID, String isEmailFav) {
 
         presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy,
-                imgUrl,productID);
+                imgUrl, productID, isEmailFav);
 
     }
 

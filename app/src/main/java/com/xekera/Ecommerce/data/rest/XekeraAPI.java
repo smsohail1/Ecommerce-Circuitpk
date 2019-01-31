@@ -35,7 +35,7 @@ public interface XekeraAPI {
 
 
     @GET(WEB_API_HISTORY_ID + "OrderDetail.php")
-    Call<HistoryDetailsResponse> getOrderHistoryIdDetail(@Query("orderID") String orderId);
+    Call<HistoryOrderIdDiscriptionResponse> getOrderHistoryIdDetail(@Query("orderID") String orderId);
 
 
     @GET(WEB_API_PRODUCT_URL + "read_single_product.php")
@@ -80,9 +80,11 @@ public interface XekeraAPI {
     @FormUrlEncoded
     @POST(WEB_API_SUBMIT_ORDER + "submitdata.php")
     Call<SubmitOrderSingleListResponse> postOrderListDeatils(@Field("product_id") String product_id,
-                                            @Field("itemQuantity") String itemQuantity,
-                                            @Field("itemPrice") String itemPrice,
-                                            @Field("last_id") String last_id
+                                                             @Field("itemQuantity") String itemQuantity,
+                                                             @Field("itemPrice") String itemPrice,
+                                                             @Field("last_id") String last_id,
+                                                             @Field("emailaddress") String emailaddress,
+                                                             @Field("sendemailbit") String sendemailbit
     );
 
 

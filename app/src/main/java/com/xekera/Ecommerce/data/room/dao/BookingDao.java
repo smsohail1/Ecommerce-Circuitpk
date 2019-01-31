@@ -21,4 +21,7 @@ public interface BookingDao {
     @Query("SELECT * FROM booking order by created_date desc")
     List<Booking> getAllBookingDetails();
 
+//    @Query("INSERT INTO booking () VALUES ()")
+//    void saveBookingDetails();
+
 }

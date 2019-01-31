@@ -1,10 +1,7 @@
 package com.xekera.Ecommerce.ui.history.history_description;
 
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
-import com.xekera.Ecommerce.data.rest.response.Fulldetail;
-import com.xekera.Ecommerce.data.rest.response.HistoryDetailsResponse;
-import com.xekera.Ecommerce.data.rest.response.HistoryOrderIdResponse;
-import com.xekera.Ecommerce.data.rest.response.OrderList;
+import com.xekera.Ecommerce.data.rest.response.*;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.adapter.HistoryDesciptionAdapter;
 
@@ -56,7 +53,7 @@ public interface HistoryDesciptionMVP {
 
         void hideProgressDialogPleaseWait();
 
-        void setHistoryAdapter(List<Fulldetail> response);
+        void setHistoryAdapter(HistoryOrderIdDiscriptionResponse response);
     }
 
     interface Presenter {
@@ -77,7 +74,7 @@ public interface HistoryDesciptionMVP {
 
         void getCartDetailsList(HistoryDesciptionModel.IFetchCartDetailsList iFetchCartDetailsList);
 
-        void fetchOrderHistoryIdDescription(String orderId, INetworkListGeneral<HistoryDetailsResponse> iNetworkListGeneral);
+        void fetchOrderHistoryIdDescription(String orderId, INetworkListGeneral<HistoryOrderIdDiscriptionResponse> iNetworkListGeneral);
 
     }
 }

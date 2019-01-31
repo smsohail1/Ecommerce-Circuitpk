@@ -163,16 +163,16 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
     }
 
     @Override
-    public void insertBooking(final List<Booking> addToCart, final String dateTime, final IBookingInsert iBookingInsert) {
+    public void insertBooking(final List<AddToCart> addToCart, final String dateTime, final IBookingInsert iBookingInsert) {
         try {
             Observable.just(appDatabase)
                     .map(new Function<AppDatabase, Boolean>() {
                         @Override
                         public Boolean apply(AppDatabase appDatabase) throws Exception {
-                            for (Booking b : addToCart) {
+                            for (AddToCart b : addToCart) {
                                 b.setCreatedDate(dateTime);
                             }
-                            appDatabase.getBookingDao().insert(addToCart);
+                            //   appDatabase.getBookingDao().saveBookingDetails(addToCart.);
 
                             return true;
                         }
@@ -249,45 +249,47 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
     }
 
     @Override
-    public void addItemsToBooking(final List<AddToCart> addToCarts, final String firstName, final String company, final String phone,
-                                  final String email, final String streetAddress1,
-                                  final String townCity, final String paymode,
-                                  final String notes, final String flatCharges, final String selfPickup, final IFetchCartBookingDetailsList iFetchCartBookingDetailsList) {
-
+    public void addItemsToBooking(final List<AddToCart> addToCarts, final String
+            firstName, final String company, final String phone, final String email, final String streetAddress1,
+                                  final String paymode, final String notes, final String flatCharges, final String selfPickup,
+                                  final IBookingInsert iFetchCartDetailsList) {
         try {
-            Observable.just(appDatabase.getBookingDao()).
-                    map(new Function<BookingDao, List<Booking>>() {
+            Observable.just(appDatabase)
+                    .map(new Function<AppDatabase, Boolean>() {
                         @Override
-                        public List<Booking> apply(BookingDao bookingDao) throws Exception {
-                            // byte[] itemImage = new byte[0];
+                        public Boolean apply(AppDatabase appDatabase) throws Exception {
                             List<Booking> bookingList = new ArrayList<>();
                             for (AddToCart addToCart : addToCarts) {
                                 Booking booking = new Booking("", addToCart.getItemName(),
                                         addToCart.getItemIndividualPrice(), addToCart.getItemPrice(),
                                         addToCart.getItemCutPrice(), addToCart.getItemQuantity(),
-                                        firstName, company, phone, email, streetAddress1, townCity, paymode, notes, flatCharges, "", addToCart.getItemImage(),
+                                        firstName, company, phone, email, streetAddress1, paymode, notes, flatCharges, "", addToCart.getItemImage(),
                                         "N", selfPickup, addToCart.getImage(), addToCart.getProduct_id());
                                 bookingList.add(booking);
                             }
-                            return bookingList;
+                            appDatabase.getBookingDao().insert(bookingList);
+
+                            //   appDatabase.getBookingDao().saveBookingDetails(addToCart.);
+
+                            return true;
                         }
-                    }).
-                    subscribeOn(Schedulers.io()).
-                    observeOn(AndroidSchedulers.mainThread()).
-                    subscribe(new Observer<List<Booking>>() {
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Boolean>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(List<Booking> bookings) {
-                            iFetchCartBookingDetailsList.onCartDetailsReceived(bookings);
+                        public void onNext(Boolean added) {
+                            iFetchCartDetailsList.onSuccess(added);
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            iFetchCartBookingDetailsList.onErrorReceived((Exception) e);
+                            iFetchCartDetailsList.onErrorReceived((Exception) e);
                         }
 
                         @Override
@@ -295,11 +297,64 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
 
                         }
                     });
-        } catch (Exception e) {
-            iFetchCartBookingDetailsList.onErrorReceived(e);
+        } catch (Exception ex) {
+            iFetchCartDetailsList.onErrorReceived(ex);
         }
 
     }
+
+//    @Override
+//    public void addItemsToBooking(final List<AddToCart> addToCarts, final String firstName, final String company, final String phone,
+//                                  final String email, final String streetAddress1, final String paymode,
+//                                  final String notes, final String flatCharges, final String selfPickup,
+//                                  final IFetchCartBookingDetailsList iFetchCartBookingDetailsList) {
+//
+//        try {
+//            Observable.just(appDatabase.getBookingDao()).
+//                    map(new Function<BookingDao, List<Booking>>() {
+//                        @Override
+//                        public List<Booking> apply(BookingDao bookingDao) throws Exception {
+//                            // byte[] itemImage = new byte[0];
+//                            List<Booking> bookingList = new ArrayList<>();
+//                            for (AddToCart addToCart : addToCarts) {
+//                                Booking booking = new Booking("", addToCart.getItemName(),
+//                                        addToCart.getItemIndividualPrice(), addToCart.getItemPrice(),
+//                                        addToCart.getItemCutPrice(), addToCart.getItemQuantity(),
+//                                        firstName, company, phone, email, streetAddress1, paymode, notes, flatCharges, "", addToCart.getItemImage(),
+//                                        "N", selfPickup, addToCart.getImage(), addToCart.getProduct_id());
+//                                bookingList.add(booking);
+//                            }
+//                            return bookingList;
+//                        }
+//                    }).
+//                    subscribeOn(Schedulers.io()).
+//                    observeOn(AndroidSchedulers.mainThread()).
+//                    subscribe(new Observer<List<Booking>>() {
+//                        @Override
+//                        public void onSubscribe(Disposable d) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onNext(List<Booking> bookings) {
+//                            iFetchCartBookingDetailsList.onCartDetailsReceived(bookings);
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//                            iFetchCartBookingDetailsList.onErrorReceived((Exception) e);
+//                        }
+//
+//                        @Override
+//                        public void onComplete() {
+//
+//                        }
+//                    });
+//        } catch (Exception e) {
+//            iFetchCartBookingDetailsList.onErrorReceived(e);
+//        }
+//
+//    }
 
     @Override
     public void postOrderDetails(String name,
@@ -341,8 +396,9 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
     @Override
     public void setOrderDetailsDescription(String product_id,
                                            String itemQuantity, String itemPrice,
-                                           String last_id, final int countsID, final INetworkPostOrder<SubmitOrderSingleListResponse> iNetworkLoginSignup) {
-        Call<SubmitOrderSingleListResponse> call = xekeraAPI.postOrderListDeatils(product_id, itemQuantity, itemPrice, last_id);
+                                           String last_id, String emailaddress, String sendemailbit,
+                                           final int countsID, final INetworkPostOrder<SubmitOrderSingleListResponse> iNetworkLoginSignup) {
+        Call<SubmitOrderSingleListResponse> call = xekeraAPI.postOrderListDeatils(product_id, itemQuantity, itemPrice, last_id, emailaddress, sendemailbit);
         call.enqueue(new Callback<SubmitOrderSingleListResponse>() {
             @Override
             public void onResponse(Call<SubmitOrderSingleListResponse> call, Response<SubmitOrderSingleListResponse> response) {

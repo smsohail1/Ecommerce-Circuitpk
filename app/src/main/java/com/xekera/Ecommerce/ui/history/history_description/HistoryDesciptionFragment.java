@@ -29,7 +29,9 @@ import cdflynn.android.library.checkview.CheckView;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.rest.response.Fulldetail;
+import com.xekera.Ecommerce.data.rest.response.HistoryOrderIdDiscriptionResponse;
 import com.xekera.Ecommerce.data.rest.response.OrderList;
+import com.xekera.Ecommerce.data.rest.response.ProList;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.ui.adapter.HistoryDesciptionAdapter;
@@ -159,42 +161,42 @@ public class HistoryDesciptionFragment extends Fragment implements HistoryDescip
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
-        edtSearchProduct.setText("");
+        // edtSearchProduct.setText("");
         //  datePickerEdittext.setText("");
 
         progressBarRelativeLayout.setVisibility(View.VISIBLE);
-        hideSearchDate();
+        //hideSearchDate();
 
-        edtSearchProduct.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
-                try {
-
-                    if (!isProgressBarShowing) {
-                        String text = edtSearchProduct.getText().toString().toLowerCase(Locale.getDefault()).trim();
-                        adapter.filter(text);
-                    }
-
-                } catch (Exception ex) {
-
-                }
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1,
-                                          int arg2, int arg3) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-                                      int arg3) {
-                // TODO Auto-generated method stub
-            }
-        });
+//        edtSearchProduct.addTextChangedListener(new TextWatcher() {
+//
+//            @Override
+//            public void afterTextChanged(Editable arg0) {
+//                // TODO Auto-generated method stub
+//                try {
+//
+//                    if (!isProgressBarShowing) {
+//                        String text = edtSearchProduct.getText().toString().toLowerCase(Locale.getDefault()).trim();
+//                        //  adapter.filter(text);
+//                    }
+//
+//                } catch (Exception ex) {
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void beforeTextChanged(CharSequence arg0, int arg1,
+//                                          int arg2, int arg3) {
+//                // TODO Auto-generated method stub
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+//                                      int arg3) {
+//                // TODO Auto-generated method stub
+//            }
+//        });
 
         isProgressBarShowing = true;
         new Handler().postDelayed(new Runnable() {
@@ -230,8 +232,9 @@ public class HistoryDesciptionFragment extends Fragment implements HistoryDescip
     }
 
     @Override
-    public void setHistoryAdapter(List<Fulldetail> response) {
-        adapter = new HistoryDesciptionAdapter(getActivity(), response, this, this);
+    public void setHistoryAdapter(HistoryOrderIdDiscriptionResponse response) {
+        adapter = new HistoryDesciptionAdapter(getActivity(), response.getProducts().getProList(),
+                response.getAddress(),this, this);
         showRecylerViewProductsDetail(adapter);
     }
 
@@ -348,12 +351,12 @@ public class HistoryDesciptionFragment extends Fragment implements HistoryDescip
 
     @Override
     public void showSearchData() {
-        searchParent.setVisibility(View.VISIBLE);
+        // searchParent.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideSearchDate() {
-        searchParent.setVisibility(View.GONE);
+        // searchParent.setVisibility(View.GONE);
 
     }
 

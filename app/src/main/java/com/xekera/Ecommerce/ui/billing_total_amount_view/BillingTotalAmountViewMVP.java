@@ -63,14 +63,13 @@ public interface BillingTotalAmountViewMVP {
 
         void deleteCartItems(List<String> items);
 
-        void insertBooking(List<Booking> addToCart, String dateTime, String name,
+        void insertBooking(List<AddToCart> addToCart, String dateTime, String name,
                            String companyName, String phoneNo, String email, String address, String paymentMode, String orderNotes,
                            String selfPikup, String flatCharges, String usernameLogin);
 
         void addItemsToBooking(List<AddToCart> addToCarts, String firstName, String company, String phone,
-                               String email, String streetAddress1,
-                               String townCity, String paymode,
-                               String notes, String flatCharges, String selfPickup);
+                               String email, String streetAddress1, String paymode,
+                               String notes, String selfPickup, String flatCharges, String username);
 
     }
 
@@ -83,16 +82,16 @@ public interface BillingTotalAmountViewMVP {
 
         void removeSelectedCartDetails(List<String> items, BillingTotalAmountViewModel.IRemoveSelectedItemDetails iRemoveSelectedItemDetails);
 
-        void insertBooking(List<Booking> addToCart, String dateTime, BillingTotalAmountViewModel.IBookingInsert iBookingInsert);
+        void insertBooking(List<AddToCart> addToCart, String dateTime, BillingTotalAmountViewModel.IBookingInsert iBookingInsert);
 
         void updateBooking(String orderId, BillingTotalAmountViewModel.IBookingInsert iBookingInsert);
 
         void addItemsToBooking(List<AddToCart> addToCarts,
                                String firstName, String company, String phone,
                                String email, String streetAddress1,
-                               String townCity, String paymode,
+                               String paymode,
                                String notes, String flatCharges, String selfPickup,
-                               BillingTotalAmountViewModel.IFetchCartBookingDetailsList iFetchCartDetailsList);
+                               BillingTotalAmountViewModel.IBookingInsert iFetchCartDetailsList);
 
         void postOrderDetails(String name,
                               String address,
@@ -104,7 +103,7 @@ public interface BillingTotalAmountViewMVP {
 
         void setOrderDetailsDescription(String product_id,
                                         String itemQuantity, String itemPrice,
-                                        String last_id, int countsID, INetworkPostOrder<SubmitOrderSingleListResponse> iNetworkLoginSignup);
+                                        String last_id, String emailaddress, String sendemailbit, int countsID, INetworkPostOrder<SubmitOrderSingleListResponse> iNetworkLoginSignup);
 
     }
 }

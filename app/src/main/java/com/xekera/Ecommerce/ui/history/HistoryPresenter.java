@@ -106,16 +106,29 @@ public class HistoryPresenter implements HistoryMVP.Presenter {
             public void onSuccess(HistoryOrderIdResponse response) {
                 view.hideProgressDialogPleaseWait();
                 if (response == null) {
-                    view.showToastShortTime("Server not responding.");
+                    view.showToastShortTime("No order found.");
+                    view.hideSearchDate();
+                    view.hideLoadingProgressDialog();
 
                     return;
                 } else {
+                    if (response.getOrderList() == null) {
+                        view.showToastShortTime("No order found.");
+                        view.hideSearchDate();
+                        view.hideLoadingProgressDialog();
+
+
+                        return;
+                    }
                     if (response.getOrderList().size() == 0) {
                         view.showToastShortTime("No order found.");
+                        view.hideSearchDate();
+                        view.hideLoadingProgressDialog();
                         return;
 
                     } else {
                         view.setHistoryAdapter(response.getOrderList());
+                        view.showSearchData();
                     }
                 }
             }

@@ -269,7 +269,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
     @Override
     public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
                                    final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy,
-                                   final Bitmap bitmap, final String imgUrl, final String productID) {
+                                   final Bitmap bitmap, final String imgUrl, final String productID, final String isEmailSent) {
         model.getProductCount(productName, new ContinueShoppingModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -280,8 +280,8 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
 
-                    AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
-                            "N", bmp, String.valueOf(cutPrice), price, formattedDate, imgUrl, productID);
+                    AddToCart addToCart = new AddToCart("", productName, totalPrice, String.valueOf(quantity),
+                            "N", bmp, String.valueOf(cutPrice), price, formattedDate, imgUrl, productID, isEmailSent);
                     noProductFound(addToCart, imgProductCopy);
                     return;
                 } else {
@@ -315,7 +315,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
     @Override
     public void saveProductDecrementDetails(final long quantity, final String price, final String totalPrice, final String productName,
                                             final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy,
-                                            final String imgUrl, final String productID) {
+                                            final String imgUrl, final String productID, final String isEmailSent) {
         model.getProductCount(productName, new ContinueShoppingModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -324,8 +324,8 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
 
-                    AddToCart addToCart = new AddToCart("434", productName, totalPrice, String.valueOf(quantity),
-                            "N", byteImage, String.valueOf(cutPrice), price, formattedDate, imgUrl, productID);
+                    AddToCart addToCart = new AddToCart("", productName, totalPrice, String.valueOf(quantity),
+                            "N", byteImage, String.valueOf(cutPrice), price, formattedDate, imgUrl, productID, isEmailSent);
                     noProductFoundForDecrement(addToCart, imgProductCopy);
                     return;
                 } else {

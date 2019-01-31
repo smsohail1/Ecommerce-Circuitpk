@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.history.history_description;
 import android.content.Context;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.response.HistoryDetailsResponse;
+import com.xekera.Ecommerce.data.rest.response.HistoryOrderIdDiscriptionResponse;
 import com.xekera.Ecommerce.data.rest.response.HistoryOrderIdResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
@@ -100,9 +101,9 @@ public class HistoryDesciptionPresenter implements HistoryDesciptionMVP.Presente
     @Override
     public void fetchOrderIdDescription(String orderId) {
         view.showProgressDialogPleaseWait();
-        model.fetchOrderHistoryIdDescription(orderId, new INetworkListGeneral<HistoryDetailsResponse>() {
+        model.fetchOrderHistoryIdDescription(orderId, new INetworkListGeneral<HistoryOrderIdDiscriptionResponse>() {
             @Override
-            public void onSuccess(HistoryDetailsResponse response) {
+            public void onSuccess(HistoryOrderIdDiscriptionResponse response) {
                 view.hideProgressDialogPleaseWait();
                 if (response == null) {
                     view.showToastShortTime("No order found.");
@@ -110,22 +111,28 @@ public class HistoryDesciptionPresenter implements HistoryDesciptionMVP.Presente
                     view.hideLoadingProgressDialog();
                     return;
                 } else {
-                    if (response.getFulldetail() == null) {
+                    if (response.getProducts() == null || response.getAddress() == null) {
                         view.showToastShortTime("No order found.");
                         view.hideSearchDate();
                         view.hideLoadingProgressDialog();
 
                         return;
                     }
+                    if (response.getProducts().getProList() == null) {
+                        view.showToastShortTime("No order found.");
+                        view.hideSearchDate();
+                        view.hideLoadingProgressDialog();
 
-                    if (response.getFulldetail().size() == 0) {
+                        return;
+                    }
+                    if (response.getProducts().getProList().size() == 0) {
                         view.showToastShortTime("No order found.");
                         view.hideSearchDate();
                         view.hideLoadingProgressDialog();
 
                         return;
                     } else {
-                        view.setHistoryAdapter(response.getFulldetail());
+                        view.setHistoryAdapter(response);
                         view.showSearchData();
                         view.hideLoadingProgressDialog();
 

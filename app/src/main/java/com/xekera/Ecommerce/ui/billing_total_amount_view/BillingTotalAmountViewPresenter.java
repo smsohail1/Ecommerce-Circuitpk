@@ -76,7 +76,7 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
         model.removeSelectedCartDetails(items, new BillingTotalAmountViewModel.IRemoveSelectedItemDetails() {
             @Override
             public void onSuccess() {
-                view.hideProgressDialogPleaseWait();
+                // view.hideProgressDialogPleaseWait();
 
                 view.itemRemovedFromCart();
             }
@@ -91,7 +91,7 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
     }
 
     @Override
-    public void insertBooking(final List<Booking> addToCart, String dateTime, final String name,
+    public void insertBooking(final List<AddToCart> addToCart, String dateTime, final String name,
                               final String companyName, final String phoneNo, final String email, final String address,
                               final String paymentMode, final String orderNotes,
                               final String selfPikup, final String flatCharges, final String usernameLogin) {
@@ -135,17 +135,17 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
 //                    }
 
 
-                    String addressData = "\"nameValuePairs\":" + "{" +
-                            "\"Phone\":" + "\"" + phoneNo + "\"" + "," +
-                            "\"Email\":" + "\"" + email + "\"" + "," +
-                            "\"Address\":" + "\"" + address + "\"" + "," +
-                            "\"Payment\":" + "\"" + paymentMode + "\"" + "," +
-                            "\"Message\":" + "\"" + orderNotes + "\"" + "," +
-                            "\"selfPikup\":" + "\"" + selfPikup + "\"" + "," +
-                            "\"flatCharges\":" + "\"" + flatCharges + "\"" + "," +
-                            "\"Company\":" + "\"" + companyName + "\"" + "," +
-                            "\"name\":" + "\"" + usernameLogin + "\"" +
-                            "}";
+//                    String addressData = "\"nameValuePairs\":" + "{" +
+//                            "\"Phone\":" + "\"" + phoneNo + "\"" + "," +
+//                            "\"Email\":" + "\"" + email + "\"" + "," +
+//                            "\"Address\":" + "\"" + address + "\"" + "," +
+//                            "\"Payment\":" + "\"" + paymentMode + "\"" + "," +
+//                            "\"Message\":" + "\"" + orderNotes + "\"" + "," +
+//                            "\"selfPikup\":" + "\"" + selfPikup + "\"" + "," +
+//                            "\"flatCharges\":" + "\"" + flatCharges + "\"" + "," +
+//                            "\"Company\":" + "\"" + companyName + "\"" + "," +
+//                            "\"name\":" + "\"" + usernameLogin + "\"" +
+//                            "}";
 
 
                     //  String jsonObjectAddress1 = new Gson().toJson(jsonObjectAddress);
@@ -165,7 +165,7 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
 //
 //                    String fullData = "{\"prolist\":" + jsonObjectStr
 //                            + "," + addressData + "}";
-                    String fullData = "{" + addressData + "}";
+                    //  String fullData = "{" + addressData + "}";
 
                     // String dd = jsonObjectStr.replace("\"", "");
 
@@ -198,7 +198,7 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
                             INetworkLoginSignup<SubmitAddressResponse>() {
                                 @Override
                                 public void onSuccess(SubmitAddressResponse response) {
-                                    view.hideProgressDialogPleaseWait();
+                                    //  view.hideProgressDialogPleaseWait();
                                     //Log.d("messh1", response.getMessage() + "," + response.getStatus());
                                     // if (response == null) {
                                     //   view.showToastShortTime("Error while booking order.");
@@ -208,9 +208,12 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
                                     //view.showToastShortTime(response.getMessage());
                                     int i = 0;
                                     if (!response.getStatus()) {
+                                        view.hideProgressDialogPleaseWait();
+
                                         view.showToastShortTime("Order booking failed.");
                                         return;
                                     } else if (utils.isTextNullOrEmpty(response.getOrderID())) {
+                                        view.hideProgressDialogPleaseWait();
                                         view.showToastShortTime("Order booking failed.");
                                         return;
                                     }
@@ -223,34 +226,68 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
                                                 model.getCartDetailsListItems(new BillingTotalAmountViewModel.IFetchCartDetailsList() {
                                                     @Override
                                                     public void onCartDetailsReceived(final List<AddToCart> AddToCartList) {
-                                                        //   String jsonObjectStr = new Gson().toJson(AddToCartList);
+                                                        // String jsonObjectStr = new Gson().toJson(AddToCartList);
                                                         // jsonObjectStr = "{\"test\":" + jsonObjectStr + "}";
                                                         if (AddToCartList.size() > 0) {
                                                             int countsID = 0;
-                                                            model.setOrderDetailsDescription(AddToCartList.get(0).getProduct_id(),
-                                                                    AddToCartList.get(0).getItemQuantity(),
-                                                                    AddToCartList.get(0).getItemPrice(),
-                                                                    AddToCartList.get(0).getOrderID(),
-                                                                    countsID + 1,
-                                                                    new INetworkPostOrder<SubmitOrderSingleListResponse>() {
-                                                                        @Override
-                                                                        public void onSuccess(SubmitOrderSingleListResponse response, int counts) {
-                                                                            if (counts == AddToCartList.size()) {
-                                                                                view.deleteItemsFromCart();
-                                                                                return;
-                                                                            } else {
-                                                                                sendData(AddToCartList, counts);
+                                                            countsID = countsID + 1;
 
+                                                            if (AddToCartList.size() == 1) {
+                                                                model.setOrderDetailsDescription(AddToCartList.get(0).getProduct_id(),
+                                                                        AddToCartList.get(0).getItemQuantity(),
+                                                                        AddToCartList.get(0).getItemPrice(),
+                                                                        AddToCartList.get(0).getOrderID(),
+                                                                        email, "one",
+                                                                        countsID,
+                                                                        new INetworkPostOrder<SubmitOrderSingleListResponse>() {
+                                                                            @Override
+                                                                            public void onSuccess(SubmitOrderSingleListResponse response, int counts) {
+                                                                                if (counts == AddToCartList.size()) {
+                                                                                    view.deleteItemsFromCart();
+                                                                                    view.hideProgressDialogPleaseWait();
+                                                                                    return;
+                                                                                } else {
+                                                                                    sendData(AddToCartList, counts, email);
+
+                                                                                }
                                                                             }
-                                                                        }
 
-                                                                        @Override
-                                                                        public void onFailure(Throwable t) {
-                                                                            view.hideProgressDialogPleaseWait();
-                                                                            view.showToastShortTime("Error while booking order.");
-                                                                        }
-                                                                    });
+                                                                            @Override
+                                                                            public void onFailure(Throwable t) {
+                                                                                view.hideProgressDialogPleaseWait();
+                                                                                view.showToastShortTime("Error while booking order.");
+                                                                            }
+                                                                        });
+                                                            } else {
+                                                                model.setOrderDetailsDescription(AddToCartList.get(0).getProduct_id(),
+                                                                        AddToCartList.get(0).getItemQuantity(),
+                                                                        AddToCartList.get(0).getItemPrice(),
+                                                                        AddToCartList.get(0).getOrderID(),
+                                                                        email, "zero",
+                                                                        countsID,
+                                                                        new INetworkPostOrder<SubmitOrderSingleListResponse>() {
+                                                                            @Override
+                                                                            public void onSuccess(SubmitOrderSingleListResponse response, int counts) {
+                                                                                if (counts == AddToCartList.size()) {
+                                                                                    view.deleteItemsFromCart();
+                                                                                    view.hideProgressDialogPleaseWait();
+
+                                                                                    return;
+                                                                                } else {
+                                                                                    sendData(AddToCartList, counts, email);
+
+                                                                                }
+                                                                            }
+
+                                                                            @Override
+                                                                            public void onFailure(Throwable t) {
+                                                                                view.hideProgressDialogPleaseWait();
+                                                                                view.showToastShortTime("Error while booking order.");
+                                                                            }
+                                                                        });
+                                                            }
                                                         } else {
+                                                            view.hideProgressDialogPleaseWait();
                                                             view.showToastShortTime("Please add items in cart.");
 
                                                         }
@@ -258,6 +295,8 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
 
                                                     @Override
                                                     public void onErrorReceived(Exception ex) {
+                                                        view.hideProgressDialogPleaseWait();
+
                                                         if (ex.getMessage() != null) {
                                                             view.showToastShortTime("Error while booking order.");
                                                         } else {
@@ -293,6 +332,7 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
                                 }
                             });
                 } else {
+                    view.hideProgressDialogPleaseWait();
                     view.showToastShortTime("Error while saving data");
                 }
 
@@ -307,57 +347,226 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
 
     }
 
-    private void sendData(final List<AddToCart> addToCarts, int counts) {
-        model.setOrderDetailsDescription(addToCarts.get(counts).
-                        getProduct_id(),
-                addToCarts.get(counts).getItemQuantity(),
-                addToCarts.get(counts).getItemPrice(),
-                addToCarts.get(counts).getOrderID(),
-                counts + 1,
-                new INetworkPostOrder<SubmitOrderSingleListResponse>() {
-                    @Override
-                    public void onSuccess(SubmitOrderSingleListResponse response, int counts) {
-                        if (counts == addToCarts.size()) {
-                            view.deleteItemsFromCart();
-                            return;
-                        } else {
-                            sendData(addToCarts, counts);
-
+    private void sendData(final List<AddToCart> addToCarts, int counts, final String email) {
+        int cc = counts;
+        counts = counts + 1;
+        if (counts == addToCarts.size()) {
+            model.setOrderDetailsDescription(addToCarts.get(cc).
+                            getProduct_id(),
+                    addToCarts.get(cc).getItemQuantity(),
+                    addToCarts.get(cc).getItemPrice(),
+                    addToCarts.get(cc).getOrderID(),
+                    email,
+                    "one",
+                    counts,
+                    new INetworkPostOrder<SubmitOrderSingleListResponse>() {
+                        @Override
+                        public void onSuccess(SubmitOrderSingleListResponse response, int counts) {
+                            if (counts == addToCarts.size()) {
+                                view.deleteItemsFromCart();
+                                view.hideProgressDialogPleaseWait();
+                                return;
+                            } else {
+                                sendData(addToCarts, counts, email);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Throwable t) {
-                        view.hideProgressDialogPleaseWait();
-                        view.showToastShortTime("Error while booking order.");
-                    }
-                });
+                        @Override
+                        public void onFailure(Throwable t) {
+                            view.hideProgressDialogPleaseWait();
+                            view.showToastShortTime("Error while booking order.");
+                        }
+                    });
+        } else {
+            model.setOrderDetailsDescription(addToCarts.get(cc).
+                            getProduct_id(),
+                    addToCarts.get(cc).getItemQuantity(),
+                    addToCarts.get(cc).getItemPrice(),
+                    addToCarts.get(cc).getOrderID(),
+                    email,
+                    "zero",
+                    counts,
+                    new INetworkPostOrder<SubmitOrderSingleListResponse>() {
+                        @Override
+                        public void onSuccess(SubmitOrderSingleListResponse response, int counts) {
+                            if (counts == addToCarts.size()) {
+                                view.deleteItemsFromCart();
+                                view.hideProgressDialogPleaseWait();
+                                return;
+                            } else {
+                                sendData(addToCarts, counts, email);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            view.hideProgressDialogPleaseWait();
+                            view.showToastShortTime("Error while booking order.");
+                        }
+                    });
+        }
     }
 
 
     @Override
-    public void addItemsToBooking(List<AddToCart> addToCarts, String firstName, String company, String phone,
-                                  String email, String streetAddress1,
-                                  String townCity, String paymode,
-                                  String notes, String flatCharges, String selfPickup) {
-        model.addItemsToBooking(addToCarts, firstName, company, phone, email, streetAddress1, townCity, paymode, notes, flatCharges, selfPickup, new BillingTotalAmountViewModel.IFetchCartBookingDetailsList() {
-            @Override
-            public void onCartDetailsReceived(List<Booking> AddToCartList) {
-                if (AddToCartList == null || AddToCartList.size() == 0) {
-                    view.showToastShortTime("No item found in cart");
-                    return;
-                } else {
-                    view.bookingObject(AddToCartList);
+    public void addItemsToBooking(List<AddToCart> addToCarts, final String firstName, final String company, final String phone,
+                                  final String email, final String streetAddress1, final String paymode,
+                                  final String notes, String selfPickup, String flatCharges, String username) {
+        model.addItemsToBooking(addToCarts, firstName, company, phone, email, streetAddress1, paymode, notes,
+                flatCharges, selfPickup, new BillingTotalAmountViewModel.IBookingInsert() {
+                    @Override
+                    public void onSuccess(boolean success) {
+                        if (success) {
+                            model.postOrderDetails(firstName, streetAddress1, email, company, phone, paymode, notes, new
+                                    INetworkLoginSignup<SubmitAddressResponse>() {
+                                        @Override
+                                        public void onSuccess(SubmitAddressResponse response) {
+                                            //  view.hideProgressDialogPleaseWait();
+                                            //Log.d("messh1", response.getMessage() + "," + response.getStatus());
+                                            // if (response == null) {
+                                            //   view.showToastShortTime("Error while booking order.");
+                                            //  return;
+                                            //}
+                                            //     if (response.getStatus()) {
+                                            //view.showToastShortTime(response.getMessage());
+                                            int i = 0;
+                                            if (!response.getStatus()) {
+                                                view.hideProgressDialogPleaseWait();
 
-                }
-            }
+                                                view.showToastShortTime("Order booking failed.");
+                                                return;
+                                            } else if (utils.isTextNullOrEmpty(response.getOrderID())) {
+                                                view.hideProgressDialogPleaseWait();
+                                                view.showToastShortTime("Order booking failed.");
+                                                return;
+                                            }
 
-            @Override
-            public void onErrorReceived(Exception ex) {
-                view.showToastShortTime(ex.getMessage());
+                                            // view.deleteItemsFromCart();
+                                            model.updateBooking(response.getOrderID(), new BillingTotalAmountViewModel.IBookingInsert() {
+                                                @Override
+                                                public void onSuccess(boolean success) {
+                                                    if (success) {
+                                                        model.getCartDetailsListItems(new BillingTotalAmountViewModel.IFetchCartDetailsList() {
+                                                            @Override
+                                                            public void onCartDetailsReceived(final List<AddToCart> AddToCartList) {
+                                                                // String jsonObjectStr = new Gson().toJson(AddToCartList);
+                                                                // jsonObjectStr = "{\"test\":" + jsonObjectStr + "}";
+                                                                if (AddToCartList.size() > 0) {
+                                                                    int countsID = 0;
+                                                                    countsID = countsID + 1;
 
-            }
-        });
+                                                                    if (AddToCartList.size() == 1) {
+                                                                        model.setOrderDetailsDescription(AddToCartList.get(0).getProduct_id(),
+                                                                                AddToCartList.get(0).getItemQuantity(),
+                                                                                AddToCartList.get(0).getItemPrice(),
+                                                                                AddToCartList.get(0).getOrderID(),
+                                                                                email, "one",
+                                                                                countsID,
+                                                                                new INetworkPostOrder<SubmitOrderSingleListResponse>() {
+                                                                                    @Override
+                                                                                    public void onSuccess(SubmitOrderSingleListResponse response, int counts) {
+                                                                                        if (counts == AddToCartList.size()) {
+                                                                                            view.deleteItemsFromCart();
+                                                                                            view.hideProgressDialogPleaseWait();
+                                                                                            return;
+                                                                                        } else {
+                                                                                            sendData(AddToCartList, counts, email);
+
+                                                                                        }
+                                                                                    }
+
+                                                                                    @Override
+                                                                                    public void onFailure(Throwable t) {
+                                                                                        view.hideProgressDialogPleaseWait();
+                                                                                        view.showToastShortTime("Error while booking order.");
+                                                                                    }
+                                                                                });
+                                                                    } else {
+                                                                        model.setOrderDetailsDescription(AddToCartList.get(0).getProduct_id(),
+                                                                                AddToCartList.get(0).getItemQuantity(),
+                                                                                AddToCartList.get(0).getItemPrice(),
+                                                                                AddToCartList.get(0).getOrderID(),
+                                                                                email, "zero",
+                                                                                countsID,
+                                                                                new INetworkPostOrder<SubmitOrderSingleListResponse>() {
+                                                                                    @Override
+                                                                                    public void onSuccess(SubmitOrderSingleListResponse response, int counts) {
+                                                                                        if (counts == AddToCartList.size()) {
+                                                                                            view.deleteItemsFromCart();
+                                                                                            view.hideProgressDialogPleaseWait();
+
+                                                                                            return;
+                                                                                        } else {
+                                                                                            sendData(AddToCartList, counts, email);
+
+                                                                                        }
+                                                                                    }
+
+                                                                                    @Override
+                                                                                    public void onFailure(Throwable t) {
+                                                                                        view.hideProgressDialogPleaseWait();
+                                                                                        view.showToastShortTime("Error while booking order.");
+                                                                                    }
+                                                                                });
+                                                                    }
+                                                                } else {
+                                                                    view.hideProgressDialogPleaseWait();
+                                                                    view.showToastShortTime("Please add items in cart.");
+
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onErrorReceived(Exception ex) {
+                                                                view.hideProgressDialogPleaseWait();
+
+                                                                if (ex.getMessage() != null) {
+                                                                    view.showToastShortTime("Error while booking order.");
+                                                                } else {
+                                                                    view.showToastShortTime("Error while booking order.");
+                                                                }
+                                                            }
+                                                        });
+                                                    } else {
+                                                        view.hideProgressDialogPleaseWait();
+                                                        view.showToastShortTime("Error while order booking.");
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void onErrorReceived(Exception ex) {
+                                                    view.hideProgressDialogPleaseWait();
+                                                    view.showToastShortTime("Error while booking order.");
+
+                                                }
+                                            });
+
+
+                                            //   } else {
+                                            // view.showToastShortTime("Error while booking order.");
+                                            // }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Throwable t) {
+                                            view.hideProgressDialogPleaseWait();
+                                            view.showToastShortTime("Can't submit order.Error while submit data.");
+                                        }
+                                    });
+                        } else {
+                            view.hideProgressDialogPleaseWait();
+                            view.showToastShortTime("Can't submit order.Error while submit data.");
+                        }
+                    }
+
+                    @Override
+                    public void onErrorReceived(Exception ex) {
+                        view.showToastShortTime("Can't submit order.Error while submit data.");
+                        view.hideProgressDialogPleaseWait();
+
+                    }
+                });
     }
 
     private void setAdapter(List<AddToCart> AddToCartList) {

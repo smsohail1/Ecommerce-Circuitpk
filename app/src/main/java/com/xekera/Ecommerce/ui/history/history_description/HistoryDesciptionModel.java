@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.history.history_description;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.data.rest.response.HistoryDetailsResponse;
+import com.xekera.Ecommerce.data.rest.response.HistoryOrderIdDiscriptionResponse;
 import com.xekera.Ecommerce.data.rest.response.HistoryOrderIdResponse;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
@@ -112,13 +113,13 @@ public class HistoryDesciptionModel implements HistoryDesciptionMVP.Model {
     }
 
     @Override
-    public void fetchOrderHistoryIdDescription(String orderId, final INetworkListGeneral<HistoryDetailsResponse> iNetworkListGeneral) {
-        Call<HistoryDetailsResponse> call = xekeraAPI.getOrderHistoryIdDetail(orderId);
-        call.enqueue(new Callback<HistoryDetailsResponse>() {
+    public void fetchOrderHistoryIdDescription(String orderId, final INetworkListGeneral<HistoryOrderIdDiscriptionResponse> iNetworkListGeneral) {
+        Call<HistoryOrderIdDiscriptionResponse> call = xekeraAPI.getOrderHistoryIdDetail(orderId);
+        call.enqueue(new Callback<HistoryOrderIdDiscriptionResponse>() {
             @Override
-            public void onResponse(Call<HistoryDetailsResponse> call, Response<HistoryDetailsResponse> response) {
+            public void onResponse(Call<HistoryOrderIdDiscriptionResponse> call, Response<HistoryOrderIdDiscriptionResponse> response) {
                 try {
-                    HistoryDetailsResponse historyDetailsResponse = response.body();
+                    HistoryOrderIdDiscriptionResponse historyDetailsResponse = response.body();
 
                     iNetworkListGeneral.onSuccess(historyDetailsResponse);
 //                    if(messageResponse == null){
@@ -134,7 +135,7 @@ public class HistoryDesciptionModel implements HistoryDesciptionMVP.Model {
             }
 
             @Override
-            public void onFailure(Call<HistoryDetailsResponse> call, Throwable t) {
+            public void onFailure(Call<HistoryOrderIdDiscriptionResponse> call, Throwable t) {
                 iNetworkListGeneral.onFailure(t);
             }
         });

@@ -53,6 +53,17 @@ public class Booking {
     private String imgUrl;
     @ColumnInfo(name = "product_id")
     private String product_id;
+    @ColumnInfo(name = "is_email_sent")
+    private String isEmailSent;
+
+    public String getIsEmailSent() {
+        return isEmailSent;
+    }
+
+    public void setIsEmailSent(String isEmailSent) {
+        this.isEmailSent = isEmailSent;
+    }
+
 
     public String getProduct_id() {
         return product_id;
@@ -66,7 +77,7 @@ public class Booking {
     public Booking(String orderID, String itemName, String itemIndividualPrice, String itemPrice,
                    String itemCutPrice, String itemQuantity, String firstName,
                    String companyName, String phoneNo, String emailAddress,
-                   String streetAddress1, String townCity,
+                   String streetAddress1,
                    String paymentType, String orderNotes, String flatCharges, String createdDate,
                    byte[] itemImage, String transmissionStatus, String selfPickUp, String imgUrl, String product_id) {
         this.orderID = orderID;
@@ -80,7 +91,7 @@ public class Booking {
         this.phoneNo = phoneNo;
         this.emailAddress = emailAddress;
         this.streetAddress1 = streetAddress1;
-        this.townCity = townCity;
+        // this.townCity = townCity;
         this.paymentType = paymentType;
         this.orderNotes = orderNotes;
         this.flatCharges = flatCharges;
@@ -90,6 +101,7 @@ public class Booking {
         this.selfPickUp = selfPickUp;
         this.imgUrl = imgUrl;
         this.product_id = product_id;
+        // this.isEmailSent = isEmailSent;
     }
 
 

@@ -33,6 +33,17 @@ public class Favourites {
     private String image;
     @ColumnInfo(name = "product_id")
     private String product_id;
+    @ColumnInfo(name = "is_email_fav")
+    private String isEmailFav;
+
+    public String getIsEmailFav() {
+        return isEmailFav;
+    }
+
+    public void setIsEmailFav(String isEmailFav) {
+        this.isEmailFav = isEmailFav;
+    }
+
 
     public String getProduct_id() {
         return product_id;
@@ -141,7 +152,7 @@ public class Favourites {
 
     public Favourites(String itemName, String itemIndividualPrice, String itemCutPrice,
                       String itemStockStatus, String createdDate, byte[] itemImage, String itemQuantity,
-                      String itemTotalPrice, String image, String product_id) {
+                      String itemTotalPrice, String image, String product_id, String isEmailFav) {
         this.itemName = itemName;
         this.itemIndividualPrice = itemIndividualPrice;
         this.itemCutPrice = itemCutPrice;
@@ -152,6 +163,7 @@ public class Favourites {
         this.itemTotalPrice = itemTotalPrice;
         this.image = image;
         this.product_id = product_id;
+        this.isEmailFav = isEmailFav;
     }
 
 
