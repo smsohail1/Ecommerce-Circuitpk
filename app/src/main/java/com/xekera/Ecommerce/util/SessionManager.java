@@ -219,6 +219,8 @@ public class SessionManager {
         editor.remove(KEY_CARD_NUMBER);
         editor.remove(KEY_CARD_EXPIRY_DATE);
         editor.remove(KEY_CARD_CVC);
+        editor.remove(KEY_COMPANY_NAME);
+        editor.remove(KEY_ADDRESS);
 
         editor.apply();
         editor.commit();
