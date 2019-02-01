@@ -13,6 +13,7 @@ import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, DashboardAdapter.IDashboardAdapter {
