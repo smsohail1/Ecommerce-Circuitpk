@@ -33,6 +33,7 @@ public class SessionManager {
     public static String KEY_CARD_EXPIRY_DATE = "card_expiry_date_detail";
     public static String KEY_CARD_CVC = "card_cvc_no";
 
+
     private static final String KEY_LATITUDE = "delivery_latitude";
     private static final String KEY_LONGITUDE = "delivery_longitude";
     private static final String KEY_PLACE_NAME = "delivery_place_name";

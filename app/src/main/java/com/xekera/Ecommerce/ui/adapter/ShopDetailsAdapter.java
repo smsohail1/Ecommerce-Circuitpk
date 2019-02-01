@@ -85,10 +85,25 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (holder instanceof productDetailsDataListViewHolder) {
             final productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
-            productDetailsDataListViewHolder.productNameLabelTextView.setText(shoppingDetailModel.getName());
-            productDetailsDataListViewHolder.priceTextView.setText(shoppingDetailModel.getPrice());
-            productDetailsDataListViewHolder.discountPriceTextView.setText(shoppingDetailModel.getRegularPrice());
+            if (shoppingDetailModel.getName() != null) {
+                productDetailsDataListViewHolder.productNameLabelTextView.setText(shoppingDetailModel.getName());
+            } else {
+                productDetailsDataListViewHolder.productNameLabelTextView.setText("");
+            }
+            if (shoppingDetailModel.getPrice() != null) {
+                productDetailsDataListViewHolder.priceTextView.setText(shoppingDetailModel.getPrice());
 
+            } else {
+                productDetailsDataListViewHolder.priceTextView.setText("");
+
+            }
+            if (shoppingDetailModel.getRegularPrice() != null) {
+
+                productDetailsDataListViewHolder.discountPriceTextView.setText(shoppingDetailModel.getRegularPrice());
+            } else {
+                productDetailsDataListViewHolder.discountPriceTextView.setText("");
+
+            }
 
             try {
                 if (shoppingDetailModel.getImageJson() != null &&
@@ -376,7 +391,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     iShopDetailAdapter.onFavouriteButtonClick(productsItems.get(getLayoutPosition()), getLayoutPosition(),
                             bitmapFavourite, counterTextview.getText().toString(),
                             productsItems.get(getLayoutPosition()).getImageJson().get(0),
-                            productsItems.get(getLayoutPosition()).getId(),"0");
+                            productsItems.get(getLayoutPosition()).getId(), "0");
                     break;
                 case R.id.decrementImageButton:
                     //  decrementCounter = decrementCounter - 1;
@@ -551,7 +566,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void onViewDetailsButtonClick(Product productItems);
 
-        void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl, String productID,String isEmailFav);
+        void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl, String productID, String isEmailFav);
 
         void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
                                     long cutPrice, ImageView imgProductCopy, Bitmap bitmap, String imgUrl,

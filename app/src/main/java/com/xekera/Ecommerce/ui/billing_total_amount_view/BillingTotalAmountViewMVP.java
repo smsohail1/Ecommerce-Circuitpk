@@ -99,7 +99,7 @@ public interface BillingTotalAmountViewMVP {
                               String company,
                               String phone,
                               String payment,
-                              String message, INetworkLoginSignup<SubmitAddressResponse> iNetworkLoginSignup);
+                              String message,String logedInUsername, INetworkLoginSignup<SubmitAddressResponse> iNetworkLoginSignup);
 
         void setOrderDetailsDescription(String product_id,
                                         String itemQuantity, String itemPrice,

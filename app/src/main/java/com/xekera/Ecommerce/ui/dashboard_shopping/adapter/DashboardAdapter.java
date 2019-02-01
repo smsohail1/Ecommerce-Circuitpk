@@ -47,33 +47,71 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof HomeViewHolder) {
             final HomeViewHolder homeViewHolder = (HomeViewHolder) holder;
             //homeViewHolder.imgHomeItem.setImageResource(homeItem.getImgResId());
-            homeViewHolder.txtHomeItem.setText(homeItem.getName());
+            if (homeItem.getName() != null) {
+                homeViewHolder.txtHomeItem.setText(homeItem.getName());
+            } else {
+                homeViewHolder.txtHomeItem.setText("");
+            }
+            try {
 
-            Glide.with(context)
-                    .load(homeItem.getImage())
-                    .asBitmap()
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.placeholder)
-                    // .override(130, 50)
-                    .centerCrop()
+                if (homeItem.getImage() != null) {
+                    Glide.with(context)
+                            .load(homeItem.getImage())
+                            .asBitmap()
+                            .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.placeholder)
+                            // .override(130, 50)
+                            .centerCrop()
 
-                    // .into(homeViewHolder.imgHomeItem);
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            homeViewHolder.avLoadingIndicatorView.setVisibility(View.GONE);
-                            homeViewHolder.imgHomeItem.setImageBitmap(resource);
-                            homeViewHolder.imgHomeItem.setVisibility(View.VISIBLE);
-                        }
+                            // .into(homeViewHolder.imgHomeItem);
+                            .into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                    homeViewHolder.avLoadingIndicatorView.setVisibility(View.GONE);
+                                    homeViewHolder.imgHomeItem.setImageBitmap(resource);
+                                    homeViewHolder.imgHomeItem.setVisibility(View.VISIBLE);
+                                }
 
-                        @Override
-                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                            super.onLoadFailed(e, errorDrawable);
-                            homeViewHolder.avLoadingIndicatorView.setVisibility(View.GONE);
-                            homeViewHolder.imgHomeItem.setVisibility(View.VISIBLE);
+                                @Override
+                                public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                    super.onLoadFailed(e, errorDrawable);
+                                    homeViewHolder.avLoadingIndicatorView.setVisibility(View.GONE);
+                                    homeViewHolder.imgHomeItem.setVisibility(View.VISIBLE);
 
-                        }
-                    });
+                                }
+                            });
+
+                } else {
+                    Glide.with(context)
+                            .load(R.drawable.placeholder)
+                            .asBitmap()
+                            .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.placeholder)
+                            // .override(130, 50)
+                            .centerCrop()
+
+                            // .into(homeViewHolder.imgHomeItem);
+                            .into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                    homeViewHolder.avLoadingIndicatorView.setVisibility(View.GONE);
+                                    homeViewHolder.imgHomeItem.setImageBitmap(resource);
+                                    homeViewHolder.imgHomeItem.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                    super.onLoadFailed(e, errorDrawable);
+                                    homeViewHolder.avLoadingIndicatorView.setVisibility(View.GONE);
+                                    homeViewHolder.imgHomeItem.setVisibility(View.VISIBLE);
+
+                                }
+                            });
+                }
+
+            } catch (Exception ex) {
+
+            }
 
         }
     }

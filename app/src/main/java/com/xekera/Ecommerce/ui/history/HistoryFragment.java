@@ -194,7 +194,8 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
                 if (utils.isInternetAvailable()) {
                     // progressbar.setVisibility(View.VISIBLE);
 
-                    if (sessionManager.isLoggedIn() && (utils.isTextNullOrEmpty(sessionManager.getusername()) || utils.isTextNullOrEmpty(sessionManager.getEmail()))) {
+                    if (utils.isTextNullOrEmpty(sessionManager.getusername()) ||
+                            utils.isTextNullOrEmpty(sessionManager.getEmail())) {
                         showToastShortTime("First log in to view past orders.");
                         hideLoadingProgressDialog();
                     } else {

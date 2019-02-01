@@ -5,6 +5,7 @@
     <string name="employee_code_hint_login_edt">Username</string>
     <string name="password_hint_login_edt">Password</string>
     <string name="login_btn">Login</string>
+    <string name="username_email_hint_edt">Username or Email Id</string>
     <string name="login_title">Login</string>
     <string name="username_error_login">Username is required</string>
     <string name="username_length_error_login">Username must be minimum 6 characters.</string>

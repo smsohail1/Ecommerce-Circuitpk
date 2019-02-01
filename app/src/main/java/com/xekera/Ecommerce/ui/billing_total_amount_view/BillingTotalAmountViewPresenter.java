@@ -194,7 +194,7 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
 
                     // Log.d("test_Data", "jsondata=" + jsnobject);
 
-                    model.postOrderDetails(name, address, email, companyName, phoneNo, paymentMode, orderNotes, new
+                    model.postOrderDetails(name, address, email, companyName, phoneNo, paymentMode, orderNotes, "", new
                             INetworkLoginSignup<SubmitAddressResponse>() {
                                 @Override
                                 public void onSuccess(SubmitAddressResponse response) {
@@ -411,13 +411,13 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
     @Override
     public void addItemsToBooking(List<AddToCart> addToCarts, final String firstName, final String company, final String phone,
                                   final String email, final String streetAddress1, final String paymode,
-                                  final String notes, String selfPickup, String flatCharges, String username) {
+                                  final String notes, String selfPickup, String flatCharges, final String username) {
         model.addItemsToBooking(addToCarts, firstName, company, phone, email, streetAddress1, paymode, notes,
                 flatCharges, selfPickup, new BillingTotalAmountViewModel.IBookingInsert() {
                     @Override
                     public void onSuccess(boolean success) {
                         if (success) {
-                            model.postOrderDetails(firstName, streetAddress1, email, company, phone, paymode, notes, new
+                            model.postOrderDetails(firstName, streetAddress1, sessionManager.getEmail(), company, phone, paymode, notes, username, new
                                     INetworkLoginSignup<SubmitAddressResponse>() {
                                         @Override
                                         public void onSuccess(SubmitAddressResponse response) {

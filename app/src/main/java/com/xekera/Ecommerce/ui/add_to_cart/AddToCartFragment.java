@@ -287,10 +287,18 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
         if (!utils.isTextNullOrEmptyOrZero(setSubToal)) {
             subTotalValueTextView.setText(setSubToal);
             String flatShippingRateStr = shippingValueTextView.getText().toString();
-            long gstAmount = Long.valueOf(gstValueTextView.getText().toString());
+            //  long gstAmount = Long.valueOf(gstValueTextView.getText().toString());
+
             long flatShippingRateLong = 0;
-            flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr) + gstAmount;
+            flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr);
+
+            //12%  GST of total amount
+            long gstAmount = flatShippingRateLong / 12;
+            flatShippingRateLong = flatShippingRateLong + gstAmount;
+
+            gstValueTextView.setText(String.valueOf(gstAmount));
             totalValueTextView.setText(String.valueOf(flatShippingRateLong));
+
 
         } else {
             subTotalValueTextView.setText("0");
@@ -312,9 +320,9 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     @Override
     public void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
-                                   String cutPrice, byte[] bytes, String imgUrl,String prodcutID,String isEmailSent) {
+                                   String cutPrice, byte[] bytes, String imgUrl, String prodcutID, String isEmailSent) {
         presenter.saveProductDetails(quantity, individualPrice, itemPrice, productName,
-                cutPrice, bytes, imgUrl,prodcutID,isEmailSent);
+                cutPrice, bytes, imgUrl, prodcutID, isEmailSent);
     }
 
     @Override
@@ -389,7 +397,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        showToastShortTime("Required SignUp for further proceed.");
+                        showToastShortTime("Required SignUp/Login for further process.");
                         ((BaseActivity) getActivity()).addFragment(new LoginFragment());
 
                     }

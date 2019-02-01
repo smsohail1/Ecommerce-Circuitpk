@@ -363,14 +363,15 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
                                  String company,
                                  String phone,
                                  String payment,
-                                 String message, final INetworkLoginSignup<SubmitAddressResponse> postOrder) {
+                                 String message,
+                                 String logedInUsername, final INetworkLoginSignup<SubmitAddressResponse> postOrder) {
         Call<SubmitAddressResponse> call = xekeraAPI.postOrderDeatils(name,
                 address,
                 email,
                 company,
                 phone,
                 payment,
-                message);
+                message, logedInUsername);
         call.enqueue(new Callback<SubmitAddressResponse>() {
             @Override
             public void onResponse(Call<SubmitAddressResponse> call, Response<SubmitAddressResponse> response) {

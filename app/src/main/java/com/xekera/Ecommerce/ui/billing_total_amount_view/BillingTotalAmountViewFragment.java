@@ -238,11 +238,18 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         if (!utils.isTextNullOrEmptyOrZero(setSubToal)) {
             subTotalValueTextView.setText(setSubToal);
             String flatShippingRateStr = shippingValueTextView.getText().toString();
-            long gstAmount = Long.valueOf(gstValueTextView.getText().toString());
+            //long gstAmount = Long.valueOf(gstValueTextView.getText().toString());
 
             long flatShippingRateLong = 0;
-            flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr) +
-                    gstAmount;
+            flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr);
+
+            //12%  GST of total amount
+            long gstAmount = flatShippingRateLong / 12;
+
+            flatShippingRateLong = flatShippingRateLong + gstAmount;
+
+            gstValueTextView.setText(String.valueOf(gstAmount));
+
             totalValueTextView.setText(String.valueOf(flatShippingRateLong));
 
         } else {
@@ -433,7 +440,6 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                                         , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername());
                             } else {
                                 showToastShortTime("Please connect to internet.");
-
                             }
 
                         }

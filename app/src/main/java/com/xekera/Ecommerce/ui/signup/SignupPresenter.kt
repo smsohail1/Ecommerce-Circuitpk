@@ -75,10 +75,10 @@ public class SignupPresenter : SignupMVP.Presenter {
                                     return
                                 }
                                 sessionManager?.createSignUpSession(
-                                    userName,
+                                    response.username,
                                     phoneNo,
-                                    password,
-                                    emailID,
+                                    response.password,
+                                    response.email,
                                     true
                                 )
                                 view?.showToastShortTime(response.message)

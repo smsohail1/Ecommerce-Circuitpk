@@ -75,8 +75,8 @@ public class HistoryDesciptionAdapter extends RecyclerView.Adapter<RecyclerView.
                 productDetailsDataListViewHolder.productNameLabelTextView.setText(booking.getName());
             }
             if (booking.getPrice() != null) {
-                long totalAmount = Long.valueOf(booking.getPrice()) * Long.valueOf(booking.getItemQuantity());
-                productDetailsDataListViewHolder.priceTextView.setText(String.valueOf(totalAmount));
+                //long totalAmount = Long.valueOf(booking.getPrice()) * Long.valueOf(booking.getItemQuantity());
+                productDetailsDataListViewHolder.priceTextView.setText(booking.getPrice());
             }
 
             if (booking.getItemQuantity() != null) {
