@@ -166,6 +166,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
                 if (isAdded) {
                     view.showToastShortTime("Item added to cart successfully.");
                     removeItemFromFavourites(addToCart.getItemName(), position, imageView);
+
                 }
             }
 
@@ -183,11 +184,16 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             public void onCartDetailsReceived(List<AddToCart> addToCarts) {
                 if (addToCarts == null || addToCarts.size() == 0) {
                     view.setCartCounterTextview(0);
+                    getFavouriteCount();
+
                     return;
                 } else {
                     //  view.setCartCounterTextview(addToCarts.size());
                     if (actionListener != null)
                         actionListener.onItemTap(img, addToCarts.size(), position);
+
+                    getFavouriteCount();
+
 
                 }
 
@@ -362,8 +368,8 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             public void onProductDetailsSaved(boolean updated) {
                 if (updated) {
                     view.showToastShortTime("Item updated successfully.");
-
                     getUpdatedTotalCount(imgProductCopy, productName, position);
+
                 } else {
                     view.showToastShortTime("Error while saving data.");
 
@@ -603,7 +609,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 //                    if (actionListener != null)
 //                        actionListener.onItemTap(imgProductCopy, 0);
                     view.setCountZero(0);
-
+                    getFavouriteCount();
 
                     return;
                 } else {

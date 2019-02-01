@@ -348,6 +348,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         bottomMenuItem.setChecked(false);
                     }
 
+                    showHideBottomNavigationCount(1);
+
 
                     //    navigation.setSelectedItemId(R.id.navigation_cart);
                     replaceFragmentWithContainer(new AddToCartFragment());
