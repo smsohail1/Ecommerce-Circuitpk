@@ -54,6 +54,11 @@ public interface HistoryDesciptionMVP {
         void hideProgressDialogPleaseWait();
 
         void setHistoryAdapter(HistoryOrderIdDiscriptionResponse response);
+
+        void hideTotalAmountParentLayout();
+
+        void showTotalAmountParentLayout();
+
     }
 
     interface Presenter {

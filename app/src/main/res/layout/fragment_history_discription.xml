@@ -117,7 +117,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone"
                     android:layout_marginTop="5dp">
 
 
@@ -138,49 +137,48 @@
                             android:padding="7dp"
                             android:orientation="vertical">
                         <RelativeLayout android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:visibility="gone"
+                                        android:layout_height="wrap_content"
                         >
                             <TextView
-                                    android:id="@+id/subTotalLabelTextView"
+                                    android:id="@+id/shippingChargesLabelTextView"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/discount_price_textview"
-                                    android:text="Sub Total"
+                                    android:text="Shipment Charges"
                                     android:textSize="@dimen/txt_report_list_item_size"/>
                             <RelativeLayout android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentRight="true">
 
                                 <TextView
-                                        android:id="@+id/subTotalRsLabelTextView"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
+                                        android:id="@+id/shippLabelTextView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:textColor="@color/availibility_textview"
                                         android:text="Rs "
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
                                 <TextView
-                                        android:id="@+id/subTotalValueTextView"
+                                        android:id="@+id/shippingChargesValueTextView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/availibility_textview"
-                                        android:layout_toRightOf="@+id/subTotalRsLabelTextView"
+                                        android:layout_toRightOf="@+id/shippLabelTextView"
+                                        android:text=""
                                         android:textSize="@dimen/txt_report_list_item_size"/>
                             </RelativeLayout>
                         </RelativeLayout>
 
                         <RelativeLayout android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_marginTop="3dp"
-                                        android:visibility="gone"
                         >
                             <TextView
-                                    android:id="@+id/shippingLabelTextView"
+                                    android:id="@+id/gstLabelTextView"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/discount_price_textview"
-                                    android:text="Shipping Flat Rate"
+                                    android:text="GST"
                                     android:textSize="@dimen/txt_report_list_item_size"/>
 
                             <RelativeLayout android:layout_width="wrap_content"
@@ -188,7 +186,7 @@
                                             android:layout_alignParentRight="true">
 
                                 <TextView
-                                        android:id="@+id/subTotalRsFlatRateTextView"
+                                        android:id="@+id/gstTextView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/availibility_textview"
@@ -196,55 +194,14 @@
                                         android:textSize="@dimen/txt_report_list_item_size"/>
 
                                 <TextView
-                                        android:id="@+id/shippingValueTextView"
+                                        android:id="@+id/gstValueTextView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/availibility_textview"
-                                        android:layout_toRightOf="@+id/subTotalRsFlatRateTextView"
-                                        android:text="0"
+                                        android:layout_toRightOf="@+id/gstTextView"
+                                        android:text=""
                                         android:textSize="@dimen/txt_report_list_item_size"/>
                             </RelativeLayout>
-                        </RelativeLayout>
-
-
-                        <RelativeLayout android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="5dp"
-                                        android:visibility="gone"
-                        >
-                            <TextView
-                                    android:id="@+id/totalLabelTextView"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/card_textview"
-                                    android:text="Total"
-                                    android:textStyle="bold"
-                                    android:textSize="@dimen/txt_report_list_item_size"/>
-
-
-                            <RelativeLayout android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentRight="true"
-                                            android:layout_marginRight="5dp">
-
-                                <TextView
-                                        android:id="@+id/TotalRsTextView"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/availibility_textview"
-                                        android:text="Rs "
-                                        android:textSize="@dimen/txt_report_list_item_size"/>
-
-                                <TextView
-                                        android:id="@+id/totalValueTextView"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_toRightOf="@+id/TotalRsTextView"
-                                        android:textColor="@color/availibility_textview"
-                                        android:textSize="@dimen/txt_report_list_item_size"/>
-
-                            </RelativeLayout>
-
                         </RelativeLayout>
 
 
@@ -256,6 +213,7 @@
 
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="match_parent"
+                          android:layout_marginTop="5dp"
                           android:orientation="vertical">
 
 

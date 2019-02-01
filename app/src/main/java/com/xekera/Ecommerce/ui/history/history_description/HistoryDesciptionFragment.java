@@ -60,8 +60,8 @@ public class HistoryDesciptionFragment extends Fragment implements HistoryDescip
     //protected TextView subTotalValueTextView;
     //  @BindView(R.id.shippingValueTextView)
     //protected TextView shippingValueTextView;
-    @BindView(R.id.totalValueTextView)
-    protected TextView totalValueTextView;
+    //@BindView(R.id.totalValueTextView)
+    //protected TextView totalValueTextView;
     @BindView(R.id.txtNoCartItemFound)
     protected TextView txtNoCartItemFound;
 
@@ -74,6 +74,13 @@ public class HistoryDesciptionFragment extends Fragment implements HistoryDescip
     protected LinearLayout linearLayoutItemDetails;
     @BindView(R.id.searchParent)
     protected LinearLayout searchParent;
+    @BindView(R.id.shippingChargesValueTextView)
+    protected TextView shippingChargesValueTextView;
+    @BindView(R.id.gstValueTextView)
+    protected TextView gstValueTextView;
+
+    @BindView(R.id.TotalAmountParentLayout)
+    protected LinearLayout TotalAmountParentLayout;
 
     @Inject
     protected HistoryDesciptionMVP.Presenter presenter;
@@ -148,6 +155,15 @@ public class HistoryDesciptionFragment extends Fragment implements HistoryDescip
         // ((BaseActivity) getActivity()).setTitle(getString(R.string.history_dashboard));
     }
 
+    @Override
+    public void showTotalAmountParentLayout() {
+        TotalAmountParentLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideTotalAmountParentLayout() {
+        TotalAmountParentLayout.setVisibility(View.GONE);
+    }
 
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
@@ -164,6 +180,7 @@ public class HistoryDesciptionFragment extends Fragment implements HistoryDescip
         // edtSearchProduct.setText("");
         //  datePickerEdittext.setText("");
 
+        hideTotalAmountParentLayout();
         progressBarRelativeLayout.setVisibility(View.VISIBLE);
         //hideSearchDate();
 
@@ -234,7 +251,7 @@ public class HistoryDesciptionFragment extends Fragment implements HistoryDescip
     @Override
     public void setHistoryAdapter(HistoryOrderIdDiscriptionResponse response) {
         adapter = new HistoryDesciptionAdapter(getActivity(), response.getProducts().getProList(),
-                response.getAddress(),this, this);
+                response.getAddress(), this, this);
         showRecylerViewProductsDetail(adapter);
     }
 
@@ -289,7 +306,7 @@ public class HistoryDesciptionFragment extends Fragment implements HistoryDescip
     public void setParentFields() {
         //  subTotalValueTextView.setText("0");
         //   shippingValueTextView.setText("0");
-        totalValueTextView.setText("0");
+        // totalValueTextView.setText("0");
     }
 
     @Override
@@ -310,10 +327,10 @@ public class HistoryDesciptionFragment extends Fragment implements HistoryDescip
             //  String flatShippingRateStr = shippingValueTextView.getText().toString();
             // long flatShippingRateLong = 0;
             //   flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr);
-            totalValueTextView.setText(String.valueOf(setSubToal));
+            // totalValueTextView.setText(String.valueOf(setSubToal));
 
         } else {
-            totalValueTextView.setText("0");
+            //totalValueTextView.setText("0");
 
             //          subTotalValueTextView.setText("0");
         }
@@ -655,7 +672,7 @@ public class HistoryDesciptionFragment extends Fragment implements HistoryDescip
 
     @Override
     public void showTotalAmount(String itemTotalPrice) {
-        totalValueTextView.setText(itemTotalPrice);
+        // totalValueTextView.setText(itemTotalPrice);
 
     }
 }

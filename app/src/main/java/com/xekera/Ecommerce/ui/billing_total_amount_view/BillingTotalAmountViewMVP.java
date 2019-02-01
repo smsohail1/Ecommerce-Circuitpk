@@ -69,7 +69,7 @@ public interface BillingTotalAmountViewMVP {
 
         void addItemsToBooking(List<AddToCart> addToCarts, String firstName, String company, String phone,
                                String email, String streetAddress1, String paymode,
-                               String notes, String selfPickup, String flatCharges, String username);
+                               String notes, String selfPickup, String flatCharges, String username, String gst);
 
     }
 
@@ -99,7 +99,9 @@ public interface BillingTotalAmountViewMVP {
                               String company,
                               String phone,
                               String payment,
-                              String message,String logedInUsername, INetworkLoginSignup<SubmitAddressResponse> iNetworkLoginSignup);
+                              String message, String logedInUsername,
+                              String flatCharges, String gst,
+                              INetworkLoginSignup<SubmitAddressResponse> iNetworkLoginSignup);
 
         void setOrderDetailsDescription(String product_id,
                                         String itemQuantity, String itemPrice,

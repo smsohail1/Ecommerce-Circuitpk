@@ -109,12 +109,16 @@ public class HistoryDesciptionPresenter implements HistoryDesciptionMVP.Presente
                     view.showToastShortTime("No order found.");
                     view.hideSearchDate();
                     view.hideLoadingProgressDialog();
+                    view.hideTotalAmountParentLayout();
+
                     return;
                 } else {
                     if (response.getProducts() == null || response.getAddress() == null) {
                         view.showToastShortTime("No order found.");
                         view.hideSearchDate();
                         view.hideLoadingProgressDialog();
+                        view.hideTotalAmountParentLayout();
+
 
                         return;
                     }
@@ -122,6 +126,8 @@ public class HistoryDesciptionPresenter implements HistoryDesciptionMVP.Presente
                         view.showToastShortTime("No order found.");
                         view.hideSearchDate();
                         view.hideLoadingProgressDialog();
+                        view.hideTotalAmountParentLayout();
+
 
                         return;
                     }
@@ -129,12 +135,15 @@ public class HistoryDesciptionPresenter implements HistoryDesciptionMVP.Presente
                         view.showToastShortTime("No order found.");
                         view.hideSearchDate();
                         view.hideLoadingProgressDialog();
+                        view.hideTotalAmountParentLayout();
 
                         return;
                     } else {
                         view.setHistoryAdapter(response);
                         view.showSearchData();
                         view.hideLoadingProgressDialog();
+                        view.showTotalAmountParentLayout();
+
 
                     }
                 }
@@ -145,6 +154,8 @@ public class HistoryDesciptionPresenter implements HistoryDesciptionMVP.Presente
                 t.printStackTrace();
                 view.hideProgressDialogPleaseWait();
                 view.hideLoadingProgressDialog();
+                view.hideTotalAmountParentLayout();
+
                 if (t.getMessage() != null) {
                     view.showToastShortTime(t.getMessage());
                 } else {

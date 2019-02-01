@@ -437,7 +437,8 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 //                                    flatCharges, sessionManager.getusername());
                                 presenter.addItemsToBooking(cartArrayList, firstName + lastName, companyName,
                                         phoneNo, email, streetAddress1 + townCity
-                                        , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername());
+                                        , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername(),
+                                        gstValueTextView.getText().toString());
                             } else {
                                 showToastShortTime("Please connect to internet.");
                             }
@@ -533,7 +534,8 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 //
                         presenter.addItemsToBooking(cartArrayList, firstName + lastName, companyName,
                                 phoneNo, email, streetAddress1 + townCity
-                                , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername());
+                                , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername(),
+                                gstValueTextView.getText().toString());
 
                         //  Log.d("Cloud Response", "There were no exceptions! " + response.toString());
 
