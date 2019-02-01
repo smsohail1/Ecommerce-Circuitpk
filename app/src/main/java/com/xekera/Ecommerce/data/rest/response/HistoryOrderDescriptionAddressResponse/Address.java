@@ -31,6 +31,12 @@ public class Address {
     @SerializedName("Message")
     @Expose
     private String message;
+    @SerializedName("GST")
+    @Expose
+    private String gST;
+    @SerializedName("FlatCharges")
+    @Expose
+    private String flatCharges;
     @SerializedName("AddedOn")
     @Expose
     private String addedOn;
@@ -92,6 +98,23 @@ public class Address {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+
+    public String getGST() {
+        return gST;
+    }
+
+    public void setGST(String gST) {
+        this.gST = gST;
+    }
+
+    public String getFlatCharges() {
+        return flatCharges;
+    }
+
+    public void setFlatCharges(String flatCharges) {
+        this.flatCharges = flatCharges;
     }
 
     public String getPaymentMode() {

@@ -371,7 +371,7 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
                 company,
                 phone,
                 payment,
-                message, logedInUsername,flatCharges,gst);
+                message, logedInUsername, gst, flatCharges);
         call.enqueue(new Callback<SubmitAddressResponse>() {
             @Override
             public void onResponse(Call<SubmitAddressResponse> call, Response<SubmitAddressResponse> response) {

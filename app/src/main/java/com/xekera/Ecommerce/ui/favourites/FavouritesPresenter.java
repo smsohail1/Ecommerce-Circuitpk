@@ -63,7 +63,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
                     //  getCount(position);
                     view.showToastShortTime("Item Removed from favourites.");
                     view.removeItemFromFavourites(position);
-
+                    getFavouriteCount();
 
                 }
 
@@ -77,6 +77,27 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
         });
     }
 
+    private void getFavouriteCount() {
+        model.getTotalCounts(new FavouritesModel.IFetchOrderDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<Favourites> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+                    view.itemsCountsBottomView(1, 0);
+                    return;
+                } else {
+                    view.itemsCountsBottomView(1, addToCarts.size());
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+
+                view.showToastShortTime(ex.getMessage());
+            }
+        });
+    }
+
     @Override
     public void fetchFavouritesDetails() {
         model.getFavouriteDetailsList(new FavouritesModel.IFetchOrderDetailsList() {
@@ -86,14 +107,16 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
                     view.hideRecyclerView();
                     view.txtNoCartItemFound();
                     view.hideLoadingProgressDialog();
+                    view.itemsCountsBottomView(1, 0);
                     //  view.setCartCounts(0);
                     // view.setCartCounts(0);
                     return;
                 } else {
                     view.hideNoCartItemFound();
-
+                    view.itemsCountsBottomView(1, favourites.size());
                     view.showRecyclerView();
                     view.setAdapter(favourites);
+
                     // setAdapter(addToCarts);
                 }
             }
@@ -102,6 +125,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             public void onErrorReceived(Exception ex) {
                 ex.printStackTrace();
                 view.hideRecyclerView();
+                view.itemsCountsBottomView(1, 0);
 
                 view.showToastShortTime(ex.getMessage());
             }

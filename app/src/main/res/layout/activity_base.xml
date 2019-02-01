@@ -219,9 +219,8 @@
             android:layout_height="45dp"
             android:layout_gravity="bottom"
             app:itemIconTint="@drawable/bottom_navigation_tint_color"
-            app:itemTextColor="#ffffff"
+            app:itemTextColor="#453444"
             android:background="@color/colorPrimary"
-
             android:layout_alignParentBottom="true"
             app:itemBackground="@drawable/activated_background"
             android:foreground="?attr/selectableItemBackground"

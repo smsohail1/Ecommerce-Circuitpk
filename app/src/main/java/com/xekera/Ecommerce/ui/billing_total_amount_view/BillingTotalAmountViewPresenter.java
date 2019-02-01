@@ -419,6 +419,7 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
                     @Override
                     public void onSuccess(boolean success) {
                         if (success) {
+
                             model.postOrderDetails(firstName, streetAddress1, sessionManager.getEmail(),
                                     company, phone, paymode, notes, username, flatCharges, gst, new
                                             INetworkLoginSignup<SubmitAddressResponse>() {

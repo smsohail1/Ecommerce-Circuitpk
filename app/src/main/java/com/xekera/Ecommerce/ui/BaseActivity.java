@@ -374,8 +374,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 //This method will initialize the count value
         // initializeCountDrawer();
 
-        //final Menu menu = navigation.getMenu();
-        //menu.getItem(2).setTitle("Cart(" + counts + ")");
+//        final Menu menu = navigation.getMenu();
+//        menu.getItem(2).setTitle("Cart(" + counts + ")");
 
         //   View count = (View) menu.findItem(R.id.navigation_shop).getActionView();
         // Button notifCount = (Button) menu.findItem(R.id.navigation_shop).getActionView().findViewById(R.id.notif_count);
@@ -410,6 +410,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
             switch (item.getItemId()) {
                 case R.id.navigation_shop:
+                    showHideBottomNavigationCount(1);
 
                     if (!(fragmentContainer instanceof ShopFragment)) {
                         for (int i = 0; i < menu.size(); i++) {
@@ -436,7 +437,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     //    Toast.makeText(getActivity(), "Wishlist is selected", Toast.LENGTH_SHORT).show();
                     //  ((BaseActivity) getActivity()).popBackstack();
                     //((BaseActivity) getActivity()).addDashboardFragment(new FavouritesFragment());
-
+                    showHideBottomNavigationCount(1);
                     if (!(fragmentContainer instanceof FavouritesFragment)) {
                         for (int i = 0; i < menu.size(); i++) {
                             menuItem = menu.getItem(i);
@@ -478,6 +479,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     return true;
 */
                 case R.id.navigation_History:
+                    showHideBottomNavigationCount(1);
 
                     if (!(fragmentContainer instanceof HistoryFragment)) {
                         for (int i = 0; i < menu.size(); i++) {
@@ -536,10 +538,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 bottomMenuItem = bottomMenu.findItem(R.id.navigation_shop);
                 bottomMenuItem.setCheckable(true);
                 bottomMenuItem.setChecked(true);
+                showHideBottomNavigationCount(1);
 
 
             } else if (fragment instanceof HistoryFragment) {
                 navigation.setSelectedItemId(R.id.navigation_History);
+                showHideBottomNavigationCount(1);
 
                 bottomMenuItem = bottomMenu.findItem(R.id.navigation_History);
                 bottomMenuItem.setCheckable(true);
@@ -555,6 +559,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
             }
         } else {
+
+            showHideBottomNavigationCount(1);
 
             Menu bottomMenu = navigation.getMenu();
             MenuItem bottomMenuItem;
@@ -715,8 +721,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 }
             }, 2000);
 
-        }
-        else if (fragment instanceof ShopFragment) {
+        } else if (fragment instanceof ShopFragment) {
             enableHomeIcon(true);
 
             if (backPressedOnce) {
@@ -736,8 +741,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 }
             }, 2000);
 
-        }
-        else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             enableHomeIcon(true);
             super.onBackPressed();
             popBackstack();
@@ -1606,6 +1610,18 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
 
     }
+
+
+    public void setTotalBottomNavigationCount(int index, long counts) {
+        final Menu menu = navigation.getMenu();
+        menu.getItem(index).setTitle("(" + counts + ")");
+    }
+
+    public void showHideBottomNavigationCount(int index) {
+        final Menu menu = navigation.getMenu();
+        menu.getItem(index).setTitle("");
+    }
+
 
     public Bitmap stringToBitMap(String encodedString) {
         try {

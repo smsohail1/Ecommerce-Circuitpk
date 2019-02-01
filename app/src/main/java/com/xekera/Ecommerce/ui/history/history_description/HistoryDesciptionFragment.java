@@ -252,6 +252,18 @@ public class HistoryDesciptionFragment extends Fragment implements HistoryDescip
     public void setHistoryAdapter(HistoryOrderIdDiscriptionResponse response) {
         adapter = new HistoryDesciptionAdapter(getActivity(), response.getProducts().getProList(),
                 response.getAddress(), this, this);
+        if (response.getAddress().getGST() != null) {
+            gstValueTextView.setText(response.getAddress().getGST());
+        } else {
+            gstValueTextView.setText("0");
+        }
+
+        if (response.getAddress().getFlatCharges() != null) {
+            shippingChargesValueTextView.setText(response.getAddress().getFlatCharges());
+        } else {
+            shippingChargesValueTextView.setText("0");
+
+        }
         showRecylerViewProductsDetail(adapter);
     }
 

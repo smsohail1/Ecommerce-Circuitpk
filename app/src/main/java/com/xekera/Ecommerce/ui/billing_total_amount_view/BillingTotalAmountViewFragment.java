@@ -435,8 +435,12 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 //                            presenter.insertBooking(cartArrayList, formattedDate, firstName + lastName, companyName,
 //                                    phoneNo, email, streetAddress1 + townCity, paymentMode, orderNotes, selfPikup,
 //                                    flatCharges, sessionManager.getusername());
+
+                                if (selfPikup.equalsIgnoreCase("Self Pickup")) {
+                                    streetAddress1 = "Self pickup";
+                                }
                                 presenter.addItemsToBooking(cartArrayList, firstName + lastName, companyName,
-                                        phoneNo, email, streetAddress1 + townCity
+                                        phoneNo, email, streetAddress1
                                         , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername(),
                                         gstValueTextView.getText().toString());
                             } else {
@@ -532,8 +536,11 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 //                                phoneNo, email, streetAddress1 + townCity, paymentMode, orderNotes, selfPikup,
 //                                flatCharges, sessionManager.getusername());
 //
+                        if (selfPikup.equalsIgnoreCase("Self Pickup")) {
+                            streetAddress1 = "Self pickup";
+                        }
                         presenter.addItemsToBooking(cartArrayList, firstName + lastName, companyName,
-                                phoneNo, email, streetAddress1 + townCity
+                                phoneNo, email, streetAddress1
                                 , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername(),
                                 gstValueTextView.getText().toString());
 

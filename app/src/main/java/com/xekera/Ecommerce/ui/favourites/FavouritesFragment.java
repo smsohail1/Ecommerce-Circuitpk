@@ -172,6 +172,11 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     }
 
+    @Override
+    public void itemsCountsBottomView(int index, long counts) {
+        ((BaseActivity) getActivity()).setTotalBottomNavigationCount(index, counts);
+
+    }
 
     @Override
     public void showToastShortTime(String message) {
@@ -300,7 +305,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                 presenter.removeFromFavourites(favourites, position);
 
             }
-        }, 150);
+        }, 50);
     }
 
 
