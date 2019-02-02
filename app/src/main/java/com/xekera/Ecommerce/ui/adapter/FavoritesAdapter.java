@@ -62,7 +62,20 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             productDetailsDataListViewHolder.productNameLabelTextView.setText(favourites.getItemName());
             productDetailsDataListViewHolder.priceTextView.setText(favourites.getItemIndividualPrice());
-            productDetailsDataListViewHolder.discountPriceTextView.setText(favourites.getItemCutPrice());
+
+            if (favourites.getItemCutPrice() != null) {
+
+                productDetailsDataListViewHolder.discountPriceTextView.setText(favourites.getItemCutPrice());
+                if (favourites.getItemCutPrice().equalsIgnoreCase("0")) {
+                    productDetailsDataListViewHolder.discountLinearParent.setVisibility(View.GONE);
+                }
+
+            } else {
+                productDetailsDataListViewHolder.discountPriceTextView.setText("");
+                productDetailsDataListViewHolder.discountLinearParent.setVisibility(View.GONE);
+
+            }
+
             productDetailsDataListViewHolder.availabilitStockTextView.setText(favourites.getItemStockStatus());
             productDetailsDataListViewHolder.counterTextview.setText(favourites.getItemQuantity() + "");
 
@@ -84,6 +97,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 productDetailsDataListViewHolder.imgProduct.setImageBitmap(resource);
                                 productDetailsDataListViewHolder.imgProductCopy.setImageBitmap(resource);
                                 productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
+                                productDetailsDataListViewHolder.imgProductCopy.setVisibility(View.VISIBLE);
 
 
                             }
@@ -93,6 +107,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 super.onLoadFailed(e, errorDrawable);
                                 productDetailsDataListViewHolder.avloadingIndicatorView.setVisibility(View.GONE);
                                 productDetailsDataListViewHolder.imgProduct.setVisibility(View.VISIBLE);
+                                productDetailsDataListViewHolder.imgProductCopy.setVisibility(View.VISIBLE);
 
 
                             }
@@ -168,6 +183,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public ImageView imgShareProductDetails;
         @BindView(R.id.avloadingIndicatorView)
         public AVLoadingIndicatorView avloadingIndicatorView;
+        @BindView(R.id.discountLinearParent)
+        public LinearLayout discountLinearParent;
+
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);

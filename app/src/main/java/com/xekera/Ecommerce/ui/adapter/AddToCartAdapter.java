@@ -66,8 +66,17 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             productDetailsDataListViewHolder.productNameLabelTextView.setText(addToCart.getItemName());
             productDetailsDataListViewHolder.priceTextView.setText(addToCart.getItemIndividualPrice());
             productDetailsDataListViewHolder.counterTextview.setText(addToCart.getItemQuantity());
-            productDetailsDataListViewHolder.discountPriceTextView.setText(addToCart.getItemCutPrice());
 
+            if (addToCart.getItemCutPrice() != null) {
+                productDetailsDataListViewHolder.discountPriceTextView.setText(addToCart.getItemCutPrice());
+                if (addToCart.getItemCutPrice().equalsIgnoreCase("0")) {
+                    productDetailsDataListViewHolder.discountLinearParent.setVisibility(View.GONE);
+                }
+            } else {
+                productDetailsDataListViewHolder.discountPriceTextView.setText("");
+                productDetailsDataListViewHolder.discountLinearParent.setVisibility(View.GONE);
+
+            }
 
             try {
 
@@ -170,6 +179,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public TextView discountPriceTextView;
         @BindView(R.id.avloadingIndicatorView)
         public AVLoadingIndicatorView avloadingIndicatorView;
+        @BindView(R.id.discountLinearParent)
+        public LinearLayout discountLinearParent;
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);

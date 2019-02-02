@@ -658,7 +658,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID, String isEmailSent) {
+                                       ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID,
+                                       String isEmailSent) {
 
         presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmap, imgUrl, productID, isEmailSent);
     }

@@ -100,8 +100,12 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (shoppingDetailModel.getRegularPrice() != null) {
 
                 productDetailsDataListViewHolder.discountPriceTextView.setText(shoppingDetailModel.getRegularPrice());
+                if (shoppingDetailModel.getRegularPrice().equalsIgnoreCase("0")) {
+                    productDetailsDataListViewHolder.discountLinearParent.setVisibility(View.GONE);
+                }
             } else {
                 productDetailsDataListViewHolder.discountPriceTextView.setText("");
+                productDetailsDataListViewHolder.discountLinearParent.setVisibility(View.GONE);
 
             }
 
@@ -243,6 +247,9 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public AVLoadingIndicatorView avloadingIndicatorView;
         @BindView(R.id.discountPriceTextView)
         public TextView discountPriceTextView;
+        @BindView(R.id.discountLinearParent)
+        public LinearLayout discountLinearParent;
+
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);

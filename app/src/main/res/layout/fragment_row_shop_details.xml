@@ -124,7 +124,7 @@
                                 <TextView
                                         android:id="@+id/priceTextView"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:textColor="@color/price_textview"
                                         android:textStyle="bold"
                                         android:textSize="@dimen/txt_report_list_item_size"/>

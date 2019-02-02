@@ -113,6 +113,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     protected AVLoadingIndicatorView avloadingIndicatorView;
     @BindView(R.id.imgFullScreen)
     protected ImageView imgFullScreen;
+    @BindView(R.id.linearLayoutDiscount)
+    protected LinearLayout linearLayoutDiscount;
+
 
     @Inject
     protected ShopCardSelectedMVP.Presenter presenter;
@@ -294,8 +297,19 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             }
 
             if (!utils.isTextNullOrEmpty(cutPrice)) {
-                discountPriceTextView.setText(cutPrice);
+                if (cutPrice.equalsIgnoreCase("0")) {
+                    discountPriceTextView.setText("0");
+                    linearLayoutDiscount.setVisibility(View.GONE);
+                } else if (!utils.isTextNullOrEmpty(cutPrice)) {
+                    discountPriceTextView.setText(cutPrice);
+                    linearLayoutDiscount.setVisibility(View.VISIBLE);
+                }
+            } else {
+                discountPriceTextView.setText("0");
+                linearLayoutDiscount.setVisibility(View.GONE);
+
             }
+
 
             // if (shoppingDetailModel != null) {
             // discountPriceTextView.setText(shoppingDetailModel.getProductPrice());
