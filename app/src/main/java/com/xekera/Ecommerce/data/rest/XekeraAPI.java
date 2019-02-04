@@ -77,7 +77,8 @@ public interface XekeraAPI {
                                                  @Field("message") String message,
                                                  @Field("username") String logedInUsername,
                                                  @Field("GST") String gst,
-                                                 @Field("FlatCharges") String flatCharges);
+                                                 @Field("FlatCharges") String flatCharges,
+                                                 @Field("Total") String totalAmount);
     //Call<ResponseBody> postOrderDeatils(@Body String jsonData);
 
     @FormUrlEncoded

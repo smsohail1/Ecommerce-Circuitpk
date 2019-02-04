@@ -244,7 +244,7 @@
                             android:fontFamily="@font/titilliu_web_regular"
                             android:hint="@string/email_address_hint_signup_edt"
                             android:inputType="textEmailAddress"
-                            android:maxLength="40"
+                            android:maxLength="50"
                             android:textColor="@color/availibility_textview"
                             android:maxLines="1"
                             android:imeOptions="actionDone"

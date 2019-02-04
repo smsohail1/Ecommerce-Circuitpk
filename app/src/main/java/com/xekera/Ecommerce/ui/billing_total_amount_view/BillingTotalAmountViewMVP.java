@@ -1,5 +1,6 @@
 package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
+import com.stripe.android.model.Card;
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
 import com.xekera.Ecommerce.data.rest.INetworkPostOrder;
 import com.xekera.Ecommerce.data.rest.response.SubmitAddressResponse;
@@ -54,6 +55,11 @@ public interface BillingTotalAmountViewMVP {
         void deleteItemsFromCart();
 
         void setAdapter(List<AddToCart> addToCarts);
+
+        void sendStripe(Card card,String orderID);
+
+        void gotoStripe();
+
     }
 
     interface Presenter {
@@ -69,7 +75,8 @@ public interface BillingTotalAmountViewMVP {
 
         void addItemsToBooking(List<AddToCart> addToCarts, String firstName, String company, String phone,
                                String email, String streetAddress1, String paymode,
-                               String notes, String selfPickup, String flatCharges, String username, String gst);
+                               String notes, String selfPickup, String flatCharges, String username, String gst,
+                               String totalAmount);
 
     }
 
@@ -101,6 +108,7 @@ public interface BillingTotalAmountViewMVP {
                               String payment,
                               String message, String logedInUsername,
                               String flatCharges, String gst,
+                              String totalAmount,
                               INetworkLoginSignup<SubmitAddressResponse> iNetworkLoginSignup);
 
         void setOrderDetailsDescription(String product_id,

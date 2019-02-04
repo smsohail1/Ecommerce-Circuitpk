@@ -91,8 +91,12 @@ public class HistoryDesciptionAdapter extends RecyclerView.Adapter<RecyclerView.
             }
             if (address.getPhoneNumber() != null) {
                 productDetailsDataListViewHolder.PhoneNoValueTextView.setText(address.getPhoneNumber());
-
             }
+
+            if (address.getPaymentMode() != null) {
+                productDetailsDataListViewHolder.paymentModeValueTextView.setText(address.getPaymentMode());
+            }
+
             if (address.getEmailAddress() != null) {
                 productDetailsDataListViewHolder.emailValueTextView.setText(address.getEmailAddress());
             }
@@ -208,6 +212,8 @@ public class HistoryDesciptionAdapter extends RecyclerView.Adapter<RecyclerView.
         public TextView PhoneNoValueTextView;
         @BindView(R.id.emailValueTextView)
         public TextView emailValueTextView;
+        @BindView(R.id.paymentModeValueTextView)
+        public TextView paymentModeValueTextView;
         @BindView(R.id.quantityTextView)
         public TextView quantityTextView;
 

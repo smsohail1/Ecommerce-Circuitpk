@@ -92,7 +92,7 @@
                             android:imeOptions="actionNext"
                             android:layout_marginTop="1dp"
                             android:background="@android:color/transparent"
-                            android:maxLength="20"
+                            android:maxLength="50"
                             android:textColorHint="#ffffff"
                             android:textCursorDrawable="@drawable/cursor_color"
                             android:textSize="14sp"

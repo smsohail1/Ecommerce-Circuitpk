@@ -414,12 +414,20 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                                     String[] cardExpiryDate = sessionManager.getExpiryDate().split("/");
                                     card = new Card(sessionManager.getCardNumber(), Integer.valueOf(cardExpiryDate[0]), Integer.valueOf(cardExpiryDate[1]), sessionManager.getCVCNumber());
                                     showProgressDialogPleaseWait();
-                                    sendStripeRequest(card);
+                                    IsCardValid(card);
+                                    return;
                                 } else {
                                     showToastShortTime("Please Enter Credit Card Details.");
                                     gotoStripeActivity();
 
                                 }
+
+//                                if (utils.isTextNullOrEmpty(sessionManager.getExpiryDate()) ||
+//                                        utils.isTextNullOrEmpty(sessionManager.getCardNumber()) ||
+//                                        utils.isTextNullOrEmpty(sessionManager.getCVCNumber())) {
+//                                    showToastShortTime("Please Enter Credit Card Details.");
+//                                    gotoStripeActivity();
+//                                }
 
                             } else {
                                 showToastShortTime("Please connect to internet.");
@@ -442,7 +450,8 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                                 presenter.addItemsToBooking(cartArrayList, firstName + lastName, companyName,
                                         phoneNo, email, streetAddress1
                                         , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername(),
-                                        gstValueTextView.getText().toString());
+                                        gstValueTextView.getText().toString(), totalValueTextView.getText().toString());
+                                ;
                             } else {
                                 showToastShortTime("Please connect to internet.");
                             }
@@ -469,8 +478,21 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
     }
 
+    @Override
+    public void gotoStripe() {
 
-    private void sendStripeRequest(Card card) {
+        Intent intent = new Intent(getActivity(), StripePaymentActivity.class);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+    }
+
+    @Override
+    public void sendStripe(Card card, String orderID) {
+        sendStripeRequest(card, orderID);
+    }
+
+
+    private void IsCardValid(Card card) {
 
         Stripe stripe = new Stripe(getActivity());
         stripe.createToken(
@@ -480,7 +502,17 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                     public void onSuccess(Token token) {
                         // Send token to your server
                         if (token != null) {
-                            charge(token);
+
+                            // charge(token);
+
+                            if (selfPikup.equalsIgnoreCase("Self Pickup")) {
+                                streetAddress1 = "Self pickup";
+                            }
+                            presenter.addItemsToBooking(cartArrayList, firstName + lastName, companyName,
+                                    phoneNo, email, streetAddress1
+                                    , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername(),
+                                    gstValueTextView.getText().toString(), totalValueTextView.getText().toString());
+
                         } else {
                             hideProgressDialogPleaseWait();
                             showToastShortTime("Error while payment using stripe.");
@@ -507,13 +539,51 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
     }
 
-    private void charge(Token cardToken) {
+
+    private void sendStripeRequest(Card card, final String orderID) {
+
+        Stripe stripe = new Stripe(getActivity());
+        stripe.createToken(
+                card,
+                PUBLISHABLE_KEY,
+                new TokenCallback() {
+                    public void onSuccess(Token token) {
+                        // Send token to your server
+                        if (token != null) {
+                            charge(token, orderID);
+                        } else {
+                            hideProgressDialogPleaseWait();
+                            showToastShortTime("Error while payment using stripe.");
+                            sessionManager.removeCreditCardSession();
+
+                        }
+
+                    }
+
+                    public void onError(Exception error) {
+                        hideProgressDialogPleaseWait();
+                        showToastShortTime(error.getMessage());
+                        sessionManager.removeCreditCardSession();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                gotoStripeActivity();
+                            }
+                        }, 300);
+
+                    }
+                }
+        );
+
+    }
+
+    private void charge(Token cardToken, String orderID) {
         HashMap<String, Object> params = new HashMap<String, Object>();
         //  params.put("ItemName", "test");
         params.put("cardToken", cardToken.getId());
         // params.put("name", "Dominic Wong");
         params.put("email", email);
-        params.put("orderID", "");
+        params.put("orderID", orderID);
         params.put("price", Integer.valueOf(totalValueTextView.getText().toString()));
         //params.put("address", "HIHI");
 //        params.put("zip", "99999");
@@ -536,13 +606,18 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 //                                phoneNo, email, streetAddress1 + townCity, paymentMode, orderNotes, selfPikup,
 //                                flatCharges, sessionManager.getusername());
 //
-                        if (selfPikup.equalsIgnoreCase("Self Pickup")) {
-                            streetAddress1 = "Self pickup";
-                        }
-                        presenter.addItemsToBooking(cartArrayList, firstName + lastName, companyName,
-                                phoneNo, email, streetAddress1
-                                , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername(),
-                                gstValueTextView.getText().toString());
+
+
+                        deleteItemsFromCart();
+                        hideProgressDialogPleaseWait();
+
+                        //    if (selfPikup.equalsIgnoreCase("Self Pickup")) {
+                        //      streetAddress1 = "Self pickup";
+                        // }
+//                        presenter.addItemsToBooking(cartArrayList, firstName + lastName, companyName,
+//                                phoneNo, email, streetAddress1
+//                                , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername(),
+//                                gstValueTextView.getText().toString());
 
                         //  Log.d("Cloud Response", "There were no exceptions! " + response.toString());
 
