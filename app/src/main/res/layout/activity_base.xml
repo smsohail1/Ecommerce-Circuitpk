@@ -216,12 +216,13 @@
     <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="@dimen/height_bottom_naviagtion_view"
             android:layout_gravity="bottom"
             app:itemIconTint="@drawable/bottom_navigation_tint_color"
-            app:itemTextColor="#453444"
+            app:itemTextColor="@drawable/bottom_navigation_selected_text_color"
             android:background="@color/colorPrimary"
             android:layout_alignParentBottom="true"
+            app:labelVisibilityMode="labeled"
             app:itemBackground="@drawable/activated_background"
             android:foreground="?attr/selectableItemBackground"
             app:menu="@menu/dashboard_bottom_navigation_drawer"/>

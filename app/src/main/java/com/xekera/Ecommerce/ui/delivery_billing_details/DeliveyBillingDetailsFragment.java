@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.delivery_billing_details;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -105,6 +106,17 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     @BindView(R.id.flatRateOtherCityTextviewDiffAddress)
     protected TextView flatRateOtherCityTextviewDiffAddress;
 
+    @BindView(R.id.checkboxTermsAndCondition)
+    protected CheckBox checkboxTermsAndCondition;
+    @BindView(R.id.personalBox)
+    protected Button personalBox;
+    @BindView(R.id.companyBox)
+    protected Button companyBox;
+    @BindView(R.id.layoutCompany)
+    protected LinearLayout layoutCompany;
+    @BindView(R.id.layoutPersonal)
+    protected LinearLayout layoutPersonal;
+
 
     final boolean[] isShipToDifferent = {false};
     int check = 0;
@@ -177,6 +189,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
         linearDeliveryAddressLayout.setOnClickListener(this);
         paymentModeLayout.setOnClickListener(this);
         linearLayoutParent.setOnClickListener(this);
+        personalBox.setOnClickListener(this);
+        companyBox.setOnClickListener(this);
 
 
         userDetailsParentLayoutDiffAddress.setOnClickListener(this);
@@ -339,6 +353,15 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
                 }
 
+            }
+        });
+
+        checkboxTermsAndCondition.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    showTermsAndConditionDialog();
+                }
             }
         });
 
@@ -523,89 +546,91 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                 utils.hideSoftKeyboard(edtStreetAddress1DiffAddress);
                 utils.hideSoftKeyboard(edtNotes);
 
+                if (checkboxTermsAndCondition.isChecked()) {
 
-                if (shipToDiffAddressCheckBox.isChecked()) {
+                    if (shipToDiffAddressCheckBox.isChecked()) {
 
 
-                    String flatChargesAmount = "250";
-                    selectedSpinnerTownCityDiffAddress = cityTown.get(spinnerTownCityDiffAddress.getSelectedItemPosition());
+                        String flatChargesAmount = "250";
+                        selectedSpinnerTownCityDiffAddress = cityTown.get(spinnerTownCityDiffAddress.getSelectedItemPosition());
 
-                    if ((selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Islamabad") ||
-                            selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Rawalpindi"))
-                            && utils.isTextNullOrEmpty(selfPickupDiffAddress)
-                    ) {
-                        flatChargesAmount = "100";
-                    } else if (!utils.isTextNullOrEmpty(selfPickupDiffAddress) &&
-                            selfPickupDiffAddress.equalsIgnoreCase("Self Pickup")) {
-                        flatChargesAmount = "0";
-                    } else {
-                        flatChargesAmount = "250";
-                    }
+                        if ((selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Islamabad") ||
+                                selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Rawalpindi"))
+                                && utils.isTextNullOrEmpty(selfPickupDiffAddress)
+                        ) {
+                            flatChargesAmount = "100";
+                        } else if (!utils.isTextNullOrEmpty(selfPickupDiffAddress) &&
+                                selfPickupDiffAddress.equalsIgnoreCase("Self Pickup")) {
+                            flatChargesAmount = "0";
+                        } else {
+                            flatChargesAmount = "250";
+                        }
 
-                    if (utils.isTextNullOrEmpty(selectedPaymentModeDiffAddress)) {
-                        showToastShortTime("Please select payment mode");
-                        return;
-                    }
-
-                    if (selectedPaymentModeDiffAddress.equalsIgnoreCase("Credit Card (Stripe)")) {
-                        if (sessionManager.getCardNumber().equalsIgnoreCase("") ||
-                                sessionManager.getExpiryDate().equalsIgnoreCase("") ||
-                                sessionManager.getCVCNumber().equalsIgnoreCase("")) {
-
-                            showToastShortTime("Please Enter Credit Card Details.");
-                            gotoStripeActivity();
+                        if (utils.isTextNullOrEmpty(selectedPaymentModeDiffAddress)) {
+                            showToastShortTime("Please select payment mode");
                             return;
                         }
+
+                        if (selectedPaymentModeDiffAddress.equalsIgnoreCase("Credit Card (Stripe)")) {
+                            if (sessionManager.getCardNumber().equalsIgnoreCase("") ||
+                                    sessionManager.getExpiryDate().equalsIgnoreCase("") ||
+                                    sessionManager.getCVCNumber().equalsIgnoreCase("")) {
+
+                                showToastShortTime("Please Enter Credit Card Details.");
+                                gotoStripeActivity();
+                                return;
+                            }
+                        }
+
+                        presenter.saveDetails(edtUsernameDiffAddress.getText().toString(),
+                                edtCompanyNameDiffAddress.getText().toString(), edtPhoneNoDiffAddress.getText().toString(),
+                                edtEmailDiffAddress.getText().toString(), edtStreetAddress1DiffAddress.getText().toString(),
+                                selectedSpinnerTownCityDiffAddress, selectedPaymentModeDiffAddress, edtNotes.getText().toString(),
+                                flatChargesAmount, selfPickupDiffAddress, sessionManager.getCardNumber(), sessionManager.getExpiryDate(),
+                                sessionManager.getCVCNumber());
+
+                    } else {
+
+                        selectedSpinnerTownCity = cityTown.get(spinnerTownCity.getSelectedItemPosition());
+
+                        String flatChargesAmount = "250";
+                        if ((selectedSpinnerTownCity.equalsIgnoreCase("Islamabad") ||
+                                selectedSpinnerTownCity.equalsIgnoreCase("Rawalpindi"))
+                                && utils.isTextNullOrEmpty(selfPickup)) {
+                            flatChargesAmount = "100";
+                        } else if (!utils.isTextNullOrEmpty(selfPickup) && selfPickup.equalsIgnoreCase("Self Pickup")) {
+                            flatChargesAmount = "0";
+                        } else {
+                            flatChargesAmount = "250";
+                        }
+
+
+                        if (utils.isTextNullOrEmpty(selectedPaymentMode)) {
+                            showToastShortTime("Please select payment mode");
+                            return;
+                        }
+
+                        if (selectedPaymentMode.equalsIgnoreCase("Credit Card (Stripe)")) {
+                            if (sessionManager.getCardNumber().equalsIgnoreCase("") ||
+                                    sessionManager.getExpiryDate().equalsIgnoreCase("") ||
+                                    sessionManager.getCVCNumber().equalsIgnoreCase("")) {
+
+                                showToastShortTime("Please Enter Credit Card Details.");
+                                gotoStripeActivity();
+
+                                return;
+                            }
+                        }
+                        presenter.saveDetails(edtUsername.getText().toString(),
+                                edtCompanyName.getText().toString(), edtPhoneNo.getText().toString(),
+                                edtEmail.getText().toString(), edtStreetAddress1.getText().toString(),
+                                selectedSpinnerTownCity, selectedPaymentMode, edtNotes.getText().toString(),
+                                flatChargesAmount, selfPickup, sessionManager.getCardNumber(), sessionManager.getExpiryDate(),
+                                sessionManager.getCVCNumber());
                     }
-
-                    presenter.saveDetails(edtUsernameDiffAddress.getText().toString(),
-                            edtCompanyNameDiffAddress.getText().toString(), edtPhoneNoDiffAddress.getText().toString(),
-                            edtEmailDiffAddress.getText().toString(), edtStreetAddress1DiffAddress.getText().toString(),
-                            selectedSpinnerTownCityDiffAddress, selectedPaymentModeDiffAddress, edtNotes.getText().toString(),
-                            flatChargesAmount, selfPickupDiffAddress, sessionManager.getCardNumber(), sessionManager.getExpiryDate(),
-                            sessionManager.getCVCNumber());
-
                 } else {
-
-                    selectedSpinnerTownCity = cityTown.get(spinnerTownCity.getSelectedItemPosition());
-
-                    String flatChargesAmount = "250";
-                    if ((selectedSpinnerTownCity.equalsIgnoreCase("Islamabad") ||
-                            selectedSpinnerTownCity.equalsIgnoreCase("Rawalpindi"))
-                            && utils.isTextNullOrEmpty(selfPickup)) {
-                        flatChargesAmount = "100";
-                    } else if (!utils.isTextNullOrEmpty(selfPickup) && selfPickup.equalsIgnoreCase("Self Pickup")) {
-                        flatChargesAmount = "0";
-                    } else {
-                        flatChargesAmount = "250";
-                    }
-
-
-                    if (utils.isTextNullOrEmpty(selectedPaymentMode)) {
-                        showToastShortTime("Please select payment mode");
-                        return;
-                    }
-
-                    if (selectedPaymentMode.equalsIgnoreCase("Credit Card (Stripe)")) {
-                        if (sessionManager.getCardNumber().equalsIgnoreCase("") ||
-                                sessionManager.getExpiryDate().equalsIgnoreCase("") ||
-                                sessionManager.getCVCNumber().equalsIgnoreCase("")) {
-
-                            showToastShortTime("Please Enter Credit Card Details.");
-                            gotoStripeActivity();
-
-                            return;
-                        }
-                    }
-                    presenter.saveDetails(edtUsername.getText().toString(),
-                            edtCompanyName.getText().toString(), edtPhoneNo.getText().toString(),
-                            edtEmail.getText().toString(), edtStreetAddress1.getText().toString(),
-                            selectedSpinnerTownCity, selectedPaymentMode, edtNotes.getText().toString(),
-                            flatChargesAmount, selfPickup, sessionManager.getCardNumber(), sessionManager.getExpiryDate(),
-                            sessionManager.getCVCNumber());
+                    showToastShortTime("Please Agree to the terms & condition");
                 }
-
-
                 break;
 
             case R.id.userDetailsParentLayout:
@@ -684,8 +709,52 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                 break;
 
 
+            case R.id.personalBox:
+                layoutPersonal.setVisibility(View.VISIBLE);
+                layoutCompany.setVisibility(View.GONE);
+
+                companyBox.setBackgroundColor(Color.parseColor("#ffffff"));
+                personalBox.setBackgroundColor(Color.parseColor("#3b5999"));
+
+                personalBox.setTextColor(Color.parseColor("#ffffff"));
+                companyBox.setTextColor(Color.parseColor("#3b5999"));
+
+                break;
+            case R.id.companyBox:
+                layoutPersonal.setVisibility(View.GONE);
+                layoutCompany.setVisibility(View.VISIBLE);
+
+                personalBox.setBackgroundColor(Color.parseColor("#ffffff"));
+                companyBox.setBackgroundColor(Color.parseColor("#3b5999"));
+
+
+                personalBox.setTextColor(Color.parseColor("#3b5999"));
+                companyBox.setTextColor(Color.parseColor("#ffffff"));
+                break;
+
         }
 
+    }
+
+    private void showTermsAndConditionDialog() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_terms_conditions);
+
+        Button submit = dialog.findViewById(R.id.submit);
+        TextView txtMessage = dialog.findViewById(R.id.txtMessage);
+        TextView txtTitle = dialog.findViewById(R.id.txtTitle);
+
+        txtMessage.setText(utils.getStringFromResourceId(R.string.terms_and_condition_desc));
+        txtTitle.setText("Terms & conditions");
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     private void gotoStripeActivity() {

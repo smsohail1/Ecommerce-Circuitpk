@@ -61,7 +61,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/card_textview"
-                                    android:text="Sub Total"
+                                    android:text="Subtotal"
                                     android:textSize="@dimen/txt_report_list_item_size"/>
                             <RelativeLayout android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"

@@ -480,6 +480,29 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                     return true;
 */
+                case R.id.navigation_User:
+                    //    Toast.makeText(getActivity(), "Wishlist is selected", Toast.LENGTH_SHORT).show();
+                    //  ((BaseActivity) getActivity()).popBackstack();
+                    //((BaseActivity) getActivity()).addDashboardFragment(new FavouritesFragment());
+                    showHideBottomNavigationCount(1);
+                    if (!(fragmentContainer instanceof AccountFragment)) {
+                        for (int i = 0; i < menu.size(); i++) {
+                            menuItem = menu.getItem(i);
+                            menuItem.setChecked(false);
+                        }
+                        menuItem = menu.findItem(R.id.nav_Profile);
+                        menuItem.setChecked(true);
+
+                        bottomMenuItem = bottomMenu.findItem(R.id.navigation_User);
+                        bottomMenuItem.setCheckable(true);
+                        bottomMenuItem.setChecked(true);
+
+                        fragment = new AccountFragment();
+                        replaceFragmentWithContainer(fragment);
+                    }
+                    return true;
+
+
                 case R.id.navigation_History:
                     showHideBottomNavigationCount(1);
 
@@ -520,7 +543,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         //fragment instanceof SettingFragment ||
         if (fragment instanceof ShopFragment ||
                 fragment instanceof HistoryFragment ||
-                fragment instanceof FavouritesFragment) {
+                fragment instanceof FavouritesFragment ||
+                fragment instanceof AccountFragment
+        ) {
             Menu bottomMenu = navigation.getMenu();
             MenuItem bottomMenuItem;
             // showBottomNavigation();
@@ -559,6 +584,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 bottomMenuItem.setCheckable(true);
                 bottomMenuItem.setChecked(true);
 
+            } else if (fragment instanceof AccountFragment) {
+                navigation.setSelectedItemId(R.id.navigation_User);
+
+                bottomMenuItem = bottomMenu.findItem(R.id.navigation_User);
+                bottomMenuItem.setCheckable(true);
+                bottomMenuItem.setChecked(true);
+
             }
         } else {
 
@@ -582,6 +614,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             bottomMenuItem.setCheckable(false);
             bottomMenuItem.setChecked(false);
 
+            bottomMenuItem = bottomMenu.findItem(R.id.navigation_User);
+            bottomMenuItem.setCheckable(false);
+            bottomMenuItem.setChecked(false);
 
         }
     }
@@ -1066,17 +1101,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             }
         } else if (id == R.id.nav_Profile) {
             if (!(fragmentContainer instanceof AccountFragment)) {
-
-                bottomMenu = navigation.getMenu();
-
-                for (int i = 0; i < bottomMenu.size(); i++) {
-                    menuItemBottom = bottomMenu.getItem(i);
-                    menuItemBottom.setCheckable(false);
-                    menuItemBottom.setChecked(false);
-                }
-                replaceFragmentWithContainer(new AccountFragment());
+                navigateToScreen(R.id.navigation_User);
+//                replaceFragmentWithContainer(new FavouritesFragment());
                 drawer.closeDrawer(GravityCompat.START);
-                //setNavigationBackground("#E10915");
+                // setNavigationBackground("#E10915");
 
                 return true;
 
@@ -1616,12 +1644,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     public void setTotalBottomNavigationCount(int index, long counts) {
         final Menu menu = navigation.getMenu();
-        menu.getItem(index).setTitle("(" + counts + ")");
+        menu.getItem(index).setTitle("Favourite(" + counts + ")");
     }
 
     public void showHideBottomNavigationCount(int index) {
         final Menu menu = navigation.getMenu();
-        menu.getItem(index).setTitle("");
+        menu.getItem(index).setTitle("Favourite");
     }
 
 

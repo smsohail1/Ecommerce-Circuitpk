@@ -244,11 +244,11 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
             flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr);
 
             //12%  GST of total amount
-            long gstAmount = flatShippingRateLong / 12;
+           // long gstAmount = flatShippingRateLong / 12;
 
-            flatShippingRateLong = flatShippingRateLong + gstAmount;
+           // flatShippingRateLong = flatShippingRateLong + gstAmount;
 
-            gstValueTextView.setText(String.valueOf(gstAmount));
+          //  gstValueTextView.setText(String.valueOf(gstAmount));
 
             totalValueTextView.setText(String.valueOf(flatShippingRateLong));
 

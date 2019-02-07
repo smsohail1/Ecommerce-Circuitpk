@@ -47,6 +47,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     List<Product> productsItems;
     List<Product> productsItemsSearch;
     IShopDetailAdapter iShopDetailAdapter;
+    List<String> favList;
 //    private ProductItemActionListener actionListener;
 
     public ShopDetailsAdapter() {
@@ -60,6 +61,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.iShopDetailAdapter = iShopDetailAdapter;
         this.productsItemsSearch = new ArrayList<>();
         this.productsItemsSearch.addAll(productsItems);
+        this.favList = new ArrayList<>();
 
     }
 
@@ -97,6 +99,22 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 productDetailsDataListViewHolder.priceTextView.setText("");
 
             }
+
+            if (favList.contains(shoppingDetailModel.getName())) {
+                productDetailsDataListViewHolder.favouriteButton.setChecked(true);
+
+            } else {
+                productDetailsDataListViewHolder.favouriteButton.setChecked(false);
+
+            }
+
+//                if (productDetailsDataListViewHolder.favouriteButton.isChecked()) {
+//                    productDetailsDataListViewHolder.favouriteButton.setChecked(true);
+//                } else {
+//                    productDetailsDataListViewHolder.favouriteButton.setChecked(false);
+//                }
+
+
             if (shoppingDetailModel.getRegularPrice() != null) {
 
                 productDetailsDataListViewHolder.discountPriceTextView.setText(shoppingDetailModel.getRegularPrice());
@@ -348,11 +366,16 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 case R.id.favouriteButton:
                     if (((SparkButton) v.findViewById(R.id.favouriteButton)).isChecked()) {
                         ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(false);
+                        favList.remove(productsItems.get(getLayoutPosition()).getName());
+
+
                         // productsItems.get(getLayoutPosition()).setFavourite(false);
 
                     } else {
                         ((SparkButton) v.findViewById(R.id.favouriteButton)).playAnimation();
                         ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(true);
+                        favList.add(productsItems.get(getLayoutPosition()).getName());
+
 
                         // productsItems.get(getLayoutPosition()).setFavourite(true);
                     }
@@ -399,6 +422,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             bitmapFavourite, counterTextview.getText().toString(),
                             productsItems.get(getLayoutPosition()).getImageJson().get(0),
                             productsItems.get(getLayoutPosition()).getId(), "0");
+
                     break;
                 case R.id.decrementImageButton:
                     //  decrementCounter = decrementCounter - 1;

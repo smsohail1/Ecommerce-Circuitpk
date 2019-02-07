@@ -7,6 +7,9 @@
 
     <color name="colorAccent">#3b5999</color>
 
+
+    <color name="selected_text_color_bottom">#453444</color>
+
     <color name="light_blue">#0182c3</color>
     <color name="red_toolbar">#3b5999</color>
     <color name="colorBlue">#6fcbfa</color>
@@ -53,11 +56,12 @@
     <color name="category_label">#ffffff</color>
     <!--Bottom Navigation-->
     <color name="bgBottomNavigation">#3b5999</color>
-    <string name="title_shop"></string>
-    <string name="title_favourite"></string>
-    <string name="title_cart"></string>
-    <string name="title_profile"></string>
-    <string name="title_setting"></string>
+    <string name="title_shop">Home</string>
+    <string name="title_favourite">Favourite</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_profile">History</string>
+    <string name="title_setting">Setting</string>
+    <string name="title_account">Account</string>
 
     <color name="light_grey_add_cart_border_color">#545454</color>
 

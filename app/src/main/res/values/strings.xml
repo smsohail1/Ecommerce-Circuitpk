@@ -193,7 +193,7 @@
 
     <string name="textview_self_pickup">Self Pickup</string>
 
-
+    <string name="terms_and_condition">I hav read and agree to the terms &amp; condition.</string>
     <string name="firstname_error">First name is required</string>
     <string name="lastname_error">Last name is required</string>
     <string name="phone_error">Mobile number is required</string>
@@ -293,4 +293,17 @@
     <string name="card_cvv">CVV/CVC Number</string>
 
 
+    <string name="terms_and_condition_desc">Welcome to Circuit.pk also hereby known as “we”,
+        “us” or “Circuit”. We are an online marketplace and these are the terms and
+        conditions governing your access and use of Circuit along with its related
+        sub-domains, sites, mobile app, services and tools (the “Site”).
+        By using the Site, you hereby accept these terms and conditions
+        (including the linked information herein) and represent that you
+        agree to comply with these terms and conditions (the “User Agreement”).
+        This User Agreement is deemed effective upon your use of the Site which
+        signifies your acceptance of these terms. If you do not agree to be
+        bound by this User Agreement please do not access, register with or
+        use this Site. This Site is owned and operated by
+        <b>Xekera Systems Inc.</b>
+    </string>
 </resources>

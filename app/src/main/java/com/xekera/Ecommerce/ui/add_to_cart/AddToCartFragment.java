@@ -293,10 +293,10 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
             flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr);
 
             //12%  GST of total amount
-            long gstAmount = flatShippingRateLong / 12;
-            flatShippingRateLong = flatShippingRateLong + gstAmount;
+            //  long gstAmount = flatShippingRateLong / 12;
+            //   flatShippingRateLong = flatShippingRateLong + gstAmount;
 
-            gstValueTextView.setText(String.valueOf(gstAmount));
+            //  gstValueTextView.setText(String.valueOf(gstAmount));
             totalValueTextView.setText(String.valueOf(flatShippingRateLong));
 
 

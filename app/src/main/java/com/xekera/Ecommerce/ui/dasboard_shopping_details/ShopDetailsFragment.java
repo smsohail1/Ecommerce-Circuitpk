@@ -72,7 +72,8 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View, ShopDetailsAdapter.IShopDetailAdapter {
+public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View, ShopDetailsAdapter.IShopDetailAdapter,
+        View.OnClickListener {
 
     @BindView(R.id.edtSearchProduct)
     protected EditText edtSearchProduct;
@@ -84,6 +85,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     protected LinearLayout searchParent;
     @BindView(R.id.allData)
     protected LinearLayout allData;
+    @BindView(R.id.filterImageView)
+    protected ImageView filterImageView;
 
     @Inject
     protected ShopDetailsMVP.Presenter presenter;
@@ -313,6 +316,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
         edtSearchProduct.setText("");
 
+        filterImageView.setOnClickListener(this);
 
         shopDetails = new ArrayList<ShoppingDetailModel>();
 
@@ -675,9 +679,9 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl,
-                                       String productID,String isEmailFav) {
+                                       String productID, String isEmailFav) {
 
-        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap, quantity, imgUrl, productID,isEmailFav);
+        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap, quantity, imgUrl, productID, isEmailFav);
 
      /*   if (!productItems.isFavourite()) {
             presenter.removeItem(productItems.getProductName(), position);
@@ -1027,6 +1031,15 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
      */
     private void showMissingPermissionError() {
         toastUtil.showToastLongTime("Please enable Read/Write Storage permission.");
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.filterImageView:
+                showToastShortTime("d");
+                break;
+        }
     }
 
 
