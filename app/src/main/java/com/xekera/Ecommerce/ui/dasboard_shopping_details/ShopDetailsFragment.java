@@ -1037,7 +1037,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.filterImageView:
-                showToastShortTime("d");
+                //  showToastShortTime("d");
                 break;
         }
     }

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.*;
@@ -112,10 +113,17 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     protected Button personalBox;
     @BindView(R.id.companyBox)
     protected Button companyBox;
-    @BindView(R.id.layoutCompany)
-    protected LinearLayout layoutCompany;
     @BindView(R.id.layoutPersonal)
     protected LinearLayout layoutPersonal;
+    @BindView(R.id.input_layout_company_name)
+    protected TextInputLayout input_layout_company_name;
+    @BindView(R.id.input_layout_company_name_DiffAddress)
+    protected TextInputLayout input_layout_company_name_DiffAddress;
+
+    @BindView(R.id.personalBoxDiffAddress)
+    protected Button personalBoxDiffAddress;
+    @BindView(R.id.companyBoxDiffAddress)
+    protected Button companyBoxDiffAddress;
 
 
     final boolean[] isShipToDifferent = {false};
@@ -137,6 +145,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     String selectedSpinnerTownCityDiffAddress = "";
     String selectedPaymentMode = "", selectedPaymentModeDiffAddress = "";
     String selfPickup = "", selfPickupDiffAddress = "";
+    boolean isAgreeTermsAndCondition = false;
 
     List<String> cityTown;
     View toastView;
@@ -191,6 +200,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
         linearLayoutParent.setOnClickListener(this);
         personalBox.setOnClickListener(this);
         companyBox.setOnClickListener(this);
+        personalBoxDiffAddress.setOnClickListener(this);
+        companyBoxDiffAddress.setOnClickListener(this);
 
 
         userDetailsParentLayoutDiffAddress.setOnClickListener(this);
@@ -546,91 +557,88 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                 utils.hideSoftKeyboard(edtStreetAddress1DiffAddress);
                 utils.hideSoftKeyboard(edtNotes);
 
-                if (checkboxTermsAndCondition.isChecked()) {
 
-                    if (shipToDiffAddressCheckBox.isChecked()) {
+                if (shipToDiffAddressCheckBox.isChecked()) {
 
 
-                        String flatChargesAmount = "250";
-                        selectedSpinnerTownCityDiffAddress = cityTown.get(spinnerTownCityDiffAddress.getSelectedItemPosition());
+                    String flatChargesAmount = "250";
+                    selectedSpinnerTownCityDiffAddress = cityTown.get(spinnerTownCityDiffAddress.getSelectedItemPosition());
 
-                        if ((selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Islamabad") ||
-                                selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Rawalpindi"))
-                                && utils.isTextNullOrEmpty(selfPickupDiffAddress)
-                        ) {
-                            flatChargesAmount = "100";
-                        } else if (!utils.isTextNullOrEmpty(selfPickupDiffAddress) &&
-                                selfPickupDiffAddress.equalsIgnoreCase("Self Pickup")) {
-                            flatChargesAmount = "0";
-                        } else {
-                            flatChargesAmount = "250";
-                        }
-
-                        if (utils.isTextNullOrEmpty(selectedPaymentModeDiffAddress)) {
-                            showToastShortTime("Please select payment mode");
-                            return;
-                        }
-
-                        if (selectedPaymentModeDiffAddress.equalsIgnoreCase("Credit Card (Stripe)")) {
-                            if (sessionManager.getCardNumber().equalsIgnoreCase("") ||
-                                    sessionManager.getExpiryDate().equalsIgnoreCase("") ||
-                                    sessionManager.getCVCNumber().equalsIgnoreCase("")) {
-
-                                showToastShortTime("Please Enter Credit Card Details.");
-                                gotoStripeActivity();
-                                return;
-                            }
-                        }
-
-                        presenter.saveDetails(edtUsernameDiffAddress.getText().toString(),
-                                edtCompanyNameDiffAddress.getText().toString(), edtPhoneNoDiffAddress.getText().toString(),
-                                edtEmailDiffAddress.getText().toString(), edtStreetAddress1DiffAddress.getText().toString(),
-                                selectedSpinnerTownCityDiffAddress, selectedPaymentModeDiffAddress, edtNotes.getText().toString(),
-                                flatChargesAmount, selfPickupDiffAddress, sessionManager.getCardNumber(), sessionManager.getExpiryDate(),
-                                sessionManager.getCVCNumber());
-
+                    if ((selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Islamabad") ||
+                            selectedSpinnerTownCityDiffAddress.equalsIgnoreCase("Rawalpindi"))
+                            && utils.isTextNullOrEmpty(selfPickupDiffAddress)
+                    ) {
+                        flatChargesAmount = "100";
+                    } else if (!utils.isTextNullOrEmpty(selfPickupDiffAddress) &&
+                            selfPickupDiffAddress.equalsIgnoreCase("Self Pickup")) {
+                        flatChargesAmount = "0";
                     } else {
+                        flatChargesAmount = "250";
+                    }
 
-                        selectedSpinnerTownCity = cityTown.get(spinnerTownCity.getSelectedItemPosition());
+                    if (utils.isTextNullOrEmpty(selectedPaymentModeDiffAddress)) {
+                        showToastShortTime("Please select payment mode");
+                        return;
+                    }
 
-                        String flatChargesAmount = "250";
-                        if ((selectedSpinnerTownCity.equalsIgnoreCase("Islamabad") ||
-                                selectedSpinnerTownCity.equalsIgnoreCase("Rawalpindi"))
-                                && utils.isTextNullOrEmpty(selfPickup)) {
-                            flatChargesAmount = "100";
-                        } else if (!utils.isTextNullOrEmpty(selfPickup) && selfPickup.equalsIgnoreCase("Self Pickup")) {
-                            flatChargesAmount = "0";
-                        } else {
-                            flatChargesAmount = "250";
-                        }
+                    if (selectedPaymentModeDiffAddress.equalsIgnoreCase("Credit Card (Stripe)")) {
+                        if (sessionManager.getCardNumber().equalsIgnoreCase("") ||
+                                sessionManager.getExpiryDate().equalsIgnoreCase("") ||
+                                sessionManager.getCVCNumber().equalsIgnoreCase("")) {
 
-
-                        if (utils.isTextNullOrEmpty(selectedPaymentMode)) {
-                            showToastShortTime("Please select payment mode");
+                            showToastShortTime("Please Enter Credit Card Details.");
+                            gotoStripeActivity();
                             return;
                         }
-
-                        if (selectedPaymentMode.equalsIgnoreCase("Credit Card (Stripe)")) {
-                            if (sessionManager.getCardNumber().equalsIgnoreCase("") ||
-                                    sessionManager.getExpiryDate().equalsIgnoreCase("") ||
-                                    sessionManager.getCVCNumber().equalsIgnoreCase("")) {
-
-                                showToastShortTime("Please Enter Credit Card Details.");
-                                gotoStripeActivity();
-
-                                return;
-                            }
-                        }
-                        presenter.saveDetails(edtUsername.getText().toString(),
-                                edtCompanyName.getText().toString(), edtPhoneNo.getText().toString(),
-                                edtEmail.getText().toString(), edtStreetAddress1.getText().toString(),
-                                selectedSpinnerTownCity, selectedPaymentMode, edtNotes.getText().toString(),
-                                flatChargesAmount, selfPickup, sessionManager.getCardNumber(), sessionManager.getExpiryDate(),
-                                sessionManager.getCVCNumber());
                     }
+
+                    presenter.saveDetails(edtUsernameDiffAddress.getText().toString(),
+                            edtCompanyNameDiffAddress.getText().toString(), edtPhoneNoDiffAddress.getText().toString(),
+                            edtEmailDiffAddress.getText().toString(), edtStreetAddress1DiffAddress.getText().toString(),
+                            selectedSpinnerTownCityDiffAddress, selectedPaymentModeDiffAddress, edtNotes.getText().toString(),
+                            flatChargesAmount, selfPickupDiffAddress, sessionManager.getCardNumber(), sessionManager.getExpiryDate(),
+                            sessionManager.getCVCNumber(), isAgreeTermsAndCondition, checkboxTermsAndCondition.isChecked());
+
                 } else {
-                    showToastShortTime("Please Agree to the terms & condition");
+
+                    selectedSpinnerTownCity = cityTown.get(spinnerTownCity.getSelectedItemPosition());
+
+                    String flatChargesAmount = "250";
+                    if ((selectedSpinnerTownCity.equalsIgnoreCase("Islamabad") ||
+                            selectedSpinnerTownCity.equalsIgnoreCase("Rawalpindi"))
+                            && utils.isTextNullOrEmpty(selfPickup)) {
+                        flatChargesAmount = "100";
+                    } else if (!utils.isTextNullOrEmpty(selfPickup) && selfPickup.equalsIgnoreCase("Self Pickup")) {
+                        flatChargesAmount = "0";
+                    } else {
+                        flatChargesAmount = "250";
+                    }
+
+
+                    if (utils.isTextNullOrEmpty(selectedPaymentMode)) {
+                        showToastShortTime("Please select payment mode");
+                        return;
+                    }
+
+                    if (selectedPaymentMode.equalsIgnoreCase("Credit Card (Stripe)")) {
+                        if (sessionManager.getCardNumber().equalsIgnoreCase("") ||
+                                sessionManager.getExpiryDate().equalsIgnoreCase("") ||
+                                sessionManager.getCVCNumber().equalsIgnoreCase("")) {
+
+                            showToastShortTime("Please Enter Credit Card Details.");
+                            gotoStripeActivity();
+
+                            return;
+                        }
+                    }
+                    presenter.saveDetails(edtUsername.getText().toString(),
+                            edtCompanyName.getText().toString(), edtPhoneNo.getText().toString(),
+                            edtEmail.getText().toString(), edtStreetAddress1.getText().toString(),
+                            selectedSpinnerTownCity, selectedPaymentMode, edtNotes.getText().toString(),
+                            flatChargesAmount, selfPickup, sessionManager.getCardNumber(), sessionManager.getExpiryDate(),
+                            sessionManager.getCVCNumber(), isAgreeTermsAndCondition, checkboxTermsAndCondition.isChecked());
                 }
+
                 break;
 
             case R.id.userDetailsParentLayout:
@@ -710,8 +718,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
 
             case R.id.personalBox:
-                layoutPersonal.setVisibility(View.VISIBLE);
-                layoutCompany.setVisibility(View.GONE);
+                // layoutPersonal.setVisibility(View.VISIBLE);
+                input_layout_company_name.setVisibility(View.GONE);
 
                 companyBox.setBackgroundColor(Color.parseColor("#ffffff"));
                 personalBox.setBackgroundColor(Color.parseColor("#3b5999"));
@@ -721,8 +729,8 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
                 break;
             case R.id.companyBox:
-                layoutPersonal.setVisibility(View.GONE);
-                layoutCompany.setVisibility(View.VISIBLE);
+                // layoutPersonal.setVisibility(View.GONE);
+                input_layout_company_name.setVisibility(View.VISIBLE);
 
                 personalBox.setBackgroundColor(Color.parseColor("#ffffff"));
                 companyBox.setBackgroundColor(Color.parseColor("#3b5999"));
@@ -732,6 +740,31 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                 companyBox.setTextColor(Color.parseColor("#ffffff"));
                 break;
 
+
+            case R.id.personalBoxDiffAddress:
+                // layoutPersonal.setVisibility(View.VISIBLE);
+                input_layout_company_name_DiffAddress.setVisibility(View.GONE);
+
+                companyBoxDiffAddress.setBackgroundColor(Color.parseColor("#ffffff"));
+                personalBoxDiffAddress.setBackgroundColor(Color.parseColor("#3b5999"));
+
+                personalBoxDiffAddress.setTextColor(Color.parseColor("#ffffff"));
+                companyBoxDiffAddress.setTextColor(Color.parseColor("#3b5999"));
+
+                break;
+            case R.id.companyBoxDiffAddress:
+                // layoutPersonal.setVisibility(View.GONE);
+                input_layout_company_name_DiffAddress.setVisibility(View.VISIBLE);
+
+                personalBoxDiffAddress.setBackgroundColor(Color.parseColor("#ffffff"));
+                companyBoxDiffAddress.setBackgroundColor(Color.parseColor("#3b5999"));
+
+
+                personalBoxDiffAddress.setTextColor(Color.parseColor("#3b5999"));
+                companyBoxDiffAddress.setTextColor(Color.parseColor("#ffffff"));
+                break;
+
+
         }
 
     }
@@ -739,6 +772,9 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
     private void showTermsAndConditionDialog() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View v = dialog.getWindow().getDecorView();
+        v.setBackgroundResource(android.R.color.transparent);
+
         dialog.setContentView(R.layout.dialog_terms_conditions);
 
         Button submit = dialog.findViewById(R.id.submit);
@@ -751,6 +787,7 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                isAgreeTermsAndCondition = true;
             }
         });
 

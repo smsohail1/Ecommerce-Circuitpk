@@ -193,7 +193,7 @@
 
     <string name="textview_self_pickup">Self Pickup</string>
 
-    <string name="terms_and_condition">I hav read and agree to the terms &amp; condition.</string>
+    <string name="terms_and_condition">I have read and agree to the terms &amp; condition.</string>
     <string name="firstname_error">First name is required</string>
     <string name="lastname_error">Last name is required</string>
     <string name="phone_error">Mobile number is required</string>
@@ -207,7 +207,7 @@
     <string name="postal_code_error">PostalCode/ZIP is required</string>
     <string name="paymode_error">Please select payment mode</string>
     <string name="stripe_paymode_error">Please fill Credit Card details.</string>
-
+    <string name="terms_condiion_error">Please Agree to the terms &amp; condition.</string>
 
     <!--History-->
     <string name="bnt_title_cancel_order">Cancel</string>

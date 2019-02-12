@@ -48,18 +48,15 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 
 import android.app.AlertDialog;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 
@@ -1101,9 +1098,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             }
         } else if (id == R.id.nav_Profile) {
             if (!(fragmentContainer instanceof AccountFragment)) {
-                navigateToScreen(R.id.navigation_User);
-//                replaceFragmentWithContainer(new FavouritesFragment());
                 drawer.closeDrawer(GravityCompat.START);
+                navigateToScreen(R.id.navigation_User);
+
+//                replaceFragmentWithContainer(new FavouritesFragment());
                 // setNavigationBackground("#E10915");
 
                 return true;
@@ -1907,7 +1905,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             if (data != null) {
                 Uri contentURI = data.getData();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 8;
+
+                    Bitmap bitmap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(contentURI),
+                            null, options);
+
+                    // Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
                     //  String path = saveImage(bitmap);
 
                     profilePhoto.setImageBitmap(bitmap);
@@ -1926,13 +1931,19 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             try {
 
                 Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-                profilePhoto.setImageBitmap(thumbnail);
 
-                String strImg = bitMapToString(thumbnail);
+
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                thumbnail.compress(Bitmap.CompressFormat.PNG, 90, out);
+                Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+
+                profilePhoto.setImageBitmap(decoded);
+
+                String strImg = bitMapToString(decoded);
                 sessionManager.setTakePhoto(strImg);
 
                 //   saveImage(thumbnail);
-                toastUtil.showToastShortTime("Profile pic updated", toastView);
+                toastUtil.showToastShortTime("Profile picture updated", toastView);
             } catch (Exception e) {
                 toastUtil.showToastShortTime("Error while updating profile picture", toastView);
             }

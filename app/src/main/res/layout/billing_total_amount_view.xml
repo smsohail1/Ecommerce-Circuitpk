@@ -188,10 +188,26 @@
 
                         </RelativeLayout>
 
+
                         <RelativeLayout android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:gravity="center_horizontal"
-                                        android:layout_marginTop="3dp">
+                                        android:layout_marginTop="5dp">
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/availibility_textview"
+                                    android:textStyle="bold"
+                                    android:text="Tax applied inclusive GST."
+                                    android:textSize="@dimen/txt_report_list_item_size"/>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center_horizontal"
+                                        android:layout_marginTop="5dp">
 
 
                             <Button

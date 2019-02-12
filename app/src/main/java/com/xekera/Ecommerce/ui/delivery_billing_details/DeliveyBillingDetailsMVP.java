@@ -31,7 +31,7 @@ public interface DeliveyBillingDetailsMVP {
         void saveDetails(String firstName, String company, String phone, String email,
                          String streetAddress1,
                          String townCity, String paymode, String notes,
-                         String flatCharges, String selfPickup, String cardNumber, String expiryDate, String CVCNumber);
+                         String flatCharges, String selfPickup, String cardNumber, String expiryDate, String CVCNumber,boolean isAgreeTermsAndCondition,boolean checkboxTermsAndCondition);
 
     }
 

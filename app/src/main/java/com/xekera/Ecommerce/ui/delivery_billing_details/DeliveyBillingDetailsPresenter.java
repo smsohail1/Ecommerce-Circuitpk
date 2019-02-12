@@ -35,10 +35,12 @@ public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.
     public void saveDetails(String firstName, String company, String phone,
                             String email, String streetAddress1,
                             String townCity, String paymode,
-                            String notes, String flatCharges, String selfPickup, String cardNumber, String expiryDate, String CVCNumber) {
+                            String notes, String flatCharges, String selfPickup, String cardNumber, String expiryDate, String CVCNumber,
+                            boolean isAgreeTermsAndCondition,
+                            boolean checkboxTermsAndCondition) {
 
         if (validateInputFields(firstName, company, phone, email, streetAddress1,
-                townCity, paymode, notes, flatCharges, selfPickup, cardNumber, expiryDate, CVCNumber)) {
+                townCity, paymode, notes, flatCharges, selfPickup, cardNumber, expiryDate, CVCNumber, isAgreeTermsAndCondition, checkboxTermsAndCondition)) {
 
             view.showBillingAmountDetailView(flatCharges, firstName, company, phone, email, streetAddress1,
                     townCity, paymode, notes, selfPickup, cardNumber, expiryDate, CVCNumber);
@@ -50,7 +52,9 @@ public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.
     private boolean validateInputFields(String firstName, String company, String phone,
                                         String email, String streetAddress1,
                                         String townCity,
-                                        String paymode, String notes, String flatCharges, String selfPickup, String cardNumber, String expiryDate, String CVCNumber) {
+                                        String paymode, String notes, String flatCharges, String selfPickup, String cardNumber, String expiryDate, String CVCNumber
+            , boolean isAgreeTermsAndCondition,
+                                        boolean checkboxTermsAndCondition) {
         if (utils.isTextNullOrEmpty(firstName)) {
             view.showToastShortTime(utils.getStringFromResourceId(R.string.firstname_error));
             return false;
@@ -76,6 +80,18 @@ public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.
             return false;
         }
 
+        if (utils.isTextNullOrEmpty(paymode)) {
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.paymode_error));
+            return false;
+        }
+
+        if (paymode.equalsIgnoreCase("Credit Card (Stripe)")) {
+            if (utils.isTextNullOrEmpty(cardNumber) || utils.isTextNullOrEmpty(expiryDate) || utils.isTextNullOrEmpty(CVCNumber)) {
+                view.showToastShortTime(utils.getStringFromResourceId(R.string.stripe_paymode_error));
+                return false;
+            }
+        }
+
 
         if (flatCharges != null && !flatCharges.equalsIgnoreCase("") && !flatCharges.equalsIgnoreCase("0")) {
             if (utils.isTextNullOrEmpty(streetAddress1)) {
@@ -94,17 +110,11 @@ public class DeliveyBillingDetailsPresenter implements DeliveyBillingDetailsMVP.
 //        }
 
 
-        if (utils.isTextNullOrEmpty(paymode)) {
-            view.showToastShortTime(utils.getStringFromResourceId(R.string.paymode_error));
+        if (!isAgreeTermsAndCondition || !checkboxTermsAndCondition) {
+            view.showToastShortTime(utils.getStringFromResourceId(R.string.terms_condiion_error));
             return false;
         }
 
-        if (paymode.equalsIgnoreCase("Credit Card (Stripe)")) {
-            if (utils.isTextNullOrEmpty(cardNumber) || utils.isTextNullOrEmpty(expiryDate) || utils.isTextNullOrEmpty(CVCNumber)) {
-                view.showToastShortTime(utils.getStringFromResourceId(R.string.stripe_paymode_error));
-                return false;
-            }
-        }
 
         return true;
     }

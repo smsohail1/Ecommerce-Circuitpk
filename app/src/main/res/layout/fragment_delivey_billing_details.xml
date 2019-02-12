@@ -96,8 +96,8 @@
                                           android:layout_marginTop="10dp">
                                 <Button
                                         android:id="@+id/personalBox"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="@dimen/btn_customer_type_width"
+                                        android:layout_height="@dimen/btn_customer_type_height"
                                         android:text="Personal"
                                         android:background="@drawable/order_type_corner"
                                         android:textSize="@dimen/textsize_customer_type"
@@ -107,8 +107,8 @@
                                 />
                                 <Button
                                         android:id="@+id/companyBox"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="@dimen/btn_customer_type_width"
+                                        android:layout_height="@dimen/btn_customer_type_height"
                                         android:text="Company"
                                         android:textAllCaps="false"
                                         android:layout_marginLeft="0dp"
@@ -257,136 +257,6 @@
                                 </LinearLayout>
 
 
-                                <LinearLayout
-                                        android:id="@+id/layoutCompany"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center_horizontal"
-                                        android:layout_marginTop="10dp"
-                                        android:visibility="gone"
-                                        android:orientation="vertical">
-
-                                    <android.support.design.widget.TextInputLayout
-                                            android:id="@+id/input_layout_username_company"
-                                            android:layout_width="260dp"
-                                            android:layout_height="@dimen/edit_height"
-                                            android:layout_marginTop="5dp"
-                                            android:gravity="center_vertical"
-                                            android:background="@drawable/bg_delivery_details_edt"
-                                            android:paddingRight="10dp"
-                                    >
-                                        <EditText
-                                                android:id="@+id/edtUsername_company"
-                                                android:layout_width="240dp"
-                                                android:layout_height="@dimen/editext_height"
-                                                android:background="@android:color/transparent"
-                                                android:fontFamily="@font/titilliu_web_regular"
-                                                android:hint="Customer Name"
-                                                android:paddingRight="10dp"
-
-                                                android:inputType="text"
-                                                android:drawableLeft="@drawable/icon_user_account"
-                                                android:drawablePadding="7dp"
-                                                android:layout_marginBottom="3dp"
-
-                                                android:maxLength="20"
-                                                android:textCursorDrawable="@drawable/cursor_color"
-                                                android:textColor="@color/availibility_textview"
-                                                android:textSize="14sp"
-
-                                        />
-                                    </android.support.design.widget.TextInputLayout>
-                                    <android.support.design.widget.TextInputLayout
-                                            android:id="@+id/input_layout_company_name_company"
-                                            android:layout_width="260dp"
-                                            android:layout_height="@dimen/edit_height"
-                                            android:layout_marginTop="5dp"
-                                            android:gravity="center_vertical"
-                                            android:background="@drawable/bg_delivery_details_edt"
-                                            android:paddingRight="10dp"
-                                    >
-                                        <EditText
-                                                android:id="@+id/edtCompanyName_company"
-                                                android:layout_width="240dp"
-                                                android:layout_height="@dimen/editext_height"
-                                                android:background="@android:color/transparent"
-                                                android:fontFamily="@font/titilliu_web_regular"
-                                                android:hint="Company name"
-                                                android:maxLength="50"
-                                                android:textColor="@color/availibility_textview"
-                                                android:maxLines="1"
-                                                android:paddingRight="10dp"
-                                                android:drawableLeft="@drawable/icon_company_name"
-                                                android:drawablePadding="7dp"
-                                                android:layout_marginBottom="3dp"
-
-                                                android:inputType="text"
-                                                android:textCursorDrawable="@drawable/cursor_color"
-                                                android:textSize="14sp"
-
-                                        />
-                                    </android.support.design.widget.TextInputLayout>
-                                    <android.support.design.widget.TextInputLayout
-                                            android:id="@+id/input_layout_mobile_no_company"
-                                            android:layout_width="260dp"
-                                            android:layout_height="@dimen/edit_height"
-                                            android:layout_marginTop="5dp"
-                                            android:gravity="center_vertical"
-                                            android:background="@drawable/bg_delivery_details_edt"
-                                            android:paddingRight="10dp"
-                                    >
-                                        <EditText
-                                                android:id="@+id/edtPhoneNo_company"
-                                                android:layout_width="240dp"
-                                                android:layout_height="@dimen/editext_height"
-                                                android:background="@android:color/transparent"
-                                                android:fontFamily="@font/titilliu_web_regular"
-                                                android:hint="Mobile number"
-                                                android:textColor="@color/availibility_textview"
-                                                android:maxLines="1"
-                                                android:maxLength="11"
-                                                android:paddingRight="10dp"
-
-                                                android:drawableLeft="@drawable/icon_mobile_account"
-                                                android:drawablePadding="7dp"
-                                                android:layout_marginBottom="3dp"
-
-                                                android:inputType="number"
-                                                android:textCursorDrawable="@drawable/cursor_color"
-                                                android:textSize="14sp"
-
-                                        />
-                                    </android.support.design.widget.TextInputLayout>
-                                    <android.support.design.widget.TextInputLayout
-                                            android:id="@+id/input_layout_email_company"
-                                            android:layout_width="260dp"
-                                            android:layout_height="@dimen/edit_height"
-                                            android:layout_marginTop="5dp"
-                                            android:gravity="center_vertical"
-                                            android:background="@drawable/bg_delivery_details_edt"
-                                            android:paddingRight="10dp"
-                                    >
-                                        <EditText
-                                                android:id="@+id/edtEmail_company"
-                                                android:layout_width="240dp"
-                                                android:layout_height="@dimen/editext_height"
-                                                android:background="@android:color/transparent"
-                                                android:maxLength="40"
-                                                android:textCursorDrawable="@drawable/cursor_color"
-                                                android:maxLines="1"
-                                                android:drawableLeft="@drawable/icon_email_account"
-                                                android:drawablePadding="7dp"
-                                                android:layout_marginBottom="3dp"
-                                                android:paddingRight="10dp"
-
-                                                android:inputType="textEmailAddress"
-                                                android:fontFamily="@font/titilliu_web_regular"
-                                                android:hint="Email address"
-                                                android:textSize="14sp"
-
-                                        />
-                                    </android.support.design.widget.TextInputLayout>
-                                </LinearLayout>
                             </LinearLayout>
 
 
@@ -949,7 +819,6 @@
 
                     <LinearLayout
                             android:id="@+id/userDetailsParentLayoutDiffAddress"
-
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -985,6 +854,38 @@
                                               android:textColor="@color/light_grey_delivey_screen_color"
                                     />
 
+
+                                </LinearLayout>
+
+
+                                <LinearLayout android:layout_width="match_parent"
+                                              android:layout_height="wrap_content"
+                                              android:gravity="center"
+                                              android:orientation="horizontal"
+                                              android:layout_marginTop="10dp">
+                                    <Button
+                                            android:id="@+id/personalBoxDiffAddress"
+                                            android:layout_width="@dimen/btn_customer_type_width"
+                                            android:layout_height="@dimen/btn_customer_type_height"
+                                            android:text="Personal"
+                                            android:background="@drawable/order_type_corner"
+                                            android:textSize="@dimen/textsize_customer_type"
+                                            android:textColor="#ffffff"
+                                            android:textAllCaps="false"
+
+                                    />
+                                    <Button
+                                            android:id="@+id/companyBoxDiffAddress"
+                                            android:layout_width="@dimen/btn_customer_type_width"
+                                            android:layout_height="@dimen/btn_customer_type_height"
+                                            android:text="Company"
+                                            android:textAllCaps="false"
+                                            android:layout_marginLeft="0dp"
+                                            android:textColor="@color/colorPrimary"
+                                            android:textSize="@dimen/textsize_customer_type"
+                                            android:background="@drawable/company_order_type_corner"
+
+                                    />
 
                                 </LinearLayout>
 
@@ -1032,6 +933,7 @@
                                             android:gravity="center_vertical"
                                             android:background="@drawable/bg_delivery_details_edt"
                                             android:paddingRight="10dp"
+                                            android:visibility="gone"
                                     >
                                         <EditText
                                                 android:id="@+id/edtCompanyNameDiffAddress"
