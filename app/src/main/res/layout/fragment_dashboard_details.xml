@@ -30,7 +30,7 @@
                     android:id="@+id/edtSearchProduct"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/edit_height"
-                    android:layout_weight="0.9"
+                    android:layout_weight="1.0"
                     android:background="@drawable/bg_search_edt"
                     android:drawableLeft="@drawable/icon_search_product"
                     android:drawablePadding="7dp"
