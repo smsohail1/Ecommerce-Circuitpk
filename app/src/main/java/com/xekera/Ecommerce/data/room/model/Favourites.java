@@ -35,6 +35,27 @@ public class Favourites {
     private String product_id;
     @ColumnInfo(name = "is_email_fav")
     private String isEmailFav;
+    @ColumnInfo(name = "product_desc_fav")
+    private String productDescFav;
+    @ColumnInfo(name = "img_list_fav")
+    private String imgArrListFav;
+
+
+    public String getProductDescFav() {
+        return productDescFav;
+    }
+
+    public void setProductDescFav(String productDescFav) {
+        this.productDescFav = productDescFav;
+    }
+
+    public String getImgArrListFav() {
+        return imgArrListFav;
+    }
+
+    public void setImgArrListFav(String imgArrListFav) {
+        this.imgArrListFav = imgArrListFav;
+    }
 
     public String getIsEmailFav() {
         return isEmailFav;
@@ -149,6 +170,26 @@ public class Favourites {
 //        this.itemImage = itemImage;
 //        this.itemQuantity = itemQuantity;
 //    }
+
+
+    public Favourites(String itemName, String itemIndividualPrice, String itemCutPrice,
+                      String itemStockStatus, String createdDate, byte[] itemImage, String itemQuantity,
+                      String itemTotalPrice, String image, String product_id, String isEmailFav, String productDescFav,
+                      String imgArrListFav) {
+        this.itemName = itemName;
+        this.itemIndividualPrice = itemIndividualPrice;
+        this.itemCutPrice = itemCutPrice;
+        this.itemStockStatus = itemStockStatus;
+        this.createdDate = createdDate;
+        this.itemImage = itemImage;
+        this.itemQuantity = itemQuantity;
+        this.itemTotalPrice = itemTotalPrice;
+        this.image = image;
+        this.product_id = product_id;
+        this.isEmailFav = isEmailFav;
+        this.productDescFav = productDescFav;
+        this.imgArrListFav = imgArrListFav;
+    }
 
     public Favourites(String itemName, String itemIndividualPrice, String itemCutPrice,
                       String itemStockStatus, String createdDate, byte[] itemImage, String itemQuantity,

@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.graphics.Bitmap;
 import io.reactivex.annotations.NonNull;
 
+import javax.xml.transform.sax.SAXTransformerFactory;
 import java.util.List;
 
 @Entity(tableName = "add_to_cart")
@@ -48,6 +49,11 @@ public class AddToCart {
     private String product_id;
     @ColumnInfo(name = "is_email_cart")
     private String isEmailCart;
+    @ColumnInfo(name = "product_desc")
+    private String productDesc;
+    @ColumnInfo(name = "img_arr_list")
+    private String imgArrList;
+
 
     public String getIsEmailCart() {
         return isEmailCart;
@@ -74,6 +80,22 @@ public class AddToCart {
         this.image = image;
     }
 
+
+    public String getProductDesc() {
+        return productDesc;
+    }
+
+    public void setProductDesc(String productDesc) {
+        this.productDesc = productDesc;
+    }
+
+    public String getImgArrList() {
+        return imgArrList;
+    }
+
+    public void setImgArrList(String imgArrList) {
+        this.imgArrList = imgArrList;
+    }
 
     public AddToCart() {
 
@@ -117,6 +139,28 @@ public class AddToCart {
         this.product_id = product_id;
         this.isEmailCart = isEmailCart;
     }
+
+    public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity, String transmissionStatus,
+                     byte[] itemImage, String itemCutPrice
+            , String itemIndividualPrice, String createdDate, String image, String product_id, String isEmailCart,
+                     String productDesc, String imgArrList) {
+        this.orderID = orderID;
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.itemQuantity = itemQuantity;
+        this.transmissionStatus = transmissionStatus;
+        this.itemImage = itemImage;
+        this.itemCutPrice = itemCutPrice;
+        this.itemIndividualPrice = itemIndividualPrice;
+        this.createdDate = createdDate;
+        this.image = image;
+        this.product_id = product_id;
+        this.isEmailCart = isEmailCart;
+        this.productDesc = productDesc;
+        this.imgArrList = imgArrList;
+
+    }
+
 
     public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity, String transmissionStatus,
                      byte[] itemImage, String itemCutPrice

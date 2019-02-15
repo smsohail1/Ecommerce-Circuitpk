@@ -108,7 +108,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
                     if (sessionManager.getKeyIsFacebookLogin()) {
 
-                        if (!utils.isTextNullOrEmpty(sessionManager.getKeyPicture())) {
+
+                        if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
+                            Bitmap img = stringToBitMap(sessionManager.getTakePhoto());
+                            imgProfile.setImageBitmap(img);
+                        } else if (!utils.isTextNullOrEmpty(sessionManager.getKeyPicture())) {
 
                             Picasso.with(getActivity()).load(sessionManager.getKeyPicture()).into(imgProfile);
                         }

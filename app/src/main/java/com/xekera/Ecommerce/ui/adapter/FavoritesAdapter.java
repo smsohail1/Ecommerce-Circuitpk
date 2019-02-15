@@ -88,6 +88,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         .error(R.drawable.placeholder)
                         // .override(130, 50)
                         .centerCrop()
+                        .override(300, 300)
 
                         // .into(homeViewHolder.imgHomeItem);
                         .into(new SimpleTarget<Bitmap>() {
@@ -235,7 +236,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
                                 productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy,
                                 productsItems.get(getLayoutPosition()).getImage(),
-                                productsItems.get(getLayoutPosition()).getProduct_id(), "0");
+                                productsItems.get(getLayoutPosition()).getProduct_id(), "0", productsItems.get(getLayoutPosition()).getProductDescFav(),
+                                productsItems.get(getLayoutPosition()).getImgArrListFav());
 
                     } else {
                         dec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) - 1;
@@ -251,7 +253,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
                                 productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy,
                                 productsItems.get(getLayoutPosition()).getImage(),
-                                productsItems.get(getLayoutPosition()).getProduct_id(), "0");
+                                productsItems.get(getLayoutPosition()).getProduct_id(), "0", productsItems.get(getLayoutPosition()).getProductDescFav(),
+                                productsItems.get(getLayoutPosition()).getImgArrListFav());
 
                     }
 
@@ -308,7 +311,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
                             productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy, bitmapAdd,
                             productsItems.get(getLayoutPosition()).getImage(),
-                            productsItems.get(getLayoutPosition()).getProduct_id(), "0");
+                            productsItems.get(getLayoutPosition()).getProduct_id(), "0",
+                            productsItems.get(getLayoutPosition()).getProductDescFav(),
+                            productsItems.get(getLayoutPosition()).getImgArrListFav());
 
 
 //                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
@@ -389,10 +394,11 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
                                     long cutPrice, byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl,
-                                    String productID, String isEmailFav);
+                                    String productID, String isEmailFav, String productDesc, String imgArrList);
 
         void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName,
-                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID, String isEmailFav);
+                                    long cutPrice, byte[] byteImage, ImageView imgProductCopy, String imgUrl,
+                                    String productID, String isEmailFav, String productDesc, String imgArrList);
 
         void removeItemFromCart(Favourites favourites);
 

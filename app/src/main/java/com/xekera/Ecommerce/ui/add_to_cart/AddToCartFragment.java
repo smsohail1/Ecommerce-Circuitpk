@@ -320,9 +320,10 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     @Override
     public void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
-                                   String cutPrice, byte[] bytes, String imgUrl, String prodcutID, String isEmailSent) {
+                                   String cutPrice, byte[] bytes, String imgUrl, String prodcutID, String isEmailSent,
+                                   String productDesc,String imgArrList) {
         presenter.saveProductDetails(quantity, individualPrice, itemPrice, productName,
-                cutPrice, bytes, imgUrl, prodcutID, isEmailSent);
+                cutPrice, bytes, imgUrl, prodcutID, isEmailSent,productDesc,imgArrList);
     }
 
     @Override

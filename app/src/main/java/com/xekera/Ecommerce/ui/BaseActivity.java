@@ -494,9 +494,21 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         bottomMenuItem.setCheckable(true);
                         bottomMenuItem.setChecked(true);
 
+                    }
+                    if (sessionManager.isSignUp() ||
+                            sessionManager.isLoggedIn() ||
+                            sessionManager.getKeyIsFacebookLogin()) {
+
                         fragment = new AccountFragment();
                         replaceFragmentWithContainer(fragment);
+                    } else {
+                        toastUtil.showToastShortTime("Required SignUp/Login to view account.", toastView);
+
+                        fragment = new LoginFragment();
+                        replaceFragmentWithContainer(fragment);
                     }
+
+
                     return true;
 
 
@@ -1099,7 +1111,23 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         } else if (id == R.id.nav_Profile) {
             if (!(fragmentContainer instanceof AccountFragment)) {
                 drawer.closeDrawer(GravityCompat.START);
-                navigateToScreen(R.id.navigation_User);
+
+                if (sessionManager.isSignUp() ||
+                        sessionManager.isLoggedIn() ||
+                        sessionManager.getKeyIsFacebookLogin()) {
+                    navigateToScreen(R.id.navigation_User);
+
+                } else {
+                    bottomMenu = navigation.getMenu();
+
+                    for (int i = 0; i < bottomMenu.size(); i++) {
+                        menuItemBottom = bottomMenu.getItem(i);
+                        menuItemBottom.setCheckable(false);
+                        menuItemBottom.setChecked(false);
+                    }
+                    toastUtil.showToastShortTime("Required SignUp/Login to view account.", toastView);
+                    replaceFragmentWithContainer(new LoginFragment());
+                }
 
 //                replaceFragmentWithContainer(new FavouritesFragment());
                 // setNavigationBackground("#E10915");
@@ -1205,10 +1233,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         // Add data to the intent, the receiving app will decide
         // what to do with it.
-        share.putExtra(Intent.EXTRA_SUBJECT, "Circuit.pk App");
-        share.putExtra(Intent.EXTRA_TEXT, "https://circuit.pk/");
 
-        startActivity(Intent.createChooser(share, "Share App link"));
+        // String linkDesc = "Website: https://circuit.pk/\nMobile App: https://play.google.com/store/apps/details?id=com.xekera.Ecommerce";
+        String linkDesc = "Website: https://circuit.pk/";
+
+        share.putExtra(Intent.EXTRA_SUBJECT, "Circuit.pk App");
+        share.putExtra(Intent.EXTRA_TEXT, linkDesc);
+
+        startActivity(Intent.createChooser(share, "Share link"));
     }
 
     boolean isEnable = true;
@@ -1445,7 +1477,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                 imgFacebook.setVisibility(View.VISIBLE);
 
-                if (!utils.isTextNullOrEmpty(sessionManager.getKeyPicture())) {
+
+                if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
+                    Bitmap img = stringToBitMap(sessionManager.getTakePhoto());
+                    circleImageView.setImageBitmap(img);
+                } else if (!utils.isTextNullOrEmpty(sessionManager.getKeyPicture())) {
                     //  Bitmap img = stringToBitMap(sessionManager.getKeyPicture());
                     // circleImageView.setImageBitmap(sessionManager.getKeyPicture());
 //                    Glide.with(getApplicationContext()).load(sessionManager.getKeyPicture())
@@ -1554,7 +1590,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                 imgFacebook.setVisibility(View.VISIBLE);
 
-                if (!utils.isTextNullOrEmpty(sessionManager.getKeyPicture())) {
+                if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
+                    Bitmap img = stringToBitMap(sessionManager.getTakePhoto());
+                    circleImageView.setImageBitmap(img);
+                } else if (!utils.isTextNullOrEmpty(sessionManager.getKeyPicture())) {
                     //  Bitmap img = stringToBitMap(sessionManager.getKeyPicture());
                     // circleImageView.setImageBitmap(sessionManager.getKeyPicture());
 //                    Glide.with(getApplicationContext()).load(sessionManager.getKeyPicture())
@@ -1642,7 +1681,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     public void setTotalBottomNavigationCount(int index, long counts) {
         final Menu menu = navigation.getMenu();
-        menu.getItem(index).setTitle("Favourite(" + counts + ")");
+        if (counts == 0) {
+            menu.getItem(index).setTitle("Favourite");
+
+        } else {
+            menu.getItem(index).setTitle("Favourite(" + counts + ")");
+        }
     }
 
     public void showHideBottomNavigationCount(int index) {

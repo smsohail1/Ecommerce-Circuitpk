@@ -74,11 +74,13 @@ public interface ShopDetailsMVP {
         void setRecylerViewItems(Context context, List<ShoppingDetailModel> items);
 
         void saveProductDetails(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                ImageView imgProductCopy, Bitmap bitmap, String imgUrl,String productID,String isEmailSent);
+                                ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID,
+                                String isEmailSent, String productDesc, List<String> imgArrList);
 
         void saveProductDecrementDetails(long quantity, String price, String totalPrice,
                                          String productName, long cutPrice, ImageView imgProductCopy,
-                                         Bitmap bitmapAdd, String imgUrl,String productID,String isEmailSent);
+                                         Bitmap bitmapAdd, String imgUrl, String productID, String isEmailSent,
+                                         String productDesc, List<String> imgArrList);
 
 
         void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice, ImageView imgProductCopy);
@@ -100,7 +102,8 @@ public interface ShopDetailsMVP {
         void getFavouritesListByProductName(String productName, int position);
 
         void isAlreadyAddedInFavourites(Product productItems, int position, Bitmap bitmap, String quantity,
-                                        String imgUrl,String productID,String isEmailFav);
+                                        String imgUrl, String productID, String isEmailFav,String productDesc,
+                                        List<String> imgArrList);
 
         void setProductItemsDetails(Context context, String sku);
     }

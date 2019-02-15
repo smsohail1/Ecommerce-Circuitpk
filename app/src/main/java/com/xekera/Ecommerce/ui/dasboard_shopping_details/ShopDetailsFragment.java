@@ -663,25 +663,27 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
                                        ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID,
-                                       String isEmailSent) {
+                                       String isEmailSent, String productDesc, List<String> imgArrList) {
 
-        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmap, imgUrl, productID, isEmailSent);
+        presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmap, imgUrl,
+                productID, isEmailSent, productDesc, imgArrList);
     }
 
     @Override
     public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
-                                       ImageView imgProductCopy, Bitmap bitmapAdd, String imgUrl, String productID, String isEmailSent) {
+                                       ImageView imgProductCopy, Bitmap bitmapAdd, String imgUrl, String productID,
+                                       String isEmailSent, String productDesc, List<String> imgArrList) {
 
         presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmapAdd,
-                imgUrl, productID, isEmailSent);
+                imgUrl, productID, isEmailSent, productDesc, imgArrList);
 
     }
 
     @Override
     public void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl,
-                                       String productID, String isEmailFav) {
+                                       String productID, String isEmailFav,String productDesc, List<String> imgArrList) {
 
-        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap, quantity, imgUrl, productID, isEmailFav);
+        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap, quantity, imgUrl, productID, isEmailFav,productDesc,imgArrList);
 
      /*   if (!productItems.isFavourite()) {
             presenter.removeItem(productItems.getProductName(), position);

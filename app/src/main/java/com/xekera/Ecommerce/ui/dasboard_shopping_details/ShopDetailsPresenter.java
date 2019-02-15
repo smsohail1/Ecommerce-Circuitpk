@@ -5,6 +5,7 @@ import android.arch.persistence.room.Query;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
+import com.google.gson.Gson;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.response.Category;
 import com.xekera.Ecommerce.data.rest.response.CategoryResponse;
@@ -186,7 +187,8 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
     @Override
     public void isAlreadyAddedInFavourites(final Product productItems, final int position, final Bitmap bitmap,
-                                           final String quantity, final String imgUrl, final String productID, final String isEmailFav) {
+                                           final String quantity, final String imgUrl, final String productID,
+                                           final String isEmailFav, final String productDesc, final List<String> imgArrList) {
         model.getFavouriteDetailsListByName(productItems.getName(), new ShopDetailsModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> favourites) {
@@ -196,19 +198,24 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
+
+                    String jsonObjectImg = new Gson().toJson(imgArrList);
+
                     Favourites fav;
                     if (Long.valueOf(quantity) == 0) {
                         long totalPrice = Long.valueOf(productItems.getPrice()) * 1;
 
                         fav = new Favourites(productItems.getName(), productItems.getPrice(),
                                 String.valueOf(productItems.getRegularPrice()), "In Stock", formattedDate,
-                                bmp, "1", String.valueOf(totalPrice), imgUrl, productID, isEmailFav);
+                                bmp, "1", String.valueOf(totalPrice), imgUrl, productID, isEmailFav, productDesc,
+                                jsonObjectImg);
                     } else {
                         long totalPrice = Long.valueOf(productItems.getPrice()) * Long.valueOf(quantity);
 
                         fav = new Favourites(productItems.getName(), productItems.getPrice(),
                                 String.valueOf(productItems.getRegularPrice()), "In Stock", formattedDate,
-                                bmp, String.valueOf(quantity), String.valueOf(totalPrice), imgUrl, productID, isEmailFav);
+                                bmp, String.valueOf(quantity), String.valueOf(totalPrice), imgUrl, productID, isEmailFav, productDesc,
+                                jsonObjectImg);
                     }
 
                     addItemToFavourites(fav, true);
@@ -387,7 +394,8 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     @Override
     public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
                                    final long cutPrice, final ImageView imgProductCopy,
-                                   final Bitmap bitmap, final String imgUrl, final String productID, final String isEmailSent) {
+                                   final Bitmap bitmap, final String imgUrl, final String productID, final String isEmailSent,
+                                   final String productDesc, final List<String> imgArrList) {
         model.getProductCount(productName, new ShopDetailsModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -397,9 +405,11 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
                     byte[] bmp = new byte[0];
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
+                    String jsonObjectImg = new Gson().toJson(imgArrList);
 
                     AddToCart addToCart = new AddToCart("", productName, totalPrice, String.valueOf(quantity),
-                            "N", bmp, String.valueOf(cutPrice), price, formattedDate, imgUrl, productID, isEmailSent);
+                            "N", bmp, String.valueOf(cutPrice), price, formattedDate, imgUrl, productID,
+                            isEmailSent, productDesc, jsonObjectImg);
                     noProductFound(addToCart, imgProductCopy);
                     return;
                 } else {
@@ -430,7 +440,8 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     @Override
     public void saveProductDecrementDetails(final long quantity, final String price, final String totalPrice, final String productName,
                                             final long cutPrice, final ImageView imgProductCopy, final Bitmap bitmapAdd,
-                                            final String imgUrl, final String productID, final String isEmailSent) {
+                                            final String imgUrl, final String productID, final String isEmailSent,
+                                            final String productDesc, final List<String> imgArrList) {
         model.getProductCount(productName, new ShopDetailsModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -440,8 +451,11 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
                     formattedDate = getCurrentDate();
                     // byte[] byteImg = bitmapToByteArray(bitmapAdd);
                     byte[] byteImg = new byte[0];
+                    String jsonObjectImg = new Gson().toJson(imgArrList);
+
                     AddToCart addToCart = new AddToCart("", productName, totalPrice, String.valueOf(quantity),
-                            "N", byteImg, String.valueOf(cutPrice), price, formattedDate, imgUrl, productID, isEmailSent);
+                            "N", byteImg, String.valueOf(cutPrice), price, formattedDate, imgUrl,
+                            productID, isEmailSent, productDesc, jsonObjectImg);
                     noProductFoundForDecrement(addToCart, imgProductCopy);
                     return;
                 } else {

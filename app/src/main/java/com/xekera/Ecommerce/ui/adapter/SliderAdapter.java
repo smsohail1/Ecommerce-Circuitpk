@@ -47,7 +47,7 @@ public class SliderAdapter extends PagerAdapter {
         TextView textView = (TextView) view.findViewById(R.id.textView);
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.linearLayout);
 
-       // textView.setText(colorName.get(position));
+        // textView.setText(colorName.get(position));
         // linearLayout.setBackgroundColor(color.get(position));
         //  "http://lorempixel.com/400/200/sports/0" + "/"
         ImageView imageView = view.findViewById(R.id.imageView);

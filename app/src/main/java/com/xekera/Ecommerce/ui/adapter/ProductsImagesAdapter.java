@@ -60,6 +60,7 @@ public class ProductsImagesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         .asBitmap()
                         .fitCenter()
                         .centerCrop()
+                        .override(300, 300)
                         .placeholder(R.drawable.placeholder)
                         .error(R.drawable.placeholder)
 //                    .listener(new RequestListener<String, GlideDrawable>() {

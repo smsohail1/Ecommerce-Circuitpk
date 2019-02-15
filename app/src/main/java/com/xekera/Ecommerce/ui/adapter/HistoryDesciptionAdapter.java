@@ -110,6 +110,7 @@ public class HistoryDesciptionAdapter extends RecyclerView.Adapter<RecyclerView.
                             .error(R.drawable.placeholder)
                             // .override(130, 50)
                             .centerCrop()
+                            .override(300, 300)
 
                             // .into(homeViewHolder.imgHomeItem);
                             .into(new SimpleTarget<Bitmap>() {

@@ -16,6 +16,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spanned;
 import android.transition.TransitionInflater;
 import android.util.Base64;
 import android.util.Log;
@@ -34,6 +35,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.google.gson.Gson;
 import com.stripe.android.RequestOptions;
 import com.varunest.sparkbutton.SparkButton;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -64,6 +66,7 @@ import java.io.ByteArrayOutputStream;
 import java.sql.BatchUpdateException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -177,6 +180,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
             //  shoppingDetailModel = (ShoppingDetailModel) getArguments().getSerializable(KEY_SHOP_CARD_SELECTED_DETAILS);
             imgList = new ArrayList<>();
+
 
             productName = getArguments().getString(KEY_SHOP_CARD_SELECTED_PRODUCT_NAME);
             price = getArguments().getString(KEY_SHOP_CARD_SELECTED_PRICE);
@@ -845,9 +849,33 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                     String formattedDate = "";
                     formattedDate = getCurrentDate();
 
-                    Favourites favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
-                            availabilityInStock, formattedDate,
-                            byteArray, quantity, String.valueOf(totalPrice), imgList.get(0), producdID, "0");
+                    String descStr = "";
+                    if (!utils.isTextNullOrEmpty(about)) {
+                        descStr = Html.fromHtml(about.trim()).toString();
+                    } else {
+                        descStr = "";
+                    }
+
+                    String jsonObjectImg = new Gson().toJson(imgList);
+
+                    Favourites favourites;
+
+                    if (imgList != null && imgList.size() > 0) {
+
+                        favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
+                                availabilityInStock, formattedDate,
+                                byteArray, quantity, String.valueOf(totalPrice), imgList.get(0), producdID, "0",
+                                descStr, jsonObjectImg
+                        );
+                    } else {
+
+                        favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
+                                availabilityInStock, formattedDate,
+                                byteArray, quantity, String.valueOf(totalPrice), imgList.get(0), producdID, "0",
+                                descStr, jsonObjectImg
+                        );
+                    }
+
                     presenter.addItemToFavourites(favourites, favourite);
 
 
@@ -886,8 +914,32 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //                    byteArray = stream.toByteArray();
 //
 //                }
-                AddToCart addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
-                        "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID, "0");
+
+                AddToCart addToCart;
+                String descString = "";
+                if (!utils.isTextNullOrEmpty(about)) {
+                    descString = Html.fromHtml(about.trim()).toString();
+                } else {
+                    descString = "";
+                }
+                String jsonObjectImg = new Gson().toJson(imgList);
+
+
+                if (imgList != null && imgList.size() > 0) {
+
+                    // String str = (String) Arrays.toString(new List[]{imgList});
+
+
+                    addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
+                            "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID,
+                            "0", descString, jsonObjectImg);
+
+                } else {
+
+                    addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
+                            "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID,
+                            "0", descString, jsonObjectImg);
+                }
                 presenter.saveProductDetails(addToCart);
 
                 break;

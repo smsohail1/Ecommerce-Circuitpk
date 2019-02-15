@@ -56,8 +56,8 @@ public class ImageFragmentPagerAdapter extends PagerAdapter {
         try {
             Glide.with(context).load(imgList.get(position))
                     .asBitmap()
-                    .override(500, 500)
-                    .placeholder(R.drawable.placeholder)
+                    .override(300, 300)
+                    .placeholder(R.drawable.placeholder_error)
                     .error(R.drawable.placeholder_error)
                     .into(new SimpleTarget<Bitmap>() {
                         @Override

@@ -87,6 +87,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         .error(R.drawable.placeholder)
                         // .override(130, 50)
                         .centerCrop()
+                        .override(300, 300)
 
                         // .into(homeViewHolder.imgHomeItem);
                         .into(new SimpleTarget<Bitmap>() {
@@ -196,6 +197,9 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void onClick(View v) {
             switch (v.getId()) {
 
+                case R.id.cardViewParent:
+
+                    break;
 
                 case R.id.decrementImageButton:
                     long dec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
@@ -221,7 +225,9 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 productsItems.get(getLayoutPosition()).getItemCutPrice(),
                                 productsItems.get(getLayoutPosition()).getItemImage(),
                                 productsItems.get(getLayoutPosition()).getImage(),
-                                productsItems.get(getLayoutPosition()).getProduct_id(), "0");
+                                productsItems.get(getLayoutPosition()).getProduct_id(), "0",
+                                productsItems.get(getLayoutPosition()).getProductDesc(),
+                                productsItems.get(getLayoutPosition()).getImgArrList());
 
                     } else {
                         productsItems.get(getLayoutPosition()).setItemQuantity("1");
@@ -239,7 +245,9 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 productsItems.get(getLayoutPosition()).getItemCutPrice(),
                                 productsItems.get(getLayoutPosition()).getItemImage(),
                                 productsItems.get(getLayoutPosition()).getImage(),
-                                productsItems.get(getLayoutPosition()).getProduct_id(), "0"
+                                productsItems.get(getLayoutPosition()).getProduct_id(), "0",
+                                productsItems.get(getLayoutPosition()).getProductDesc(),
+                                productsItems.get(getLayoutPosition()).getImgArrList()
                         );
 
 //                        addToCartPresenter.updateItemCountInDB(productsItems.get(getLayoutPosition()).getItemQuantity(),
@@ -265,7 +273,10 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             productsItems.get(getLayoutPosition()).getItemName(),
                             productsItems.get(getLayoutPosition()).getItemCutPrice(),
                             productsItems.get(getLayoutPosition()).getItemImage(),
-                            productsItems.get(getLayoutPosition()).getImage(), productsItems.get(getLayoutPosition()).getProduct_id(), "0");
+                            productsItems.get(getLayoutPosition()).getImage(),
+                            productsItems.get(getLayoutPosition()).getProduct_id(), "0",
+                            productsItems.get(getLayoutPosition()).getProductDesc(),
+                            productsItems.get(getLayoutPosition()).getImgArrList());
 
 //                    addToCartPresenter.updateItemCountInDB(productsItems.get(getLayoutPosition()).getItemQuantity(),
 //                            String.valueOf(productPrice * itemQuantity),
@@ -352,7 +363,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void onDecrementButtonClick(AddToCart productItems);
 
         void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
-                                String cutPrice, byte[] bytes, String imgUrl, String prodcutID, String isEmailSent);
+                                String cutPrice, byte[] bytes, String imgUrl, String prodcutID, String isEmailSent,
+                                String productDesc, String imgArrList);
 
         void removeItemFromCart(AddToCart productItems, int position);
     }
