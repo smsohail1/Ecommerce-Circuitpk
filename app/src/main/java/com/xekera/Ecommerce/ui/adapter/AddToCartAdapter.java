@@ -190,6 +190,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             itemView.findViewById(R.id.decrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.incrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.imgRemoveProduct).setOnClickListener(this);
+            itemView.findViewById(R.id.cardViewParent).setOnClickListener(this);
 
         }
 
@@ -198,7 +199,20 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             switch (v.getId()) {
 
                 case R.id.cardViewParent:
+                    try {
 
+                        iShopDetailAdapter.onCardClick(
+                                productsItems.get(getLayoutPosition()).getItemName(),
+                                productsItems.get(getLayoutPosition()).getItemIndividualPrice(),
+                                productsItems.get(getLayoutPosition()).getItemCutPrice(),
+                                productsItems.get(getLayoutPosition()).getItemQuantity(),
+                                productsItems.get(getLayoutPosition()).getImage(),
+                                productsItems.get(getLayoutPosition()).getImgArrList(),
+                                productsItems.get(getLayoutPosition()).getProduct_id(),
+                                productsItems.get(getLayoutPosition()).getProductDesc());
+                    } catch (Exception e) {
+
+                    }
                     break;
 
                 case R.id.decrementImageButton:
@@ -367,6 +381,9 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 String productDesc, String imgArrList);
 
         void removeItemFromCart(AddToCart productItems, int position);
+
+        void onCardClick(String productName, String price, String cutPrice, String quantity, String img, String imgList,
+                         String productID, String about);
     }
 
 }

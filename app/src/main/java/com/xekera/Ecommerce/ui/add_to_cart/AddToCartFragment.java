@@ -25,6 +25,8 @@ import com.xekera.Ecommerce.ui.continue_shopping.ContinueShoppingFragment;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.delivery_billing_details.DeliveyBillingDetailsFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
+import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
+import com.xekera.Ecommerce.ui.shop_card_selected.add_to_cart_shop_details.AddToCartShopCardSelectedFragment;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
@@ -321,9 +323,9 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     @Override
     public void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
                                    String cutPrice, byte[] bytes, String imgUrl, String prodcutID, String isEmailSent,
-                                   String productDesc,String imgArrList) {
+                                   String productDesc, String imgArrList) {
         presenter.saveProductDetails(quantity, individualPrice, itemPrice, productName,
-                cutPrice, bytes, imgUrl, prodcutID, isEmailSent,productDesc,imgArrList);
+                cutPrice, bytes, imgUrl, prodcutID, isEmailSent, productDesc, imgArrList);
     }
 
     @Override
@@ -334,6 +336,24 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                 presenter.removeItemFromCart(productItems, position);
             }
         }, 150);
+    }
+
+    @Override
+    public void onCardClick(final String productName, final String price, final String cutPrice, final String quantity,
+                            final String img, final String imgList, final String productID, final String about) {
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                AddToCartShopCardSelectedFragment addToCartShopCardSelectedFragment = new AddToCartShopCardSelectedFragment();
+                ((BaseActivity) getActivity()).replaceFragmentForActivityTranstion(
+                        addToCartShopCardSelectedFragment.newInstance(productName,
+                                price, cutPrice, quantity, img, imgList, productID, about, ""));
+            }
+        }, 100);
+
     }
 
 

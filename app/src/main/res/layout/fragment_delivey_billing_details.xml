@@ -89,37 +89,6 @@
                             </LinearLayout>
 
 
-                            <LinearLayout android:layout_width="match_parent"
-                                          android:layout_height="wrap_content"
-                                          android:gravity="center"
-                                          android:orientation="horizontal"
-                                          android:layout_marginTop="10dp">
-                                <Button
-                                        android:id="@+id/personalBox"
-                                        android:layout_width="@dimen/btn_customer_type_width"
-                                        android:layout_height="@dimen/btn_customer_type_height"
-                                        android:text="Personal"
-                                        android:background="@drawable/order_type_corner"
-                                        android:textSize="@dimen/textsize_customer_type"
-                                        android:textColor="#ffffff"
-                                        android:textAllCaps="false"
-
-                                />
-                                <Button
-                                        android:id="@+id/companyBox"
-                                        android:layout_width="@dimen/btn_customer_type_width"
-                                        android:layout_height="@dimen/btn_customer_type_height"
-                                        android:text="Company"
-                                        android:textAllCaps="false"
-                                        android:layout_marginLeft="0dp"
-                                        android:textColor="@color/colorPrimary"
-                                        android:textSize="@dimen/textsize_customer_type"
-                                        android:background="@drawable/company_order_type_corner"
-
-                                />
-
-                            </LinearLayout>
-
                             <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -171,7 +140,6 @@
                                             android:gravity="center_vertical"
                                             android:background="@drawable/bg_delivery_details_edt"
                                             android:paddingRight="10dp"
-                                            android:visibility="gone"
                                     >
                                         <EditText
                                                 android:id="@+id/edtCompanyName"
@@ -860,38 +828,6 @@
 
                                 <LinearLayout android:layout_width="match_parent"
                                               android:layout_height="wrap_content"
-                                              android:gravity="center"
-                                              android:orientation="horizontal"
-                                              android:layout_marginTop="10dp">
-                                    <Button
-                                            android:id="@+id/personalBoxDiffAddress"
-                                            android:layout_width="@dimen/btn_customer_type_width"
-                                            android:layout_height="@dimen/btn_customer_type_height"
-                                            android:text="Personal"
-                                            android:background="@drawable/order_type_corner"
-                                            android:textSize="@dimen/textsize_customer_type"
-                                            android:textColor="#ffffff"
-                                            android:textAllCaps="false"
-
-                                    />
-                                    <Button
-                                            android:id="@+id/companyBoxDiffAddress"
-                                            android:layout_width="@dimen/btn_customer_type_width"
-                                            android:layout_height="@dimen/btn_customer_type_height"
-                                            android:text="Company"
-                                            android:textAllCaps="false"
-                                            android:layout_marginLeft="0dp"
-                                            android:textColor="@color/colorPrimary"
-                                            android:textSize="@dimen/textsize_customer_type"
-                                            android:background="@drawable/company_order_type_corner"
-
-                                    />
-
-                                </LinearLayout>
-
-
-                                <LinearLayout android:layout_width="match_parent"
-                                              android:layout_height="wrap_content"
                                               android:gravity="center_horizontal"
                                               android:layout_marginTop="10dp"
                                               android:orientation="vertical">
@@ -933,7 +869,6 @@
                                             android:gravity="center_vertical"
                                             android:background="@drawable/bg_delivery_details_edt"
                                             android:paddingRight="10dp"
-                                            android:visibility="gone"
                                     >
                                         <EditText
                                                 android:id="@+id/edtCompanyNameDiffAddress"

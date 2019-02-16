@@ -1,80 +1,57 @@
-package com.xekera.Ecommerce.ui.shop_card_selected;
+package com.xekera.Ecommerce.ui.shop_card_selected.add_to_cart_shop_details;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.Spanned;
-import android.transition.TransitionInflater;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
-import com.stripe.android.RequestOptions;
 import com.varunest.sparkbutton.SparkButton;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.AppDatabase;
-import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.BaseActivity;
-import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
 import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
-import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsPresenter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.home_delivery_Address.DeliveryAddressActivity;
 import com.xekera.Ecommerce.ui.shop_card_selected.multiple_image_slider_view.MultipeImageSliderViewFragment;
 import com.xekera.Ecommerce.util.*;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
-import javax.sql.DataSource;
-import java.io.ByteArrayOutputStream;
-import java.sql.BatchUpdateException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopCardSelectedFragment extends Fragment implements ShopCardSelectedMVP.View, View.OnClickListener {
+public class AddToCartShopCardSelectedFragment extends Fragment implements AddToCartShopCardSelectedMVP.View,
+        View.OnClickListener {
 
     @BindView(R.id.imgProduct)
     protected ImageView imgProduct;
@@ -121,7 +98,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
 
     @Inject
-    protected ShopCardSelectedMVP.Presenter presenter;
+    protected AddToCartShopCardSelectedMVP.Presenter presenter;
     @Inject
     protected Utils utils;
     @Inject
@@ -133,23 +110,24 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     @Inject
     protected AppDatabase appDatabase;
 
-    public static final String KEY_SHOP_CARD_SELECTED_DETAILS = "shop_card_selected_details";
-    public static final String KEY_SHOP_CARD_SELECTED_PRODUCT_NAME = "shop_card_selected_product_name";
-    public static final String KEY_SHOP_CARD_SELECTED_PRICE = "shop_card_selected_price";
-    public static final String KEY_SHOP_CARD_SELECTED_CUT_PRICE = "shop_card_selected_cut_price";
-    public static final String KEY_SHOP_CARD_SELECTED_QUANTITY = "shop_card_selected_quantity";
-    public static final String KEY_SHOP_CARD_SELECTED_IMAGE_LIST = "shop_card_selected_image_list";
-    public static final String KEY_SHOP_CARD_SELECTED_IMAGE = "shop_card_selected_image";
-    public static final String KEY_SHOP_CARD_SELECTED_ABOUT = "shop_card_selected_about";
-    public static final String KEY_SHOP_CARD_SELECTED_SKU = "shop_card_selected_sku";
-    public static final String KEY_SHOP_CARD_SELECTED_PRODUCT_ID = "shop_card_selected_product_id";
+    public static final String KEY_SHOP_CARD_SELECTED_DETAILS = "cart_shop_card_selected_details";
+    public static final String KEY_SHOP_CARD_SELECTED_PRODUCT_NAME = "cart_shop_card_selected_product_name";
+    public static final String KEY_SHOP_CARD_SELECTED_PRICE = "cart_shop_card_selected_price";
+    public static final String KEY_SHOP_CARD_SELECTED_CUT_PRICE = "cart_shop_card_selected_cut_price";
+    public static final String KEY_SHOP_CARD_SELECTED_QUANTITY = "cart_shop_card_selected_quantity";
+    public static final String KEY_SHOP_CARD_SELECTED_IMAGE_LIST = "cart_shop_card_selected_image_list";
+    public static final String KEY_SHOP_CARD_SELECTED_IMAGE = "cart_shop_card_selected_image";
+    public static final String KEY_SHOP_CARD_SELECTED_ABOUT = "cart_shop_card_selected_about";
+    public static final String KEY_SHOP_CARD_SELECTED_SKU = "cart_shop_card_selected_sku";
+    public static final String KEY_SHOP_CARD_SELECTED_PRODUCT_ID = "cart_shop_card_selected_product_id";
 
 
     ShoppingDetailModel shoppingDetailModel;
-    Bitmap bitmapImage;
+    String bitmapImage;
     String productName = "", price = "", cutPrice = "", quantity = "", about = "", sku = "", producdID = "";
 
     List<String> imgList;
+    String imgListJson = "";
 
 
     long productsCartCounter = 0;
@@ -167,7 +145,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     private ProgressCustomDialogController progressDialogControllerPleaseWait;
 
 
-    public ShopCardSelectedFragment() {
+    public AddToCartShopCardSelectedFragment() {
         // Required empty public constructor
     }
 
@@ -186,13 +164,14 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             price = getArguments().getString(KEY_SHOP_CARD_SELECTED_PRICE);
             cutPrice = getArguments().getString(KEY_SHOP_CARD_SELECTED_CUT_PRICE);
             quantity = getArguments().getString(KEY_SHOP_CARD_SELECTED_QUANTITY);
-            imgList = getArguments().getStringArrayList(KEY_SHOP_CARD_SELECTED_IMAGE_LIST);
-//            Log.d("imsblist1", imgList[0]);
-//            Log.d("imsblist2", imgList[1]);
-//            Log.d("imsblist3", imgList[2]);
+            imgListJson = getArguments().getString(KEY_SHOP_CARD_SELECTED_IMAGE_LIST);
 
+            JSONArray jsonArray = new JSONArray(imgListJson);
 
-            bitmapImage = getArguments().getParcelable(KEY_SHOP_CARD_SELECTED_IMAGE);
+            for (int j = 0; j < jsonArray.length(); j++) {
+                imgList.add(jsonArray.getString(j));
+            }
+            bitmapImage = getArguments().getString(KEY_SHOP_CARD_SELECTED_IMAGE);
 
             about = getArguments().getString(KEY_SHOP_CARD_SELECTED_ABOUT);
             sku = getArguments().getString(KEY_SHOP_CARD_SELECTED_SKU);
@@ -665,24 +644,25 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //        }
 //    }
 
-    public ShopCardSelectedFragment newInstance(String productName, String price, long cutPrice, long quantity,
-                                                List<String> imgList, Bitmap bitmapImg, String about, String sku, String productID) {
-        ShopCardSelectedFragment fragment = null;
+    public AddToCartShopCardSelectedFragment newInstance(String productName, String price, String cutPrice, String quantity,
+                                                         String img, String imgList, String productID, String about,
+                                                         String sku) {
+        AddToCartShopCardSelectedFragment fragment = null;
         try {
 
 
             Bundle bundle = new Bundle();
             bundle.putString(KEY_SHOP_CARD_SELECTED_PRODUCT_NAME, productName);
             bundle.putString(KEY_SHOP_CARD_SELECTED_PRICE, price);
-            bundle.putString(KEY_SHOP_CARD_SELECTED_CUT_PRICE, String.valueOf(cutPrice));
-            bundle.putString(KEY_SHOP_CARD_SELECTED_QUANTITY, String.valueOf(quantity));
-            bundle.putStringArrayList(KEY_SHOP_CARD_SELECTED_IMAGE_LIST, (ArrayList<String>) imgList);
-            bundle.putParcelable(KEY_SHOP_CARD_SELECTED_IMAGE, bitmapImg);
+            bundle.putString(KEY_SHOP_CARD_SELECTED_CUT_PRICE, cutPrice);
+            bundle.putString(KEY_SHOP_CARD_SELECTED_QUANTITY, quantity);
+            bundle.putString(KEY_SHOP_CARD_SELECTED_IMAGE_LIST, imgList);
+            bundle.putString(KEY_SHOP_CARD_SELECTED_IMAGE, img);
             bundle.putString(KEY_SHOP_CARD_SELECTED_ABOUT, about);
             bundle.putString(KEY_SHOP_CARD_SELECTED_SKU, sku);
             bundle.putString(KEY_SHOP_CARD_SELECTED_PRODUCT_ID, productID);
 
-            fragment = new ShopCardSelectedFragment();
+            fragment = new AddToCartShopCardSelectedFragment();
             fragment.setArguments(bundle);
             return fragment;
         } catch (Exception e) {
@@ -690,15 +670,6 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         }
     }
 
-
-    public ShopCardSelectedFragment newInstance(ShoppingDetailModel shoppingDetailModel, String bitmapImg) {
-        Bundle bundle = new Bundle();
-        // bundle.putSerializable(KEY_SHOP_CARD_SELECTED_DETAILS, shoppingDetailModel);
-        bundle.putString(KEY_SHOP_CARD_SELECTED_IMAGE, bitmapImg);
-        ShopCardSelectedFragment fragment = new ShopCardSelectedFragment();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
 
     // long noOfProductsIntIncrement = 1;
     // long noOfProductsIntDecrement = 1;
@@ -922,9 +893,6 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                 } else {
                     descString = "";
                 }
-
-
-                //String jsonKey = "{key:" + imgList + "}";
                 String jsonObjectImg = new Gson().toJson(imgList);
 
 

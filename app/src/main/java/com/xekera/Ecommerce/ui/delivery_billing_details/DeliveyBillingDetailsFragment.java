@@ -109,21 +109,6 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
 
     @BindView(R.id.checkboxTermsAndCondition)
     protected CheckBox checkboxTermsAndCondition;
-    @BindView(R.id.personalBox)
-    protected Button personalBox;
-    @BindView(R.id.companyBox)
-    protected Button companyBox;
-    @BindView(R.id.layoutPersonal)
-    protected LinearLayout layoutPersonal;
-    @BindView(R.id.input_layout_company_name)
-    protected TextInputLayout input_layout_company_name;
-    @BindView(R.id.input_layout_company_name_DiffAddress)
-    protected TextInputLayout input_layout_company_name_DiffAddress;
-
-    @BindView(R.id.personalBoxDiffAddress)
-    protected Button personalBoxDiffAddress;
-    @BindView(R.id.companyBoxDiffAddress)
-    protected Button companyBoxDiffAddress;
 
 
     final boolean[] isShipToDifferent = {false};
@@ -198,10 +183,6 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
         linearDeliveryAddressLayout.setOnClickListener(this);
         paymentModeLayout.setOnClickListener(this);
         linearLayoutParent.setOnClickListener(this);
-        personalBox.setOnClickListener(this);
-        companyBox.setOnClickListener(this);
-        personalBoxDiffAddress.setOnClickListener(this);
-        companyBoxDiffAddress.setOnClickListener(this);
 
 
         userDetailsParentLayoutDiffAddress.setOnClickListener(this);
@@ -714,54 +695,6 @@ public class DeliveyBillingDetailsFragment extends Fragment implements DeliveyBi
                 utils.hideSoftKeyboard(edtStreetAddress1DiffAddress);
                 utils.hideSoftKeyboard(edtNotes);
 
-                break;
-
-
-            case R.id.personalBox:
-                // layoutPersonal.setVisibility(View.VISIBLE);
-                input_layout_company_name.setVisibility(View.GONE);
-
-                companyBox.setBackgroundColor(Color.parseColor("#ffffff"));
-                personalBox.setBackgroundColor(Color.parseColor("#3b5999"));
-
-                personalBox.setTextColor(Color.parseColor("#ffffff"));
-                companyBox.setTextColor(Color.parseColor("#3b5999"));
-
-                break;
-            case R.id.companyBox:
-                // layoutPersonal.setVisibility(View.GONE);
-                input_layout_company_name.setVisibility(View.VISIBLE);
-
-                personalBox.setBackgroundColor(Color.parseColor("#ffffff"));
-                companyBox.setBackgroundColor(Color.parseColor("#3b5999"));
-
-
-                personalBox.setTextColor(Color.parseColor("#3b5999"));
-                companyBox.setTextColor(Color.parseColor("#ffffff"));
-                break;
-
-
-            case R.id.personalBoxDiffAddress:
-                // layoutPersonal.setVisibility(View.VISIBLE);
-                input_layout_company_name_DiffAddress.setVisibility(View.GONE);
-
-                companyBoxDiffAddress.setBackgroundColor(Color.parseColor("#ffffff"));
-                personalBoxDiffAddress.setBackgroundColor(Color.parseColor("#3b5999"));
-
-                personalBoxDiffAddress.setTextColor(Color.parseColor("#ffffff"));
-                companyBoxDiffAddress.setTextColor(Color.parseColor("#3b5999"));
-
-                break;
-            case R.id.companyBoxDiffAddress:
-                // layoutPersonal.setVisibility(View.GONE);
-                input_layout_company_name_DiffAddress.setVisibility(View.VISIBLE);
-
-                personalBoxDiffAddress.setBackgroundColor(Color.parseColor("#ffffff"));
-                companyBoxDiffAddress.setBackgroundColor(Color.parseColor("#3b5999"));
-
-
-                personalBoxDiffAddress.setTextColor(Color.parseColor("#3b5999"));
-                companyBoxDiffAddress.setTextColor(Color.parseColor("#ffffff"));
                 break;
 
 
