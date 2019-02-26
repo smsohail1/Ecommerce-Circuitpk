@@ -379,7 +379,7 @@ public class Utils {
                 + String.valueOf(calendar.get(Calendar.MINUTE)) + ":"
                 + String.valueOf(calendar.get(Calendar.SECOND));
 
-        DateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-AllProductsResponse HH:mm:ss");
         dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date date1 = dateFormatGmt.parse(dateString);
         long unixTime = (long) date1.getTime() / 1000;

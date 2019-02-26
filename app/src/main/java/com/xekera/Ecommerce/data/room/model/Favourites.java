@@ -40,7 +40,6 @@ public class Favourites {
     @ColumnInfo(name = "img_list_fav")
     private String imgArrListFav;
 
-
     public String getProductDescFav() {
         return productDescFav;
     }

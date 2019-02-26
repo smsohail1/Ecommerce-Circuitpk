@@ -1,0 +1,417 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "3e198421b425386bcaee70b859e4fa96",
+    "entities": [
+      {
+        "tableName": "user_test",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`user_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `customer_name` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "user_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "customer_name",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "user_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "add_to_cart",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`add_to_cart_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `order_ID` TEXT, `item_name` TEXT, `item_individual_price` TEXT, `item_price` TEXT, `item_cut_price` TEXT, `item_quantity` TEXT, `address1` TEXT, `address2` TEXT, `latitude` TEXT, `longitude` TEXT, `created_date` TEXT, `item_image` BLOB, `transmission_status` TEXT, `image` TEXT, `product_id` TEXT, `is_email_cart` TEXT, `product_desc` TEXT, `img_arr_list` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "add_to_cart_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orderID",
+            "columnName": "order_ID",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemName",
+            "columnName": "item_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemIndividualPrice",
+            "columnName": "item_individual_price",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemPrice",
+            "columnName": "item_price",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemCutPrice",
+            "columnName": "item_cut_price",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemQuantity",
+            "columnName": "item_quantity",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address1",
+            "columnName": "address1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address2",
+            "columnName": "address2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "created_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemImage",
+            "columnName": "item_image",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transmissionStatus",
+            "columnName": "transmission_status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "product_id",
+            "columnName": "product_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isEmailCart",
+            "columnName": "is_email_cart",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "productDesc",
+            "columnName": "product_desc",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imgArrList",
+            "columnName": "img_arr_list",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "add_to_cart_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "booking",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`booking_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `order_ID` TEXT, `item_name` TEXT, `item_individual_price` TEXT, `item_price` TEXT, `item_cut_price` TEXT, `item_quantity` TEXT, `first_name` TEXT, `company_name` TEXT, `phone_no` TEXT, `email_address` TEXT, `street_address1` TEXT, `town_city` TEXT, `payment_type` TEXT, `order_notes` TEXT, `flat_charges` TEXT, `created_date` TEXT, `item_image` BLOB, `transmission_status` TEXT, `self_pickup` TEXT, `imgUrl` TEXT, `product_id` TEXT, `is_email_sent` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "booking_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orderID",
+            "columnName": "order_ID",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemName",
+            "columnName": "item_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemIndividualPrice",
+            "columnName": "item_individual_price",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemPrice",
+            "columnName": "item_price",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemCutPrice",
+            "columnName": "item_cut_price",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemQuantity",
+            "columnName": "item_quantity",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "firstName",
+            "columnName": "first_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "companyName",
+            "columnName": "company_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "phoneNo",
+            "columnName": "phone_no",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "emailAddress",
+            "columnName": "email_address",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "streetAddress1",
+            "columnName": "street_address1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "townCity",
+            "columnName": "town_city",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "paymentType",
+            "columnName": "payment_type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "orderNotes",
+            "columnName": "order_notes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "flatCharges",
+            "columnName": "flat_charges",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "created_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemImage",
+            "columnName": "item_image",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transmissionStatus",
+            "columnName": "transmission_status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "selfPickUp",
+            "columnName": "self_pickup",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imgUrl",
+            "columnName": "imgUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "product_id",
+            "columnName": "product_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isEmailSent",
+            "columnName": "is_email_sent",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "booking_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "favourites",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`favourites_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `item_name` TEXT, `item_individual_price` TEXT, `item_total_price` TEXT, `item_quantity` TEXT, `item_cut_price` TEXT, `item_stock_status` TEXT, `created_date` TEXT, `item_image` BLOB, `image` TEXT, `product_id` TEXT, `is_email_fav` TEXT, `product_desc_fav` TEXT, `img_list_fav` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "favourites_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemName",
+            "columnName": "item_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemIndividualPrice",
+            "columnName": "item_individual_price",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemTotalPrice",
+            "columnName": "item_total_price",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemQuantity",
+            "columnName": "item_quantity",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemCutPrice",
+            "columnName": "item_cut_price",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemStockStatus",
+            "columnName": "item_stock_status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "created_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "itemImage",
+            "columnName": "item_image",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "product_id",
+            "columnName": "product_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isEmailFav",
+            "columnName": "is_email_fav",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "productDescFav",
+            "columnName": "product_desc_fav",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imgArrListFav",
+            "columnName": "img_list_fav",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "favourites_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"3e198421b425386bcaee70b859e4fa96\")"
+    ]
+  }
+}

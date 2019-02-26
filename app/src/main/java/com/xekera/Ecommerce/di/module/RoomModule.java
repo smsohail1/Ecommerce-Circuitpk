@@ -18,12 +18,23 @@ public class RoomModule {
     @Provides
     @Singleton
     public AppDatabase provideAppDatabase(Context context) {
+
+
         return Room.databaseBuilder(context, AppDatabase.class, AppConstants.DATABASE_NAME)
                 .allowMainThreadQueries() //temporary, should be done on seperate thread
                 //.fallbackToDestructiveMigration()
+                //.addMigrations(MIGRATION_1_2)
                 .build();
     }
 
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Since we didn't alter the table, there's nothing else to do here.
+            database.execSQL("ALTER TABLE favourites "
+                    + " ADD COLUMN test TEXT");
+        }
+    };
 }
 
 

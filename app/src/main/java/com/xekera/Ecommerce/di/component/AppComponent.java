@@ -21,6 +21,7 @@ import com.xekera.Ecommerce.ui.favourites.FavouritesFragment;
 import com.xekera.Ecommerce.ui.history.HistoryFragment;
 import com.xekera.Ecommerce.ui.history.history_description.HistoryDesciptionFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
+import com.xekera.Ecommerce.ui.search_all_products.SearchAllProductsFragment;
 import com.xekera.Ecommerce.ui.setting.SettingFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.add_to_cart_shop_details.AddToCartShopCardSelectedFragment;
@@ -49,7 +50,8 @@ import javax.inject.Singleton;
         ContinueShoppingModule.class,
         ContinueShoppingNewModule.class,
         HistoryDesciptionModule.class,
-        AddToCartShopCardSelectedModule.class
+        AddToCartShopCardSelectedModule.class,
+        SearchAllProductsModule.class
 })
 @Singleton
 public interface AppComponent {
@@ -104,6 +106,9 @@ public interface AppComponent {
 
 
     void inject(AddToCartShopCardSelectedFragment addToCartShopCardSelectedFragment);
+
+    void inject(SearchAllProductsFragment searchAllProductsFragment);
+
 
 }
 

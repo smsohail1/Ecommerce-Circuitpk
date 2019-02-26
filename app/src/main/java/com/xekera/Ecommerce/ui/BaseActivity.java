@@ -84,6 +84,7 @@ import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.favourites.FavouritesFragment;
 import com.xekera.Ecommerce.ui.history.HistoryFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
+import com.xekera.Ecommerce.ui.search_all_products.SearchAllProductsFragment;
 import com.xekera.Ecommerce.ui.setting.SettingFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
@@ -118,6 +119,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected RelativeLayout badge2;
     @BindView(R.id.fb_button)
     protected LoginButton fb_button;
+    @BindView(R.id.badge_layout3)
+    protected RelativeLayout badge_layout3;
 
 
     @BindView(R.id.dashboardActionBar)
@@ -350,6 +353,42 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                     //    navigation.setSelectedItemId(R.id.navigation_cart);
                     replaceFragmentWithContainer(new AddToCartFragment());
+                }
+
+
+            }
+        });
+
+
+        badge_layout3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                if (!(fragment instanceof SearchAllProductsFragment)) {
+                    Menu menu = navigationView.getMenu();
+                    MenuItem menuItem;
+
+                    Menu bottomMenu = navigation.getMenu();
+                    MenuItem bottomMenuItem;
+
+                    for (int i = 0; i < menu.size(); i++) {
+                        menuItem = menu.getItem(i);
+                        menuItem.setChecked(false);
+                    }
+
+                    for (int i = 0; i < bottomMenu.size(); i++) {
+                        bottomMenuItem = bottomMenu.getItem(i);
+                        bottomMenuItem.setCheckable(false);
+                        bottomMenuItem.setChecked(false);
+                    }
+
+                    showHideBottomNavigationCount(1);
+
+
+                    //    navigation.setSelectedItemId(R.id.navigation_cart);
+                    replaceFragmentWithContainer(new SearchAllProductsFragment());
                 }
 
 

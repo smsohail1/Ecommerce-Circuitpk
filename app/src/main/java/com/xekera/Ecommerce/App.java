@@ -38,6 +38,7 @@ public class App extends Application {
                 .continueShoppingNewModule(new ContinueShoppingNewModule())
                 .historyDesciptionModule(new HistoryDesciptionModule())
                 .addToCartShopCardSelectedModule(new AddToCartShopCardSelectedModule())
+                .searchAllProductsModule(new SearchAllProductsModule())
                 //.(new ContinueShopFragment())
                 .build();
     }

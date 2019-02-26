@@ -75,7 +75,9 @@
                             android:id="@+id/badge_layout1"
                             android:layout_width="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                    >
 
                         <RelativeLayout
                                 android:id="@+id/relative_layout"
@@ -108,11 +110,41 @@
 
 
                     <RelativeLayout
+                            android:id="@+id/badge_layout3"
+                            android:layout_width="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+
+                    >
+
+                        <RelativeLayout
+                                android:id="@+id/relative_layout3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                        >
+
+                            <ImageView
+                                    android:id="@+id/imgSearchProducts"
+                                    android:layout_width="@dimen/img_width_login_dashboard_size"
+                                    android:layout_height="@dimen/img_height_login_dashboard_size"
+                                    android:src="@drawable/icon_search_products"
+                                    android:layout_centerVertical="true"
+                                    android:padding="2dp"
+
+                            />
+
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
                             android:id="@+id/badge2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_toRightOf="@+id/badge_layout1"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/badge_layout3"
                             android:clickable="true"
                     >
 
@@ -132,6 +164,7 @@
                                     android:padding="2dp"
 
                             />
+
 
                             <TextView
                                     android:id="@+id/txtAddToCartNotify"

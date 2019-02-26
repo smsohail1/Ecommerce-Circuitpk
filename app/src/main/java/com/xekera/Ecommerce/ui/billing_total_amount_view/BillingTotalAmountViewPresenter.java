@@ -168,7 +168,7 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
 ////                            + "," + addressData + "}";
 //                    //  String fullData = "{" + addressData + "}";
 //
-//                    // String dd = jsonObjectStr.replace("\"", "");
+//                    // String AllProductsResponse = jsonObjectStr.replace("\"", "");
 //
 //                    //  String fullData = jsonObjectAddress1;
 //

@@ -1,6 +1,7 @@
 package com.xekera.Ecommerce.data.rest;
 
 import com.xekera.Ecommerce.data.rest.response.*;
+import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.AllProductsResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -17,6 +18,7 @@ public interface XekeraAPI {
     String WEB_API_FORGOT_PASSWORD = "_login_&_signup_/_login_&_signup_/User/";
     String WEB_API_SUBMIT_ORDER = "Submit_Order/";
     String WEB_API_HISTORY_ID = "Order_Histroy/";
+    String WEB_API_ALL_PRODUCTS = "products/";
 
     @FormUrlEncoded
     @POST(WEB_API_SIGN_UP_URL + "signup.php")
@@ -98,6 +100,9 @@ public interface XekeraAPI {
     @POST(WEB_API_SUBMIT_ORDER + "submitdata.php")
     Call<ResponseBody> postOrderListDeatils1(@Body String arrayOfSids);
 
+
+    @GET(WEB_API_ALL_PRODUCTS + "searchproduct.php")
+    Call<AllProductsResponse> getAllProducts();
 
 //    @FormUrlEncoded
 //    @POST(WEB_API_SUBMIT_ORDER + "submitdata.php")
