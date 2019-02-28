@@ -93,7 +93,7 @@
 
 
                         <LinearLayout android:layout_width="0dp"
-                                      android:layout_weight="0.8"
+                                      android:layout_weight="0.7"
                                       android:layout_marginLeft="5dp"
                                       android:layout_height="wrap_content"
                                       android:gravity="center_vertical"
@@ -200,8 +200,8 @@
                         <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="50dp"
-                                android:layout_weight="0.2"
-                                android:gravity="center_horizontal"
+                                android:layout_weight="0.3"
+                                android:gravity="right"
                                 android:orientation="horizontal"
                                 android:clickable="true"
                         >
@@ -217,26 +217,39 @@
                             <!--app:sparkbutton_inActiveImage="@drawable/ic_star_off"-->
                             <!--android:clickable="true"/>-->
 
-                            <com.varunest.sparkbutton.SparkButton
-                                    android:id="@+id/favouriteButton"
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
-                                    app:sparkbutton_activeImage="@drawable/icon_heart_on"
-                                    app:sparkbutton_animationSpeed=".85"
-                                    app:sparkbutton_iconSize="20dp"
-                                    app:sparkbutton_inActiveImage="@drawable/heart"
-                                    android:clickable="true"/>
 
-                            <ImageView
-                                    android:id="@+id/imgShareProductDetails"
-                                    android:layout_width="22dp"
-                                    android:layout_height="29dp"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginRight="40dp"
-                                    android:visibility="gone"
-                                    android:background="@drawable/icon_share_selector"/>
+                            <LinearLayout android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
 
+                                          android:layout_marginRight="5dp">
+
+
+                                <com.varunest.sparkbutton.SparkButton
+                                        android:id="@+id/favouriteButton"
+                                        android:layout_width="40dp"
+                                        android:layout_height="50dp"
+                                        app:sparkbutton_activeImage="@drawable/icon_heart_on"
+                                        app:sparkbutton_animationSpeed=".85"
+                                        app:sparkbutton_iconSize="20dp"
+
+                                        app:sparkbutton_inActiveImage="@drawable/heart"
+                                        android:clickable="true"/>
+
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
+                                          android:layout_gravity="center_vertical"
+                                          android:gravity="right"
+
+                                          android:layout_marginRight="5dp"
+                            >
+                                <ImageView
+                                        android:id="@+id/imgShareProductDetails"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="@dimen/btn_cancel_order_height"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/icon_share_selector"/>
+                            </LinearLayout>
                         </LinearLayout>
 
                     </LinearLayout>

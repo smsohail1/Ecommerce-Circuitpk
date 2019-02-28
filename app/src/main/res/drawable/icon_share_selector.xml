@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/icon_share_product_selected" android:state_pressed="true"></item>
-    <item android:drawable="@drawable/icon_share_item"></item>
+    <item android:drawable="@drawable/icon_share_press_updated" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/icon_share_update"></item>
 
 </selector>

@@ -605,7 +605,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         void onViewDetailsButtonClick(Product productItems);
 
         void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity,
-                                    String imgUrl, String productID, String isEmailFav,String productDesc, List<String> imgArrList);
+                                    String imgUrl, String productID, String isEmailFav, String productDesc, List<String> imgArrList);
 
         void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
                                     long cutPrice, ImageView imgProductCopy, Bitmap bitmap, String imgUrl,

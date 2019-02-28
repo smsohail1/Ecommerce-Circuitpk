@@ -2,6 +2,8 @@ package com.xekera.Ecommerce.ui.search_all_products
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -16,25 +18,23 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.widget.ImageView
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
 import com.xekera.Ecommerce.App
 import com.xekera.Ecommerce.R
 import com.xekera.Ecommerce.data.rest.response.ProductResponse
-import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.AllProductsResponse
 import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.Product
 import com.xekera.Ecommerce.data.room.AppDatabase
 import com.xekera.Ecommerce.data.room.model.Favourites
 import com.xekera.Ecommerce.ui.BaseActivity
 import com.xekera.Ecommerce.ui.adapter.SearchAllProductsAdapter
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel
+import com.xekera.Ecommerce.ui.favourites.FavouritesFragment.*
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment
 import com.xekera.Ecommerce.util.*
+import kotlinx.android.synthetic.main.dialog_share.*
 import kotlinx.android.synthetic.main.fragment_dashboard_details.*
 
 
@@ -389,18 +389,332 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
         return temp
     }
 
+    var isShareButtonClick = true
 
     override fun shareItemsDetails(productItems: Product, bitmapImg: Any?) {
 
         try {
 
-            shareOnFacebook()
+            if (isShareButtonClick) {
+                isShareButtonClick = false
+                Handler().postDelayed({
+                    showShareDialog(activity, productItems)
+                    isShareButtonClick = true
+                }, 300)
+            }
+
 
         } catch (e: Exception) {
             Log.d("error", e.message)
         }
 
+
     }
+
+
+    private fun showShareDialog(context: Context?, product: Product) {
+        val dialog = Dialog(context!!)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val v = dialog.window!!.decorView
+        v.setBackgroundResource(android.R.color.transparent)
+
+        dialog.setContentView(R.layout.dialog_share)
+
+        val imgWhatsApp = dialog.findViewById(R.id.imgWhatsApp) as ImageView
+        val imgFacebook = dialog.findViewById(R.id.imgFacebook) as ImageView
+        val imgMessenger = dialog.findViewById(R.id.imgMessenger) as ImageView
+        val imgTwitter = dialog.findViewById(R.id.imgTwitter) as ImageView
+
+
+
+        imgTwitter.setOnClickListener(View.OnClickListener {
+            shareOnTwitter(product, product.image_json!![0])
+        })
+
+        imgWhatsApp.setOnClickListener(View.OnClickListener {
+            /// selectImage();
+            shareOnWhatsApp(product, product.image_json!![0])
+        })
+
+
+        imgFacebook.setOnClickListener(View.OnClickListener {
+            val pm = activity!!.packageManager
+            val isInstalled = isPackageInstalled(FACEBOOK_APP_PACKAGE, pm)
+            if (isInstalled) {
+                shareViaFacebook(product, product.image_json!![0])
+            } else {
+                shareViaFacebookLite(product, product.image_json!![0])
+
+            }
+        })
+
+        imgMessenger.setOnClickListener(View.OnClickListener {
+            val pm = activity!!.packageManager
+            val isInstalled = isPackageInstalled(FACEBOOK_MESSENGER_PACKAGE, pm)
+            if (isInstalled) {
+                shareOnFacebookMessenger(product, product.image_json!![0])
+            } else {
+                shareOnFacebookMessengerLite(product, product.image_json!![0])
+            }
+        })
+
+        dialog.show()
+    }
+
+    private fun shareOnFacebookMessenger(product: Product, url: String?) {
+
+        val sendIntent = Intent()
+
+        sendIntent.action = Intent.ACTION_SEND
+        //        sendIntent.putExtra(Intent.EXTRA_TITLE,
+        //                "Circuit.pk"
+        //        );
+
+        sendIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            url + "\n\n" +
+                    "Product Name: " + product.name + "\n" +
+                    "New Price: " + product.Price + "\n" +
+                    "Old Price: " + product.Regular_price + "\n" +
+                    "Website: " + "https://circuit.pk/"
+        )
+
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        sendIntent.type = "text/plain"
+        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        sendIntent.setPackage(FACEBOOK_MESSENGER_PACKAGE)
+
+        try {
+            startActivity(sendIntent)
+        } catch (ex: android.content.ActivityNotFoundException) {
+            toastUtil.showToastShortTime("Please install facebook messenger", toastView)
+        }
+
+    }
+
+    private fun shareOnFacebookMessengerLite(product: Product, url: String?) {
+
+        val sendIntent = Intent()
+
+        sendIntent.action = Intent.ACTION_SEND
+        //        sendIntent.putExtra(Intent.EXTRA_TITLE,
+        //                "Circuit.pk"
+        //        );
+
+        sendIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            (url + "\n\n" +
+                    "Product Name: " + product.name + "\n" +
+                    "New Price: " + product.Price + "\n" +
+                    "Old Price: " + product.Regular_price + "\n" +
+                    "Website: " + "https://circuit.pk/")
+        )
+
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        sendIntent.type = "text/plain"
+        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        sendIntent.setPackage(FACEBOOK_MESSENGER_LITE_PACKAGE)
+
+        try {
+            startActivity(sendIntent)
+        } catch (ex: android.content.ActivityNotFoundException) {
+            toastUtil.showToastShortTime("Please install facebook messenger", toastView)
+        }
+
+    }
+
+    private fun shareViaFacebook(product: Product, url: String?) {
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+
+        //        shareIntent.putExtra(Intent.EXTRA_TITLE,
+        //                "Circuit.pk"
+        //        );
+
+        shareIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            (url + "\n\n" +
+                    "Product Name: " + product.name + "\n" +
+                    "New Price: " + product.Price + "\n" +
+                    "Old Price: " + product.Regular_price + "\n" +
+                    "Website: " + "https://circuit.pk/")
+        )
+
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        shareIntent.type = "text/plain"
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        shareIntent.setPackage(FACEBOOK_APP_PACKAGE)
+        try {
+            startActivity(shareIntent)
+        } catch (ex: android.content.ActivityNotFoundException) {
+            toastUtil.showToastShortTime("Please install Facebook app.", toastView)
+        }
+
+    }
+
+    private fun shareViaFacebookLite(product: Product, url: String?) {
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+
+        //        shareIntent.putExtra(Intent.EXTRA_TITLE,
+        //                "Circuit.pk"
+        //        );
+
+        shareIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            (url + "\n\n" +
+                    "Product Name: " + product.name + "\n" +
+                    "New Price: " + product.Price + "\n" +
+                    "Old Price: " + product.Regular_price + "\n" +
+                    "Website: " + "https://circuit.pk/")
+        )
+
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        shareIntent.type = "text/plain"
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        shareIntent.setPackage(FACEBOOK_APP_LITE_PACKAGE)
+        try {
+            startActivity(shareIntent)
+        } catch (ex: android.content.ActivityNotFoundException) {
+            toastUtil.showToastShortTime("Please install Facebook app.", toastView)
+        }
+
+    }
+
+
+    private fun shareOnWhatsApp(product: Product, url: String?) {
+        val whatsappIntent = Intent()
+        whatsappIntent.action = Intent.ACTION_SEND
+
+        // whatsappIntent.setType("image/*");
+        whatsappIntent.type = "text/plain"
+
+        whatsappIntent.setPackage(WHATSAPP_PACKAGE)
+        //        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+        //        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        whatsappIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            (url + "\n\n" +
+                    "Product Name: " + product.name + "\n" +
+                    "New Price: " + product.Price + "\n" +
+                    "Old Price: " + product.Regular_price + "\n" +
+                    "Website: " + "https://circuit.pk/")
+        )
+
+        whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        try {
+            startActivity(whatsappIntent)
+        } catch (ex: android.content.ActivityNotFoundException) {
+            toastUtil.showToastShortTime("Whatsapp have not been installed.", toastView)
+        }
+
+    }
+
+    private fun shareOnTwitter(product: Product, url: String?) {
+        val twitter = Intent()
+        twitter.action = Intent.ACTION_SEND
+
+        twitter.type = "text/plain"
+
+        twitter.setPackage(TWITTER_PACKAGE)
+        //        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+        //        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        twitter.putExtra(
+            Intent.EXTRA_TEXT,
+            (url + "\n\n" +
+                    "Product Name: " + product.name + "\n" +
+                    "New Price: " + product.Price + "\n" +
+                    "Old Price: " + product.Regular_price + "\n" +
+                    "Website: " + "https://circuit.pk/")
+        )
+
+        twitter.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        try {
+            startActivity(twitter)
+        } catch (ex: android.content.ActivityNotFoundException) {
+            toastUtil.showToastShortTime("Twitter have not been installed.", toastView)
+        }
+
+    }
+
+
+    private fun shareOnWhatsApp(imagePath: Uri) {
+        val whatsappIntent = Intent()
+        whatsappIntent.action = Intent.ACTION_SEND
+
+        // whatsappIntent.setType("image/*");
+        whatsappIntent.type = "text/plain"
+
+        whatsappIntent.setPackage(WHATSAPP_PACKAGE)
+        //        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+        //        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        whatsappIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            "Website: " + "https://circuit.pk/"
+        )
+
+
+        // if (imagePath != null) {
+        whatsappIntent.putExtra(Intent.EXTRA_STREAM, imagePath)
+        whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        whatsappIntent.type = "image/*"
+        // }
+
+
+        // whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        try {
+            startActivity(whatsappIntent)
+        } catch (ex: android.content.ActivityNotFoundException) {
+            toastUtil.showToastShortTime("Whatsapp have not been installed.", toastView)
+        }
+
+    }
+
+    private fun isPackageInstalled(packageName: String, packageManager: PackageManager): Boolean {
+
+        var found = true
+
+        try {
+
+            packageManager.getPackageInfo(packageName, 0)
+        } catch (e: PackageManager.NameNotFoundException) {
+
+            found = false
+        }
+
+        return found
+    }
+
 
     protected fun shareOnFacebookMessenger(uri: Uri) {
 

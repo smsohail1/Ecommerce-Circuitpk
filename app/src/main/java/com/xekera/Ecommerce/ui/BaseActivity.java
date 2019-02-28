@@ -164,6 +164,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     boolean isLoginBtnEnable = true;
     View toastView;
 
+    Button btnChangePhoto;
+
     // TextView slideshow, gallery;
 
     @Override
@@ -187,12 +189,18 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
         View headerView = navigationView.getHeaderView(0);
-        Button btnChangePhoto = headerView.findViewById(R.id.btnChangePhoto);
+        btnChangePhoto = headerView.findViewById(R.id.btnChangePhoto);
         Button btnLogin = headerView.findViewById(R.id.btnLogin);
 
         //  profilePhoto = headerView.findViewById(R.id.img);
         profilePhoto = headerView.findViewById(R.id.img);
 
+        if (sessionManager.isLoggedIn()) {
+            btnChangePhoto.setVisibility(View.VISIBLE);
+        } else {
+            btnChangePhoto.setVisibility(View.GONE);
+
+        }
         btnChangePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1316,25 +1324,22 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 } else if (sessionManager.isLoggedIn()) {
                     if (isEnable) {
                         isEnable = false;
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Menu menu = navigationView.getMenu();
-                                MenuItem menuItem;
 
-                                for (int i = 0; i < menu.size(); i++) {
-                                    menuItem = menu.getItem(i);
-                                    menuItem.setChecked(false);
-                                }
+                        Menu menu = navigationView.getMenu();
+                        MenuItem menuItem;
 
-                                sessionManager.clearAll();
-                                toastUtil.showToastShortTime("Logout Successfully.", toastView);
-                                setUserDetails();
-                                dialog.dismiss();
-                                isEnable = true;
-                                //   finish();
-                            }
-                        }, 150);
+                        for (int i = 0; i < menu.size(); i++) {
+                            menuItem = menu.getItem(i);
+                            menuItem.setChecked(false);
+                        }
+
+                        sessionManager.clearAll();
+                        toastUtil.showToastShortTime("Logout Successfully.", toastView);
+                        setUserDetails();
+                        dialog.dismiss();
+                        isEnable = true;
+                        //   finish();
+
                     }
                 } else {
                     isEnable = true;
@@ -1345,13 +1350,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialog.dismiss();
 
-                    }
-                }, 200);
+                dialog.dismiss();
+
             }
         });
 
@@ -1514,6 +1515,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                 }
 
+
+                if (sessionManager.getKeyIsFacebookLogin()) {
+                    btnChangePhoto.setVisibility(View.VISIBLE);
+                } else {
+                    btnChangePhoto.setVisibility(View.GONE);
+
+                }
                 imgFacebook.setVisibility(View.VISIBLE);
 
 
@@ -1567,20 +1575,42 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                 }
 
-                imgFacebook.setVisibility(View.GONE);
 
-                if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
-                    Bitmap img = stringToBitMap(sessionManager.getTakePhoto());
-                    circleImageView.setImageBitmap(img);
+                if (sessionManager.isLoggedIn()) {
+                    if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
+                        Bitmap img = stringToBitMap(sessionManager.getTakePhoto());
+                        circleImageView.setImageBitmap(img);
 
-                    circleImageView.setVisibility(View.VISIBLE);
+                        circleImageView.setVisibility(View.VISIBLE);
 
+                    } else {
+                        circleImageView.setVisibility(View.VISIBLE);
+
+                        circleImageView.setImageResource(R.drawable.icon_user_profile);
+
+                    }
+                    btnChangePhoto.setVisibility(View.VISIBLE);
                 } else {
+                    btnChangePhoto.setVisibility(View.GONE);
                     circleImageView.setVisibility(View.VISIBLE);
 
                     circleImageView.setImageResource(R.drawable.icon_user_profile);
-
                 }
+
+                imgFacebook.setVisibility(View.GONE);
+
+//                if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
+//                    Bitmap img = stringToBitMap(sessionManager.getTakePhoto());
+//                    circleImageView.setImageBitmap(img);
+//
+//                    circleImageView.setVisibility(View.VISIBLE);
+//
+//                } else {
+//                    circleImageView.setVisibility(View.VISIBLE);
+//
+//                    circleImageView.setImageResource(R.drawable.icon_user_profile);
+//
+//                }
 
 
 //            if (!utils.isTextNullOrEmpty(sessionManager.getEmail())) {

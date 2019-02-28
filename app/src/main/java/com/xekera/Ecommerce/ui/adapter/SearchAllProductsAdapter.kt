@@ -263,7 +263,8 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         productsItems[layoutPosition].Price!!,
                         java.lang.Long.valueOf(productsItems[layoutPosition].Regular_price),
                         java.lang.Long.valueOf(counterTextview!!.text.toString()),
-                        productsItems[layoutPosition].image_json as List<String>, bitmap, "",
+                        productsItems[layoutPosition].image_json as List<String>, bitmap,
+                        productsItems[layoutPosition].Des!!,
                         productsItems[layoutPosition].Product_Sku!!,
                         productsItems[layoutPosition].id!!
                     )
@@ -304,7 +305,7 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     bitmapFavourite, counterTextview!!.text.toString(),
                     productsItems[layoutPosition].image_json!![0],
                     productsItems[layoutPosition].id!!, "0",
-                    "",
+                    productsItems[layoutPosition].Des!!,
                     productsItems[layoutPosition].image_json as List<String>
                 )
 
@@ -330,7 +331,7 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         java.lang.Long.valueOf(productsItems[layoutPosition].Regular_price),
                         imgProductCopy, bitmapAdd, productsItems[layoutPosition].image_json!![0],
                         productsItems[layoutPosition].id!!, "0",
-                        "",
+                        productsItems[layoutPosition].Des!!,
                         productsItems[layoutPosition].image_json as List<String>
                     )
 
@@ -363,7 +364,7 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     java.lang.Long.valueOf(productsItems[layoutPosition].Regular_price), imgProductCopy,
                     bitmapAdd, productsItems[layoutPosition].image_json!![0],
                     productsItems[layoutPosition].id!!, "0",
-                    "",
+                    productsItems[layoutPosition].Des!!,
                     productsItems[layoutPosition].image_json as List<String>
                 )
             }
@@ -554,7 +555,7 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         )
 
 
-        fun shareItemsDetails(productItems: Product, bitmapImg:  Any?)
+        fun shareItemsDetails(productItems: Product, bitmapImg: Any?)
 
         fun removeItemFromCart(shoppingDetailModel: Product)
 
