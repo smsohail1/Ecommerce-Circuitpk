@@ -29,7 +29,7 @@ public class FavouritesModel implements FavouritesMVP.Model {
     }
 
     @Override
-    public void getFavouriteDetailsList(final IFetchOrderDetailsList iFetchOrderDetailsList) {
+    public void getFavouriteDetailsList( final IFetchOrderDetailsList iFetchOrderDetailsList) {
         try {
             Observable.just(appDatabase.getFavouritesDao()).
                     map(new Function<FavouritesDao, List<Favourites>>() {

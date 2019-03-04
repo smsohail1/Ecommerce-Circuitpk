@@ -164,7 +164,9 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
             @Override
             public void run() {
 
+
                 presenter.fetchFavouritesDetails();
+
 
             }
         }, 600);
@@ -327,7 +329,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                                        String productID, String isEmailFav, String productDesc, String imgArrList) {
 
         presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap,
-                imgUrl, productID, isEmailFav,productDesc,imgArrList);
+                imgUrl, productID, isEmailFav, productDesc, imgArrList);
     }
 
     @Override
@@ -336,7 +338,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                                        String isEmailFav, String productDesc, String imgArrList) {
 
         presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy,
-                imgUrl, productID, isEmailFav,productDesc,imgArrList);
+                imgUrl, productID, isEmailFav, productDesc, imgArrList);
 
     }
 

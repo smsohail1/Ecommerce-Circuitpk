@@ -100,7 +100,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
     @Override
     public void fetchFavouritesDetails() {
-        model.getFavouriteDetailsList(new FavouritesModel.IFetchOrderDetailsList() {
+        model.getFavouriteDetailsList( new FavouritesModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> favourites) {
                 if (favourites == null || favourites.size() == 0) {

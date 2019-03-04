@@ -80,7 +80,7 @@ public interface FavouritesMVP {
 
         void saveProductDecrementDetails(long quantity, String price, String totalPrice, String productName, long cutPrice,
                                          byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID,
-                                         String isEmailFav,String productDesc, String imgArrList);
+                                         String isEmailFav, String productDesc, String imgArrList);
 
         void removeItem(Favourites favourites);
 

@@ -40,6 +40,7 @@ public class Favourites {
     @ColumnInfo(name = "img_list_fav")
     private String imgArrListFav;
 
+
     public String getProductDescFav() {
         return productDescFav;
     }
@@ -189,6 +190,7 @@ public class Favourites {
         this.productDescFav = productDescFav;
         this.imgArrListFav = imgArrListFav;
     }
+
 
     public Favourites(String itemName, String itemIndividualPrice, String itemCutPrice,
                       String itemStockStatus, String createdDate, byte[] itemImage, String itemQuantity,
