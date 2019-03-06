@@ -155,9 +155,10 @@
 
     <dimen name="textview_user_update_height">20dp</dimen>
 
-    <dimen name="textview_about_us_height">20dp</dimen>
+    <dimen name="textview_about_us_height">20sp</dimen>
+    <dimen name="textview_terms_condition_detail_height">16sp</dimen>
 
-    <dimen name="textview_about_description_height">13dp</dimen>
+    <dimen name="textview_about_description_height">14sp</dimen>
     <dimen name="textsize_customer_type">15sp</dimen>
     <dimen name="btn_add_update_txt_size">13dp</dimen>
 

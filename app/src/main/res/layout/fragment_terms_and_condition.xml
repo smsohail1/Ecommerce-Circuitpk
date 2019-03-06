@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+>
+    <RelativeLayout
+            android:id="@+id/relativeLayoutParent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/irongrip_repeating"
+            android:clickable="true"
+
+
+    >
+
+        <android.support.v7.widget.CardView
+                android:id="@+id/cardViewParent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="3dp"
+                android:layout_centerInParent="true"
+
+        >
+
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+            >
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Introduction"
+                          android:textSize="@dimen/textview_about_us_height"
+                          android:textColor="@color/colorPrimary"
+                />
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="@string/terms_condition_introduction"
+                          android:layout_marginTop="5dp"
+                          android:lineSpacingExtra="3dp"
+                          android:textSize="@dimen/textview_about_description_height"
+                          android:textColor="@color/light_grey_delivey_screen_color"
+                />
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="5dp"
+                >
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Conditions Of Use"
+                              android:textSize="@dimen/textview_about_us_height"
+                              android:textColor="@color/colorPrimary"
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Your Account"
+                              android:textSize="@dimen/textview_terms_condition_detail_height"
+                              android:textColor="@color/colorPrimary"
+                              android:layout_marginTop="3dp"
+                              android:textStyle="bold"
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="5dp"
+                              android:lineSpacingExtra="3dp"
+                              android:text="@string/terms_your_account"
+                              android:textSize="@dimen/textview_about_description_height"
+                              android:textColor="@color/light_grey_delivey_screen_color"
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Privacy"
+                              android:textSize="@dimen/textview_terms_condition_detail_height"
+                              android:textColor="@color/colorPrimary"
+                              android:layout_marginTop="5dp"
+                              android:textStyle="bold"
+
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="5dp"
+                              android:lineSpacingExtra="3dp"
+                              android:text="@string/terms_privacy_desc"
+                              android:textSize="@dimen/textview_about_description_height"
+                              android:textColor="@color/light_grey_delivey_screen_color"
+                    />
+
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Continued Availability of the Site"
+                              android:textSize="@dimen/textview_terms_condition_detail_height"
+                              android:textColor="@color/colorPrimary"
+                              android:layout_marginTop="5dp"
+                              android:textStyle="bold"
+
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="5dp"
+                              android:lineSpacingExtra="3dp"
+                              android:text="@string/terms_availability_desc"
+                              android:textSize="@dimen/textview_about_description_height"
+                              android:textColor="@color/light_grey_delivey_screen_color"
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Your Conduct"
+                              android:textSize="@dimen/textview_terms_condition_detail_height"
+                              android:textColor="@color/colorPrimary"
+                              android:layout_marginTop="5dp"
+                              android:textStyle="bold"
+
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="5dp"
+                              android:lineSpacingExtra="3dp"
+                              android:text="@string/terms_your_conduct_desc"
+                              android:textSize="@dimen/textview_about_description_height"
+                              android:textColor="@color/light_grey_delivey_screen_color"
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Your Submission"
+                              android:textSize="@dimen/textview_terms_condition_detail_height"
+                              android:textColor="@color/colorPrimary"
+                              android:layout_marginTop="5dp"
+                              android:textStyle="bold"
+
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="5dp"
+                              android:lineSpacingExtra="3dp"
+                              android:text="@string/terms_your_submission_desc"
+                              android:textSize="@dimen/textview_about_description_height"
+                              android:textColor="@color/light_grey_delivey_screen_color"
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="TradeMarks And CopyRights"
+                              android:textSize="@dimen/textview_terms_condition_detail_height"
+                              android:textColor="@color/colorPrimary"
+                              android:layout_marginTop="5dp"
+                              android:textStyle="bold"
+
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="5dp"
+                              android:lineSpacingExtra="3dp"
+                              android:text="@string/terms_trademark_desc"
+                              android:textSize="@dimen/textview_about_description_height"
+                              android:textColor="@color/light_grey_delivey_screen_color"
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Disclaimer"
+                              android:textSize="@dimen/textview_terms_condition_detail_height"
+                              android:textColor="@color/colorPrimary"
+                              android:layout_marginTop="5dp"
+                              android:textStyle="bold"
+
+                    />
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="5dp"
+                              android:lineSpacingExtra="3dp"
+                              android:text="@string/terms_disclaimer_desc"
+                              android:textSize="@dimen/textview_about_description_height"
+                              android:textColor="@color/light_grey_delivey_screen_color"
+                    />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</ScrollView>

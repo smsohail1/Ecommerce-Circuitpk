@@ -9,6 +9,7 @@
     <string name="login_title">Login</string>
     <string name="username_error_login">Username is required</string>
     <string name="username_length_error_login">Username must be minimum 6 characters.</string>
+    <string name="contact_us_phone_error">PhoneNo is required</string>
 
     <string name="password_error_login">Password is required</string>
     <string name="password_length_error_login">Password must be minimum 6 characters.</string>
@@ -39,7 +40,7 @@
     <string name="password_error">Password is required</string>
     <string name="email_address_error">Email address is required</string>
     <string name="email_address_invalid_error">Invalid Email address.</string>
-
+    <string name="contact_us_message">Message is required</string>
     <string name="phone_no_error">Phone no is required</string>
     <string name="signup_successfully">Account Created successfully.</string>
 
@@ -59,6 +60,9 @@
     <string name="profile_nav">Account</string>
     <string name="feedback_nav">Feedback</string>
     <string name="setting_nav">Setting</string>
+    <string name="privacy_policy_nav">Privacy Policy</string>
+    <string name="term_condition_nav">Terms and Condition</string>
+    <string name="contact_us_nav">Contact Us</string>
 
     <string name="about_nav">About</string>
     <string name="rate_us_nav">Rate Us</string>
@@ -305,5 +309,131 @@
         bound by this User Agreement please do not access, register with or
         use this Site. This Site is owned and operated by
         <b>Xekera Systems Inc.</b>
+    </string>
+
+    <string name="privacy_policy_desc">Welcome to the circuit.pk website operated by Xekera Systems Inc.
+        We respect your privacy and want to protect your personal information. To learn more, please read this Privacy
+        Policy.\n
+        This Privacy Policy explains how we collect, use and (under certain conditions) disclose your personal
+        information.
+        This Privacy Policy also explains the steps we have taken to secure your personal information. Finally, this
+        Privacy Policy explains your options regarding the collection, use and disclosure of your personal information.
+        By visiting the Site directly or through another site, you accept the practices described in this Policy.\n
+        Data protection is a matter of trust and your privacy is important to us.
+        We shall therefore only use your name and other information which relates to you in the manner set out in this
+        Privacy Policy.
+        We will only collect information where it is necessary for us to do so and we will only collect information if
+        it is relevant to our dealings with you.\n
+        We will only keep your information for as long as we are either required to by law or as is relevant for the
+        purposes for which it was collected.
+        You can visit the Site and browse without having to provide personal details.
+        During your visit to the Site you remain anonymous and at no time can we identify you unless you have an account
+        on the Site and log on with your username and
+        password.
+    </string>
+
+    <string name="terms_condition_introduction">Welcome to Circuit.pk also hereby known as “we”, “us” or “Circuit”. We
+        are an
+        online marketplace and these are the terms and conditions governing your access and use of Circuit along with
+        its related sub-domains, sites, mobile app, services and tools (the “Site”). By using the Site, you hereby
+        accept these terms and conditions (including the linked information herein) and represent that you agree to
+        comply with these terms and conditions (the “User Agreement”). This User Agreement is deemed effective upon your
+        use of the Site which signifies your acceptance of these terms. If you do not agree to be bound by this User
+        Agreement please do not access, register with or use this Site. This Site is owned and operated by Xekera
+        Systems Inc.\n
+        The Site reserves the right to change, modify, add, or remove portions of these Terms and Conditions at any time
+        without any prior notification. Changes will be effective when posted on the Site with no other notice provided.
+        Please check these Terms and Conditions regularly for updates. Your continued use of the Site following the
+        posting of changes to Terms and Conditions of use constitutes your acceptance of those changes.
+    </string>
+
+    <string name="terms_your_account">To access certain services offered by the platform, we may require that you create
+        an account with us or provide personal
+        information to complete the creation of an account. We may at any time in our sole and absolute discretion,
+        invalidate the username and/or password without giving any reason or prior notice and shall not be liable or
+        responsible for any losses suffered by, caused by, arising out of, in connection with or by reason of such
+        request or invalidation.\n
+        You are responsible for maintaining the confidentiality of your user identification, password,
+        account details and related private information. You agree to accept this responsibility and ensure your account
+        and its related details are maintained securely at all times and all necessary steps are taken to prevent misuse
+        of your account. You should inform us immediately if you have any reason to believe that your
+        password has become known to anyone else, or if the password is being, or is likely to be, used in an
+        unauthorized manner.
+    </string>
+
+    <string name="terms_privacy_desc">Please review our Privacy Agreement, which also governs your visit to the Site.
+        The personal information/data provided to us by you or your use of the Site will be treated as strictly
+        confidential, in accordance with the Privacy Agreement and applicable laws and regulations. If you object to
+        your information being transferred or used in the manner specified in the Privacy Agreement, please do not use
+        the Site.
+    </string>
+    <string name="terms_availability_desc">We will do our utmost to ensure that access to the Site is consistently
+        available and
+        is uninterrupted and error-free. However, due to the nature of the Internet and the nature of the Site, this
+        cannot be
+        guaranteed. Additionally, your access to the Site may also be occasionally suspended or restricted to allow for
+        repairs,
+        maintenance, or the introduction of new facilities or services at any time without prior notice. We will attempt
+        to limit the
+        frequency and duration of any such suspension or restriction.
+    </string>
+
+    <string name="terms_your_conduct_desc">You must not use the website in any way that causes,
+        or is likely to cause, the Site or access to it to be interrupted, damaged or impaired in any way.
+        You must not engage in activities that could harm or potentially harm the Site, its employees, officers,
+        representatives, stakeholders or any other party directly or indirectly associated with the Site or access
+        to it to be interrupted, damaged or impaired in any way. You understand that you, and not us, are responsible
+        for all electronic communications and content sent from your computer to us and you must use the Site for lawful
+        purposes only.
+    </string>
+
+    <string name="terms_your_submission_desc">Anything that you submit to the Site
+        and/or provide to us, including but not limited to, questions, reviews,
+        comments, and suggestions (collectively, “Submissions”) will become our
+        sole and exclusive property and shall not be returned to you. In addition
+        to the rights applicable to any Submission, when you post comments or reviews to
+        the Site, you also grant us the right to use the name that you submit, in connection
+        with such review, comment, or other content. You shall not use a false e-mail address,
+        pretend to be someone other than you or otherwise mislead us or third parties as to the
+        origin of any Submissions. We may, but shall not be obligated to, remove or edit any
+        Submissions without any notice or legal course applicable to us in this regard.
+    </string>
+    <string name="terms_trademark_desc">Circuit.pk, Circuit logo, Circuit, Circuit Fashion, Circuit Basics and other
+        marks
+        indicated on our Site are trademarks or registered trademarks in the relevant jurisdiction(s).
+        Our graphics, logos, page headers, button icons, scripts and service names are the trademarks
+        or trade dress and may not be used in connection with any product or service that does not
+        belong to us or in any manner that is likely to cause confusion among customers, or in any
+        manner that disparages or discredits us. All other trademarks that appear on this Site are
+        the property of their respective owners, who may or may not be affiliated with, connected to,
+        or sponsored by us.\n
+        All intellectual property rights, whether registered or unregistered, in the Site, information content on the
+        Site and all the website design, including, but not limited to text, graphics, software, photos, video, music,
+        sound, and their selection and arrangement, and all software compilations, underlying source code and software
+        shall remain our property. The entire contents of the Site also are protected by copyright as a collective work
+        under Pakistani copyright laws and international conventions. All rights are reserved.
+    </string>
+
+    <string name="terms_disclaimer_desc">You acknowledge and undertake that you are accessing the services on
+        the Site and transacting at your own risk and are using your best and prudent judgment
+        before entering into any transactions through the Site. We shall neither be liable nor
+        responsible for any actions or inaction of sellers nor any breach of conditions, representations
+        or warranties by the sellers or manufacturers of the products and hereby expressly
+        disclaim and any all responsibility and liability in that regard. We shall not mediate or
+        resolve any dispute or disagreement between you and the sellers or manufacturers of the products.\n
+        We further expressly disclaim any warranties or representations (express or implied) in respect of
+        quality, suitability, accuracy, reliability, completeness, timeliness, performance,
+        safety, merchant ability, fitness for a particular purpose, or legality of the products
+        listed or displayed or transacted or the content (including product or pricing information
+        and/or specifications) on the Site. While we have taken precautions to avoid inaccuracies in
+        content, this Site, all content, information (including the price of products), software,
+        products, services and related graphics are provided as is, without warranty of any kind.
+        We do not implicitly or explicitly support or endorse the sale or purchase of any products
+        on the Site. At no time shall any right, title or interest in the products sold through or
+        displayed on the Site vest with us nor shall Circuit have any obligations or liabilities
+        in respect of any transactions on the Site.\n
+        We shall neither be liable or responsible for any actions or inaction of any other service provider as listed on
+        our Site which includes but is not limited to payment providers, installment offerings, warranty services among
+        others.
     </string>
 </resources>

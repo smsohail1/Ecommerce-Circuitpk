@@ -7,9 +7,9 @@ import com.xekera.Ecommerce.ui.about.AboutFragment;
 import com.xekera.Ecommerce.ui.account.AccountFragment;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
 import com.xekera.Ecommerce.ui.billing_total_amount_view.BillingTotalAmountViewFragment;
+import com.xekera.Ecommerce.ui.contact_us.ContactUsFragment;
 import com.xekera.Ecommerce.ui.continue_shopping.ContinueShopFragment;
 import com.xekera.Ecommerce.ui.continue_shopping.ContinueShoppingFragment;
-import com.xekera.Ecommerce.ui.continue_shopping.ContinueShoppingModel;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.dashboard.DashboardFragment;
 import com.xekera.Ecommerce.ui.dashboard.dashboard_screen.CartFragment;
@@ -21,11 +21,13 @@ import com.xekera.Ecommerce.ui.favourites.FavouritesFragment;
 import com.xekera.Ecommerce.ui.history.HistoryFragment;
 import com.xekera.Ecommerce.ui.history.history_description.HistoryDesciptionFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
+import com.xekera.Ecommerce.ui.privacy_policy.PrivacyPolicyFragment;
 import com.xekera.Ecommerce.ui.search_all_products.SearchAllProductsFragment;
 import com.xekera.Ecommerce.ui.setting.SettingFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.add_to_cart_shop_details.AddToCartShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
+import com.xekera.Ecommerce.ui.terms_and_condition.TermsAndConditionFragment;
 import dagger.Component;
 
 import javax.inject.Singleton;
@@ -109,6 +111,11 @@ public interface AppComponent {
 
     void inject(SearchAllProductsFragment searchAllProductsFragment);
 
+    void inject(PrivacyPolicyFragment privacyPolicyFragment);
+
+    void inject(TermsAndConditionFragment termsAndConditionFragment);
+
+    void inject(ContactUsFragment contactUsFragment);
 
 }
 

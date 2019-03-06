@@ -20,6 +20,8 @@ public class AppConstants {
 
     //Sir farrukh contact number
     public static final String support_contact_no = "923345290597";
+    public static final String supportEmail = "support@circuit.pk";
+
 
     public static final String TIME_FORMAT_TWO = "hh:mm:ss";
     public static final String DATE_TIME_FORMAT_THREE = "ddMMyy_HHmmss_";

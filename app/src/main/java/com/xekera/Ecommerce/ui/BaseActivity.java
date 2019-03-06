@@ -13,29 +13,21 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -53,22 +45,16 @@ import java.io.*;
 import android.app.AlertDialog;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.bumptech.glide.Glide;
 import com.facebook.*;
-import com.facebook.internal.CallbackManagerImpl;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.squareup.picasso.Picasso;
 import com.xekera.Ecommerce.App;
@@ -77,21 +63,20 @@ import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.ui.about.AboutFragment;
 import com.xekera.Ecommerce.ui.account.AccountFragment;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
+import com.xekera.Ecommerce.ui.contact_us.ContactUsFragment;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
-import com.xekera.Ecommerce.ui.dashboard.BottomNavigationBehavior;
 import com.xekera.Ecommerce.ui.dashboard.DashboardFragment;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.favourites.FavouritesFragment;
 import com.xekera.Ecommerce.ui.history.HistoryFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
+import com.xekera.Ecommerce.ui.privacy_policy.PrivacyPolicyFragment;
 import com.xekera.Ecommerce.ui.search_all_products.SearchAllProductsFragment;
-import com.xekera.Ecommerce.ui.setting.SettingFragment;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.ui.signup.SignupFragment;
+import com.xekera.Ecommerce.ui.terms_and_condition.TermsAndConditionFragment;
 import com.xekera.Ecommerce.util.*;
 import de.hdodenhof.circleimageview.CircleImageView;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -529,7 +514,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     //  ((BaseActivity) getActivity()).popBackstack();
                     //((BaseActivity) getActivity()).addDashboardFragment(new FavouritesFragment());
                     showHideBottomNavigationCount(1);
-                    if (!(fragmentContainer instanceof AccountFragment)) {
+                    if (!(fragmentContainer instanceof AccountFragment)
+                            || !(fragmentContainer instanceof LoginFragment)
+                    ) {
                         for (int i = 0; i < menu.size(); i++) {
                             menuItem = menu.getItem(i);
                             menuItem.setChecked(false);
@@ -541,20 +528,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         bottomMenuItem.setCheckable(true);
                         bottomMenuItem.setChecked(true);
 
+
+                        if (sessionManager.isSignUp() ||
+                                sessionManager.isLoggedIn() ||
+                                sessionManager.getKeyIsFacebookLogin()) {
+
+                            fragment = new AccountFragment();
+                            replaceFragmentWithContainer(fragment);
+                        } else {
+                            toastUtil.showToastShortTime("Required SignUp/Login to view account.", toastView);
+
+                            fragment = new LoginFragment();
+                            replaceFragmentWithContainer(fragment);
+                        }
                     }
-                    if (sessionManager.isSignUp() ||
-                            sessionManager.isLoggedIn() ||
-                            sessionManager.getKeyIsFacebookLogin()) {
-
-                        fragment = new AccountFragment();
-                        replaceFragmentWithContainer(fragment);
-                    } else {
-                        toastUtil.showToastShortTime("Required SignUp/Login to view account.", toastView);
-
-                        fragment = new LoginFragment();
-                        replaceFragmentWithContainer(fragment);
-                    }
-
 
                     return true;
 
@@ -1254,6 +1241,54 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 return true;
 
             }
+        } else if (id == R.id.navPrivacyPolicy) {
+            if (!(fragmentContainer instanceof PrivacyPolicyFragment)) {
+
+                bottomMenu = navigation.getMenu();
+
+                for (int i = 0; i < bottomMenu.size(); i++) {
+                    menuItemBottom = bottomMenu.getItem(i);
+                    menuItemBottom.setCheckable(false);
+                    menuItemBottom.setChecked(false);
+                }
+                replaceFragmentWithContainer(new PrivacyPolicyFragment());
+                drawer.closeDrawer(GravityCompat.START);
+                // setNavigationBackground("#E10915");
+                return true;
+
+            }
+        } else if (id == R.id.navTermsAndCondition) {
+            if (!(fragmentContainer instanceof TermsAndConditionFragment)) {
+
+                bottomMenu = navigation.getMenu();
+
+                for (int i = 0; i < bottomMenu.size(); i++) {
+                    menuItemBottom = bottomMenu.getItem(i);
+                    menuItemBottom.setCheckable(false);
+                    menuItemBottom.setChecked(false);
+                }
+                replaceFragmentWithContainer(new TermsAndConditionFragment());
+                drawer.closeDrawer(GravityCompat.START);
+                // setNavigationBackground("#E10915");
+                return true;
+
+            }
+        } else if (id == R.id.navContactUs) {
+            if (!(fragmentContainer instanceof ContactUsFragment)) {
+
+                bottomMenu = navigation.getMenu();
+
+                for (int i = 0; i < bottomMenu.size(); i++) {
+                    menuItemBottom = bottomMenu.getItem(i);
+                    menuItemBottom.setCheckable(false);
+                    menuItemBottom.setChecked(false);
+                }
+                replaceFragmentWithContainer(new ContactUsFragment());
+                drawer.closeDrawer(GravityCompat.START);
+                // setNavigationBackground("#E10915");
+                return true;
+
+            }
         } else if (id == R.id.navLogout) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -1281,11 +1316,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         // Add data to the intent, the receiving app will decide
         // what to do with it.
 
-        // String linkDesc = "Website: https://circuit.pk/\nMobile App: https://play.google.com/store/apps/details?id=com.xekera.Ecommerce";
-        String linkDesc = "Website: https://circuit.pk/";
+        String Weblink = "https://circuit.pk/";
+        String mobileAppLink = "https://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName();
 
         share.putExtra(Intent.EXTRA_SUBJECT, "Circuit.pk App");
-        share.putExtra(Intent.EXTRA_TEXT, linkDesc);
+        share.putExtra(Intent.EXTRA_TEXT, "Website: " + Weblink + "\n\n" + "Mobile App: " + mobileAppLink);
 
         startActivity(Intent.createChooser(share, "Share link"));
     }

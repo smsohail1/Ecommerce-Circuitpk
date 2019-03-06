@@ -155,9 +155,11 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
         }
     }
 
+
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);
+
 
         toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
