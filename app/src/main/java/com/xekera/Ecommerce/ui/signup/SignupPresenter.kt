@@ -69,7 +69,9 @@ public class SignupPresenter : SignupMVP.Presenter {
                         } else {
 
                             if (response.status) {
-                                if (sessionManager!!.isSignUp() || sessionManager!!.isLoggedIn()) {
+                                if (sessionManager!!.isSignUp() || sessionManager!!.isLoggedIn()
+                                    || sessionManager!!.isLoginViaFacebook()
+                                ) {
                                     view?.showToastShortTime(response.message)
                                     view?.signUp();
                                     return
@@ -80,8 +82,9 @@ public class SignupPresenter : SignupMVP.Presenter {
                                     phoneNo,
                                     response.password,
                                     response.email,
-                                    true
+                                    true, true
                                 )
+                                view?.showLogoutOption();
                                 view?.showToastShortTime(response.message)
                                 view?.signUpSuccessfully();
                             } else {

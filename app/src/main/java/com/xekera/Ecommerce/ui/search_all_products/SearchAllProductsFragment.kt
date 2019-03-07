@@ -253,10 +253,12 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
 
     override fun showRecylerViewProductsDetail(shopDetailsAdapter: SearchAllProductsAdapter) {
         recyclerViewProductDetails?.adapter = shopDetailsAdapter
-
-
     }
 
+    override fun getFavCounts() {
+        (activity as BaseActivity).favCounts()
+
+    }
 
     override fun setCountZero(counts: Int) {
         (activity as BaseActivity).addItemToCart(0)
@@ -311,31 +313,36 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
     override fun onIncrementButtonClick(
         quantity: Long, price: String, totalPrice: String, productName: String, cutPrice: Long,
         imgProductCopy: ImageView?, bitmap: Any?, imgUrl: String?, productID: String,
-        isEmailSent: String, productDesc: String, imgArrList: List<String>
+        isEmailSent: String, productDesc: String, imgArrList: List<String>,
+        nameSku: String
     ) {
 
         presenter.saveProductDetails(
             quantity, price, totalPrice, productName, cutPrice, imgProductCopy!!, bitmap, imgUrl,
-            productID, isEmailSent, productDesc, imgArrList
+            productID, isEmailSent, productDesc, imgArrList,
+            nameSku
         )
     }
 
     override fun onDecrementButtonClick(
         quantity: Long, price: String, totalPrice: String, productName: String, cutPrice: Long,
         imgProductCopy: ImageView?, bitmapAdd: Any?, imgUrl: String?, productID: String,
-        isEmailSent: String, productDesc: String, imgArrList: List<String>
+        isEmailSent: String, productDesc: String, imgArrList: List<String>,
+        nameSku: String
     ) {
 
         presenter.saveProductDecrementDetails(
             quantity, price, totalPrice, productName, cutPrice, imgProductCopy!!, bitmapAdd,
-            imgUrl, productID, isEmailSent, productDesc, imgArrList
+            imgUrl, productID, isEmailSent, productDesc, imgArrList,
+            nameSku
         )
 
     }
 
     override fun onFavouriteButtonClick(
         productItems: Product, position: Int, bitmap: Any?, quantity: String, imgUrl: String?,
-        productID: String, isEmailFav: String, productDesc: String, imgArrList: List<String>
+        productID: String, isEmailFav: String, productDesc: String, imgArrList: List<String>,
+        nameSku: String
     ) {
 
         presenter.isAlreadyAddedInFavourites(
@@ -347,7 +354,8 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
             productID,
             isEmailFav,
             productDesc,
-            imgArrList
+            imgArrList,
+            nameSku
         )
 
     }
@@ -364,7 +372,8 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
 
     override fun onCardClick(
         productName: String, price: String, cutPrice: Long, quantity: Long,
-        imgList: List<String>, bitmapImg: Bitmap?, about: String, sku: String, productID: String
+        imgList: List<String>, bitmapImg: Bitmap?, about: String, sku: String, productID: String,
+        nameSku: String
     ) {
         utils?.hideSoftKeyboard(edtSearchProduct)
 
@@ -374,7 +383,8 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
             (activity as BaseActivity).replaceFragmentForActivityTranstion(
                 shopCardSelectedFragment.newInstance(
                     productName,
-                    price, cutPrice, quantity, imgList, bitmapImg, about, sku, productID
+                    price, cutPrice, quantity, imgList, bitmapImg, about, sku, productID,
+                    nameSku
                 )
             )
         }, 200)
@@ -476,7 +486,7 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
                     "Product Name: " + product.name + "\n" +
                     "New Price: " + product.Price + "\n" +
                     "Old Price: " + product.Regular_price + "\n" +
-                    "Website: " + "https://circuit.pk/"
+                    "Website: " + "https://circuit.pk/product/" + product.name_sku
         )
 
 
@@ -510,7 +520,7 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
                     "Product Name: " + product.name + "\n" +
                     "New Price: " + product.Price + "\n" +
                     "Old Price: " + product.Regular_price + "\n" +
-                    "Website: " + "https://circuit.pk/")
+                    "Website: " + "https://circuit.pk/product/" + product.name_sku)
         )
 
 
@@ -543,7 +553,7 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
                     "Product Name: " + product.name + "\n" +
                     "New Price: " + product.Price + "\n" +
                     "Old Price: " + product.Regular_price + "\n" +
-                    "Website: " + "https://circuit.pk/")
+                    "Website: " + "https://circuit.pk/product/" + product.name_sku)
         )
 
 
@@ -575,7 +585,7 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
                     "Product Name: " + product.name + "\n" +
                     "New Price: " + product.Price + "\n" +
                     "Old Price: " + product.Regular_price + "\n" +
-                    "Website: " + "https://circuit.pk/")
+                    "Website: " + "https://circuit.pk/product/" + product.name_sku)
         )
 
 
@@ -612,7 +622,7 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
                     "Product Name: " + product.name + "\n" +
                     "New Price: " + product.Price + "\n" +
                     "Old Price: " + product.Regular_price + "\n" +
-                    "Website: " + "https://circuit.pk/")
+                    "Website: " + "https://circuit.pk/product/" + product.name_sku)
         )
 
         whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -645,7 +655,7 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
                     "Product Name: " + product.name + "\n" +
                     "New Price: " + product.Price + "\n" +
                     "Old Price: " + product.Regular_price + "\n" +
-                    "Website: " + "https://circuit.pk/")
+                    "Website: " + "https://circuit.pk/product/" + product.name_sku)
         )
 
         twitter.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)

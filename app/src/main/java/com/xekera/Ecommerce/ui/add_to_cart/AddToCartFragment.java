@@ -323,9 +323,9 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     @Override
     public void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
                                    String cutPrice, byte[] bytes, String imgUrl, String prodcutID, String isEmailSent,
-                                   String productDesc, String imgArrList) {
+                                   String productDesc, String imgArrList,String nameSku) {
         presenter.saveProductDetails(quantity, individualPrice, itemPrice, productName,
-                cutPrice, bytes, imgUrl, prodcutID, isEmailSent, productDesc, imgArrList);
+                cutPrice, bytes, imgUrl, prodcutID, isEmailSent, productDesc, imgArrList,nameSku);
     }
 
     @Override
@@ -340,7 +340,8 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     @Override
     public void onCardClick(final String productName, final String price, final String cutPrice, final String quantity,
-                            final String img, final String imgList, final String productID, final String about) {
+                            final String img, final String imgList, final String productID, final String about
+            , final String nameSku) {
 
 
         new Handler().postDelayed(new Runnable() {
@@ -350,7 +351,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                 AddToCartShopCardSelectedFragment addToCartShopCardSelectedFragment = new AddToCartShopCardSelectedFragment();
                 ((BaseActivity) getActivity()).replaceFragmentForActivityTranstion(
                         addToCartShopCardSelectedFragment.newInstance(productName,
-                                price, cutPrice, quantity, img, imgList, productID, about, ""));
+                                price, cutPrice, quantity, img, imgList, productID, about, "", nameSku));
             }
         }, 100);
 

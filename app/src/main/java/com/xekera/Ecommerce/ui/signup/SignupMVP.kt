@@ -16,6 +16,7 @@ public interface SignupMVP {
         fun showSnackBarLongTime(message: String, view: android.view.View)
         fun signUpSuccessfully();
         fun signUp();
+        fun showLogoutOption();
     }
 
     interface Presenter {

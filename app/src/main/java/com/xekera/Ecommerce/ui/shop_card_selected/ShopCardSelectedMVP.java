@@ -52,6 +52,8 @@ public interface ShopCardSelectedMVP {
 
         void setCartCounterTextview(int counts);
 
+        void setFavCount();
+
 
     }
 

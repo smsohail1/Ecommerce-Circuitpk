@@ -119,8 +119,10 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
         model.removeFromFavourite(productName, new ShopDetailsModel.IRemoveSelectedItemDetails() {
             @Override
             public void onSuccess() {
-                view.showToastShortTime("Item removed from favourite.");
+                view.showToastShortTime("Item removed from favorite.");
                 view.setFavouriteButtonStatus(false, position);
+                view.getFavCounts();
+
             }
 
             @Override
@@ -188,7 +190,8 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     @Override
     public void isAlreadyAddedInFavourites(final Product productItems, final int position, final Bitmap bitmap,
                                            final String quantity, final String imgUrl, final String productID,
-                                           final String isEmailFav, final String productDesc, final List<String> imgArrList) {
+                                           final String isEmailFav, final String productDesc, final List<String> imgArrList,
+                                           final String nameSku) {
         model.getFavouriteDetailsListByName(productItems.getName(), new ShopDetailsModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> favourites) {
@@ -208,14 +211,14 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
                         fav = new Favourites(productItems.getName(), productItems.getPrice(),
                                 String.valueOf(productItems.getRegularPrice()), "In Stock", formattedDate,
                                 bmp, "1", String.valueOf(totalPrice), imgUrl, productID, isEmailFav, productDesc,
-                                jsonObjectImg);
+                                jsonObjectImg, nameSku);
                     } else {
                         long totalPrice = Long.valueOf(productItems.getPrice()) * Long.valueOf(quantity);
 
                         fav = new Favourites(productItems.getName(), productItems.getPrice(),
                                 String.valueOf(productItems.getRegularPrice()), "In Stock", formattedDate,
                                 bmp, String.valueOf(quantity), String.valueOf(totalPrice), imgUrl, productID, isEmailFav, productDesc,
-                                jsonObjectImg);
+                                jsonObjectImg, nameSku);
                     }
 
                     addItemToFavourites(fav, true);
@@ -324,18 +327,19 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 //                    sessionManager.setIsFavouriteList(favouriteSet);
 
 
-                    view.showToastShortTime("Item added to favourite.");
+                    view.showToastShortTime("Item added to favorites.");
                     //  getFavourites();
 
-
+                    view.getFavCounts();
                     //  view.enableAddtoFavouriteButton();
                     // view.animationAddButton();
 
                 } else {
                     // view.enableAddtoFavouriteButton();
                     // view.animationAddButton();
+                    view.getFavCounts();
 
-                    view.showToastShortTime("Error while add to favourite.");
+                    view.showToastShortTime("Error while add to favorites.");
 
                 }
             }
@@ -395,7 +399,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
                                    final long cutPrice, final ImageView imgProductCopy,
                                    final Bitmap bitmap, final String imgUrl, final String productID, final String isEmailSent,
-                                   final String productDesc, final List<String> imgArrList) {
+                                   final String productDesc, final List<String> imgArrList, final String nameSku) {
         model.getProductCount(productName, new ShopDetailsModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -409,7 +413,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
                     AddToCart addToCart = new AddToCart("", productName, totalPrice, String.valueOf(quantity),
                             "N", bmp, String.valueOf(cutPrice), price, formattedDate, imgUrl, productID,
-                            isEmailSent, productDesc, jsonObjectImg);
+                            isEmailSent, productDesc, jsonObjectImg, nameSku);
                     noProductFound(addToCart, imgProductCopy);
                     return;
                 } else {
@@ -441,7 +445,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
     public void saveProductDecrementDetails(final long quantity, final String price, final String totalPrice, final String productName,
                                             final long cutPrice, final ImageView imgProductCopy, final Bitmap bitmapAdd,
                                             final String imgUrl, final String productID, final String isEmailSent,
-                                            final String productDesc, final List<String> imgArrList) {
+                                            final String productDesc, final List<String> imgArrList, final String nameSku) {
         model.getProductCount(productName, new ShopDetailsModel.IFetchCartDetailsList() {
             @Override
             public void onCartDetailsReceived(List<AddToCart> addToCartList) {
@@ -455,7 +459,7 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
 
                     AddToCart addToCart = new AddToCart("", productName, totalPrice, String.valueOf(quantity),
                             "N", byteImg, String.valueOf(cutPrice), price, formattedDate, imgUrl,
-                            productID, isEmailSent, productDesc, jsonObjectImg);
+                            productID, isEmailSent, productDesc, jsonObjectImg, nameSku);
                     noProductFoundForDecrement(addToCart, imgProductCopy);
                     return;
                 } else {

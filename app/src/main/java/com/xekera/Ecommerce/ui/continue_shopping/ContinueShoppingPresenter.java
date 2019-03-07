@@ -200,7 +200,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
 //                    sessionManager.setIsFavouriteList(favouriteSet);
 
 
-                    view.showToastShortTime("Item added to favourite.");
+                    view.showToastShortTime("Item added to favorites.");
 
                     getFavourites();
                     //  view.enableAddtoFavouriteButton();
@@ -210,7 +210,7 @@ public class ContinueShoppingPresenter implements ContinueShoppingMVP.Presenter 
                     // view.enableAddtoFavouriteButton();
                     // view.animationAddButton();
 
-                    view.showToastShortTime("Error while add to favourite.");
+                    view.showToastShortTime("Error while add to favorites.");
 
                 }
             }

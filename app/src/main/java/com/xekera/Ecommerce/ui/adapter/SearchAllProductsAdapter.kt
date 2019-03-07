@@ -266,7 +266,8 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         productsItems[layoutPosition].image_json as List<String>, bitmap,
                         productsItems[layoutPosition].Des!!,
                         productsItems[layoutPosition].Product_Sku!!,
-                        productsItems[layoutPosition].id!!
+                        productsItems[layoutPosition].id!!,
+                        productsItems[layoutPosition].name_sku!!
                     )
 
                 } catch (e: Exception) {
@@ -306,7 +307,8 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     productsItems[layoutPosition].image_json!![0],
                     productsItems[layoutPosition].id!!, "0",
                     productsItems[layoutPosition].Des!!,
-                    productsItems[layoutPosition].image_json as List<String>
+                    productsItems[layoutPosition].image_json as List<String>,
+                    productsItems[layoutPosition].name_sku!!
                 )
 
             }
@@ -332,7 +334,8 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         imgProductCopy, bitmapAdd, productsItems[layoutPosition].image_json!![0],
                         productsItems[layoutPosition].id!!, "0",
                         productsItems[layoutPosition].Des!!,
-                        productsItems[layoutPosition].image_json as List<String>
+                        productsItems[layoutPosition].image_json as List<String>,
+                        productsItems[layoutPosition].name_sku!!
                     )
 
                 } else {
@@ -365,7 +368,8 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     bitmapAdd, productsItems[layoutPosition].image_json!![0],
                     productsItems[layoutPosition].id!!, "0",
                     productsItems[layoutPosition].Des!!,
-                    productsItems[layoutPosition].image_json as List<String>
+                    productsItems[layoutPosition].image_json as List<String>,
+                    productsItems[layoutPosition].name_sku!!
                 )
             }
 
@@ -533,25 +537,29 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         fun onFavouriteButtonClick(
             productItems: Product, position: Int, bitmap: Any?, quantity: String,
-            imgUrl: String?, productID: String, isEmailFav: String, productDesc: String, imgArrList: List<String>
+            imgUrl: String?, productID: String, isEmailFav: String, productDesc: String, imgArrList: List<String>,
+            nameSku: String
         )
 
         fun onIncrementButtonClick(
             quantity: Long, price: String, totalPrice: String, productName: String,
             cutPrice: Long, imgProductCopy: ImageView?, bitmap: Any?, imgUrl: String?,
-            productID: String, isEmailSent: String, productDesc: String, imgArrList: List<String>
+            productID: String, isEmailSent: String, productDesc: String, imgArrList: List<String>,
+            nameSku: String
         )
 
         fun onDecrementButtonClick(
             quantity: Long, price: String, totalPrice: String, productName: String,
             cutPrice: Long, imgProductCopy: ImageView?, bitmapAdd: Any?, imgUrl: String?,
-            productID: String, isEmailSent: String, productDesc: String, imgArrList: List<String>
+            productID: String, isEmailSent: String, productDesc: String, imgArrList: List<String>,
+            nameSku: String
         )
 
 
         fun onCardClick(
             productName: String, price: String, cutPrice: Long, quantity: Long, imgList: List<String>,
-            bitmapImg: Bitmap?, about: String, sku: String, productID: String
+            bitmapImg: Bitmap?, about: String, sku: String, productID: String,
+            nameSku: String
         )
 
 

@@ -49,6 +49,7 @@ import android.widget.ImageView;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -60,6 +61,7 @@ import com.squareup.picasso.Picasso;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.room.AppDatabase;
+import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.about.AboutFragment;
 import com.xekera.Ecommerce.ui.account.AccountFragment;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartFragment;
@@ -68,6 +70,9 @@ import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsFragment;
 import com.xekera.Ecommerce.ui.dashboard.DashboardFragment;
 import com.xekera.Ecommerce.ui.dashboard_shopping.ShopFragment;
 import com.xekera.Ecommerce.ui.favourites.FavouritesFragment;
+import com.xekera.Ecommerce.ui.favourites.FavouritesMVP;
+import com.xekera.Ecommerce.ui.favourites.FavouritesModel;
+import com.xekera.Ecommerce.ui.favourites.FavouritesPresenter;
 import com.xekera.Ecommerce.ui.history.HistoryFragment;
 import com.xekera.Ecommerce.ui.login.LoginFragment;
 import com.xekera.Ecommerce.ui.privacy_policy.PrivacyPolicyFragment;
@@ -150,6 +155,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     View toastView;
 
     Button btnChangePhoto;
+    FavouritesModel favouritesModel;
 
     // TextView slideshow, gallery;
 
@@ -167,6 +173,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         enableHomeIcon(true);
+
+        favouritesModel = new FavouritesModel(appDatabase, utils);
+
         navigationView.setNavigationItemSelectedListener(this);
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -182,9 +191,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         if (sessionManager.isLoggedIn()) {
             btnChangePhoto.setVisibility(View.VISIBLE);
+            showLogoutOption();
+
         } else {
             btnChangePhoto.setVisibility(View.GONE);
-
+            hideLogoutOption();
         }
         btnChangePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -341,7 +352,24 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         bottomMenuItem.setChecked(false);
                     }
 
-                    showHideBottomNavigationCount(1);
+                    favouritesModel.getTotalCountFav(new FavouritesModel.IFetchOrderDetailsList() {
+                        @Override
+                        public void onCartDetailsReceived(List<Favourites> addToCarts) {
+                            if (addToCarts == null || addToCarts.size() == 0) {
+                                setTotalBottomNavigationCount(1, 0);
+                                return;
+                            } else {
+                                setTotalBottomNavigationCount(1, addToCarts.size());
+                            }
+                        }
+
+                        @Override
+                        public void onErrorReceived(Exception ex) {
+                            ex.printStackTrace();
+
+                        }
+                    });
+                    // showHideBottomNavigationCount(1);
 
 
                     //    navigation.setSelectedItemId(R.id.navigation_cart);
@@ -376,8 +404,24 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         bottomMenuItem.setCheckable(false);
                         bottomMenuItem.setChecked(false);
                     }
+                    favouritesModel.getTotalCountFav(new FavouritesModel.IFetchOrderDetailsList() {
+                        @Override
+                        public void onCartDetailsReceived(List<Favourites> addToCarts) {
+                            if (addToCarts == null || addToCarts.size() == 0) {
+                                setTotalBottomNavigationCount(1, 0);
+                                return;
+                            } else {
+                                setTotalBottomNavigationCount(1, addToCarts.size());
+                            }
+                        }
 
-                    showHideBottomNavigationCount(1);
+                        @Override
+                        public void onErrorReceived(Exception ex) {
+                            ex.printStackTrace();
+
+                        }
+                    });
+                    // showHideBottomNavigationCount(1);
 
 
                     //    navigation.setSelectedItemId(R.id.navigation_cart);
@@ -413,6 +457,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         // TextView view = (Button) menu.findItem(R.id.navigation_shop).getActionView();
 
         //  notifCount.setText(String.valueOf(120));
+        favCounts();
 
     }
 
@@ -425,6 +470,26 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 //
 //    }
 
+
+    public void favCounts() {
+        favouritesModel.getTotalCountFav(new FavouritesModel.IFetchOrderDetailsList() {
+            @Override
+            public void onCartDetailsReceived(List<Favourites> addToCarts) {
+                if (addToCarts == null || addToCarts.size() == 0) {
+                    setTotalBottomNavigationCount(1, 0);
+                    return;
+                } else {
+                    setTotalBottomNavigationCount(1, addToCarts.size());
+                }
+            }
+
+            @Override
+            public void onErrorReceived(Exception ex) {
+                ex.printStackTrace();
+
+            }
+        });
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -441,7 +506,24 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
             switch (item.getItemId()) {
                 case R.id.navigation_shop:
-                    showHideBottomNavigationCount(1);
+                    // showHideBottomNavigationCount(1);
+                    favouritesModel.getTotalCountFav(new FavouritesModel.IFetchOrderDetailsList() {
+                        @Override
+                        public void onCartDetailsReceived(List<Favourites> addToCarts) {
+                            if (addToCarts == null || addToCarts.size() == 0) {
+                                setTotalBottomNavigationCount(1, 0);
+                                return;
+                            } else {
+                                setTotalBottomNavigationCount(1, addToCarts.size());
+                            }
+                        }
+
+                        @Override
+                        public void onErrorReceived(Exception ex) {
+                            ex.printStackTrace();
+
+                        }
+                    });
 
                     if (!(fragmentContainer instanceof ShopFragment)) {
                         for (int i = 0; i < menu.size(); i++) {
@@ -468,7 +550,24 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     //    Toast.makeText(getActivity(), "Wishlist is selected", Toast.LENGTH_SHORT).show();
                     //  ((BaseActivity) getActivity()).popBackstack();
                     //((BaseActivity) getActivity()).addDashboardFragment(new FavouritesFragment());
-                    showHideBottomNavigationCount(1);
+                    // showHideBottomNavigationCount(1);
+                    favouritesModel.getTotalCountFav(new FavouritesModel.IFetchOrderDetailsList() {
+                        @Override
+                        public void onCartDetailsReceived(List<Favourites> addToCarts) {
+                            if (addToCarts == null || addToCarts.size() == 0) {
+                                setTotalBottomNavigationCount(1, 0);
+                                return;
+                            } else {
+                                setTotalBottomNavigationCount(1, addToCarts.size());
+                            }
+                        }
+
+                        @Override
+                        public void onErrorReceived(Exception ex) {
+                            ex.printStackTrace();
+
+                        }
+                    });
                     if (!(fragmentContainer instanceof FavouritesFragment)) {
                         for (int i = 0; i < menu.size(); i++) {
                             menuItem = menu.getItem(i);
@@ -513,7 +612,24 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     //    Toast.makeText(getActivity(), "Wishlist is selected", Toast.LENGTH_SHORT).show();
                     //  ((BaseActivity) getActivity()).popBackstack();
                     //((BaseActivity) getActivity()).addDashboardFragment(new FavouritesFragment());
-                    showHideBottomNavigationCount(1);
+                    //  showHideBottomNavigationCount(1);
+                    favouritesModel.getTotalCountFav(new FavouritesModel.IFetchOrderDetailsList() {
+                        @Override
+                        public void onCartDetailsReceived(List<Favourites> addToCarts) {
+                            if (addToCarts == null || addToCarts.size() == 0) {
+                                setTotalBottomNavigationCount(1, 0);
+                                return;
+                            } else {
+                                setTotalBottomNavigationCount(1, addToCarts.size());
+                            }
+                        }
+
+                        @Override
+                        public void onErrorReceived(Exception ex) {
+                            ex.printStackTrace();
+
+                        }
+                    });
                     if (!(fragmentContainer instanceof AccountFragment)
                             || !(fragmentContainer instanceof LoginFragment)
                     ) {
@@ -547,8 +663,24 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
 
                 case R.id.navigation_History:
-                    showHideBottomNavigationCount(1);
+                    // showHideBottomNavigationCount(1);
+                    favouritesModel.getTotalCountFav(new FavouritesModel.IFetchOrderDetailsList() {
+                        @Override
+                        public void onCartDetailsReceived(List<Favourites> addToCarts) {
+                            if (addToCarts == null || addToCarts.size() == 0) {
+                                setTotalBottomNavigationCount(1, 0);
+                                return;
+                            } else {
+                                setTotalBottomNavigationCount(1, addToCarts.size());
+                            }
+                        }
 
+                        @Override
+                        public void onErrorReceived(Exception ex) {
+                            ex.printStackTrace();
+
+                        }
+                    });
                     if (!(fragmentContainer instanceof HistoryFragment)) {
                         for (int i = 0; i < menu.size(); i++) {
                             menuItem = menu.getItem(i);
@@ -608,13 +740,45 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 bottomMenuItem = bottomMenu.findItem(R.id.navigation_shop);
                 bottomMenuItem.setCheckable(true);
                 bottomMenuItem.setChecked(true);
-                showHideBottomNavigationCount(1);
+                // showHideBottomNavigationCount(1);
+                favouritesModel.getTotalCountFav(new FavouritesModel.IFetchOrderDetailsList() {
+                    @Override
+                    public void onCartDetailsReceived(List<Favourites> addToCarts) {
+                        if (addToCarts == null || addToCarts.size() == 0) {
+                            setTotalBottomNavigationCount(1, 0);
+                            return;
+                        } else {
+                            setTotalBottomNavigationCount(1, addToCarts.size());
+                        }
+                    }
 
+                    @Override
+                    public void onErrorReceived(Exception ex) {
+                        ex.printStackTrace();
+
+                    }
+                });
 
             } else if (fragment instanceof HistoryFragment) {
                 navigation.setSelectedItemId(R.id.navigation_History);
-                showHideBottomNavigationCount(1);
+                // showHideBottomNavigationCount(1);
+                favouritesModel.getTotalCountFav(new FavouritesModel.IFetchOrderDetailsList() {
+                    @Override
+                    public void onCartDetailsReceived(List<Favourites> addToCarts) {
+                        if (addToCarts == null || addToCarts.size() == 0) {
+                            setTotalBottomNavigationCount(1, 0);
+                            return;
+                        } else {
+                            setTotalBottomNavigationCount(1, addToCarts.size());
+                        }
+                    }
 
+                    @Override
+                    public void onErrorReceived(Exception ex) {
+                        ex.printStackTrace();
+
+                    }
+                });
                 bottomMenuItem = bottomMenu.findItem(R.id.navigation_History);
                 bottomMenuItem.setCheckable(true);
                 bottomMenuItem.setChecked(true);
@@ -637,8 +801,24 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             }
         } else {
 
-            showHideBottomNavigationCount(1);
+            //    showHideBottomNavigationCount(1);
+            favouritesModel.getTotalCountFav(new FavouritesModel.IFetchOrderDetailsList() {
+                @Override
+                public void onCartDetailsReceived(List<Favourites> addToCarts) {
+                    if (addToCarts == null || addToCarts.size() == 0) {
+                        setTotalBottomNavigationCount(1, 0);
+                        return;
+                    } else {
+                        setTotalBottomNavigationCount(1, addToCarts.size());
+                    }
+                }
 
+                @Override
+                public void onErrorReceived(Exception ex) {
+                    ex.printStackTrace();
+
+                }
+            });
             Menu bottomMenu = navigation.getMenu();
             MenuItem bottomMenuItem;
             bottomMenuItem = bottomMenu.findItem(R.id.navigation_shop);
@@ -1369,6 +1549,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         }
 
                         sessionManager.clearAll();
+                        hideLogoutOption();
                         toastUtil.showToastShortTime("Logout Successfully.", toastView);
                         setUserDetails();
                         dialog.dismiss();
@@ -1408,6 +1589,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         isEnable = true;
                         sessionManager.clearAll();
                         setUserDetails();
+                        hideLogoutOption();
                         toastUtil.showToastShortTime("Logout Successfully.", toastView);
 
                     }
@@ -1521,6 +1703,25 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected void onResume() {
         super.onResume();
         setUserDetails();
+    }
+
+    public void hideLogoutOption() {
+        Menu menu = navigationView.getMenu();
+        MenuItem menuItem;
+
+
+        menuItem = menu.getItem(10);
+        menuItem.setVisible(false);
+
+    }
+
+    public void showLogoutOption() {
+        Menu menu = navigationView.getMenu();
+        MenuItem menuItem;
+
+
+        menuItem = menu.getItem(10);
+        menuItem.setVisible(true);
     }
 
     public void setUserDetails() {
@@ -1786,16 +1987,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     public void setTotalBottomNavigationCount(int index, long counts) {
         final Menu menu = navigation.getMenu();
         if (counts == 0) {
-            menu.getItem(index).setTitle("Favourite");
+            menu.getItem(index).setTitle("Favorite");
 
         } else {
-            menu.getItem(index).setTitle("Favourite(" + counts + ")");
+            menu.getItem(index).setTitle("Favorite(" + counts + ")");
         }
     }
 
     public void showHideBottomNavigationCount(int index) {
-        final Menu menu = navigation.getMenu();
-        menu.getItem(index).setTitle("Favourite");
+        //  final Menu menu = navigation.getMenu();
+        // menu.getItem(index).setTitle("Favorite");
     }
 
 

@@ -57,7 +57,7 @@
     <!--Bottom Navigation-->
     <color name="bgBottomNavigation">#3b5999</color>
     <string name="title_shop">Home</string>
-    <string name="title_favourite">Favourite</string>
+    <string name="title_favourite">Favorite</string>
     <string name="title_cart">Cart</string>
     <string name="title_profile">History</string>
     <string name="title_setting">Setting</string>

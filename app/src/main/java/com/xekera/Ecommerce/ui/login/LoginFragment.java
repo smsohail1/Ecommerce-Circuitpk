@@ -359,7 +359,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
                             (((BaseActivity) getActivity())).setUserDetails();
                             // hideProgressDialogPleaseWait();
                             showToastShortTime("LoggedIn Successfully.");
-
+                            (((BaseActivity) getActivity())).showLogoutOption();
                             //Register FB User
                             String[] myTaskParams = {first_name + last_name, "", "", email};
                             new FacebookUserRegister().execute(myTaskParams);
@@ -632,6 +632,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
     @Override
     public void hideForgotPasswordDialog() {
         dialog.dismiss();
+    }
+
+    @Override
+    public void showlogoutOption() {
+        ((BaseActivity) getActivity()).showLogoutOption();
     }
 
     private void turnGPSOn() {

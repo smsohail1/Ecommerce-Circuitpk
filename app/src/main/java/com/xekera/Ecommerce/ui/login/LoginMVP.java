@@ -32,6 +32,8 @@ public interface LoginMVP {
         void loggedInSuccessfully();
 
         void  hideForgotPasswordDialog();
+
+        void  showlogoutOption();
     }
 
     interface Presenter {

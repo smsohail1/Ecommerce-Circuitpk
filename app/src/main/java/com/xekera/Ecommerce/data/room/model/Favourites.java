@@ -39,7 +39,8 @@ public class Favourites {
     private String productDescFav;
     @ColumnInfo(name = "img_list_fav")
     private String imgArrListFav;
-
+    @ColumnInfo(name = "name_sku")
+    private String nameSku;
 
     public String getProductDescFav() {
         return productDescFav;
@@ -155,6 +156,13 @@ public class Favourites {
         this.itemTotalPrice = itemTotalPrice;
     }
 
+    public String getNameSku() {
+        return nameSku;
+    }
+
+    public void setNameSku(String nameSku) {
+        this.nameSku = nameSku;
+    }
 
     public Favourites() {
 
@@ -171,6 +179,26 @@ public class Favourites {
 //        this.itemQuantity = itemQuantity;
 //    }
 
+
+    public Favourites(String itemName, String itemIndividualPrice, String itemCutPrice,
+                      String itemStockStatus, String createdDate, byte[] itemImage, String itemQuantity,
+                      String itemTotalPrice, String image, String product_id, String isEmailFav, String productDescFav,
+                      String imgArrListFav, String nameSku) {
+        this.itemName = itemName;
+        this.itemIndividualPrice = itemIndividualPrice;
+        this.itemCutPrice = itemCutPrice;
+        this.itemStockStatus = itemStockStatus;
+        this.createdDate = createdDate;
+        this.itemImage = itemImage;
+        this.itemQuantity = itemQuantity;
+        this.itemTotalPrice = itemTotalPrice;
+        this.image = image;
+        this.product_id = product_id;
+        this.isEmailFav = isEmailFav;
+        this.productDescFav = productDescFav;
+        this.imgArrListFav = imgArrListFav;
+        this.nameSku = nameSku;
+    }
 
     public Favourites(String itemName, String itemIndividualPrice, String itemCutPrice,
                       String itemStockStatus, String createdDate, byte[] itemImage, String itemQuantity,

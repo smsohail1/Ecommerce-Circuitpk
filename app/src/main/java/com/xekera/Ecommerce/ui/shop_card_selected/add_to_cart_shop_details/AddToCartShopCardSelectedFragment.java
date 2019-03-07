@@ -120,11 +120,12 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
     public static final String KEY_SHOP_CARD_SELECTED_ABOUT = "cart_shop_card_selected_about";
     public static final String KEY_SHOP_CARD_SELECTED_SKU = "cart_shop_card_selected_sku";
     public static final String KEY_SHOP_CARD_SELECTED_PRODUCT_ID = "cart_shop_card_selected_product_id";
+    public static final String KEY_SHOP_CARD_SELECTED_SKU_NAME = "shop_card_selected_sku_name";
 
 
     ShoppingDetailModel shoppingDetailModel;
     String bitmapImage;
-    String productName = "", price = "", cutPrice = "", quantity = "", about = "", sku = "", producdID = "";
+    String productName = "", price = "", cutPrice = "", quantity = "", about = "", sku = "", producdID = "", skuName = "";
 
     List<String> imgList;
     String imgListJson = "";
@@ -176,6 +177,7 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
             about = getArguments().getString(KEY_SHOP_CARD_SELECTED_ABOUT);
             sku = getArguments().getString(KEY_SHOP_CARD_SELECTED_SKU);
             producdID = getArguments().getString(KEY_SHOP_CARD_SELECTED_PRODUCT_ID);
+            skuName = getArguments().getString(KEY_SHOP_CARD_SELECTED_SKU_NAME);
 
 //            String bitmapStr = "";
 //            bitmapStr = getArguments().getString(KEY_SHOP_CARD_SELECTED_IMAGE);
@@ -646,7 +648,8 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
 
     public AddToCartShopCardSelectedFragment newInstance(String productName, String price, String cutPrice, String quantity,
                                                          String img, String imgList, String productID, String about,
-                                                         String sku) {
+                                                         String sku,
+                                                         String nameSku) {
         AddToCartShopCardSelectedFragment fragment = null;
         try {
 
@@ -661,6 +664,8 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
             bundle.putString(KEY_SHOP_CARD_SELECTED_ABOUT, about);
             bundle.putString(KEY_SHOP_CARD_SELECTED_SKU, sku);
             bundle.putString(KEY_SHOP_CARD_SELECTED_PRODUCT_ID, productID);
+            bundle.putString(KEY_SHOP_CARD_SELECTED_SKU_NAME, nameSku);
+
 
             fragment = new AddToCartShopCardSelectedFragment();
             fragment.setArguments(bundle);
@@ -836,14 +841,16 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
                         favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
                                 availabilityInStock, formattedDate,
                                 byteArray, quantity, String.valueOf(totalPrice), imgList.get(0), producdID, "0",
-                                descStr, jsonObjectImg
+                                descStr, jsonObjectImg,
+                                skuName
                         );
                     } else {
 
                         favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
                                 availabilityInStock, formattedDate,
                                 byteArray, quantity, String.valueOf(totalPrice), imgList.get(0), producdID, "0",
-                                descStr, jsonObjectImg
+                                descStr, jsonObjectImg,
+                                skuName
                         );
                     }
 
@@ -903,13 +910,15 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
 
                     addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
                             "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID,
-                            "0", descString, jsonObjectImg);
+                            "0", descString, jsonObjectImg,
+                            skuName);
 
                 } else {
 
                     addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
                             "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID,
-                            "0", descString, jsonObjectImg);
+                            "0", descString, jsonObjectImg,
+                            skuName);
                 }
                 presenter.saveProductDetails(addToCart);
 
@@ -930,6 +939,13 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
                 }
                 break;
         }
+    }
+
+
+    @Override
+    public void setFavCount() {
+        ((BaseActivity) getActivity()).favCounts();
+
     }
 
     private String getCurrentDate() {

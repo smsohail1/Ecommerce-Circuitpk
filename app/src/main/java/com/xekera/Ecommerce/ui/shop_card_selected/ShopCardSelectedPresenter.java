@@ -366,15 +366,17 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             @Override
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
-                    view.showToastShortTime("Item added to favourite.");
+                    view.showToastShortTime("Item added to favorites.");
                     view.enableAddtoFavouriteButton();
                     view.animationAddButton();
+                    view.setFavCount();
 
                 } else {
                     view.enableAddtoFavouriteButton();
                     view.animationAddButton();
+                    view.setFavCount();
 
-                    view.showToastShortTime("Error while add to favourite.");
+                    view.showToastShortTime("Error while add to favorites.");
 
                 }
             }
@@ -399,11 +401,14 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
                     view.enableAddtoFavouriteButton();
                     view.animateFavouriteButton();
                     view.showToastShortTime("Item removed from favourite.");
+                    view.setFavCount();
                     return;
                 } else {
                     view.enableAddtoFavouriteButton();
                     view.animateFavouriteButton();
                     view.showToastShortTime("Error while remove to favourite.");
+                    view.setFavCount();
+
 
                 }
 

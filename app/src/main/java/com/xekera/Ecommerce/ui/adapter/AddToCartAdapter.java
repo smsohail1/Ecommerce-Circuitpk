@@ -209,7 +209,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 productsItems.get(getLayoutPosition()).getImage(),
                                 productsItems.get(getLayoutPosition()).getImgArrList(),
                                 productsItems.get(getLayoutPosition()).getProduct_id(),
-                                productsItems.get(getLayoutPosition()).getProductDesc());
+                                productsItems.get(getLayoutPosition()).getProductDesc(),
+                                productsItems.get(getLayoutPosition()).getNameSku());
                     } catch (Exception e) {
 
                     }
@@ -241,7 +242,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 productsItems.get(getLayoutPosition()).getImage(),
                                 productsItems.get(getLayoutPosition()).getProduct_id(), "0",
                                 productsItems.get(getLayoutPosition()).getProductDesc(),
-                                productsItems.get(getLayoutPosition()).getImgArrList());
+                                productsItems.get(getLayoutPosition()).getImgArrList()
+                                , productsItems.get(getLayoutPosition()).getNameSku());
 
                     } else {
                         productsItems.get(getLayoutPosition()).setItemQuantity("1");
@@ -261,7 +263,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 productsItems.get(getLayoutPosition()).getImage(),
                                 productsItems.get(getLayoutPosition()).getProduct_id(), "0",
                                 productsItems.get(getLayoutPosition()).getProductDesc(),
-                                productsItems.get(getLayoutPosition()).getImgArrList()
+                                productsItems.get(getLayoutPosition()).getImgArrList(),
+                                productsItems.get(getLayoutPosition()).getNameSku()
                         );
 
 //                        addToCartPresenter.updateItemCountInDB(productsItems.get(getLayoutPosition()).getItemQuantity(),
@@ -290,7 +293,8 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             productsItems.get(getLayoutPosition()).getImage(),
                             productsItems.get(getLayoutPosition()).getProduct_id(), "0",
                             productsItems.get(getLayoutPosition()).getProductDesc(),
-                            productsItems.get(getLayoutPosition()).getImgArrList());
+                            productsItems.get(getLayoutPosition()).getImgArrList(),
+                            productsItems.get(getLayoutPosition()).getNameSku());
 
 //                    addToCartPresenter.updateItemCountInDB(productsItems.get(getLayoutPosition()).getItemQuantity(),
 //                            String.valueOf(productPrice * itemQuantity),
@@ -378,12 +382,12 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
                                 String cutPrice, byte[] bytes, String imgUrl, String prodcutID, String isEmailSent,
-                                String productDesc, String imgArrList);
+                                String productDesc, String imgArrList,String nameSku);
 
         void removeItemFromCart(AddToCart productItems, int position);
 
         void onCardClick(String productName, String price, String cutPrice, String quantity, String img, String imgList,
-                         String productID, String about);
+                         String productID, String about, String nameSku);
     }
 
 }

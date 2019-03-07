@@ -93,6 +93,8 @@ class SearchAllProductsPresenter(
             override fun onSuccess() {
                 view!!.showToastShortTime("Item removed from favourite.")
                 view!!.setFavouriteButtonStatus(false, position)
+                view!!.getFavCounts();
+
             }
 
             override fun onError(ex: Exception) {
@@ -152,7 +154,8 @@ class SearchAllProductsPresenter(
     override fun isAlreadyAddedInFavourites(
         productItems: Product, position: Int, bitmap: Any?,
         quantity: String, imgUrl: String?, productID: String,
-        isEmailFav: String, productDesc: String, imgArrList: List<String>
+        isEmailFav: String, productDesc: String, imgArrList: List<String>,
+        nameSku: String
     ) {
         model.getFavouriteDetailsListByName(
             productItems.name!!,
@@ -175,7 +178,8 @@ class SearchAllProductsPresenter(
                                 productItems.name, productItems.Price,
                                 productItems.Regular_price.toString(), "In Stock", formattedDate,
                                 bmp, "1", totalPrice.toString(), imgUrl, productID, isEmailFav, productDesc,
-                                jsonObjectImg
+                                jsonObjectImg,
+                                nameSku
                             )
                         } else {
                             val totalPrice =
@@ -185,7 +189,8 @@ class SearchAllProductsPresenter(
                                 productItems.name, productItems.Price,
                                 productItems.Regular_price.toString(), "In Stock", formattedDate,
                                 bmp, quantity, totalPrice.toString(), imgUrl, productID, isEmailFav, productDesc,
-                                jsonObjectImg
+                                jsonObjectImg,
+                                nameSku
                             )
                         }
 
@@ -267,13 +272,14 @@ class SearchAllProductsPresenter(
             override fun onProductDetailsSaved(isAdded: Boolean) {
                 if (isAdded) {
 
-                    view!!.showToastShortTime("Item added to favourite.")
-
+                    view!!.showToastShortTime("Item added to favorites.")
+                    view!!.getFavCounts();
 
                 } else {
 
 
-                    view!!.showToastShortTime("Error while add to favourite.")
+                    view!!.showToastShortTime("Error while add to favorites.")
+                    view!!.getFavCounts();
 
                 }
             }
@@ -328,7 +334,8 @@ class SearchAllProductsPresenter(
         quantity: Long, price: String, totalPrice: String, productName: String,
         cutPrice: Long, imgProductCopy: ImageView,
         bitmap: Any?, imgUrl: String?, productID: String, isEmailSent: String,
-        productDesc: String, imgArrList: List<String>
+        productDesc: String, imgArrList: List<String>,
+        nameSku: String
     ) {
         model.getProductCount(productName, object : SearchAllProductsModel.IFetchCartDetailsList {
             override fun onCartDetailsReceived(addToCartList: List<AddToCart>) {
@@ -343,7 +350,8 @@ class SearchAllProductsPresenter(
                     val addToCart = AddToCart(
                         "", productName, totalPrice, quantity.toString(),
                         "N", bmp, cutPrice.toString(), price, formattedDate, imgUrl, productID,
-                        isEmailSent, productDesc, jsonObjectImg
+                        isEmailSent, productDesc, jsonObjectImg,
+                        nameSku
                     )
                     noProductFound(addToCart, imgProductCopy)
                     return
@@ -377,7 +385,8 @@ class SearchAllProductsPresenter(
         quantity: Long, price: String, totalPrice: String, productName: String,
         cutPrice: Long, imgProductCopy: ImageView, bitmapAdd: Any?,
         imgUrl: String?, productID: String, isEmailSent: String,
-        productDesc: String, imgArrList: List<String>
+        productDesc: String, imgArrList: List<String>,
+        nameSku: String
     ) {
         model.getProductCount(productName, object : SearchAllProductsModel.IFetchCartDetailsList {
             override fun onCartDetailsReceived(addToCartList: List<AddToCart>) {
@@ -392,7 +401,8 @@ class SearchAllProductsPresenter(
                     val addToCart = AddToCart(
                         "", productName, totalPrice, quantity.toString(),
                         "N", byteImg, cutPrice.toString(), price, formattedDate, imgUrl,
-                        productID, isEmailSent, productDesc, jsonObjectImg
+                        productID, isEmailSent, productDesc, jsonObjectImg,
+                        nameSku
                     )
                     noProductFoundForDecrement(addToCart, imgProductCopy)
                     return

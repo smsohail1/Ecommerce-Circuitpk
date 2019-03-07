@@ -69,7 +69,7 @@ public interface AddToCartMVP {
 
         void saveProductDetails(String quantity, long individualPrice, String itemPrice, String productName,
                                 String cutPrice, byte[] bytes, String imgUrl, String prodcutID, String isEmailSent,
-                                String productDesc, String imgArrList);
+                                String productDesc, String imgArrList,String nameSku);
 
 
     }

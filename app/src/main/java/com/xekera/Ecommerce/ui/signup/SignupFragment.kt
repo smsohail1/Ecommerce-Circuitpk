@@ -24,6 +24,7 @@ import javax.inject.Inject
  */
 class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
+
     @Inject
     lateinit var utils: Utils
     @Inject
@@ -109,6 +110,10 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
 
     }
 
+    override fun showLogoutOption() {
+        (activity as BaseActivity).showLogoutOption()
+
+    }
 
     public override fun onResume() {
         super.onResume()

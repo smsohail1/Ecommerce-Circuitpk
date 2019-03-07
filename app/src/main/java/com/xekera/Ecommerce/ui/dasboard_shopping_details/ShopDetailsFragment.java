@@ -663,27 +663,29 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
                                        ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID,
-                                       String isEmailSent, String productDesc, List<String> imgArrList) {
+                                       String isEmailSent, String productDesc, List<String> imgArrList, String nameSku) {
 
         presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmap, imgUrl,
-                productID, isEmailSent, productDesc, imgArrList);
+                productID, isEmailSent, productDesc, imgArrList, nameSku);
     }
 
     @Override
     public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
                                        ImageView imgProductCopy, Bitmap bitmapAdd, String imgUrl, String productID,
-                                       String isEmailSent, String productDesc, List<String> imgArrList) {
+                                       String isEmailSent, String productDesc, List<String> imgArrList, String nameSku) {
 
         presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, imgProductCopy, bitmapAdd,
-                imgUrl, productID, isEmailSent, productDesc, imgArrList);
+                imgUrl, productID, isEmailSent, productDesc, imgArrList, nameSku);
 
     }
 
     @Override
     public void onFavouriteButtonClick(Product productItems, int position, Bitmap bitmap, String quantity, String imgUrl,
-                                       String productID, String isEmailFav, String productDesc, List<String> imgArrList) {
+                                       String productID, String isEmailFav, String productDesc, List<String> imgArrList,
+                                       String nameSku) {
 
-        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap, quantity, imgUrl, productID, isEmailFav, productDesc, imgArrList);
+        presenter.isAlreadyAddedInFavourites(productItems, position, bitmap, quantity, imgUrl, productID,
+                isEmailFav, productDesc, imgArrList, nameSku);
 
      /*   if (!productItems.isFavourite()) {
             presenter.removeItem(productItems.getProductName(), position);
@@ -755,7 +757,8 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     @Override
     public void onCardClick(final String productName, final String price, final long cutPrice, final long quantity,
-                            final List<String> imgList, final Bitmap bitmapImg, final String about, final String sku, final String productID) {
+                            final List<String> imgList, final Bitmap bitmapImg, final String about, final String sku,
+                            final String productID, final String nameSku) {
         utils.hideSoftKeyboard(edtSearchProduct);
 
         new Handler().postDelayed(new Runnable() {
@@ -765,7 +768,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                 ShopCardSelectedFragment shopCardSelectedFragment = new ShopCardSelectedFragment();
 
                 ((BaseActivity) getActivity()).replaceFragmentForActivityTranstion(shopCardSelectedFragment.newInstance(productName,
-                        price, cutPrice, quantity, imgList, bitmapImg, about, sku, productID));
+                        price, cutPrice, quantity, imgList, bitmapImg, about, sku, productID, nameSku));
             }
         }, 200);
 
@@ -907,7 +910,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                         "Product Name: " + product.getName() + "\n" +
                         "New Price: " + product.getPrice() + "\n" +
                         "Old Price: " + product.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -939,7 +942,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                         "Product Name: " + product.getName() + "\n" +
                         "New Price: " + product.getPrice() + "\n" +
                         "Old Price: " + product.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -970,7 +973,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                         "Product Name: " + product.getName() + "\n" +
                         "New Price: " + product.getPrice() + "\n" +
                         "Old Price: " + product.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -999,7 +1002,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                         "Product Name: " + product.getName() + "\n" +
                         "New Price: " + product.getPrice() + "\n" +
                         "Old Price: " + product.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -1033,7 +1036,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                         "Product Name: " + product.getName() + "\n" +
                         "New Price: " + product.getPrice() + "\n" +
                         "Old Price: " + product.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());
 
         whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
@@ -1064,7 +1067,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                         "Product Name: " + product.getName() + "\n" +
                         "New Price: " + product.getPrice() + "\n" +
                         "Old Price: " + product.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());
 
         twitter.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
@@ -1235,6 +1238,12 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     @Override
     public void getFavourites(ProductResponse response) {
         presenter.getFavouritesList(response);
+
+    }
+
+    @Override
+    public void getFavCounts() {
+        ((BaseActivity) getActivity()).favCounts();
 
     }
 

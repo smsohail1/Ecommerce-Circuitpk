@@ -54,6 +54,8 @@ interface SearchAllProductsMVP {
         fun setAdapterItems(products: List<Product?>?)
 
         fun getFavourites(response: ProductResponse)
+
+        fun getFavCounts();
     }
 
     interface Presenter {
@@ -63,14 +65,14 @@ interface SearchAllProductsMVP {
         fun saveProductDetails(
             quantity: Long, price: String, totalPrice: String, productName: String, cutPrice: Long,
             imgProductCopy: ImageView, bitmap: Any?, imgUrl: String?, productID: String,
-            isEmailSent: String, productDesc: String, imgArrList: List<String>
+            isEmailSent: String, productDesc: String, imgArrList: List<String>, nameSku: String
         )
 
         fun saveProductDecrementDetails(
             quantity: Long, price: String, totalPrice: String,
             productName: String, cutPrice: Long, imgProductCopy: ImageView,
-            bitmapAdd:  Any?, imgUrl: String?, productID: String, isEmailSent: String,
-            productDesc: String, imgArrList: List<String>
+            bitmapAdd: Any?, imgUrl: String?, productID: String, isEmailSent: String,
+            productDesc: String, imgArrList: List<String>, nameSku: String
         )
 
 
@@ -107,7 +109,7 @@ interface SearchAllProductsMVP {
         fun isAlreadyAddedInFavourites(
             productItems: Product, position: Int, bitmap: Any?, quantity: String,
             imgUrl: String?, productID: String, isEmailFav: String, productDesc: String,
-            imgArrList: List<String>
+            imgArrList: List<String>, nameSku: String
         )
 
         fun setProductItemsDetails()

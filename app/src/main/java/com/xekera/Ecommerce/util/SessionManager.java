@@ -74,7 +74,8 @@ public class SessionManager {
     }
 
 
-    public void createSignUpSession(String username, String phoneno, String userPassword, String email, boolean isSignUp
+    public void createSignUpSession(String username, String phoneno, String userPassword, String email, boolean isSignUp,
+                                    boolean isLoggedIn
     ) {
         //editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_USER_NAME, username);
@@ -82,6 +83,7 @@ public class SessionManager {
         editor.putString(KEY_USER_PASSWORD, userPassword);
         editor.putString(KEY_USER_EMAIL, email);
         editor.putBoolean(KEY_IS_SIGNUP, isSignUp);
+        editor.putBoolean(IS_LOGIN, isLoggedIn);
 
         editor.commit();
     }
@@ -250,6 +252,9 @@ public class SessionManager {
         return pref.getBoolean(KEY_IS_SIGNUP, false);
     }
 
+    public boolean isLoginViaFacebook() {
+        return pref.getBoolean(KEY_IS_FACEBOOK_LOGIN, false);
+    }
 
     public String getusername() {
         return pref.getString(KEY_USER_NAME, "");

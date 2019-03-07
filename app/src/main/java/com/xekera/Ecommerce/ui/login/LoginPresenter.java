@@ -56,6 +56,7 @@ public class LoginPresenter implements LoginMVP.Presenter {
                                 // sessionManager.setIsLoggedIn(true);
                                 sessionManager.createLogin(response.getUsername(), "", password, response.getEmail(), true, false, "", true);
                                 view.showToastShortTime(response.getMessage());
+                                view.showlogoutOption();
                                 view.loggedInSuccessfully();
 
                             } else {

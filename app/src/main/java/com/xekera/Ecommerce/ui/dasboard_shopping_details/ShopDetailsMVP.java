@@ -66,6 +66,8 @@ public interface ShopDetailsMVP {
         void setAdapterItems(List<Product> products);
 
         void getFavourites(ProductResponse response);
+
+        void getFavCounts();
     }
 
     interface Presenter {
@@ -75,12 +77,12 @@ public interface ShopDetailsMVP {
 
         void saveProductDetails(long quantity, String price, String totalPrice, String productName, long cutPrice,
                                 ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID,
-                                String isEmailSent, String productDesc, List<String> imgArrList);
+                                String isEmailSent, String productDesc, List<String> imgArrList, String nameSku);
 
         void saveProductDecrementDetails(long quantity, String price, String totalPrice,
                                          String productName, long cutPrice, ImageView imgProductCopy,
                                          Bitmap bitmapAdd, String imgUrl, String productID, String isEmailSent,
-                                         String productDesc, List<String> imgArrList);
+                                         String productDesc, List<String> imgArrList, String nameSku);
 
 
         void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice, ImageView imgProductCopy);
@@ -102,8 +104,8 @@ public interface ShopDetailsMVP {
         void getFavouritesListByProductName(String productName, int position);
 
         void isAlreadyAddedInFavourites(Product productItems, int position, Bitmap bitmap, String quantity,
-                                        String imgUrl, String productID, String isEmailFav,String productDesc,
-                                        List<String> imgArrList);
+                                        String imgUrl, String productID, String isEmailFav, String productDesc,
+                                        List<String> imgArrList, String nameSku);
 
         void setProductItemsDetails(Context context, String sku);
     }

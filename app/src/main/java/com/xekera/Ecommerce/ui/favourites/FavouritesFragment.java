@@ -292,7 +292,8 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                             favourites.getItemIndividualPrice(),
                             formattedDate, favourites.getImage(),
                             favourites.getProduct_id(), favourites.getIsEmailFav(),
-                            favourites.getProductDescFav(), favourites.getImgArrListFav());
+                            favourites.getProductDescFav(), favourites.getImgArrListFav(),
+                            favourites.getNameSku());
                     presenter.insertSelectedFavouritesToCart(addToCart, position, img);
                     isShowing = true;
                 }
@@ -326,19 +327,19 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     @Override
     public void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
                                        byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl,
-                                       String productID, String isEmailFav, String productDesc, String imgArrList) {
+                                       String productID, String isEmailFav, String productDesc, String imgArrList, String nameSku) {
 
         presenter.saveProductDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy, bitmap,
-                imgUrl, productID, isEmailFav, productDesc, imgArrList);
+                imgUrl, productID, isEmailFav, productDesc, imgArrList, nameSku);
     }
 
     @Override
     public void onDecrementButtonClick(long quantity, String price, String totalPrice, String productName, long cutPrice,
                                        byte[] byteImage, ImageView imgProductCopy, String imgUrl, String productID,
-                                       String isEmailFav, String productDesc, String imgArrList) {
+                                       String isEmailFav, String productDesc, String imgArrList, String nameSku) {
 
         presenter.saveProductDecrementDetails(quantity, price, totalPrice, productName, cutPrice, byteImage, imgProductCopy,
-                imgUrl, productID, isEmailFav, productDesc, imgArrList);
+                imgUrl, productID, isEmailFav, productDesc, imgArrList, nameSku);
 
     }
 
@@ -446,7 +447,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                         "Product Name: " + favourites.getItemName() + "\n" +
                         "New Price: " + favourites.getItemIndividualPrice() + "\n" +
                         "Old Price: " + favourites.getItemCutPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -478,7 +479,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                         "Product Name: " + favourites.getItemName() + "\n" +
                         "New Price: " + favourites.getItemIndividualPrice() + "\n" +
                         "Old Price: " + favourites.getItemCutPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -509,7 +510,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                         "Product Name: " + favourites.getItemName() + "\n" +
                         "New Price: " + favourites.getItemIndividualPrice() + "\n" +
                         "Old Price: " + favourites.getItemCutPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -538,7 +539,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                         "Product Name: " + favourites.getItemName() + "\n" +
                         "New Price: " + favourites.getItemIndividualPrice() + "\n" +
                         "Old Price: " + favourites.getItemCutPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -572,7 +573,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                         "Product Name: " + favourites.getItemName() + "\n" +
                         "New Price: " + favourites.getItemIndividualPrice() + "\n" +
                         "Old Price: " + favourites.getItemCutPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
         whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
@@ -603,7 +604,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                         "Product Name: " + favourites.getItemName() + "\n" +
                         "New Price: " + favourites.getItemIndividualPrice() + "\n" +
                         "Old Price: " + favourites.getItemCutPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/");
+                        "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
         twitter.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 

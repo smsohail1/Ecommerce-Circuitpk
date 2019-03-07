@@ -12,6 +12,9 @@ public class Product {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("name_sku")
+    @Expose
+    private String nameSku;
     @SerializedName("About_product")
     @Expose
     private String aboutProduct;
@@ -104,6 +107,14 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getNameSku() {
+        return nameSku;
+    }
+
+    public void setNameSku(String nameSku) {
+        this.nameSku = nameSku;
     }
 
 }

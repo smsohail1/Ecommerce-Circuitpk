@@ -2,12 +2,10 @@ package com.xekera.Ecommerce.ui.favourites;
 
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
-import com.xekera.Ecommerce.data.room.dao.BookingDao;
 import com.xekera.Ecommerce.data.room.dao.FavouritesDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
-import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.data.room.model.Favourites;
-import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsModel;
+import com.xekera.Ecommerce.ui.BaseActivity;
 import com.xekera.Ecommerce.util.Utils;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -29,7 +27,7 @@ public class FavouritesModel implements FavouritesMVP.Model {
     }
 
     @Override
-    public void getFavouriteDetailsList( final IFetchOrderDetailsList iFetchOrderDetailsList) {
+    public void getFavouriteDetailsList(final IFetchOrderDetailsList iFetchOrderDetailsList) {
         try {
             Observable.just(appDatabase.getFavouritesDao()).
                     map(new Function<FavouritesDao, List<Favourites>>() {
@@ -312,6 +310,47 @@ public class FavouritesModel implements FavouritesMVP.Model {
             iFetchOrderDetailsList.onErrorReceived(e);
         }
     }
+
+
+    public void getTotalCountFav(final IFetchOrderDetailsList iFetchOrderDetailsList) {
+        try {
+            Observable.just(appDatabase.getFavouritesDao()).
+                    map(new Function<FavouritesDao, List<Favourites>>() {
+                        @Override
+                        public List<Favourites> apply(FavouritesDao favouritesDao) throws Exception {
+                            return favouritesDao.getFavouritesCounts();
+                        }
+                    }).
+                    subscribeOn(Schedulers.io()).
+                    observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Observer<List<Favourites>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(List<Favourites> bookings) {
+
+                            iFetchOrderDetailsList.onCartDetailsReceived(bookings);
+                            //iFetchOrderDetailsList.onCartDetailsReceived(bookings);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            iFetchOrderDetailsList.onErrorReceived((Exception) e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } catch (Exception e) {
+            // iFetchOrderDetailsList.onErrorReceived(e);
+        }
+    }
+
 
     @Override
     public void getTotalCountsByName(final String name, final IFetchOrderDetailsList iFetchOrderDetailsList) {
@@ -730,7 +769,7 @@ public class FavouritesModel implements FavouritesMVP.Model {
         }
     }
 
-    interface IFetchOrderDetailsList {
+    public interface IFetchOrderDetailsList {
         void onCartDetailsReceived(List<Favourites> bookings);
 
         void onErrorReceived(Exception ex);

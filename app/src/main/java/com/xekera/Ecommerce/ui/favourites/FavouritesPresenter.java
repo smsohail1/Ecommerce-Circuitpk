@@ -77,7 +77,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
         });
     }
 
-    private void getFavouriteCount() {
+    public void getFavouriteCount() {
         model.getTotalCounts(new FavouritesModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> addToCarts) {
@@ -100,7 +100,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
     @Override
     public void fetchFavouritesDetails() {
-        model.getFavouriteDetailsList( new FavouritesModel.IFetchOrderDetailsList() {
+        model.getFavouriteDetailsList(new FavouritesModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> favourites) {
                 if (favourites == null || favourites.size() == 0) {
@@ -294,7 +294,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
     public void saveProductDetails(final long quantity, final String price, final String totalPrice, final String productName,
                                    final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy,
                                    final Bitmap bitmap, final String imgUrl, final String productID, final String isEmailFav,
-                                   final String productDesc, final String imgArrList) {
+                                   final String productDesc, final String imgArrList, final String nameSku) {
         model.getTotalCountsByName(productName, new FavouritesModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> bookings) {
@@ -307,7 +307,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
                     Favourites favourites = new Favourites(productName, price, String.valueOf(cutPrice),
                             "In Stock", formattedDate, bmp, String.valueOf(quantity), totalPrice, imgUrl,
-                            productID, isEmailFav, productDesc, imgArrList);
+                            productID, isEmailFav, productDesc, imgArrList, nameSku);
 
                     noProductFound(favourites, imgProductCopy);
 
@@ -421,7 +421,8 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
     @Override
     public void saveProductDecrementDetails(final long quantity, final String price, final String totalPrice, final String productName,
                                             final long cutPrice, final byte[] byteImage, final ImageView imgProductCopy,
-                                            final String imgUrl, final String productID, final String isEmailFav, final String productDesc, final String imgArrList) {
+                                            final String imgUrl, final String productID, final String isEmailFav, final String productDesc, final String imgArrList,
+                                            final String nameSku) {
         model.getProductCount(productName, new FavouritesModel.IFetchOrderDetailsList() {
             @Override
             public void onCartDetailsReceived(List<Favourites> bookings) {
@@ -436,7 +437,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
                     byte[] itemImage;
                     Favourites favourites = new Favourites(productName, price, String.valueOf(cutPrice),
                             "In Stock", formattedDate, byteImage, String.valueOf(quantity), totalPrice, imgUrl,
-                            productID, isEmailFav, productDesc, imgArrList);
+                            productID, isEmailFav, productDesc, imgArrList, nameSku);
 
                     noProductFoundForDecrement(favourites, imgProductCopy);
 

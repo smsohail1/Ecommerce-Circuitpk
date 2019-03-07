@@ -143,11 +143,12 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     public static final String KEY_SHOP_CARD_SELECTED_ABOUT = "shop_card_selected_about";
     public static final String KEY_SHOP_CARD_SELECTED_SKU = "shop_card_selected_sku";
     public static final String KEY_SHOP_CARD_SELECTED_PRODUCT_ID = "shop_card_selected_product_id";
+    public static final String KEY_SHOP_CARD_SELECTED_SKU_NAME = "shop_card_selected_sku_name";
 
 
     ShoppingDetailModel shoppingDetailModel;
     Bitmap bitmapImage;
-    String productName = "", price = "", cutPrice = "", quantity = "", about = "", sku = "", producdID = "";
+    String productName = "", price = "", cutPrice = "", quantity = "", about = "", sku = "", producdID = "", skuName = "";
 
     List<String> imgList;
 
@@ -197,6 +198,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             about = getArguments().getString(KEY_SHOP_CARD_SELECTED_ABOUT);
             sku = getArguments().getString(KEY_SHOP_CARD_SELECTED_SKU);
             producdID = getArguments().getString(KEY_SHOP_CARD_SELECTED_PRODUCT_ID);
+            skuName = getArguments().getString(KEY_SHOP_CARD_SELECTED_SKU_NAME);
 
 //            String bitmapStr = "";
 //            bitmapStr = getArguments().getString(KEY_SHOP_CARD_SELECTED_IMAGE);
@@ -295,6 +297,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             if (!utils.isTextNullOrEmpty(sku)) {
                 availabilitValueTextView.setText(sku);
             }
+
 
             if (!utils.isTextNullOrEmpty(price)) {
                 priceTextView.setText(price);
@@ -644,6 +647,12 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
     }
 
+    @Override
+    public void setFavCount() {
+        ((BaseActivity) getActivity()).favCounts();
+
+    }
+
 
     @Override
     public void showSnackBarLongTime(String message, View view) {
@@ -666,7 +675,9 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //    }
 
     public ShopCardSelectedFragment newInstance(String productName, String price, long cutPrice, long quantity,
-                                                List<String> imgList, Bitmap bitmapImg, String about, String sku, String productID) {
+                                                List<String> imgList, Bitmap bitmapImg, String about, String sku,
+                                                String productID,
+                                                String nameSku) {
         ShopCardSelectedFragment fragment = null;
         try {
 
@@ -681,6 +692,7 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
             bundle.putString(KEY_SHOP_CARD_SELECTED_ABOUT, about);
             bundle.putString(KEY_SHOP_CARD_SELECTED_SKU, sku);
             bundle.putString(KEY_SHOP_CARD_SELECTED_PRODUCT_ID, productID);
+            bundle.putString(KEY_SHOP_CARD_SELECTED_SKU_NAME, nameSku);
 
             fragment = new ShopCardSelectedFragment();
             fragment.setArguments(bundle);
@@ -865,14 +877,16 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                         favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
                                 availabilityInStock, formattedDate,
                                 byteArray, quantity, String.valueOf(totalPrice), imgList.get(0), producdID, "0",
-                                descStr, jsonObjectImg
+                                descStr, jsonObjectImg,
+                                skuName
                         );
                     } else {
 
                         favourites = new Favourites(itemName, itemIndividualPrice, itemCutPrice,
                                 availabilityInStock, formattedDate,
                                 byteArray, quantity, String.valueOf(totalPrice), imgList.get(0), producdID, "0",
-                                descStr, jsonObjectImg
+                                descStr, jsonObjectImg,
+                                skuName
                         );
                     }
 
@@ -935,13 +949,13 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
                     addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
                             "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID,
-                            "0", descString, jsonObjectImg);
+                            "0", descString, jsonObjectImg, skuName);
 
                 } else {
 
                     addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
                             "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID,
-                            "0", descString, jsonObjectImg);
+                            "0", descString, jsonObjectImg, skuName);
                 }
                 presenter.saveProductDetails(addToCart);
 

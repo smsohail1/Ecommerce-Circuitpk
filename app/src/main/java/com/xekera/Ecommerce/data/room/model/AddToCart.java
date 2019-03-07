@@ -53,6 +53,8 @@ public class AddToCart {
     private String productDesc;
     @ColumnInfo(name = "img_arr_list")
     private String imgArrList;
+    @ColumnInfo(name = "name_sku")
+    private String nameSku;
 
 
     public String getIsEmailCart() {
@@ -95,6 +97,15 @@ public class AddToCart {
 
     public void setImgArrList(String imgArrList) {
         this.imgArrList = imgArrList;
+    }
+
+
+    public String getNameSku() {
+        return nameSku;
+    }
+
+    public void setNameSku(String nameSku) {
+        this.nameSku = nameSku;
     }
 
     public AddToCart() {
@@ -158,6 +169,28 @@ public class AddToCart {
         this.isEmailCart = isEmailCart;
         this.productDesc = productDesc;
         this.imgArrList = imgArrList;
+
+    }
+
+    public AddToCart(String orderID, String itemName, String itemPrice, String itemQuantity, String transmissionStatus,
+                     byte[] itemImage, String itemCutPrice
+            , String itemIndividualPrice, String createdDate, String image, String product_id, String isEmailCart,
+                     String productDesc, String imgArrList, String nameSku) {
+        this.orderID = orderID;
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.itemQuantity = itemQuantity;
+        this.transmissionStatus = transmissionStatus;
+        this.itemImage = itemImage;
+        this.itemCutPrice = itemCutPrice;
+        this.itemIndividualPrice = itemIndividualPrice;
+        this.createdDate = createdDate;
+        this.image = image;
+        this.product_id = product_id;
+        this.isEmailCart = isEmailCart;
+        this.productDesc = productDesc;
+        this.imgArrList = imgArrList;
+        this.nameSku = nameSku;
 
     }
 

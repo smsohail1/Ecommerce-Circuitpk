@@ -56,7 +56,7 @@
     <string name="logout_nav">Logout</string>
     <string name="product_nav">Products</string>
     <string name="login_nav">Login</string>
-    <string name="favourite_nav">Favourite</string>
+    <string name="favourite_nav">Favorite</string>
     <string name="profile_nav">Account</string>
     <string name="feedback_nav">Feedback</string>
     <string name="setting_nav">Setting</string>
