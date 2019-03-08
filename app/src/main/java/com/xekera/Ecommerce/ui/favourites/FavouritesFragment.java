@@ -34,6 +34,7 @@ import com.xekera.Ecommerce.ui.adapter.FavoritesAdapter;
 import com.xekera.Ecommerce.ui.adapter.HistoryAdapter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsPresenter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
+import com.xekera.Ecommerce.ui.shop_card_selected.add_to_cart_shop_details.AddToCartShopCardSelectedFragment;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
@@ -267,6 +268,27 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     }
 
     boolean isShowing = true;
+
+    @Override
+    public void onCardClick(final Favourites favourites) {
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                AddToCartShopCardSelectedFragment addToCartShopCardSelectedFragment = new AddToCartShopCardSelectedFragment();
+                ((BaseActivity) getActivity()).replaceFragmentForActivityTranstion(
+                        addToCartShopCardSelectedFragment.newInstance(favourites.getItemName(),
+                                favourites.getItemIndividualPrice(),
+                                favourites.getItemCutPrice(),
+                                favourites.getItemQuantity(),
+                                favourites.getImage()
+                                , favourites.getImgArrListFav(),
+                                favourites.getProduct_id(),
+                                favourites.getProductDescFav(), "", favourites.getNameSku()));
+            }
+        }, 100);
+    }
 
     @Override
     public void addToCartFavourites(final Favourites favourites, final int position, final ImageView img) {

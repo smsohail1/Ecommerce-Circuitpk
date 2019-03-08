@@ -197,6 +197,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             itemView.findViewById(R.id.decrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.incrementImageButton).setOnClickListener(this);
             itemView.findViewById(R.id.imgShareProductDetails).setOnClickListener(this);
+            itemView.findViewById(R.id.cardViewParent).setOnClickListener(this);
 
             // itemView.findViewById(R.id.messenger_send_button).setOnClickListener(this);
         }
@@ -204,6 +205,18 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
+                case R.id.cardViewParent:
+                    try {
+
+                        productsItems.get(getLayoutPosition()).setItemQuantity(counterTextview.getText().toString());
+
+                        iFvaouritesAddToCartAdapter.onCardClick(
+                                productsItems.get(getLayoutPosition()));
+                    } catch (Exception e) {
+
+                    }
+                    break;
+
                 case R.id.btnAddToCart:
                     iFvaouritesAddToCartAdapter.addToCartFavourites(productsItems.get(getLayoutPosition()), getLayoutPosition(),
                             imgProductCopy);
@@ -391,6 +404,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     public interface IFvaouritesAddToCartAdapter {
+        void onCardClick(Favourites favourites);
+
         void addToCartFavourites(Favourites favourites, int position, ImageView img);
 
         void removeFavourites(Favourites favourites, int position);

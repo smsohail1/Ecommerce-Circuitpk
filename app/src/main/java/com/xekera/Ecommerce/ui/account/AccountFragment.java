@@ -1,11 +1,20 @@
 package com.xekera.Ecommerce.ui.account;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -25,6 +34,9 @@ import com.xekera.Ecommerce.util.Utils;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import javax.inject.Inject;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 
 /**
@@ -48,6 +60,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     protected Button btnSaveChanges;
     @BindView(R.id.relativeLayoutParent)
     protected RelativeLayout relativeLayoutParent;
+    @BindView(R.id.btnChangePhoto)
+    protected Button btnChangePhoto;
+
 
     @Inject
     Utils utils;
@@ -58,6 +73,10 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
 
     View toastView;
+
+    private int GALLERY = 1, CAMERA = 2;
+
+    String strImg = "";
 
 
     public AccountFragment() {
@@ -97,7 +116,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         ButterKnife.bind(this, v);
         btnSaveChanges.setOnClickListener(this);
         relativeLayoutParent.setOnClickListener(this);
-
+        btnChangePhoto.setOnClickListener(this);
         toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
         new Handler().postDelayed(new Runnable() {
@@ -159,6 +178,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 String phoneNo = edtPhoneNo.getText().toString();
                 String email = edtEmail.getText().toString();
                 if (validateInputFields(username, companyName, address, phoneNo, email)) {
+                    if (utils.isTextNullOrEmpty(strImg)) {
+
+                    } else {
+                        sessionManager.setTakePhoto(strImg);
+                    }
                     sessionManager.createAccountDetails(username, companyName, address, phoneNo, email);
                     toastUtil.showToastShortTime("Saved changes successfully.", toastView);
                     ((BaseActivity) getActivity()).setUserDetails();
@@ -173,8 +197,196 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 utils.hideSoftKeyboard(edtEmail);
                 utils.hideSoftKeyboard(edtPhoneNo);
                 break;
+
+            case R.id.btnChangePhoto:
+                requestPermissions();
+
+                if (!mPermissionDenied) {
+                    showPictureDialog();
+
+                }
+                break;
+
         }
 
+    }
+
+
+    // PERMISSIONS CODE
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private boolean mPermissionDenied = false;
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public void requestPermissions() {
+        int camera = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA);
+        int hasReadPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        int hasWritePermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+
+        if ((hasReadPermission != PackageManager.PERMISSION_GRANTED) ||
+                (hasWritePermission != PackageManager.PERMISSION_GRANTED) ||
+                (camera != PackageManager.PERMISSION_GRANTED)) {
+            requestPermissions(
+                    new String[]{
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA
+                    },
+                    REQUEST_CODE_ASK_PERMISSIONS);
+            return;
+        } else {
+            mPermissionDenied = false;
+            //permissionsGranted();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if ((grantResults[0] == PackageManager.PERMISSION_GRANTED) &&
+                        (grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                    // Permission Allowed
+                    int camera = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA);
+                    int hasReadPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+                    int hasWritePermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+                    if ((hasReadPermission == PackageManager.PERMISSION_GRANTED) &&
+                            (hasWritePermission == PackageManager.PERMISSION_GRANTED) &&
+                            (camera == PackageManager.PERMISSION_GRANTED)
+                    ) {
+                        //permissionsGranted();
+                        mPermissionDenied = false;
+
+                    } else {
+                        mPermissionDenied = true;
+                    }
+                } else {
+                    // showMissingPermissionError();
+                    // Permission Denied
+                    mPermissionDenied = true;
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void showPictureDialog() {
+        try {
+
+            AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getActivity());
+            pictureDialog.setTitle("Select Action");
+            String[] pictureDialogItems = {
+                    "Select photo from gallery",
+                    "Capture photo from camera"};
+            pictureDialog.setItems(pictureDialogItems,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    choosePhotoFromGallary();
+                                    break;
+                                case 1:
+                                    takePhotoFromCamera();
+                                    break;
+                            }
+                        }
+                    });
+            pictureDialog.show();
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void choosePhotoFromGallary() {
+        try {
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+            startActivityForResult(galleryIntent, GALLERY);
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void takePhotoFromCamera() {
+        try {
+            Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, CAMERA);
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == getActivity().RESULT_CANCELED) {
+            return;
+        }
+        if (requestCode == GALLERY) {
+            if (data != null) {
+                Uri contentURI = data.getData();
+                try {
+
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 8;
+
+                    Bitmap bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(contentURI),
+                            null, options);
+
+                    // Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    //  String path = saveImage(bitmap);
+
+                    imgProfile.setImageBitmap(bitmap);
+                    //toastUtil.showToastShortTime("Profile picture updated", toastView);
+                    strImg = bitMapToString(bitmap);
+//                    sessionManager.setTakePhoto(strImg);
+
+                    // ((BaseActivity) getActivity()).setUserDetails();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    toastUtil.showToastShortTime("Error while updating profile picture", toastView);
+
+                }
+            }
+
+        } else if (requestCode == CAMERA) {
+            try {
+
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+
+
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                thumbnail.compress(Bitmap.CompressFormat.PNG, 90, out);
+                Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+
+                imgProfile.setImageBitmap(decoded);
+
+                strImg = bitMapToString(decoded);
+                //sessionManager.setTakePhoto(strImg);
+
+                // ((BaseActivity) getActivity()).setUserDetails();
+                //   saveImage(thumbnail);
+                //toastUtil.showToastShortTime("Profile picture updated", toastView);
+            } catch (Exception e) {
+                toastUtil.showToastShortTime("Error while updating profile picture", toastView);
+            }
+        }
+
+
+    }
+
+    private String bitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
     }
 
     private boolean validateInputFields(String userName, String companyName, String address, String phoneNo, String emailID) {

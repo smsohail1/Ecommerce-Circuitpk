@@ -84,11 +84,13 @@ public class SignupPresenter : SignupMVP.Presenter {
                                     response.email,
                                     true, true
                                 )
+                                view?.showLoginTextAcitve();
                                 view?.showLogoutOption();
                                 view?.showToastShortTime(response.message)
                                 view?.signUpSuccessfully();
                             } else {
 
+                                view?.setLoginInActiveBtnText();
                                 view?.showToastShortTime(response.message)
 
                             }
@@ -100,6 +102,7 @@ public class SignupPresenter : SignupMVP.Presenter {
                     override fun onFailure(t: Throwable) {
                         t.printStackTrace()
                         view?.hideProgressDialogPleaseWait()
+
                         if (t.message != null) {
                             view?.showToastShortTime(t.message.toString())
                         } else {
@@ -127,7 +130,7 @@ public class SignupPresenter : SignupMVP.Presenter {
             return false
         }
 
-        if (username.length < 6) {
+        if (username.length < 3) {
             view?.showToastShortTime(utils?.getStringFromResourceId(R.string.username_length_error_login)!!)
             return false
         }

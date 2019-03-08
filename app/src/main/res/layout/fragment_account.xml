@@ -44,7 +44,7 @@
                 <LinearLayout android:layout_width="match_parent"
                               android:layout_height="wrap_content"
                               android:gravity="center_horizontal"
-                              android:orientation="horizontal">
+                              android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -55,6 +55,18 @@
                             app:civ_border_width="2dp"
                             android:padding="8dp"
                             app:civ_border_color="#ffffff"
+                    />
+                    <Button
+                            android:id="@+id/btnChangePhoto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/button_login_height"
+                            android:textSize="@dimen/btn_login_size"
+                            android:layout_marginTop="3dp"
+                            android:textAllCaps="false"
+                            android:text="Change Photo"
+                            android:textColor="@color/white"
+                            android:theme="@style/PrimaryButton"
+
                     />
                 </LinearLayout>
 

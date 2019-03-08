@@ -82,11 +82,11 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     @BindView(R.id.progressbar)
     protected ProgressBar progressbar;
     @BindView(R.id.searchParent)
-    protected LinearLayout searchParent;
+    protected RelativeLayout searchParent;
     @BindView(R.id.allData)
     protected LinearLayout allData;
-    @BindView(R.id.filterImageView)
-    protected ImageView filterImageView;
+    @BindView(R.id.clearText)
+    protected ImageView clearText;
 
     @Inject
     protected ShopDetailsMVP.Presenter presenter;
@@ -316,7 +316,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
         edtSearchProduct.setText("");
 
-        filterImageView.setOnClickListener(this);
+        clearText.setOnClickListener(this);
 
         shopDetails = new ArrayList<ShoppingDetailModel>();
 
@@ -1354,8 +1354,9 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.filterImageView:
-                //  showToastShortTime("d");
+            case R.id.clearText:
+                edtSearchProduct.setText("");
+                shopDetailsAdapter.filter("");
                 break;
         }
     }

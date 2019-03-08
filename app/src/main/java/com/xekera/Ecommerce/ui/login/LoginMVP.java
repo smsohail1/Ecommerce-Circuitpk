@@ -31,9 +31,13 @@ public interface LoginMVP {
 
         void loggedInSuccessfully();
 
-        void  hideForgotPasswordDialog();
+        void hideForgotPasswordDialog();
 
-        void  showlogoutOption();
+        void showlogoutOption();
+
+        void setLoginActiveBtnText();
+
+        void setLoginInActiveBtnText();
     }
 
     interface Presenter {

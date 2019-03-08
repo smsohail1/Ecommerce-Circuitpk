@@ -154,6 +154,15 @@ class SignupFragment : Fragment(), View.OnClickListener, SignupMVP.View {
         }
     }
 
+    override fun showLoginTextAcitve() {
+
+        (activity as BaseActivity).setLoginActiveBtnText()
+
+    }
+
+    override fun setLoginInActiveBtnText() {
+        (activity as BaseActivity).setLoginInActiveBtnText()
+    }
 
     override fun showSnackBarShortTime(message: String, view: View) {
         snackUtil.showSnackBarShortTime(view, message)

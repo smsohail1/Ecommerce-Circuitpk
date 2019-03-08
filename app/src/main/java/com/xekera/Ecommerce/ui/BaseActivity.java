@@ -156,7 +156,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     Button btnChangePhoto;
     FavouritesModel favouritesModel;
-
+    Button btnLogin;
     // TextView slideshow, gallery;
 
     @Override
@@ -184,18 +184,21 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         View headerView = navigationView.getHeaderView(0);
         btnChangePhoto = headerView.findViewById(R.id.btnChangePhoto);
-        Button btnLogin = headerView.findViewById(R.id.btnLogin);
+        btnLogin = headerView.findViewById(R.id.btnLogin);
 
         //  profilePhoto = headerView.findViewById(R.id.img);
         profilePhoto = headerView.findViewById(R.id.img);
 
-        if (sessionManager.isLoggedIn()) {
+        if (sessionManager.isLoggedIn() || sessionManager.isLoginViaFacebook()) {
             btnChangePhoto.setVisibility(View.VISIBLE);
             showLogoutOption();
+            btnLogin.setText("Logout");
 
         } else {
             btnChangePhoto.setVisibility(View.GONE);
             hideLogoutOption();
+            btnLogin.setText("Login");
+
         }
         btnChangePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,6 +226,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
                 Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
                 if (!(fragment instanceof LoginFragment)) {
@@ -261,6 +265,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     drawer.closeDrawer(GravityCompat.START);
 
                 }
+
             }
         });
 
@@ -470,6 +475,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 //
 //    }
 
+    public void setLoginActiveBtnText() {
+        btnLogin.setText("Logout");
+    }
+
+
+    public void setLoginInActiveBtnText() {
+        btnLogin.setText("Login");
+    }
 
     public void favCounts() {
         favouritesModel.getTotalCountFav(new FavouritesModel.IFetchOrderDetailsList() {
@@ -1498,9 +1511,18 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         String Weblink = "https://circuit.pk/";
         String mobileAppLink = "https://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName();
+        String socialMediaLinks = "Social Media Pages:\n" + "Facebook: " + AppConstants.URL_CIRCUIT_PK_FACEBOOK_PAGE_URL + "\n" +
+                "Twitter: " + AppConstants.URL_CIRCUIT_PK_TWITTER_PAGE_URL + "\n" +
+                "Google Plus: " + AppConstants.URL_CIRCUIT_PK_GOOGLE_PLUS_PAGE_URL + "\n" +
+                "Pinterest: " + AppConstants.URL_CIRCUIT_PK_PINTEREST_PAGE_URL + "\n" +
+                "Youtube:" + AppConstants.URL_CIRCUIT_PK_YOUTUBE_PAGE_URL;
+
+        String textDesc = "I am using circuit.pk app.Here, you can purchase electronic components in low cost.\n\n" +
+                "Below are the links of Website and mobile app.\n";
+        String linkDesc = textDesc + "Website: " + Weblink + "\n" + "Mobile App: " + mobileAppLink + "\n\n" + socialMediaLinks;
 
         share.putExtra(Intent.EXTRA_SUBJECT, "Circuit.pk App");
-        share.putExtra(Intent.EXTRA_TEXT, "Website: " + Weblink + "\n\n" + "Mobile App: " + mobileAppLink);
+        share.putExtra(Intent.EXTRA_TEXT, linkDesc);
 
         startActivity(Intent.createChooser(share, "Share link"));
     }
@@ -1812,7 +1834,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 }
 
 
-                if (sessionManager.isLoggedIn()) {
+                if (sessionManager.isLoggedIn() || sessionManager.isSignUp()) {
                     if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
                         Bitmap img = stringToBitMap(sessionManager.getTakePhoto());
                         circleImageView.setImageBitmap(img);
@@ -1860,11 +1882,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
             }
 
+            if (sessionManager.isLoggedIn() || sessionManager.isLoginViaFacebook()) {
+                btnLogin.setText("Logout");
+
+            } else {
+                btnLogin.setText("Login");
+
+            }
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
     }
+
 
     public void setSignUpDetails() {
         try {
@@ -1892,7 +1923,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     txtPhoneNo.setVisibility(View.GONE);
 
                 }
+                if (sessionManager.getKeyIsFacebookLogin()) {
+                    btnChangePhoto.setVisibility(View.VISIBLE);
+                } else {
+                    btnChangePhoto.setVisibility(View.GONE);
 
+                }
                 imgFacebook.setVisibility(View.VISIBLE);
 
                 if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
@@ -1949,6 +1985,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                 circleImageView.setVisibility(View.VISIBLE);
 
+                if (sessionManager.isLoggedIn() || sessionManager.isSignUp()) {
+                    btnChangePhoto.setVisibility(View.VISIBLE);
+                } else {
+                    btnChangePhoto.setVisibility(View.GONE);
+
+                }
                 //circleImageView.setImageResource(R.drawable.icon_user_profile);
 
 //                if (!utils.isTextNullOrEmpty(sessionManager.getTakePhoto())) {
@@ -2140,7 +2182,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     private boolean mPermissionDenied = false;
 
     @TargetApi(Build.VERSION_CODES.M)
-    private void requestPermissions() {
+    public void requestPermissions() {
         int camera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA);
         int hasReadPermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
         int hasWritePermission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);

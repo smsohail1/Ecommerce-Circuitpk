@@ -17,6 +17,8 @@ public interface SignupMVP {
         fun signUpSuccessfully();
         fun signUp();
         fun showLogoutOption();
+        fun showLoginTextAcitve();
+        fun  setLoginInActiveBtnText();
     }
 
     interface Presenter {

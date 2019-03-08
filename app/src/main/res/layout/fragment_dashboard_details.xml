@@ -15,58 +15,59 @@
             android:padding="5dp"
     >
 
-        <LinearLayout
+        <RelativeLayout
                 android:id="@+id/searchParent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:weightSum="1.0"
+                android:background="@drawable/bg_search_edt"
+                android:layout_margin="10dp"
+                android:padding="5dp"
+
         >
             <!--android:background="#adadb2"-->
 
             <EditText
                     android:id="@+id/edtSearchProduct"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_height"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/bg_search_edt"
                     android:drawableLeft="@drawable/icon_search_product"
                     android:drawablePadding="7dp"
-                    android:layout_margin="10dp"
                     android:hint="@string/edt_shop_details"
                     android:inputType="text"
                     android:maxLength="100"
-                    android:paddingRight="10dp"
+                    android:paddingRight="7dp"
+                    android:background="@android:color/transparent"
+
                     android:textColorHint="@color/colorPrimary"
                     android:textCursorDrawable="@drawable/search_edt_cursor_color"
                     android:textColor="#54595C"
                     android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/clearText"
                     android:textSize="14sp"/>
 
 
             <ImageView
-                    android:id="@+id/filterImageView"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.1"
+                    android:id="@+id/clearText"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/edit_height"
-                    android:src="@drawable/icon_filter"
-                    android:padding="4dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:visibility="gone"
-
+                    android:src="@drawable/selector_cross_out"
+                    android:padding="5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
             />
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:layout_below="@+id/searchParent"
-                      android:layout_marginBottom="2dp">
+                      android:layout_marginBottom="5dp">
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerViewProductDetails"
                     android:layout_below="@+id/categoryLabel"

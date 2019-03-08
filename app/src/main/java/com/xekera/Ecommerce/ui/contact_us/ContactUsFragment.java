@@ -22,9 +22,12 @@ import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.ui.adapter.RelationAdapter;
 import com.xekera.Ecommerce.util.*;
 
 import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static com.xekera.Ecommerce.util.AppConstants.supportEmail;
@@ -45,6 +48,8 @@ public class ContactUsFragment extends Fragment implements View.OnClickListener 
     @BindView(R.id.imgCallMobile)
     protected ImageView imgCallMobile;
 
+    @BindView(R.id.spinnerTownCity)
+    protected Spinner spinnerTownCity;
 
     @BindView(R.id.btnSend)
     protected Button btnSend;
@@ -63,6 +68,9 @@ public class ContactUsFragment extends Fragment implements View.OnClickListener 
     SnackUtil snackUtil;
     @Inject
     SessionManager sessionManager;
+
+    String contactSuggestionSelectedStr = "";
+    List<String> contactSuggestion;
 
 
     public ContactUsFragment() {
@@ -106,6 +114,29 @@ public class ContactUsFragment extends Fragment implements View.OnClickListener 
         relativeLayoutParent.setOnClickListener(this);
         imgCallMobile.setOnClickListener(this);
         btnSend.setOnClickListener(this);
+        contactSuggestion = Arrays.asList(getResources().getStringArray(R.array.contact_report));
+
+        spinnerTownCity.setAdapter(new RelationAdapter(contactSuggestion));
+        spinnerTownCity.setSelection(0);
+
+        spinnerTownCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                try {
+                    contactSuggestionSelectedStr = contactSuggestion.get(position);
+
+
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+
+        });
 
     }
 
@@ -131,9 +162,9 @@ public class ContactUsFragment extends Fragment implements View.OnClickListener 
                 if (isFormValid(userName,
                         phoneNo,
                         email,
-                        message)) {
+                        message, contactSuggestionSelectedStr)) {
                     sendEmail("Username: " + userName, "Mobile No: " + phoneNo, "Email: " + email,
-                            "Report Message: " + message, companyName);
+                            "Report Message: " + message, companyName, "Topic: " + contactSuggestionSelectedStr);
 
                 }
                 break;
@@ -204,7 +235,18 @@ public class ContactUsFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    private boolean isFormValid(String username, String mobileNo, String email, String message) {
+    private boolean isFormValid(String username, String mobileNo, String email, String message, String contactSuggestionSelectedStr) {
+
+        if (utils.isTextNullOrEmpty(contactSuggestionSelectedStr)) {
+            toastUtil.showToastShortTime(utils.getStringFromResourceId(R.string.contact_us_suggestion_error), toastView);
+            return false;
+        }
+
+        if (contactSuggestionSelectedStr.equalsIgnoreCase("Choose")) {
+            toastUtil.showToastShortTime(utils.getStringFromResourceId(R.string.contact_us_suggestion_error), toastView);
+            return false;
+        }
+
         if (utils.isTextNullOrEmpty(username)) {
             toastUtil.showToastShortTime(utils.getStringFromResourceId(R.string.username_error_login), toastView);
             return false;
@@ -242,7 +284,7 @@ public class ContactUsFragment extends Fragment implements View.OnClickListener 
         return pattern.matcher(email).matches();
     }
 
-    private void sendEmail(String username, String mobileNo, String email, String message, String companyName) {
+    private void sendEmail(String username, String mobileNo, String email, String message, String companyName, String contactSuggestionSelectedStr) {
         try {
 
 
@@ -255,10 +297,12 @@ public class ContactUsFragment extends Fragment implements View.OnClickListener 
                 emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, username + "\n\n" + mobileNo + "\n\n" + email + "\n\n" +
                         message);
             } else {
-                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, username + "\n\n" +
-                        "Company Name: " + companyName + "\n\n" +
-                        mobileNo + "\n\n" + email + "\n\n" +
-                        message);
+                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+                        contactSuggestionSelectedStr + "\n\n" +
+                                username + "\n\n" +
+                                "Company Name: " + companyName + "\n\n" +
+                                mobileNo + "\n\n" + email + "\n\n" +
+                                message);
             }
             //emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///mnt/sdcard/Myimage.jpeg"));
             //  emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

@@ -8,8 +8,9 @@
     <string name="username_email_hint_edt">Username or Email Id</string>
     <string name="login_title">Login</string>
     <string name="username_error_login">Username is required</string>
-    <string name="username_length_error_login">Username must be minimum 6 characters.</string>
+    <string name="username_length_error_login">Username must be minimum 3 characters.</string>
     <string name="contact_us_phone_error">PhoneNo is required</string>
+    <string name="contact_us_suggestion_error">Please select topic</string>
 
     <string name="password_error_login">Password is required</string>
     <string name="password_length_error_login">Password must be minimum 6 characters.</string>
@@ -174,6 +175,18 @@
         <item>Islamabad</item>
         <item>Rawalpindi</item>
         <item>Other</item>
+    </string-array>
+
+
+    <string-array name="contact_report">
+        <item>Choose</item>
+        <item>get help ordering</item>
+        <item>get helping finding a part</item>
+        <item>check an order status</item>
+        <item>change submitted order</item>
+        <item>return a product</item>
+        <item>do a general request</item>
+
     </string-array>
 
     <string-array name="state_country">

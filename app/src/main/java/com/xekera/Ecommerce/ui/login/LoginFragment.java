@@ -639,6 +639,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Log
         ((BaseActivity) getActivity()).showLogoutOption();
     }
 
+    @Override
+    public void setLoginActiveBtnText() {
+        ((BaseActivity) getActivity()).setLoginActiveBtnText();
+    }
+
+    @Override
+    public void setLoginInActiveBtnText() {
+        ((BaseActivity) getActivity()).setLoginInActiveBtnText();
+
+    }
+
     private void turnGPSOn() {
         try {
             final LocationManager manager = (LocationManager) getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);

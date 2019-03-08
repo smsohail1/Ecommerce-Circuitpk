@@ -70,7 +70,9 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
     @BindView(R.id.linearLayoutItemDetails)
     protected LinearLayout linearLayoutItemDetails;
     @BindView(R.id.searchParent)
-    protected LinearLayout searchParent;
+    protected RelativeLayout searchParent;
+    @BindView(R.id.clearText)
+    protected ImageView clearText;
 
     @Inject
     protected HistoryMVP.Presenter presenter;
@@ -142,6 +144,7 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
         // datePickerEdittext.setOnClickListener(this);
         linearLayoutItemDetails.setOnClickListener(this);
+        clearText.setOnClickListener(this);
 
         toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
 
@@ -607,6 +610,11 @@ public class HistoryFragment extends Fragment implements HistoryMVP.View, Histor
 
             case R.id.linearLayoutItemDetails:
                 utils.hideSoftKeyboard(edtSearchProduct);
+                break;
+
+            case R.id.clearText:
+                edtSearchProduct.setText("");
+                adapter.filter("");
                 break;
 
         }

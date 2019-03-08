@@ -125,14 +125,13 @@
                             android:inputType="textPassword"
                             android:imeOptions="actionDone"
                             android:paddingRight="5dp"
-                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"
-
                             android:maxLength="15"
                             android:textColorHint="#ffffff"
                             android:textCursorDrawable="@drawable/cursor_color"
                             android:textSize="14sp"
                             android:layout_marginBottom="10dp"/>
                 </android.support.design.widget.TextInputLayout>
+                <!--android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"-->
 
                 <Button
                         android:id="@+id/btnSignIn"

@@ -62,8 +62,8 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
 //    protected var searchParent: LinearLayout? = null
 //    @BindView(R.id.allData)
 //    protected var allData: LinearLayout? = null
-//    @BindView(R.id.filterImageView)
-//    protected var filterImageView: ImageView? = null
+//    @BindView(R.id.clearText)
+//    protected var clearText: ImageView? = null
 
     @Inject
     lateinit var presenter: SearchAllProductsMVP.Presenter
@@ -170,7 +170,7 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
 
 
 
-        filterImageView?.setOnClickListener(this)
+        clearText?.setOnClickListener(this)
 
         shopDetails = ArrayList()
 
@@ -892,7 +892,9 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.filterImageView -> {
+            R.id.clearText -> {
+                edtSearchProduct?.setText("")
+                shopDetailsAdapter.filter("")
             }
         }//  showToastShortTime("d");
     }
