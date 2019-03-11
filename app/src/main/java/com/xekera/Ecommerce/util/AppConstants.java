@@ -19,15 +19,15 @@ public class AppConstants {
 
 
     //Sir farrukh contact number
-    //public static final String support_contact_no = "+923345290597";
-    public static final String support_contact_no = "+923332542126";
-
+    public static final String support_contact_no = "+923345290597";
+    //public static final String support_contact_no = "+923332542146";
     public static final String supportEmail = "support@circuit.pk";
 
 
     public static final String TIME_FORMAT_TWO = "hh:mm:ss";
     public static final String DATE_TIME_FORMAT_THREE = "ddMMyy_HHmmss_";
-    public static final String DATE_TIME_FORMAT_TWO = "AllProductsResponse-MM-yyyy HH:mm";
+    public static final String DATE_TIME_FORMAT_TWO = "dd-MM-yyyy HH:mm";
+    public static final String DATE_TIME_FORMAT_FOUR = "dd-MM-yyyyHH:mm:ss";
 
 
     public static final String PREF_NAME = "xekera.ecommerce";

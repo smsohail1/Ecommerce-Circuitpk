@@ -23,6 +23,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.Product;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartPresenter;
 
@@ -33,12 +34,12 @@ import java.util.logging.Handler;
 
 public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
-    List<AddToCart> productsItems;
+    List<Product> productsItems;
     // IShopDetailAdapter iShopDetailAdapter;
     //  AddToCartPresenter addToCartPresenter;
     IShopDetailAdapter iShopDetailAdapter;
 
-    public AddToCartAdapter(List<AddToCart> productsItems, IShopDetailAdapter iShopDetailAdapter) {
+    public AddToCartAdapter(List<Product> productsItems, IShopDetailAdapter iShopDetailAdapter) {
         this.productsItems = productsItems;
         this.iShopDetailAdapter = iShopDetailAdapter;
     }
@@ -58,18 +59,18 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final AddToCart addToCart = productsItems.get(position);
+        final Product addToCart = productsItems.get(position);
         //  byte[] bytes;
         if (holder instanceof productDetailsDataListViewHolder) {
             final productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
-            productDetailsDataListViewHolder.productNameLabelTextView.setText(addToCart.getItemName());
-            productDetailsDataListViewHolder.priceTextView.setText(addToCart.getItemIndividualPrice());
+            productDetailsDataListViewHolder.productNameLabelTextView.setText(addToCart.getName());
+            productDetailsDataListViewHolder.priceTextView.setText(addToCart.getPrice());
             productDetailsDataListViewHolder.counterTextview.setText(addToCart.getItemQuantity());
 
-            if (addToCart.getItemCutPrice() != null) {
-                productDetailsDataListViewHolder.discountPriceTextView.setText(addToCart.getItemCutPrice());
-                if (addToCart.getItemCutPrice().equalsIgnoreCase("0")) {
+            if (addToCart.getRegularPrice() != null) {
+                productDetailsDataListViewHolder.discountPriceTextView.setText(addToCart.getRegularPrice());
+                if (addToCart.getRegularPrice().equalsIgnoreCase("0")) {
                     productDetailsDataListViewHolder.discountLinearParent.setVisibility(View.GONE);
                 }
             } else {
@@ -81,7 +82,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             try {
 
                 Glide.with(context)
-                        .load(addToCart.getImage())
+                        .load(addToCart.getImageJson().get(0))
                         .asBitmap()
                         .placeholder(R.drawable.placeholder)
                         .error(R.drawable.placeholder)
@@ -202,15 +203,16 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     try {
 
                         iShopDetailAdapter.onCardClick(
-                                productsItems.get(getLayoutPosition()).getItemName(),
-                                productsItems.get(getLayoutPosition()).getItemIndividualPrice(),
-                                productsItems.get(getLayoutPosition()).getItemCutPrice(),
+                                productsItems.get(getLayoutPosition()).getName(),
+                                productsItems.get(getLayoutPosition()).getPrice(),
+                                productsItems.get(getLayoutPosition()).getRegularPrice(),
                                 productsItems.get(getLayoutPosition()).getItemQuantity(),
-                                productsItems.get(getLayoutPosition()).getImage(),
-                                productsItems.get(getLayoutPosition()).getImgArrList(),
-                                productsItems.get(getLayoutPosition()).getProduct_id(),
-                                productsItems.get(getLayoutPosition()).getProductDesc(),
-                                productsItems.get(getLayoutPosition()).getNameSku());
+                                productsItems.get(getLayoutPosition()).getImageJson().get(0),
+                                productsItems.get(getLayoutPosition()).getImageJson(),
+                                productsItems.get(getLayoutPosition()).getId(),
+                                productsItems.get(getLayoutPosition()).getDescription(),
+                                productsItems.get(getLayoutPosition()).getNameSku(),
+                                productsItems.get(getLayoutPosition()).getProductSku());
                     } catch (Exception e) {
 
                     }
@@ -218,54 +220,66 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 case R.id.decrementImageButton:
                     long dec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
-                    if (dec > 1) {
+                    long counterClick = Long.valueOf(counterTextview.getText().toString());
+                    if (counterClick > 1) {
+                        if (dec >= 1) {
 
-                        long decrementLong = dec - 1;
-                        productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(decrementLong));
+                            long decrementLong = counterClick - 1;
+                            productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(decrementLong));
 
-                        counterTextview.setText(decrementLong + "");
+                            counterTextview.setText(decrementLong + "");
+                            iShopDetailAdapter.decremetnBtnClick(String.valueOf(decrementLong),
+                                    productsItems.get(getLayoutPosition()).getId(),
+                                    productsItems.get(getLayoutPosition()).getPrice());
 
-                        long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
-                        long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+                            // long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getPrice());
+                            // long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
 
 //                        addToCartPresenter.updateItemCountInDB(productsItems.get(getLayoutPosition()).getItemQuantity(),
 //                                String.valueOf(productPrice * itemQuantity),
 //                                productsItems.get(getLayoutPosition()).getItemName(),
 //                                productsItems.get(getLayoutPosition()).getItemCutPrice());
+                            //   byte[] bytes = new byte[0];
 
-                        iShopDetailAdapter.incrementDecrement(productsItems.get(getLayoutPosition()).getItemQuantity(),
-                                productPrice,
-                                String.valueOf(productPrice * itemQuantity),
-                                productsItems.get(getLayoutPosition()).getItemName(),
-                                productsItems.get(getLayoutPosition()).getItemCutPrice(),
-                                productsItems.get(getLayoutPosition()).getItemImage(),
-                                productsItems.get(getLayoutPosition()).getImage(),
-                                productsItems.get(getLayoutPosition()).getProduct_id(), "0",
-                                productsItems.get(getLayoutPosition()).getProductDesc(),
-                                productsItems.get(getLayoutPosition()).getImgArrList()
-                                , productsItems.get(getLayoutPosition()).getNameSku());
+//                        iShopDetailAdapter.incrementDecrement(productsItems.get(getLayoutPosition()).getItemQuantity(),
+//                                productPrice,
+//                                String.valueOf(productPrice * itemQuantity),
+//                                productsItems.get(getLayoutPosition()).getName(),
+//                                productsItems.get(getLayoutPosition()).getRegularPrice(),
+//                                bytes,
+//                                productsItems.get(getLayoutPosition()).getImageJson().get(0),
+//                                productsItems.get(getLayoutPosition()).getId(), "0",
+//                                productsItems.get(getLayoutPosition()).getDescription(),
+//                                productsItems.get(getLayoutPosition()).getImageJson()
+//                                , productsItems.get(getLayoutPosition()).getNameSku());
 
+                        } else {
+                            counterTextview.setText("1");
+                        }
                     } else {
-                        productsItems.get(getLayoutPosition()).setItemQuantity("1");
+                        //  productsItems.get(getLayoutPosition()).setItemQuantity("1");
 
-                        counterTextview.setText(productsItems.get(getLayoutPosition()).getItemQuantity() + "");
+                        counterTextview.setText("1");
 
-                        long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
-                        long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+                        //iShopDetailAdapter.addBtnClick("1", productsItems.get(getLayoutPosition()).getId());
 
+                        // long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getPrice());
+                        //  long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
 
-                        iShopDetailAdapter.incrementDecrement(productsItems.get(getLayoutPosition()).getItemQuantity(),
-                                productPrice,
-                                String.valueOf(productPrice * itemQuantity),
-                                productsItems.get(getLayoutPosition()).getItemName(),
-                                productsItems.get(getLayoutPosition()).getItemCutPrice(),
-                                productsItems.get(getLayoutPosition()).getItemImage(),
-                                productsItems.get(getLayoutPosition()).getImage(),
-                                productsItems.get(getLayoutPosition()).getProduct_id(), "0",
-                                productsItems.get(getLayoutPosition()).getProductDesc(),
-                                productsItems.get(getLayoutPosition()).getImgArrList(),
-                                productsItems.get(getLayoutPosition()).getNameSku()
-                        );
+                        //byte[] bytes = new byte[0];
+
+//                        iShopDetailAdapter.incrementDecrement(productsItems.get(getLayoutPosition()).getItemQuantity(),
+//                                productPrice,
+//                                String.valueOf(productPrice * itemQuantity),
+//                                productsItems.get(getLayoutPosition()).getName(),
+//                                productsItems.get(getLayoutPosition()).getRegularPrice(),
+//                                bytes,
+//                                productsItems.get(getLayoutPosition()).getImageJson().get(0),
+//                                productsItems.get(getLayoutPosition()).getId(), "0",
+//                                productsItems.get(getLayoutPosition()).getProductDesc(),
+//                                productsItems.get(getLayoutPosition()).getImgArrList(),
+//                                productsItems.get(getLayoutPosition()).getNameSku()
+                        //);
 
 //                        addToCartPresenter.updateItemCountInDB(productsItems.get(getLayoutPosition()).getItemQuantity(),
 //                                String.valueOf(productPrice * itemQuantity),
@@ -275,31 +289,31 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     break;
                 case R.id.incrementImageButton:
-                    long inc = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+                    // long inc = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+                    long inc = Long.valueOf(counterTextview.getText().toString());
                     long incrementLong = inc + 1;
-                    productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(incrementLong));
+                    //productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(incrementLong));
                     counterTextview.setText(incrementLong + "");
+                    iShopDetailAdapter.addBtnClick(String.valueOf(incrementLong),
+                            productsItems.get(getLayoutPosition()).getId(),
+                            productsItems.get(getLayoutPosition()).getPrice());
 
-                    long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
-                    long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+                    // long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
+                    //long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
 
 
-                    iShopDetailAdapter.incrementDecrement(productsItems.get(getLayoutPosition()).getItemQuantity(),
-                            productPrice,
-                            String.valueOf(productPrice * itemQuantity),
-                            productsItems.get(getLayoutPosition()).getItemName(),
-                            productsItems.get(getLayoutPosition()).getItemCutPrice(),
-                            productsItems.get(getLayoutPosition()).getItemImage(),
-                            productsItems.get(getLayoutPosition()).getImage(),
-                            productsItems.get(getLayoutPosition()).getProduct_id(), "0",
-                            productsItems.get(getLayoutPosition()).getProductDesc(),
-                            productsItems.get(getLayoutPosition()).getImgArrList(),
-                            productsItems.get(getLayoutPosition()).getNameSku());
-
-//                    addToCartPresenter.updateItemCountInDB(productsItems.get(getLayoutPosition()).getItemQuantity(),
+//                    iShopDetailAdapter.incrementDecrement(productsItems.get(getLayoutPosition()).getItemQuantity(),
+//                            productPrice,
 //                            String.valueOf(productPrice * itemQuantity),
 //                            productsItems.get(getLayoutPosition()).getItemName(),
-//                            productsItems.get(getLayoutPosition()).getItemCutPrice());
+//                            productsItems.get(getLayoutPosition()).getItemCutPrice(),
+//                            productsItems.get(getLayoutPosition()).getItemImage(),
+//                            productsItems.get(getLayoutPosition()).getImage(),
+//                            productsItems.get(getLayoutPosition()).getProduct_id(), "0",
+//                            productsItems.get(getLayoutPosition()).getProductDesc(),
+//                            productsItems.get(getLayoutPosition()).getImgArrList(),
+//                            productsItems.get(getLayoutPosition()).getNameSku());
+
 
                     break;
                 case R.id.imgRemoveProduct:
@@ -320,14 +334,11 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         @Override
                         public void onClick(View view) {
                             dialog.dismiss();
-                            // productsItems.remove(getLayoutPosition());
-                            // addToCartPresenter.removeItemFromCart(productsItems.get(getLayoutPosition()));
-                            iShopDetailAdapter.removeItemFromCart(productsItems.get(getLayoutPosition()), getLayoutPosition());
-                            //productsItems.remove(getLayoutPosition());
-                            // notifyDataSetChanged();
+
+                            iShopDetailAdapter.removeItemFromCart(productsItems.get(getLayoutPosition()), getLayoutPosition(),
+                                    counterTextview.getText().toString());
 
 
-                            // iShopDetailAdapter.removeItemFromCart();
                         }
                     });
                     no.setOnClickListener(new View.OnClickListener() {
@@ -368,7 +379,7 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    public void addAll(List<AddToCart> addToCarts) {
+    public void addAll(List<Product> addToCarts) {
         int currentListSize = this.productsItems.size();
         this.productsItems.addAll(addToCarts);
         notifyItemRangeInserted(currentListSize, addToCarts.size());
@@ -380,14 +391,19 @@ public class AddToCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         void onDecrementButtonClick(AddToCart productItems);
 
-        void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
-                                String cutPrice, byte[] bytes, String imgUrl, String prodcutID, String isEmailSent,
-                                String productDesc, String imgArrList,String nameSku);
+//        void incrementDecrement(String quantity, long individualPrice, String itemPrice, String productName,
+//                                String cutPrice, byte[] bytes, String imgUrl, String prodcutID, String isEmailSent,
+//                                String productDesc, String imgArrList, String nameSku);
 
-        void removeItemFromCart(AddToCart productItems, int position);
+        void removeItemFromCart(Product productItems, int position, String quantity);
 
-        void onCardClick(String productName, String price, String cutPrice, String quantity, String img, String imgList,
-                         String productID, String about, String nameSku);
+        void onCardClick(String productName, String price, String cutPrice, String quantity, String img, List<String> imgList,
+                         String productID, String about, String nameSku, String productSku);
+
+        void addBtnClick(String quantity, String productId, String price);
+
+        void decremetnBtnClick(String quantity, String productId, String price);
+
     }
 
 }

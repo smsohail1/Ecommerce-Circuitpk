@@ -4,22 +4,31 @@ import android.os.AsyncTask;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.stripe.android.model.Card;
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
 import com.xekera.Ecommerce.data.rest.INetworkPostOrder;
 import com.xekera.Ecommerce.data.rest.response.SubmitAddressResponse;
 import com.xekera.Ecommerce.data.rest.response.SubmitOrderSingleListResponse;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.AddToCartResponse;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.Product;
+import com.xekera.Ecommerce.data.rest.response.submit_order_json_response.SubmitOrderJsonResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.adapter.BillingTotalAmountViewAdapter;
+import com.xekera.Ecommerce.util.AppConstants;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
 import okhttp3.ResponseBody;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMVP.Presenter {
@@ -54,7 +63,7 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
                 } else {
                     view.showRecyclerView();
                     view.cartLists(addToCarts);
-                    view.setAdapter(addToCarts);
+                    //  view.setAdapter(addToCarts);
                     //setAdapter(addToCarts);
                 }
             }
@@ -370,7 +379,7 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
                             if (counts == addToCarts.size()) {
                                 if (!utils.isTextNullOrEmpty(paymode)) {
                                     if (paymode.equalsIgnoreCase("Credit Card (Stripe)")) {
-                                        sendStripeData(orderIdResponse);
+                                        sendStripeData(orderIdResponse, "");
                                     } else {
                                         sessionManager.removeCreditCardSession();
                                         view.deleteItemsFromCart();
@@ -497,7 +506,7 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
                                                                                                 if (counts == AddToCartList.size()) {
                                                                                                     if (!utils.isTextNullOrEmpty(paymode)) {
                                                                                                         if (paymode.equalsIgnoreCase("Credit Card (Stripe)")) {
-                                                                                                            sendStripeData(finalOrderIdResponse);
+                                                                                                            sendStripeData(finalOrderIdResponse, "");
                                                                                                         } else {
                                                                                                             sessionManager.removeCreditCardSession();
                                                                                                             view.deleteItemsFromCart();
@@ -620,7 +629,101 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
     }
 
 
-    private void sendStripeData(String orderID) {
+    @Override
+    public void addItemsToBookingServer(List<AddToCart> addToCarts, final String firstName, final String company, final String phone,
+                                        final String email, final String streetAddress1, final String paymode,
+                                        final String notes, String selfPickup, final String flatCharges, final String username,
+                                        final String gst, final String totalAmount,
+                                        final String randomKey) {
+
+//                            JSONObject jsonObjectAddress = new JSONObject();
+//                            try {
+//                                jsonObjectAddress.put("orderkeyid", randomKey);
+//                                jsonObjectAddress.put("orderfrom", "mobile");
+//                                jsonObjectAddress.put("name", firstName);
+//                                jsonObjectAddress.put("username", username);
+//                                jsonObjectAddress.put("address", streetAddress1);
+//                                jsonObjectAddress.put("email", email);
+//                                jsonObjectAddress.put("company", company);
+//                                jsonObjectAddress.put("phone", phone);
+//                                jsonObjectAddress.put("payment", paymode);
+//                                jsonObjectAddress.put("message", notes);
+//                                jsonObjectAddress.put("GST", gst);
+//
+//                                jsonObjectAddress.put("FlatCharges", flatCharges);
+//                                jsonObjectAddress.put("Total", totalAmount);
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+
+
+        //   String jsonObjectStr = new Gson().toJson(jsonObjectAddress);
+
+
+        model.postOrderDetailsJson(randomKey, "mobile", firstName,
+                username, streetAddress1, email, company, phone, paymode, notes,
+                flatCharges, gst, totalAmount,
+                new INetworkLoginSignup<SubmitOrderJsonResponse>() {
+                    @Override
+                    public void onSuccess(SubmitOrderJsonResponse response) {
+
+                        if (response == null) {
+                            view.showToastShortTime("Can't submit order.Error while submit data.");
+                            view.hideProgressDialogPleaseWait();
+
+                            return;
+                        } else {
+                            if (response.getStatus()) {
+                                String dataTime = getCurrentDateTime();
+                                if (!utils.isTextNullOrEmpty(paymode)) {
+                                    if (paymode.equalsIgnoreCase("Credit Card (Stripe)")) {
+                                        sendStripeData(response.getId(), "mobile" + dataTime);
+                                    } else {
+                                        sessionManager.removeRandomKeySession();
+                                        sessionManager.setKeyRandomKey("mobile" + dataTime);
+                                        sessionManager.removeCreditCardSession();
+                                        view.hideProgressDialogPleaseWait();
+                                        view.itemRemovedFromCart();
+                                    }
+                                } else {
+                                    sessionManager.removeRandomKeySession();
+                                    sessionManager.setKeyRandomKey("mobile" + dataTime);
+                                    sessionManager.removeCreditCardSession();
+                                    view.hideProgressDialogPleaseWait();
+                                    view.itemRemovedFromCart();
+                                }
+                            } else {
+                                view.hideProgressDialogPleaseWait();
+                                sessionManager.removeCreditCardSession();
+                                view.showToastShortTime("Can't submit order.Error while submit data.");
+                            }
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        sessionManager.removeCreditCardSession();
+                        view.hideProgressDialogPleaseWait();
+                        view.showToastShortTime("Can't submit order.Error while submit data.");
+                    }
+                });
+    }
+
+    private String getCurrentDateTime() {
+        try {
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat(AppConstants.DATE_TIME_FORMAT_FOUR);
+            return df.format(c.getTime());
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private void sendStripeData(String orderID, String randomKey) {
 
         Card card;
 
@@ -631,7 +734,7 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
                 String[] cardExpiryDate = sessionManager.getExpiryDate().split("/");
                 card = new Card(sessionManager.getCardNumber(), Integer.valueOf(cardExpiryDate[0]), Integer.valueOf(cardExpiryDate[1]), sessionManager.getCVCNumber());
                 // view.showProgressDialogPleaseWait();
-                view.sendStripe(card, orderID);
+                view.sendStripe(card, orderID, randomKey);
             } else {
                 view.hideProgressDialogPleaseWait();
                 view.showToastShortTime("Please Enter Credit Card Details.");
@@ -640,23 +743,80 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
 
 
         } else {
+            sessionManager.removeCreditCardSession();
             view.hideProgressDialogPleaseWait();
             view.showToastShortTime("Please connect to internet.");
 
         }
     }
 
-    private void setAdapter(List<AddToCart> AddToCartList) {
-        if (adapter == null) {
-            adapter = new BillingTotalAmountViewAdapter(AddToCartList);
-            view.showRecylerViewProductsDetail(adapter);
-        } else {
-            adapter.removeAll();
-            adapter.addAll(AddToCartList);
-        }
 
-        getSubTotal(AddToCartList);
+    @Override
+    public void fetchCartsFromServer(String randomKey) {
+        view.showProgressDialogPleaseWait();
+        model.fetchCarts(randomKey, new INetworkListGeneral<AddToCartResponse>() {
+            @Override
+            public void onSuccess(AddToCartResponse response) {
+                view.hideProgressDialogPleaseWait();
+
+                if (response == null) {
+                    view.hideRecyclerView();
+                    view.setParentFields();
+                    view.showToastShortTime("Error while fetch data.");
+
+                    return;
+                } else {
+
+                    List<Product> productResponses = response.getProduct();
+                    if (productResponses == null) {
+                        view.hideRecyclerView();
+                        view.setParentFields();
+                        view.showToastShortTime("Error while fetch data.");
+
+
+                        return;
+                    }
+                    if (productResponses.size() > 0) {
+                        view.showRecyclerView();
+                        view.setAdapter(productResponses);
+                        return;
+
+                    } else {
+
+                        view.hideRecyclerView();
+                        view.setParentFields();
+
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+                view.hideRecyclerView();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while add product.");
+                }
+
+            }
+        });
     }
+
+
+//    private void setAdapter(List<AddToCart> AddToCartList) {
+//        if (adapter == null) {
+//            adapter = new BillingTotalAmountViewAdapter(AddToCartList);
+//            view.showRecylerViewProductsDetail(adapter);
+//        } else {
+//            adapter.removeAll();
+//            adapter.addAll(AddToCartList);
+//        }
+//
+//        getSubTotal(AddToCartList);
+//    }
 
 
     private void getSubTotal(List<AddToCart> addToCarts) {

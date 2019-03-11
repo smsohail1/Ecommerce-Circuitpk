@@ -16,6 +16,7 @@ import com.xekera.Ecommerce.ui.continue_shopping.ContinueShoppingModel;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.favourites.FavouritesModel;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedModel;
+import okhttp3.ResponseBody;
 
 import java.util.List;
 
@@ -68,6 +69,8 @@ public interface ShopDetailsMVP {
         void getFavourites(ProductResponse response);
 
         void getFavCounts();
+
+        int getCartCount();
     }
 
     interface Presenter {
@@ -108,6 +111,9 @@ public interface ShopDetailsMVP {
                                         List<String> imgArrList, String nameSku);
 
         void setProductItemsDetails(Context context, String sku);
+
+        void addToCartApi(String productId, String quantity, String price, String discountPrice,
+                          String randomKey, ImageView imgProductCopy);
     }
 
     interface Model {
@@ -138,6 +144,9 @@ public interface ShopDetailsMVP {
 
         void getProductItemsDetails(String sku, INetworkListGeneral<ProductResponse> iNetworkListGeneral);
 
+        void addToCart(String productId, String quantity, String price, String discountPrice,
+                       String randomKey
+                , INetworkListGeneral<ResponseBody> iNetworkListGeneral);
 
     }
 }

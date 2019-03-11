@@ -16,6 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -507,6 +508,30 @@ public class SearchAllProductsModel implements SearchAllProductsMVP.Model {
         });
     }
 
+    @Override
+    public void addToCart(String productId, String quantity, String price, String discountPrice, String randomKey,
+                          final INetworkListGeneral<ResponseBody> iNetworkListGeneral) {
+        Call<ResponseBody> call = xekeraAPI.addToProducts(productId, quantity, price, randomKey);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    // AddToCartResponse productResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(response.body());
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
+            }
+        });
+    }
+
 //    @Override
 //    public void getProductItemsDetails(String sku, final INetworkListGeneral<ProductResponse> iNetworkListGeneral) {
 //        Call<ProductResponse> call = xekeraAPI.getProducts(sku);
@@ -543,7 +568,7 @@ public class SearchAllProductsModel implements SearchAllProductsMVP.Model {
         void onErrorReceived(Exception ex);
     }
 
-    public  interface IRemoveSelectedItemDetails {
+    public interface IRemoveSelectedItemDetails {
         void onSuccess();
 
         void onError(Exception ex);

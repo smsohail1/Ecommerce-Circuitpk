@@ -199,14 +199,13 @@ public class ShopFragment extends Fragment implements ShopFragmentMVP.View {
                 @Override
                 public void run() {
                     presenter.setDashboardItemsDetails(getActivity());
-
                 }
             }, 400);
             //presenter.setDashboardItems(getActivity());
             //presenter.getTotalCounts();
         } else {
             showToastShortTime("Please connect to internet.");
-            getTotalCartsCounts();
+            //getTotalCartsCounts();
 
         }
 

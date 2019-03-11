@@ -1,7 +1,11 @@
 package com.xekera.Ecommerce.data.rest;
 
 import com.xekera.Ecommerce.data.rest.response.*;
+import com.xekera.Ecommerce.data.rest.response.add_remove_cart_response.AddRemoveCartResponse;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.AddToCartResponse;
+import com.xekera.Ecommerce.data.rest.response.delete_item_cart_response.DeleteItemCartResponse;
 import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.AllProductsResponse;
+import com.xekera.Ecommerce.data.rest.response.submit_order_json_response.SubmitOrderJsonResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -19,6 +23,11 @@ public interface XekeraAPI {
     String WEB_API_SUBMIT_ORDER = "Submit_Order/";
     String WEB_API_HISTORY_ID = "Order_Histroy/";
     String WEB_API_ALL_PRODUCTS = "products/";
+    String WEB_API_ADD_TO_CART_ORDER = "Submit_Order/";
+    String WEB_API_FETCH_ALL_CART_ORDER = "products/";
+    String WEB_API_DELETE_ORDER = "products/";
+    String WEB_API_ADD_REMOVE_ITEMS_CART = "products/";
+
 
     @FormUrlEncoded
     @POST(WEB_API_SIGN_UP_URL + "signup.php")
@@ -51,6 +60,23 @@ public interface XekeraAPI {
     @GET(WEB_API_CATEGORY_URL + "readaip.php")
     Call<CategoryResponse> getCategory();
 
+    @GET(WEB_API_ADD_TO_CART_ORDER + "addtocartweb.php")
+    Call<ResponseBody> addToProducts(@Query("product_id") String product_id,
+                                     @Query("itemQuantity") String itemQuantity,
+                                     @Query("itemPrice") String itemPrice,
+                                     @Query("last_id") String last_id);
+
+
+    @GET(WEB_API_FETCH_ALL_CART_ORDER + "cartproducts.php")
+    Call<AddToCartResponse> getAllCarts(@Query("cartId") String cartId);
+
+    @GET(WEB_API_DELETE_ORDER + "deletecartproduct.php")
+    Call<DeleteItemCartResponse> deleteSingleItemCart(@Query("deleteOrder") String deleteOrder);
+
+
+    @GET(WEB_API_ADD_REMOVE_ITEMS_CART + "updatecart.php")
+    Call<AddRemoveCartResponse> addRemoveItemsCart(@Query("updatequant") String updatequant,
+                                                   @Query("cartid") String cartid);
 
 //
 //    @POST("/api/employee/checkin")
@@ -99,6 +125,23 @@ public interface XekeraAPI {
     })
     @POST(WEB_API_SUBMIT_ORDER + "submitdata.php")
     Call<ResponseBody> postOrderListDeatils1(@Body String arrayOfSids);
+
+    @FormUrlEncoded
+    @POST(WEB_API_SUBMIT_ORDER + "webordersubmit.php")
+    Call<SubmitOrderJsonResponse> postOrderBody(@Field("orderkeyid") String randomKey,
+                                                @Field("orderfrom") String platform,
+                                                @Field("name") String name,
+                                                @Field("username") String username,
+                                                @Field("address") String address,
+                                                @Field("email") String email,
+                                                @Field("company") String company,
+                                                @Field("phone") String phone,
+                                                @Field("payment") String payment,
+                                                @Field("message") String message,
+                                                @Field("Y-m-d H:i:s") String date,
+                                                @Field("GST") String gst,
+                                                @Field("FlatCharges") String flatCharges,
+                                                @Field("Total") String totalAmount);
 
 
     @GET(WEB_API_ALL_PRODUCTS + "searchproduct.php")

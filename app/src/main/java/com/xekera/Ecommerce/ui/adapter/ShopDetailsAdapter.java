@@ -35,6 +35,8 @@ import com.xekera.Ecommerce.data.rest.response.Product;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.util.SessionManager;
+import com.xekera.Ecommerce.util.ToastUtil;
+import com.xekera.Ecommerce.util.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -48,6 +50,9 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     List<Product> productsItemsSearch;
     IShopDetailAdapter iShopDetailAdapter;
     List<String> favList;
+    Utils utils;
+
+
 //    private ProductItemActionListener actionListener;
 
     public ShopDetailsAdapter() {
@@ -55,13 +60,15 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
-    public ShopDetailsAdapter(Context context, List<Product> productsItems, IShopDetailAdapter iShopDetailAdapter) {
+    public ShopDetailsAdapter(Context context, List<Product> productsItems, IShopDetailAdapter iShopDetailAdapter, Utils utils) {
         this.context = context;
         this.productsItems = productsItems;
         this.iShopDetailAdapter = iShopDetailAdapter;
         this.productsItemsSearch = new ArrayList<>();
         this.productsItemsSearch.addAll(productsItems);
         this.favList = new ArrayList<>();
+        this.utils = utils;
+
 
     }
 
@@ -268,6 +275,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @BindView(R.id.discountLinearParent)
         public LinearLayout discountLinearParent;
 
+        @BindView(R.id.btnAddCart)
+        public Button btnAddCart;
 
         public productDetailsDataListViewHolder(View itemView) {
             super(itemView);
@@ -283,6 +292,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             itemView.findViewById(R.id.cardViewParent).setOnClickListener(this);
             itemView.findViewById(R.id.imgShareProductDetails).setOnClickListener(this);
             itemView.findViewById(R.id.favouriteButton).setOnClickListener(this);
+            itemView.findViewById(R.id.btnAddCart).setOnClickListener(this);
+
 
         }
 
@@ -565,6 +576,15 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     break;
 
+                case R.id.btnAddCart:
+                    if (utils.isInternetAvailable()) {
+                        iShopDetailAdapter.addToCart(productsItems.get(getLayoutPosition()),
+                                imgProductCopy);
+                    } else {
+                        iShopDetailAdapter.InternetError();
+                    }
+                    break;
+
                 case R.id.imgShareProductDetails:
 
                     //  BitmapDrawable bitmapDrawableImg = (BitmapDrawable) imgProduct.getDrawable();
@@ -634,6 +654,10 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         void removeItemFromCart(Product shoppingDetailModel);
 
         void getIsFavourites(String productName, int position);
+
+        void addToCart(Product productItems, ImageView imgProductCopy);
+
+        void InternetError();
 
     }
 

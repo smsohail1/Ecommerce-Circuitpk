@@ -12,6 +12,7 @@ import com.xekera.Ecommerce.data.room.model.Favourites
 import com.xekera.Ecommerce.util.AppConstants
 import com.xekera.Ecommerce.util.SessionManager
 import com.xekera.Ecommerce.util.Utils
+import okhttp3.ResponseBody
 
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
@@ -256,6 +257,51 @@ class SearchAllProductsPresenter(
 
             }
         })
+    }
+
+    override fun addToCartApi(
+        productId: String?,
+        quantity: String,
+        price: String?,
+        discountPrice: String?,
+        randomKey: String,
+        imgProductCopy: ImageView
+    ) {
+        view?.showProgressDialogPleaseWait()
+        model.addToCart(
+            productId,
+            quantity,
+            price,
+            discountPrice,
+            randomKey,
+            object : INetworkListGeneral<ResponseBody> {
+                override fun onSuccess(response: ResponseBody?) {
+                    view?.hideProgressDialogPleaseWait()
+                    view?.hideCircularProgressBar()
+
+                    if (response == null) {
+                        view?.showToastShortTime("Error while add to cart.")
+
+                        return
+                    } else {
+                        view?.showToastShortTime("Item added to cart.")
+
+                        if (actionListener != null)
+                            actionListener!!.onItemTap(imgProductCopy, view!!.getCartCount())
+                    }
+                }
+
+                override fun onFailure(t: Throwable) {
+                    view?.hideCircularProgressBar()
+                    view?.hideProgressDialogPleaseWait()
+                    if (t?.message != null) {
+                        view?.showToastShortTime(t.message!!)
+                    } else {
+                        view?.showToastShortTime("Error while add product.")
+                    }
+
+                }
+            })
     }
 
 

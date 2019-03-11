@@ -38,6 +38,7 @@ public class SessionManager {
     private static final String KEY_LONGITUDE = "delivery_longitude";
     private static final String KEY_PLACE_NAME = "delivery_place_name";
 
+    private static final String KEY_RANDOM_KEY = "random_key_cart";
 
     private static final String KEY_COMPANY_NAME = "company_name";
 
@@ -138,6 +139,17 @@ public class SessionManager {
         editor.commit();
     }
 
+    public void setKeyRandomKey(String key) {
+        editor.putString(KEY_RANDOM_KEY, key);
+        editor.commit();
+
+    }
+
+    public String getKeyRandomKey() {
+        return pref.getString(KEY_RANDOM_KEY, "");
+
+    }
+
     public String getKeyLatitude() {
         return pref.getString(KEY_LATITUDE, "");
 
@@ -234,6 +246,14 @@ public class SessionManager {
         editor.remove(KEY_CARD_NUMBER);
         editor.remove(KEY_CARD_EXPIRY_DATE);
         editor.remove(KEY_CARD_CVC);
+
+        editor.apply();
+        editor.commit();
+    }
+
+    public void removeRandomKeySession() {
+
+        editor.remove(KEY_RANDOM_KEY);
 
         editor.apply();
         editor.commit();

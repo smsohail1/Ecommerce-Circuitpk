@@ -297,6 +297,17 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         return v;
     }
 
+    private String getCurrentDateTime() {
+        try {
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat(AppConstants.DATE_TIME_FORMAT_FOUR);
+            return df.format(c.getTime());
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
     private void initializeViews(View v) {
         ButterKnife.bind(this, v);
         presenter.setView(this);
@@ -309,7 +320,10 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
         recyclerViewProductDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        String dataTime = getCurrentDateTime();
+        if (utils.isTextNullOrEmpty(sessionManager.getKeyRandomKey())) {
+            sessionManager.setKeyRandomKey("mobile" + dataTime);
+        }
         //  setTitle();
         //hideLoginIcon();
         // showBackImageIcon();
@@ -482,6 +496,13 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     }
 
+    @Override
+    public void addToCart(Product productItems, ImageView imgProductCopy) {
+        presenter.addToCartApi(productItems.getId(), "1", productItems.getPrice(), productItems.getRegularPrice(),
+                sessionManager.getKeyRandomKey(), imgProductCopy
+        );
+
+    }
 
     @Override
     public void setCountZero(int counts) {
@@ -626,6 +647,13 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         }
 
     }
+
+
+    @Override
+    public void InternetError() {
+        toastUtil.showToastShortTime("Please connect to internet", toastView);
+    }
+
 
     @Override
     public void setIsFavourites(boolean isFavourites, int position) {
@@ -1217,7 +1245,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //        Log.d("kkjk2", separated[1][0]);
 //        Log.d("kkjk3", separated[2][0]);
 
-        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), products, this);
+        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), products, this, utils);
         showRecylerViewProductsDetail(shopDetailsAdapter);
         hideCircularProgressBar();
         showAllData();
@@ -1233,6 +1261,11 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                 }
             }
         });
+    }
+
+    @Override
+    public int getCartCount() {
+        return ((BaseActivity) getActivity()).countsForActionBar();
     }
 
     @Override

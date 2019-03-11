@@ -609,6 +609,12 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
         ((BaseActivity) getActivity()).showTotalCartsCount(counts);
     }
 
+
+    @Override
+    public void countsForActionBar() {
+        ((BaseActivity) getActivity()).countsForActionBarWithoutReturn();
+    }
+
     @Override
     public void shakeAddToCartTextview() {
         //  ((BaseActivity) getActivity()).AnimateCartTextview();
@@ -905,59 +911,51 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 
                 break;
             case R.id.btnAddToCart:
-                String productName = productNameLabelTextView.getText().toString();
+                //  String productName = productNameLabelTextView.getText().toString();
                 String price = priceTextView.getText().toString();
                 String quantity = counterTextview.getText().toString();
-//                String deliveryAddress1 = deliveryAddressValueTextView.getText().toString();
-//                String deliveryAddress2 = deliveryAddress2ValueEdittext.getText().toString();
                 String itemCutPrice = discountPriceTextView.getText().toString();
 
-                long totalAmount = Long.valueOf(quantity) * Long.valueOf(price);
+                // long totalAmount = Long.valueOf(quantity) * Long.valueOf(price);
 
-                String formattedDate = "";
-                formattedDate = getCurrentDate();
+                // String formattedDate = "";
+                //formattedDate = getCurrentDate();
 
-                //  latitude = sessionManager.getKeyLatitude();
-                // longitude = sessionManager.getKeyLongitude();
 
-//                byte[] byteArray = new byte[0];
-//                if (bitmapImage != null) {
-//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//
-//                    bitmapImage.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-//                    byteArray = stream.toByteArray();
-//
+//                AddToCart addToCart;
+//                String descString = "";
+//                if (!utils.isTextNullOrEmpty(about)) {
+//                    descString = Html.fromHtml(about.trim()).toString();
+//                } else {
+//                    descString = "";
 //                }
+//
+//
+//                String jsonObjectImg = new Gson().toJson(imgList);
+//
+//
+//                if (imgList != null && imgList.size() > 0) {
+//
+//                    addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
+//                            "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID,
+//                            "0", descString, jsonObjectImg, skuName);
+//                } else {
+//
+//                    addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
+//                            "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID,
+//                            "0", descString, jsonObjectImg, skuName);
+//                }
+//                presenter.saveProductDetails(addToCart);
 
-                AddToCart addToCart;
-                String descString = "";
-                if (!utils.isTextNullOrEmpty(about)) {
-                    descString = Html.fromHtml(about.trim()).toString();
+                if (!utils.isTextNullOrEmptyOrZero(quantity)) {
+                    presenter.addToCartApi(producdID, quantity, price, itemCutPrice,
+                            sessionManager.getKeyRandomKey()
+                    );
                 } else {
-                    descString = "";
+                    showToastShortTime("Please select atleast one quantity.");
+
                 }
 
-
-                //String jsonKey = "{key:" + imgList + "}";
-                String jsonObjectImg = new Gson().toJson(imgList);
-
-
-                if (imgList != null && imgList.size() > 0) {
-
-                    // String str = (String) Arrays.toString(new List[]{imgList});
-
-
-                    addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
-                            "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID,
-                            "0", descString, jsonObjectImg, skuName);
-
-                } else {
-
-                    addToCart = new AddToCart("", productName, String.valueOf(totalAmount), quantity,
-                            "N", byteArray, itemCutPrice, price, formattedDate, imgList.get(0), producdID,
-                            "0", descString, jsonObjectImg, skuName);
-                }
-                presenter.saveProductDetails(addToCart);
 
                 break;
 

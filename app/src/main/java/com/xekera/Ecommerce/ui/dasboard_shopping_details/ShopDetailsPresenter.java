@@ -33,6 +33,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -282,6 +283,43 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
                     view.showToastShortTime(t.getMessage());
                 } else {
                     view.showToastShortTime("Error while fetching products.");
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void addToCartApi(String productId, String quantity, String price, String discountPrice, String randomKey,
+                             final ImageView imgProductCopy) {
+        view.showProgressDialogPleaseWait();
+        model.addToCart(productId, quantity, price, discountPrice, randomKey, new INetworkListGeneral<ResponseBody>() {
+            @Override
+            public void onSuccess(ResponseBody response) {
+                view.hideProgressDialogPleaseWait();
+                view.hideCircularProgressBar();
+
+                if (response == null) {
+                    view.showToastShortTime("Error while add to cart.");
+
+                    return;
+                } else {
+                    view.showToastShortTime("Item added to cart.");
+
+                    if (actionListener != null)
+                        actionListener.onItemTap(imgProductCopy, view.getCartCount());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideCircularProgressBar();
+                view.hideProgressDialogPleaseWait();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while add product.");
                 }
 
             }

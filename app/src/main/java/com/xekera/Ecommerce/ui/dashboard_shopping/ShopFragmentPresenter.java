@@ -5,6 +5,8 @@ import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.response.Category;
 import com.xekera.Ecommerce.data.rest.response.CategoryResponse;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.AddToCartResponse;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.Product;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
 import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
@@ -78,20 +80,24 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
 
     @Override
     public void setDashboardItemsDetails(final Context context) {
+        view.showProgressDialogPleaseWait();
+
         model.getDashboardItemsDetails(new INetworkListGeneral<CategoryResponse>() {
             @Override
             public void onSuccess(CategoryResponse response) {
                 if (response == null) {
                     view.showToastShortTime("Error while fetch data");
                     view.hideCircularProgressBar();
-                    view.getTotalCartsCounts();
+                    // view.getTotalCartsCounts();
+                    getCartsCountsServer(sessionManager.getKeyRandomKey());
                     return;
                 } else {
                     List<Category> categoryList = response.getCategories();
                     if (categoryList == null) {
                         view.showToastShortTime("Error while fetch data");
                         view.hideCircularProgressBar();
-                        view.getTotalCartsCounts();
+                        // view.getTotalCartsCounts();
+                        getCartsCountsServer(sessionManager.getKeyRandomKey());
                         return;
                     }
                     if (categoryList.size() > 0) {
@@ -105,13 +111,14 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
                         });
                         view.setHomeRecyclerViewAdapter(homeAdapter);
                         view.showData();
-                        view.getTotalCartsCounts();
+                        //view.getTotalCartsCounts();
+                        getCartsCountsServer(sessionManager.getKeyRandomKey());
 
                     } else {
                         view.showToastShortTime("No category found");
                         view.hideCircularProgressBar();
-                        view.getTotalCartsCounts();
-
+                        //  view.getTotalCartsCounts();
+                        getCartsCountsServer(sessionManager.getKeyRandomKey());
                         return;
                     }
                 }
@@ -120,12 +127,58 @@ public class ShopFragmentPresenter implements ShopFragmentMVP.Presenter, Dashboa
             @Override
             public void onFailure(Throwable t) {
                 view.hideCircularProgressBar();
+                view.hideProgressDialogPleaseWait();
+
                 if (t.getMessage() != null) {
                     view.showToastShortTime(t.getMessage());
                 } else {
                     view.showToastShortTime("Error while fetching category.");
                 }
-                view.getTotalCartsCounts();
+                // view.getTotalCartsCounts();
+            }
+        });
+    }
+
+    private void getCartsCountsServer(String randomKey) {
+        model.fetchCarts(randomKey, new INetworkListGeneral<AddToCartResponse>() {
+            @Override
+            public void onSuccess(AddToCartResponse response) {
+                view.hideProgressDialogPleaseWait();
+
+                if (response == null) {
+                    view.setCounts(0);
+                    return;
+                } else {
+
+                    List<Product> productResponses = response.getProduct();
+                    if (productResponses == null) {
+                        view.setCounts(0);
+                        return;
+                    }
+                    if (productResponses.size() > 0) {
+
+                        view.setCounts(productResponses.size());
+                    } else {
+
+                        view.setCounts(0);
+//                        view.hideData();
+//                        view.hideAllData();
+//
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while add product.");
+                }
+                view.setCounts(0);
 
             }
         });

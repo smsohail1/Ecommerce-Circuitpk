@@ -1,10 +1,13 @@
 package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
 import com.xekera.Ecommerce.data.rest.INetworkPostOrder;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.data.rest.response.SubmitAddressResponse;
 import com.xekera.Ecommerce.data.rest.response.SubmitOrderSingleListResponse;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.AddToCartResponse;
+import com.xekera.Ecommerce.data.rest.response.submit_order_json_response.SubmitOrderJsonResponse;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
 import com.xekera.Ecommerce.data.room.dao.BookingDao;
@@ -418,6 +421,64 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
             @Override
             public void onFailure(Call<SubmitOrderSingleListResponse> call, Throwable t) {
                 iNetworkLoginSignup.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void postOrderDetailsJson(String randomKey,
+                                     String platform,
+                                     String name,
+                                     String username,
+                                     String address,
+                                     String email,
+                                     String company,
+                                     String phone,
+                                     String payment,
+                                     String message,
+                                     String flatCharges, String gst,
+                                     String totalAmount, final INetworkLoginSignup<SubmitOrderJsonResponse> iNetworkLoginSignup) {
+        Call<SubmitOrderJsonResponse> call = xekeraAPI.postOrderBody(randomKey,
+                platform, name, username, address, email, company, phone, payment, message, "", gst, flatCharges, totalAmount);
+        call.enqueue(new Callback<SubmitOrderJsonResponse>() {
+            @Override
+            public void onResponse(Call<SubmitOrderJsonResponse> call, Response<SubmitOrderJsonResponse> response) {
+                try {
+                    SubmitOrderJsonResponse submitOrderResponse = response.body();
+                    iNetworkLoginSignup.onSuccess(submitOrderResponse);
+
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SubmitOrderJsonResponse> call, Throwable t) {
+                iNetworkLoginSignup.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void fetchCarts(String randomKey, final INetworkListGeneral<AddToCartResponse> iNetworkListGeneral) {
+        Call<AddToCartResponse> call = xekeraAPI.getAllCarts(randomKey);
+        call.enqueue(new Callback<AddToCartResponse>() {
+            @Override
+            public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
+                try {
+                    AddToCartResponse productResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(productResponse);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddToCartResponse> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
             }
         });
     }

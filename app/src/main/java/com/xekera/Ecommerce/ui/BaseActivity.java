@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
@@ -1115,6 +1116,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     }
 
+    public void updateCartCounts() {
+        if (txtAddToCartNotify.getText().toString().equalsIgnoreCase("0")) {
+            txtAddToCartNotify.setText("0");
+        } else {
+            long counts = Long.valueOf(txtAddToCartNotify.getText().toString()) - 1;
+            txtAddToCartNotify.setText(String.valueOf(counts));
+
+        }
+
+    }
 
     public void setCartsCounts(long counts, int position, String navigationName) {
         final Menu menu = navigation.getMenu();
@@ -1187,6 +1198,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         enableHomeIcon(true);
     }
 
+
+    public int countsForActionBar() {
+        return Integer.valueOf(txtAddToCartNotify.getText().toString()) + 1;
+    }
+
+    public void countsForActionBarWithoutReturn() {
+        int cartCounts = Integer.valueOf(txtAddToCartNotify.getText().toString()) + 1;
+        txtAddToCartNotify.setText(String.valueOf(cartCounts));
+    }
 
     private void replaceFragmentWithContainer(Fragment fragment) {
 
@@ -1502,8 +1522,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     // Method to share either text or URL.
     private void shareTextUrl() {
+
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.icon_compnay_share);
+
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        b.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+//        String path = MediaStore.Images.Media.insertImage(getContentResolver(),
+//                b, "Title", null);
+//        Uri imageUri = Uri.parse(path);
+
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("image/*");
         share.setType("text/plain");
+
+        share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
         // Add data to the intent, the receiving app will decide
@@ -1523,8 +1555,25 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         share.putExtra(Intent.EXTRA_SUBJECT, "Circuit.pk App");
         share.putExtra(Intent.EXTRA_TEXT, linkDesc);
+        share.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(b));
 
         startActivity(Intent.createChooser(share, "Share link"));
+    }
+
+
+    private Uri getLocalBitmapUri(Bitmap bmp) {
+        Uri bmpUri = null;
+        try {
+            File file = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                    "share_image_" + System.currentTimeMillis() + ".png");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 60, out);
+            out.close();
+            bmpUri = Uri.fromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
     }
 
     boolean isEnable = true;

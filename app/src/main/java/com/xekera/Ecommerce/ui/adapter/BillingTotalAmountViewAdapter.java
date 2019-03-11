@@ -20,6 +20,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.Product;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.billing_total_amount_view.BillingTotalAmountViewPresenter;
 
@@ -27,11 +28,11 @@ import java.util.List;
 
 public class BillingTotalAmountViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
-    List<AddToCart> productsItems;
+    List<Product> productsItems;
     // IShopDetailAdapter iShopDetailAdapter;
     //  BillingTotalAmountViewPresenter billingTotalAmountViewPresenter;
 
-    public BillingTotalAmountViewAdapter(List<AddToCart> productsItems) {
+    public BillingTotalAmountViewAdapter(List<Product> productsItems) {
         this.productsItems = productsItems;
         //  this.billingTotalAmountViewPresenter = billingTotalAmountViewPresenter;
     }
@@ -50,19 +51,19 @@ public class BillingTotalAmountViewAdapter extends RecyclerView.Adapter<Recycler
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final AddToCart addToCart = productsItems.get(position);
+        final Product addToCart = productsItems.get(position);
         //  byte[] bytes;
         if (holder instanceof productDetailsDataListViewHolder) {
             final productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
-            productDetailsDataListViewHolder.productNameLabelTextView.setText(addToCart.getItemName());
-            productDetailsDataListViewHolder.priceTextView.setText(addToCart.getItemPrice());
+            productDetailsDataListViewHolder.productNameLabelTextView.setText(addToCart.getName());
+            productDetailsDataListViewHolder.priceTextView.setText(addToCart.getPrice());
             productDetailsDataListViewHolder.quantityTextView.setText(addToCart.getItemQuantity());
 
             try {
 
                 Glide.with(context)
-                        .load(addToCart.getImage())
+                        .load(addToCart.getImageJson().get(0))
                         .asBitmap()
                         .placeholder(R.drawable.placeholder)
                         .error(R.drawable.placeholder)
@@ -169,7 +170,7 @@ public class BillingTotalAmountViewAdapter extends RecyclerView.Adapter<Recycler
     }
 
 
-    public void addAll(List<AddToCart> addToCarts) {
+    public void addAll(List<Product> addToCarts) {
         int currentListSize = this.productsItems.size();
         this.productsItems.addAll(addToCarts);
         notifyItemRangeInserted(currentListSize, addToCarts.size());

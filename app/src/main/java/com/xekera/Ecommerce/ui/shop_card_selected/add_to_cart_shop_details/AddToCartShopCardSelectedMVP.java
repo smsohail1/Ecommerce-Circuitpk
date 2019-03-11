@@ -3,9 +3,11 @@ package com.xekera.Ecommerce.ui.shop_card_selected.add_to_cart_shop_details;
 
 import android.content.Context;
 import android.widget.ImageView;
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
+import okhttp3.ResponseBody;
 
 import java.util.List;
 
@@ -49,6 +51,8 @@ public interface AddToCartShopCardSelectedMVP {
 
         void setFavCount();
 
+        void countsForActionBar();
+
     }
 
     interface Presenter {
@@ -75,6 +79,10 @@ public interface AddToCartShopCardSelectedMVP {
         void addItemToFavourites(Favourites favourites, boolean isChecked);
 
         void setIsFavourite(String productName);
+
+
+        void addToCartApi(String productId, String quantity, String price, String discountPrice,
+                          String randomKey);
     }
 
     interface Model {
@@ -105,5 +113,8 @@ public interface AddToCartShopCardSelectedMVP {
 
         void deleteItem(String itemName, AddToCartShopCardSelectedModel.IRemoveFavouriteItemDetails iRemoveFavouriteItemDetails);
 
+        void addToCart(String productId, String quantity, String price, String discountPrice,
+                       String randomKey
+                , INetworkListGeneral<ResponseBody> iNetworkListGeneral);
     }
 }

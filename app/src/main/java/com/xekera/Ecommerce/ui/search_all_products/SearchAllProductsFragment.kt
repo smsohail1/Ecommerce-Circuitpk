@@ -154,6 +154,7 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
 
     }
 
+
     private fun initializeViews() {
         // ButterKnife.bind(this, v)
         presenter.setView(this)
@@ -165,6 +166,7 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
         progressDialogControllerPleaseWait = ProgressCustomDialogController(activity, R.string.please_wait)
 
         recyclerViewProductDetails?.layoutManager = LinearLayoutManager(activity)
+
 
         edtSearchProduct?.setText("")
 
@@ -780,7 +782,14 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
 
     override fun setAdapterItems(products: List<Product?>?) {
 
-        shopDetailsAdapter = SearchAllProductsAdapter(activity!!, products as MutableList<Product>, this)
+//        shopDetailsAdapter = SearchAllProductsAdapter(
+//            activity!!,
+//            products, this
+//        )
+        shopDetailsAdapter = SearchAllProductsAdapter(
+            activity!!, products as MutableList<Product>,
+            this, utils
+        )
         showRecylerViewProductsDetail(shopDetailsAdapter)
         hideCircularProgressBar()
         showAllData()
@@ -795,6 +804,23 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
                 }
             }
         })
+    }
+
+
+    override fun addToCart(productItems: Product, imgProductCopy: ImageView) {
+        presenter.addToCartApi(
+            productItems.id, "1", productItems.Price, productItems.Regular_price,
+            sessionManager.keyRandomKey, imgProductCopy
+        )
+
+    }
+
+    override fun getCartCount(): Int {
+        return (activity as BaseActivity).countsForActionBar()
+    }
+
+    override fun InternetError() {
+        toastUtil.showToastShortTime("Please connect to internet", toastView)
     }
 
     override fun getFavourites(response: ProductResponse) {

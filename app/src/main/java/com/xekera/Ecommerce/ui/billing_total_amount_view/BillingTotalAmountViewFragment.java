@@ -28,6 +28,7 @@ import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.Product;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.BaseActivity;
@@ -182,7 +183,21 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         shippingValueTextView.setText(flatCharges);
-        presenter.fetchCartDetails();
+        //  presenter.fetchCartDetails();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (utils.isInternetAvailable()) {
+                    showProgressDialogPleaseWait();
+                    presenter.fetchCartsFromServer(sessionManager.getKeyRandomKey());
+                } else {
+                    showToastShortTime("Please connect to internet.");
+                }
+                //  presenter.fetchCartDetails();
+
+            }
+        }, 500);
 
     }
 
@@ -244,11 +259,11 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
             flatShippingRateLong = Long.valueOf(setSubToal) + Long.valueOf(flatShippingRateStr);
 
             //12%  GST of total amount
-           // long gstAmount = flatShippingRateLong / 12;
+            // long gstAmount = flatShippingRateLong / 12;
 
-           // flatShippingRateLong = flatShippingRateLong + gstAmount;
+            // flatShippingRateLong = flatShippingRateLong + gstAmount;
 
-          //  gstValueTextView.setText(String.valueOf(gstAmount));
+            //  gstValueTextView.setText(String.valueOf(gstAmount));
 
             totalValueTextView.setText(String.valueOf(flatShippingRateLong));
 
@@ -374,7 +389,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     }
 
     @Override
-    public void setAdapter(List<AddToCart> addToCarts) {
+    public void setAdapter(List<Product> addToCarts) {
         adapter = new BillingTotalAmountViewAdapter(addToCarts);
         showRecylerViewProductsDetail(adapter);
 
@@ -382,11 +397,11 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
     }
 
-    private void getSubTotal(List<AddToCart> addToCarts) {
+    private void getSubTotal(List<Product> addToCarts) {
         long price = 0;
 
-        for (AddToCart i : addToCarts) {
-            price = price + Long.valueOf(i.getItemPrice());
+        for (Product i : addToCarts) {
+            price = price + (Long.valueOf(i.getPrice()) * Long.valueOf(i.getItemQuantity()));
 
         }
         setSubTotal(String.valueOf(price));
@@ -447,10 +462,11 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                                 if (selfPikup.equalsIgnoreCase("Self Pickup")) {
                                     streetAddress1 = "Self pickup";
                                 }
-                                presenter.addItemsToBooking(cartArrayList, firstName + lastName, companyName,
+                                presenter.addItemsToBookingServer(cartArrayList, firstName + lastName, companyName,
                                         phoneNo, email, streetAddress1
                                         , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername(),
-                                        gstValueTextView.getText().toString(), totalValueTextView.getText().toString());
+                                        gstValueTextView.getText().toString(), totalValueTextView.getText().toString(),
+                                        sessionManager.getKeyRandomKey());
                                 ;
                             } else {
                                 showToastShortTime("Please connect to internet.");
@@ -487,8 +503,8 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     }
 
     @Override
-    public void sendStripe(Card card, String orderID) {
-        sendStripeRequest(card, orderID);
+    public void sendStripe(Card card, String orderID, String randomKey) {
+        sendStripeRequest(card, orderID, randomKey);
     }
 
 
@@ -508,10 +524,11 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                             if (selfPikup.equalsIgnoreCase("Self Pickup")) {
                                 streetAddress1 = "Self pickup";
                             }
-                            presenter.addItemsToBooking(cartArrayList, firstName + lastName, companyName,
+                            presenter.addItemsToBookingServer(cartArrayList, firstName + lastName, companyName,
                                     phoneNo, email, streetAddress1
                                     , paymentMode, orderNotes, selfPikup, flatCharges, sessionManager.getusername(),
-                                    gstValueTextView.getText().toString(), totalValueTextView.getText().toString());
+                                    gstValueTextView.getText().toString(), totalValueTextView.getText().toString(),
+                                    sessionManager.getKeyRandomKey());
 
                         } else {
                             hideProgressDialogPleaseWait();
@@ -540,7 +557,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
     }
 
 
-    private void sendStripeRequest(Card card, final String orderID) {
+    private void sendStripeRequest(Card card, final String orderID, final String randomKey) {
 
         Stripe stripe = new Stripe(getActivity());
         stripe.createToken(
@@ -550,7 +567,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
                     public void onSuccess(Token token) {
                         // Send token to your server
                         if (token != null) {
-                            charge(token, orderID);
+                            charge(token, orderID, randomKey);
                         } else {
                             hideProgressDialogPleaseWait();
                             showToastShortTime("Error while payment using stripe.");
@@ -577,7 +594,7 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 
     }
 
-    private void charge(Token cardToken, String orderID) {
+    private void charge(Token cardToken, String orderID, final String randomKey) {
         HashMap<String, Object> params = new HashMap<String, Object>();
         //  params.put("ItemName", "test");
         params.put("cardToken", cardToken.getId());
@@ -608,8 +625,11 @@ public class BillingTotalAmountViewFragment extends Fragment implements View.OnC
 //
 
 
-                        deleteItemsFromCart();
+                        // deleteItemsFromCart();
+                        sessionManager.removeRandomKeySession();
+                        sessionManager.setKeyRandomKey(randomKey);
                         hideProgressDialogPleaseWait();
+                        itemRemovedFromCart();
 
                         //    if (selfPikup.equalsIgnoreCase("Self Pickup")) {
                         //      streetAddress1 = "Self pickup";

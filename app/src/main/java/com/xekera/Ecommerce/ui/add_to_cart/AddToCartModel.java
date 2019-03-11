@@ -1,6 +1,10 @@
 package com.xekera.Ecommerce.ui.add_to_cart;
 
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
+import com.xekera.Ecommerce.data.rest.response.add_remove_cart_response.AddRemoveCartResponse;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.AddToCartResponse;
+import com.xekera.Ecommerce.data.rest.response.delete_item_cart_response.DeleteItemCartResponse;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
@@ -12,6 +16,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.List;
 
@@ -276,6 +284,74 @@ public class AddToCartModel implements AddToCartMVP.Model {
 
     }
 
+    @Override
+    public void fetchCarts(String randomKey, final INetworkListGeneral<AddToCartResponse> iNetworkListGeneral) {
+        Call<AddToCartResponse> call = xekeraAPI.getAllCarts(randomKey);
+        call.enqueue(new Callback<AddToCartResponse>() {
+            @Override
+            public void onResponse(Call<AddToCartResponse> call, Response<AddToCartResponse> response) {
+                try {
+                    AddToCartResponse productResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(productResponse);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddToCartResponse> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void deleteCartItem(String id, final INetworkListGeneral<DeleteItemCartResponse> iNetworkListGeneral) {
+        Call<DeleteItemCartResponse> call = xekeraAPI.deleteSingleItemCart(id);
+        call.enqueue(new Callback<DeleteItemCartResponse>() {
+            @Override
+            public void onResponse(Call<DeleteItemCartResponse> call, Response<DeleteItemCartResponse> response) {
+                try {
+                    DeleteItemCartResponse productResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(productResponse);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteItemCartResponse> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void addRemoveCartServer(String quantity, String productId, final INetworkListGeneral<AddRemoveCartResponse> iNetworkListGeneral) {
+        Call<AddRemoveCartResponse> call = xekeraAPI.addRemoveItemsCart(quantity, productId);
+        call.enqueue(new Callback<AddRemoveCartResponse>() {
+            @Override
+            public void onResponse(Call<AddRemoveCartResponse> call, Response<AddRemoveCartResponse> response) {
+                try {
+                    AddRemoveCartResponse productResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(productResponse);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddRemoveCartResponse> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
+            }
+        });
+    }
 
     interface IFetchCartDetailsList {
         void onCartDetailsReceived(List<AddToCart> AddToCartList);

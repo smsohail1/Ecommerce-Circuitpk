@@ -170,11 +170,11 @@ public class ContactUsFragment extends Fragment implements View.OnClickListener 
                 break;
 
             case R.id.imgCallMobile:
-                requestPermissions();
-                if (mPermissionDenied) {
-                    callSupportNumber(AppConstants.support_contact_no);
+                //  requestPermissions();
+                // if (mPermissionDenied) {
+                callSupportNumber(AppConstants.support_contact_no);
 
-                }
+                //}
                 break;
         }
     }
@@ -227,7 +227,7 @@ public class ContactUsFragment extends Fragment implements View.OnClickListener 
     }
 
     private void callSupportNumber(String mobileNo) {
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobileNo));
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mobileNo));
         try {
             startActivity(intent);
         } catch (SecurityException e) {

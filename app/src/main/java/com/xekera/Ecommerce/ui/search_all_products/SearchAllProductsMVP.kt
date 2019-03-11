@@ -9,6 +9,7 @@ import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.Product
 import com.xekera.Ecommerce.data.room.model.AddToCart
 import com.xekera.Ecommerce.data.room.model.Favourites
 import com.xekera.Ecommerce.ui.adapter.SearchAllProductsAdapter
+import okhttp3.ResponseBody
 
 interface SearchAllProductsMVP {
 
@@ -56,6 +57,8 @@ interface SearchAllProductsMVP {
         fun getFavourites(response: ProductResponse)
 
         fun getFavCounts();
+
+        fun getCartCount(): Int
     }
 
     interface Presenter {
@@ -113,6 +116,11 @@ interface SearchAllProductsMVP {
         )
 
         fun setProductItemsDetails()
+
+        fun addToCartApi(
+            productId: String?, quantity: String, price: String?, discountPrice: String?,
+            randomKey: String, imgProductCopy: ImageView
+        )
     }
 
     interface Model {
@@ -159,7 +167,10 @@ interface SearchAllProductsMVP {
         )
 
         fun getProductItemsDetails(iNetworkListGeneral: INetworkListGeneral<AllProductsResponse>)
-
+        fun addToCart(
+            productId: String?, quantity: String, price: String?, discountPrice: String?,
+            randomKey: String, iNetworkListGeneral: INetworkListGeneral<ResponseBody>
+        )
 
     }
 }

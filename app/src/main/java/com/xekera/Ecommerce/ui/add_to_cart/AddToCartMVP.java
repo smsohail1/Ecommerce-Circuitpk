@@ -1,8 +1,14 @@
 package com.xekera.Ecommerce.ui.add_to_cart;
 
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
+import com.xekera.Ecommerce.data.rest.response.add_remove_cart_response.AddRemoveCartResponse;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.AddToCartResponse;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.Product;
+import com.xekera.Ecommerce.data.rest.response.delete_item_cart_response.DeleteItemCartResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
 import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedModel;
+import okhttp3.ResponseBody;
 
 import java.util.List;
 
@@ -45,12 +51,19 @@ public interface AddToCartMVP {
 
         void setCartCounterTextview(int counts);
 
-        void setAdapter(List<AddToCart> addToCarts);
+        void setAdapter(List<Product> addToCarts);
 
         void removeItemFromAdapter(int position);
 
         void hideLoadingProgressDialog();
 
+        void updatePrice(Product productItems,String quantity);
+
+        void updateCartCounts();
+
+        void updatePriceOnClick(String price);
+
+        void incrementPriceOnClick(String price);
     }
 
     interface Presenter {
@@ -61,7 +74,7 @@ public interface AddToCartMVP {
 
         void fetchCartDetailsOnBack(int i);
 
-        void removeItemFromCart(AddToCart productItems, int position);
+        void removeItemFromCart(Product productItems, int position,String quantity);
 
         void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice);
 
@@ -69,8 +82,13 @@ public interface AddToCartMVP {
 
         void saveProductDetails(String quantity, long individualPrice, String itemPrice, String productName,
                                 String cutPrice, byte[] bytes, String imgUrl, String prodcutID, String isEmailSent,
-                                String productDesc, String imgArrList,String nameSku);
+                                String productDesc, String imgArrList, String nameSku);
 
+        void fetchCartsFromServer(String randomKey);
+
+        void addRemoveCartServer(String quantity, String productId, String price);
+
+        void removeCartServer(String quantity, String productId, String price);
 
     }
 
@@ -88,6 +106,12 @@ public interface AddToCartMVP {
         void getProductCount(String productName, AddToCartModel.IFetchCartDetailsList iFetchCartDetailsList);
 
         void saveProductDetails(AddToCart addToCart, AddToCartModel.ISaveProductDetails iSaveProductDetails);
+
+        void fetchCarts(String randomKey, INetworkListGeneral<AddToCartResponse> iNetworkListGeneral);
+
+        void deleteCartItem(String id, INetworkListGeneral<DeleteItemCartResponse> iNetworkListGeneral);
+
+        void addRemoveCartServer(String quantity, String productId, INetworkListGeneral<AddRemoveCartResponse> iNetworkListGeneral);
 
     }
 }

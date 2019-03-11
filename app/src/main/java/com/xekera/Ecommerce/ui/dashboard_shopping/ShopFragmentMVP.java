@@ -7,6 +7,7 @@ import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.response.Category;
 import com.xekera.Ecommerce.data.rest.response.CategoryResponse;
 import com.xekera.Ecommerce.data.rest.response.SignUpSuccessResponse;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.AddToCartResponse;
 import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
 import com.xekera.Ecommerce.ui.add_to_cart.AddToCartModel;
 import com.xekera.Ecommerce.ui.dashboard_shopping.adapter.DashboardAdapter;
@@ -63,6 +64,8 @@ public interface ShopFragmentMVP {
         void getCartDetails(ShopFragmentModel.IFetchCartDetailsList iFetchCartDetailsList);
 
         void getDashboardItemsDetails(INetworkListGeneral<CategoryResponse> iNetworkListGeneral);
+
+        void fetchCarts(String randomKey, INetworkListGeneral<AddToCartResponse> iNetworkListGeneral);
 
     }
 }

@@ -197,8 +197,14 @@ public class ContinueShopFragment extends Fragment implements ShopFragmentMVP.Vi
         if (utils.isInternetAvailable()) {
             progressbar.setVisibility(View.VISIBLE);
 
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    presenter.setDashboardItemsDetails(getActivity());
+                }
+            }, 400);
             //presenter.setDashboardItems(getActivity());
-            presenter.setDashboardItemsDetails(getActivity());
             //presenter.getTotalCounts();
         } else {
             showToastShortTime("Please connect to internet.");

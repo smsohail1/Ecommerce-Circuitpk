@@ -1,10 +1,14 @@
 package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
 import com.stripe.android.model.Card;
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
 import com.xekera.Ecommerce.data.rest.INetworkPostOrder;
 import com.xekera.Ecommerce.data.rest.response.SubmitAddressResponse;
 import com.xekera.Ecommerce.data.rest.response.SubmitOrderSingleListResponse;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.AddToCartResponse;
+import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.Product;
+import com.xekera.Ecommerce.data.rest.response.submit_order_json_response.SubmitOrderJsonResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.ui.adapter.BillingTotalAmountViewAdapter;
@@ -54,9 +58,9 @@ public interface BillingTotalAmountViewMVP {
 
         void deleteItemsFromCart();
 
-        void setAdapter(List<AddToCart> addToCarts);
+        void setAdapter(List<Product> addToCarts);
 
-        void sendStripe(Card card,String orderID);
+        void sendStripe(Card card, String orderID, String randomKey);
 
         void gotoStripe();
 
@@ -77,6 +81,14 @@ public interface BillingTotalAmountViewMVP {
                                String email, String streetAddress1, String paymode,
                                String notes, String selfPickup, String flatCharges, String username, String gst,
                                String totalAmount);
+
+        void addItemsToBookingServer(List<AddToCart> addToCarts, String firstName, String company, String phone,
+                                     String email, String streetAddress1, String paymode,
+                                     String notes, String selfPickup, String flatCharges, String username, String gst,
+                                     String totalAmount,
+                                     String randomKey);
+
+        void fetchCartsFromServer(String randomKey);
 
     }
 
@@ -114,6 +126,22 @@ public interface BillingTotalAmountViewMVP {
         void setOrderDetailsDescription(String product_id,
                                         String itemQuantity, String itemPrice,
                                         String last_id, String emailaddress, String sendemailbit, int countsID, INetworkPostOrder<SubmitOrderSingleListResponse> iNetworkLoginSignup);
+
+
+        void postOrderDetailsJson(String randomKey, String platform, String name,
+                                  String username,
+                                  String address,
+                                  String email,
+                                  String company,
+                                  String phone,
+                                  String payment,
+                                  String message,
+                                  String flatCharges, String gst,
+                                  String totalAmount,
+                                  INetworkLoginSignup<SubmitOrderJsonResponse> iNetworkLoginSignup);
+
+        void fetchCarts(String randomKey, INetworkListGeneral<AddToCartResponse> iNetworkListGeneral);
+
 
     }
 }

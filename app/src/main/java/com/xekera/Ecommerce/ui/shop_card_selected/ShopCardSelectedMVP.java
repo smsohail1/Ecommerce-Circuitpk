@@ -5,12 +5,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.adapter.AddToCartAdapter;
 import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
 import com.xekera.Ecommerce.ui.adapter.SliderAdapter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsModel;
+import okhttp3.ResponseBody;
 
 import java.util.List;
 
@@ -54,6 +56,8 @@ public interface ShopCardSelectedMVP {
 
         void setFavCount();
 
+        void countsForActionBar();
+
 
     }
 
@@ -80,6 +84,10 @@ public interface ShopCardSelectedMVP {
         void addItemToFavourites(Favourites favourites, boolean isChecked);
 
         void setIsFavourite(String productName);
+
+
+        void addToCartApi(String productId, String quantity, String price, String discountPrice,
+                          String randomKey);
     }
 
     interface Model {
@@ -110,5 +118,8 @@ public interface ShopCardSelectedMVP {
 
         void deleteItem(String itemName, ShopCardSelectedModel.IRemoveFavouriteItemDetails iRemoveFavouriteItemDetails);
 
+        void addToCart(String productId, String quantity, String price, String discountPrice,
+                       String randomKey
+                , INetworkListGeneral<ResponseBody> iNetworkListGeneral);
     }
 }

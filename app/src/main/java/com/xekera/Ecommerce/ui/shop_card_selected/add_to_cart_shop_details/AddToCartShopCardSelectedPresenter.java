@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.shop_card_selected.add_to_cart_shop_details;
 import android.content.Context;
 import android.widget.ImageView;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.adapter.ProductsImagesAdapter;
@@ -10,6 +11,7 @@ import com.xekera.Ecommerce.ui.shop_card_selected.model.MultipleImagesItem;
 import com.xekera.Ecommerce.util.AppConstants;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
+import okhttp3.ResponseBody;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -426,6 +428,38 @@ public class AddToCartShopCardSelectedPresenter implements AddToCartShopCardSele
         });
     }
 
+    @Override
+    public void addToCartApi(String productId, String quantity, String price, String discountPrice, String randomKey) {
+        view.showProgressDialogPleaseWait();
+        model.addToCart(productId, quantity, price, discountPrice, randomKey, new INetworkListGeneral<ResponseBody>() {
+            @Override
+            public void onSuccess(ResponseBody response) {
+                view.hideProgressDialogPleaseWait();
+
+                if (response == null) {
+                    view.showToastShortTime("Error while add to cart.");
+
+                    return;
+                } else {
+                    view.showToastShortTime("Item added to cart.");
+
+                    view.countsForActionBar();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while add product.");
+                }
+
+            }
+        });
+    }
 
     private void getUpdatedTotalCount() {
         model.getCartDetails(new AddToCartShopCardSelectedModel.IFetchCartDetailsList() {

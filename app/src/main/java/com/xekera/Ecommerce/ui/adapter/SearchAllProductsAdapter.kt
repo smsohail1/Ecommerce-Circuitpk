@@ -20,8 +20,8 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.varunest.sparkbutton.SparkButton
 import com.wang.avi.AVLoadingIndicatorView
 import com.xekera.Ecommerce.R
-import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.AllProductsResponse
 import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.Product
+import com.xekera.Ecommerce.util.Utils
 import kotlinx.android.synthetic.main.fragment_row_shop_details.view.*
 
 import java.io.ByteArrayOutputStream
@@ -34,6 +34,7 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     lateinit var productsItemsSearch: MutableList<Product>
     lateinit var iShopDetailAdapter: SearchAllProductsAdapter.IShopDetailAdapter
     lateinit var favList: MutableList<String>
+    lateinit var utils: Utils
     //    private ProductItemActionListener actionListener;
 
     constructor() {
@@ -44,7 +45,9 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     constructor(
         context: Context,
         productsItems: MutableList<Product>,
-        iShopDetailAdapter: SearchAllProductsAdapter.IShopDetailAdapter
+        iShopDetailAdapter: SearchAllProductsAdapter.IShopDetailAdapter,
+        utils: Utils
+
     ) {
         this.context = context
         this.productsItems = productsItems
@@ -52,7 +55,7 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.productsItemsSearch = mutableListOf()
         (this.productsItemsSearch as ArrayList<Product>).addAll(productsItems)
         this.favList = mutableListOf<String>()
-
+        this.utils = utils
     }
 
 
@@ -243,6 +246,7 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         val AddImageView: Button = itemView.AddImageView
         val imgProduct: ImageView = itemView.imgProduct
 
+        val btnAddCart: Button = itemView.btnAddCart
         val imgProductCopy: ImageView = itemView.imgProductCopy
         val counterTextview: TextView = itemView.counterTextview
 
@@ -280,6 +284,17 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             itemView.viewDetailsImageView.setOnClickListener {
                 iShopDetailAdapter.onViewDetailsButtonClick(productsItems[layoutPosition])
+            }
+
+            itemView.btnAddCart.setOnClickListener {
+                if (utils.isInternetAvailable()) {
+                    iShopDetailAdapter.addToCart(
+                        productsItems[layoutPosition],
+                        imgProductCopy
+                    )
+                } else {
+                    iShopDetailAdapter.InternetError()
+                }
             }
 
             itemView.favouriteButton.setOnClickListener {
@@ -568,7 +583,9 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         fun removeItemFromCart(shoppingDetailModel: Product)
 
         fun getIsFavourites(productName: String, position: Int)
+        fun addToCart(productItems: Product, imgProductCopy: ImageView)
 
+        fun InternetError()
     }
 
 
