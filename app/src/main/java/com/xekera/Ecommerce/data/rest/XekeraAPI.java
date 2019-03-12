@@ -1,5 +1,6 @@
 package com.xekera.Ecommerce.data.rest;
 
+import com.google.gson.JsonObject;
 import com.xekera.Ecommerce.data.rest.response.*;
 import com.xekera.Ecommerce.data.rest.response.add_remove_cart_response.AddRemoveCartResponse;
 import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.AddToCartResponse;
@@ -128,21 +129,30 @@ public interface XekeraAPI {
 
     @FormUrlEncoded
     @POST(WEB_API_SUBMIT_ORDER + "webordersubmit.php")
-    Call<SubmitOrderJsonResponse> postOrderBody(@Field("orderkeyid") String randomKey,
-                                                @Field("orderfrom") String platform,
-                                                @Field("name") String name,
-                                                @Field("username") String username,
-                                                @Field("address") String address,
-                                                @Field("email") String email,
-                                                @Field("company") String company,
-                                                @Field("phone") String phone,
-                                                @Field("payment") String payment,
-                                                @Field("message") String message,
-                                                @Field("Y-m-d H:i:s") String date,
-                                                @Field("GST") String gst,
-                                                @Field("FlatCharges") String flatCharges,
-                                                @Field("Total") String totalAmount);
+    Call<SubmitOrderJsonResponse> postOrder(@Field("orderkeyid") String randomKey,
+                                            @Field("orderfrom") String platform,
+                                            @Field("name") String name,
+                                            @Field("username") String username,
+                                            @Field("address") String address,
+                                            @Field("email") String email,
+                                            @Field("company") String company,
+                                            @Field("phone") String phone,
+                                            @Field("payment") String payment,
+                                            @Field("message") String message,
+                                            @Field("GST") String gst,
+                                            @Field("FlatCharges") String flatCharges,
+                                            @Field("Total") String totalAmount);
 
+
+    //@FormUrlEncoded
+    //@Multipart
+    //@Headers("Content-Type: application/json")
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST(WEB_API_SUBMIT_ORDER + "webordersubmit.php")
+    Call<SubmitOrderJsonResponse> postOrderBody(@Body JsonObject jsonObejct);
 
     @GET(WEB_API_ALL_PRODUCTS + "searchproduct.php")
     Call<AllProductsResponse> getAllProducts();

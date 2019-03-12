@@ -15,10 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
+import android.os.*;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -228,45 +225,48 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             @Override
             public void onClick(View view) {
 
+                if (sessionManager.isLoggedIn() || sessionManager.isLoginViaFacebook()) {
+                    showLogoutDialog(BaseActivity.this, "Logout", utils.getStringFromResourceId(R.string.are_you_sure_logout));
+                } else {
 
-                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
-                if (!(fragment instanceof LoginFragment)) {
+                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                    if (!(fragment instanceof LoginFragment)) {
 
-                    if (isLoginBtnEnable) {
-                        isLoginBtnEnable = false;
-                        Menu menu = navigationView.getMenu();
-                        MenuItem menuItem;
+                        if (isLoginBtnEnable) {
+                            isLoginBtnEnable = false;
+                            Menu menu = navigationView.getMenu();
+                            MenuItem menuItem;
 
-                        Menu bottomMenu = navigation.getMenu();
-                        MenuItem bottomMenuItem;
+                            Menu bottomMenu = navigation.getMenu();
+                            MenuItem bottomMenuItem;
 
-                        for (int i = 0; i < menu.size(); i++) {
-                            menuItem = menu.getItem(i);
-                            menuItem.setChecked(false);
-                        }
-
-                        for (int i = 0; i < bottomMenu.size(); i++) {
-                            bottomMenuItem = bottomMenu.getItem(i);
-                            bottomMenuItem.setCheckable(false);
-                            bottomMenuItem.setChecked(false);
-                        }
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                replaceFragmentWithContainer(new LoginFragment());
-                                drawer.closeDrawer(GravityCompat.START);
-                                isLoginBtnEnable = true;
-
+                            for (int i = 0; i < menu.size(); i++) {
+                                menuItem = menu.getItem(i);
+                                menuItem.setChecked(false);
                             }
-                        }, 250);
+
+                            for (int i = 0; i < bottomMenu.size(); i++) {
+                                bottomMenuItem = bottomMenu.getItem(i);
+                                bottomMenuItem.setCheckable(false);
+                                bottomMenuItem.setChecked(false);
+                            }
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    replaceFragmentWithContainer(new LoginFragment());
+                                    drawer.closeDrawer(GravityCompat.START);
+                                    isLoginBtnEnable = true;
+
+                                }
+                            }, 250);
+
+                        }
+                    } else {
+                        isLoginBtnEnable = true;
+                        drawer.closeDrawer(GravityCompat.START);
 
                     }
-                } else {
-                    isLoginBtnEnable = true;
-                    drawer.closeDrawer(GravityCompat.START);
-
                 }
-
             }
         });
 
@@ -1522,6 +1522,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     // Method to share either text or URL.
     private void shareTextUrl() {
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.icon_compnay_share);
 

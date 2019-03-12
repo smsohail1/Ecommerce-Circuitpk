@@ -1,5 +1,6 @@
 package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
+import com.google.gson.JsonObject;
 import com.stripe.android.model.Card;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
@@ -128,16 +129,19 @@ public interface BillingTotalAmountViewMVP {
                                         String last_id, String emailaddress, String sendemailbit, int countsID, INetworkPostOrder<SubmitOrderSingleListResponse> iNetworkLoginSignup);
 
 
-        void postOrderDetailsJson(String randomKey, String platform, String name,
-                                  String username,
-                                  String address,
-                                  String email,
-                                  String company,
-                                  String phone,
-                                  String payment,
-                                  String message,
-                                  String flatCharges, String gst,
-                                  String totalAmount,
+//        void postOrderDetailsJson(String randomKey, String platform, String name,
+//                                  String username,
+//                                  String address,
+//                                  String email,
+//                                  String company,
+//                                  String phone,
+//                                  String payment,
+//                                  String message,
+//                                  String flatCharges, String gst,
+//                                  String totalAmount,
+//                                  INetworkLoginSignup<SubmitOrderJsonResponse> iNetworkLoginSignup);
+
+        void postOrderDetailsJson(JsonObject jsonObject,
                                   INetworkLoginSignup<SubmitOrderJsonResponse> iNetworkLoginSignup);
 
         void fetchCarts(String randomKey, INetworkListGeneral<AddToCartResponse> iNetworkListGeneral);

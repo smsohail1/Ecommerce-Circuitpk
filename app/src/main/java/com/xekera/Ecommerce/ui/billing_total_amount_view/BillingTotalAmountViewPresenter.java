@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.billing_total_amount_view;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.stripe.android.model.Card;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
@@ -636,34 +637,76 @@ public class BillingTotalAmountViewPresenter implements BillingTotalAmountViewMV
                                         final String gst, final String totalAmount,
                                         final String randomKey) {
 
-//                            JSONObject jsonObjectAddress = new JSONObject();
-//                            try {
-//                                jsonObjectAddress.put("orderkeyid", randomKey);
-//                                jsonObjectAddress.put("orderfrom", "mobile");
-//                                jsonObjectAddress.put("name", firstName);
-//                                jsonObjectAddress.put("username", username);
-//                                jsonObjectAddress.put("address", streetAddress1);
-//                                jsonObjectAddress.put("email", email);
-//                                jsonObjectAddress.put("company", company);
-//                                jsonObjectAddress.put("phone", phone);
-//                                jsonObjectAddress.put("payment", paymode);
-//                                jsonObjectAddress.put("message", notes);
-//                                jsonObjectAddress.put("GST", gst);
-//
-//                                jsonObjectAddress.put("FlatCharges", flatCharges);
-//                                jsonObjectAddress.put("Total", totalAmount);
-//
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
+        JSONObject jsonObjectAddress = new JSONObject();
+        try {
+            jsonObjectAddress.put("orderkeyid", randomKey);
+            jsonObjectAddress.put("orderfrom", "mobile");
+            jsonObjectAddress.put("name", firstName);
+            jsonObjectAddress.put("username", username);
+            jsonObjectAddress.put("address", streetAddress1);
+            jsonObjectAddress.put("email", email);
+            jsonObjectAddress.put("company", company);
+            jsonObjectAddress.put("phone", phone);
+            jsonObjectAddress.put("payment", paymode);
+            jsonObjectAddress.put("message", notes);
+            jsonObjectAddress.put("GST", gst);
+            jsonObjectAddress.put("FlatCharges", flatCharges);
+            jsonObjectAddress.put("Total", totalAmount);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("orderkeyid", randomKey);
+        jsonObject.addProperty("orderfrom", "mobile");
+        jsonObject.addProperty("name", firstName);
+        jsonObject.addProperty("username", username);
+        jsonObject.addProperty("address", streetAddress1);
+        jsonObject.addProperty("email", email);
+        jsonObject.addProperty("company", company);
+        jsonObject.addProperty("phone", phone);
+        jsonObject.addProperty("payment", paymode);
+        jsonObject.addProperty("message", notes);
+        jsonObject.addProperty("GST", gst);
+        jsonObject.addProperty("FlatCharges", flatCharges);
+        jsonObject.addProperty("Total", totalAmount);
 
 
-        //   String jsonObjectStr = new Gson().toJson(jsonObjectAddress);
+        String jsonObjectStr = "{" +
+                "\"orderkeyid\":" + "\"" + randomKey + "\"" + "," +
+                "\"orderfrom\":" + "\"" + "mobile" + "\"" + "," +
+                "\"name\":" + "\"" + username + "\"" + "," +
+                "\"address\":" + "\"" + streetAddress1 + "\"" + "," +
+                "\"email\":" + "\"" + email + "\"" + "," +
+                "\"company\":" + "\"" + company + "\"" + "," +
+                "\"phone\":" + "\"" + phone + "\"" + "," +
+                "\"payment\":" + "\"" + paymode + "\"" + "," +
+                "\"message\":" + "\"" + notes + "\"" + "," +
+                "\"GST\":" + "\"" + gst + "\"" + "," +
+                "\"FlatCharges\":" + "\"" + flatCharges + "\"" + "," +
+                "\"Total\":" + "\"" + totalAmount + "\"" +
+                "}";
+
+//        String jsonObjectStr = "{" +
+//                "orderkeyid:" + "\"" + randomKey + "\"" + "," +
+//                "orderfrom:" + "\"" + "mobile" + "\"" + "," +
+//                "name:" + "\"" + username + "\"" + "," +
+//                "address:" + "\"" + streetAddress1 + "\"" + "," +
+//                "email:" + "\"" + email + "\"" + "," +
+//                "company:" + "\"" + company + "\"" + "," +
+//                "phone:" + "\"" + phone + "\"" + "," +
+//                "payment:" + "\"" + paymode + "\"" + "," +
+//                "message:" + "\"" + notes + "\"" + "," +
+//                "GST:" + "\"" + gst + "\"" + "," +
+//                "FlatCharges:" + "\"" + flatCharges + "\"" + "," +
+//                "Total:" + "\"" + totalAmount + "\"" +
+//                "}";
+
+        //String jsonObjectStr = new Gson().toJson(jsonObjectAddress);
 
 
-        model.postOrderDetailsJson(randomKey, "mobile", firstName,
-                username, streetAddress1, email, company, phone, paymode, notes,
-                flatCharges, gst, totalAmount,
+        model.postOrderDetailsJson(jsonObject,
                 new INetworkLoginSignup<SubmitOrderJsonResponse>() {
                     @Override
                     public void onSuccess(SubmitOrderJsonResponse response) {

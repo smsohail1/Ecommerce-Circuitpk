@@ -1,6 +1,8 @@
 package com.xekera.Ecommerce.di.module;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.util.AppConstants;
 import dagger.Module;
@@ -31,10 +33,14 @@ public class RetrofitModule {
     @Singleton
     @Provides
     public Retrofit provideRetrofit(String baseURL, OkHttpClient client) {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
         return new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 

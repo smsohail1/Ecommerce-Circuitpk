@@ -1,5 +1,6 @@
 package com.xekera.Ecommerce.ui.billing_total_amount_view;
 
+import com.google.gson.JsonObject;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.INetworkLoginSignup;
 import com.xekera.Ecommerce.data.rest.INetworkPostOrder;
@@ -425,21 +426,45 @@ public class BillingTotalAmountViewModel implements BillingTotalAmountViewMVP.Mo
         });
     }
 
+//    @Override
+//    public void postOrderDetailsJson(String randomKey,
+//                                     String platform,
+//                                     String name,
+//                                     String username,
+//                                     String address,
+//                                     String email,
+//                                     String company,
+//                                     String phone,
+//                                     String payment,
+//                                     String message,
+//                                     String flatCharges, String gst,
+//                                     String totalAmount, final INetworkLoginSignup<SubmitOrderJsonResponse> iNetworkLoginSignup) {
+//        Call<SubmitOrderJsonResponse> call = xekeraAPI.postOrderBody(randomKey,
+//                platform, name, username, address, email, company, phone, payment, message, gst, flatCharges, totalAmount);
+//        call.enqueue(new Callback<SubmitOrderJsonResponse>() {
+//            @Override
+//            public void onResponse(Call<SubmitOrderJsonResponse> call, Response<SubmitOrderJsonResponse> response) {
+//                try {
+//                    SubmitOrderJsonResponse submitOrderResponse = response.body();
+//                    iNetworkLoginSignup.onSuccess(submitOrderResponse);
+//
+//
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<SubmitOrderJsonResponse> call, Throwable t) {
+//                iNetworkLoginSignup.onFailure(t);
+//            }
+//        });
+//    }
+
+
     @Override
-    public void postOrderDetailsJson(String randomKey,
-                                     String platform,
-                                     String name,
-                                     String username,
-                                     String address,
-                                     String email,
-                                     String company,
-                                     String phone,
-                                     String payment,
-                                     String message,
-                                     String flatCharges, String gst,
-                                     String totalAmount, final INetworkLoginSignup<SubmitOrderJsonResponse> iNetworkLoginSignup) {
-        Call<SubmitOrderJsonResponse> call = xekeraAPI.postOrderBody(randomKey,
-                platform, name, username, address, email, company, phone, payment, message, "", gst, flatCharges, totalAmount);
+    public void postOrderDetailsJson(JsonObject jsonObject, final INetworkLoginSignup<SubmitOrderJsonResponse> iNetworkLoginSignup) {
+        Call<SubmitOrderJsonResponse> call = xekeraAPI.postOrderBody(jsonObject);
         call.enqueue(new Callback<SubmitOrderJsonResponse>() {
             @Override
             public void onResponse(Call<SubmitOrderJsonResponse> call, Response<SubmitOrderJsonResponse> response) {
