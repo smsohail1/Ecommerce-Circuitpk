@@ -437,10 +437,14 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
 
     @Override
     public void removeItemFromCart(final Product productItems, final int position, String quantity) {
-        showProgressDialogPleaseWait();
+        if (utils.isInternetAvailable()) {
+            showProgressDialogPleaseWait();
 
-        presenter.removeItemFromCart(productItems, position, quantity);
+            presenter.removeItemFromCart(productItems, position, quantity);
+        } else {
+            showToastShortTime("Please connect to internet.");
 
+        }
     }
 
     @Override
@@ -467,21 +471,17 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     @Override
     public void addBtnClick(String quantity, String productId, String price) {
 
-        if (utils.isInternetAvailable()) {
+
             presenter.addRemoveCartServer(quantity, productId, price);
-        } else {
-            showToastShortTime("Please connect to internet.");
-        }
+
     }
 
     @Override
     public void decremetnBtnClick(String quantity, String productId, String price) {
 
-        if (utils.isInternetAvailable()) {
-            presenter.removeCartServer(quantity, productId, price);
-        } else {
-            showToastShortTime("Please connect to internet.");
-        }
+
+        presenter.removeCartServer(quantity, productId, price);
+
     }
 
     @Override
@@ -571,7 +571,7 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
     @Override
     public void setAdapter(List<Product> addToCarts) {
 
-        adapter = new AddToCartAdapter(addToCarts, this);
+        adapter = new AddToCartAdapter(addToCarts, this, utils);
         showRecylerViewProductsDetail(adapter);
 
 
@@ -618,11 +618,16 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
             case R.id.btnCheckout:
                 if (!isProgressBarShowing) {
                     if (isCheckOutButtonEnable) {
-                        if (!utils.isTextNullOrEmptyOrZero(subTotalValueTextView.getText().toString())) {
-                            // presenter.getCartCountList();
-                            navigateToBillingDetailScreen();
+                        if (utils.isInternetAvailable()) {
+
+                            if (!utils.isTextNullOrEmptyOrZero(subTotalValueTextView.getText().toString())) {
+                                // presenter.getCartCountList();
+                                navigateToBillingDetailScreen();
+                            } else {
+                                showToastShortTime("Can't order items due to sub total is zero");
+                            }
                         } else {
-                            showToastShortTime("Can't order items due to sub total is zero");
+                            showToastShortTime("Please connect to internet");
                         }
                     }
                     isCheckOutButtonEnable = false;
@@ -680,6 +685,11 @@ public class AddToCartFragment extends Fragment implements AddToCartMVP.View, Ad
                 }
                 break;
         }
+    }
+
+    @Override
+    public void InternetError() {
+        toastUtil.showToastShortTime("Please connect to internet", toastView);
     }
 
     private void showCouponDialog(Context context, String title) {

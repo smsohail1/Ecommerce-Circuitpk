@@ -57,13 +57,16 @@ public interface AddToCartMVP {
 
         void hideLoadingProgressDialog();
 
-        void updatePrice(Product productItems,String quantity);
+        void updatePrice(Product productItems, String quantity);
 
         void updateCartCounts();
 
         void updatePriceOnClick(String price);
 
         void incrementPriceOnClick(String price);
+
+        void InternetError();
+
     }
 
     interface Presenter {
@@ -74,7 +77,7 @@ public interface AddToCartMVP {
 
         void fetchCartDetailsOnBack(int i);
 
-        void removeItemFromCart(Product productItems, int position,String quantity);
+        void removeItemFromCart(Product productItems, int position, String quantity);
 
         void updateItemCountInDB(String quantity, String itemPrice, String productName, String cutPrice);
 

@@ -908,13 +908,18 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
 //                            skuName);
 //                }
 //                presenter.saveProductDetails(addToCart);
-                if (!utils.isTextNullOrEmptyOrZero(quantity)) {
+                if (utils.isInternetAvailable()) {
+                    if (!utils.isTextNullOrEmptyOrZero(quantity)) {
 
-                    presenter.addToCartApi(producdID, quantity, price, itemCutPrice,
-                            sessionManager.getKeyRandomKey()
-                    );
+                        presenter.addToCartApi(producdID, quantity, price, itemCutPrice,
+                                sessionManager.getKeyRandomKey()
+                        );
+                    } else {
+                        showToastShortTime("Please select atleast one quantity.");
+
+                    }
                 } else {
-                    showToastShortTime("Please select atleast one quantity.");
+                    showToastShortTime("Please connect to internet.");
 
                 }
                 break;
