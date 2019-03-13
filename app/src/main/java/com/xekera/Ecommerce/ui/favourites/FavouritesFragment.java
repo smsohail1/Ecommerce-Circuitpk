@@ -7,10 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,6 +28,7 @@ import com.facebook.messenger.MessengerUtils;
 import com.facebook.messenger.ShareToMessengerParams;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.rest.response.Product;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.data.room.model.Favourites;
@@ -79,6 +82,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     public static final String FACEBOOK_APP_LITE_PACKAGE = "com.facebook.lite";
     public static final String WHATSAPP_PACKAGE = "com.whatsapp";
     public static final String TWITTER_PACKAGE = "com.twitter.android";
+    public static final String GMAIL_PACKAGE = "com.google.android.gm";
 
 
     public FavouritesFragment() {
@@ -408,6 +412,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         ImageView imgFacebook = dialog.findViewById(R.id.imgFacebook);
         ImageView imgMessenger = dialog.findViewById(R.id.imgMessenger);
         ImageView imgTwitter = dialog.findViewById(R.id.imgTwitter);
+        ImageView imgGmail = dialog.findViewById(R.id.imgGmail);
 
         imgTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -415,6 +420,13 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                 shareOnTwitter(favourites, favourites.getImage());
             }
         });
+        imgGmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareOnGmail(favourites, favourites.getImage());
+            }
+        });
+
 
         imgWhatsApp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -577,6 +589,78 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         }
     }
 
+    private void shareOnGmail(Favourites favourites, String url) {
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.icon_compnay_share);
+
+        Intent gmail = new Intent();
+        gmail.setAction(Intent.ACTION_SEND);
+        gmail.setType("image/*");
+        gmail.setType("text/plain");
+
+        gmail.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        gmail.setPackage(GMAIL_PACKAGE);
+//        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+
+//        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        /*gmail.putExtra(Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + product.getName() + "\n" +
+                        "New Price: " + product.getPrice() + "\n" +
+                        "Old Price: " + product.getRegularPrice() + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());*/
+
+        String productDescription = "Product Name: " + favourites.getItemName() + "\n" +
+                "New Price: " + favourites.getItemIndividualPrice() + "\n" +
+                "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                "Website: " + "https://circuit.pk/product/" + favourites.getNameSku() + "\n\n";
+
+        gmail.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        String Weblink = "https://circuit.pk/";
+        String mobileAppLink = "https://play.google.com/store/apps/details?id=" + getActivity().getPackageName();
+        String socialMediaLinks = "Social Media Pages:\n" + "Facebook: " + AppConstants.URL_CIRCUIT_PK_FACEBOOK_PAGE_URL + "\n" +
+                "Twitter: " + AppConstants.URL_CIRCUIT_PK_TWITTER_PAGE_URL + "\n" +
+                "Google Plus: " + AppConstants.URL_CIRCUIT_PK_GOOGLE_PLUS_PAGE_URL + "\n" +
+                "Pinterest: " + AppConstants.URL_CIRCUIT_PK_PINTEREST_PAGE_URL + "\n" +
+                "Youtube:" + AppConstants.URL_CIRCUIT_PK_YOUTUBE_PAGE_URL;
+
+
+        String textDesc = "I am using circuit.pk app.Here, you can purchase electronic components in low cost.\n\n" +
+                "Below are the links of Website and mobile app.\n";
+        String linkDesc = productDescription + textDesc + "Website: " + Weblink + "\n" + "Mobile App: " + mobileAppLink + "\n\n" + socialMediaLinks;
+
+        gmail.putExtra(Intent.EXTRA_TEXT, linkDesc);
+        gmail.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(b));
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        try {
+            startActivity(gmail);
+        } catch (android.content.ActivityNotFoundException ex) {
+            toastUtil.showToastShortTime("Gmail have not been installed.", toastView);
+        }
+
+    }
+
+    private Uri getLocalBitmapUri(Bitmap bmp) {
+        Uri bmpUri = null;
+        try {
+            File file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                    "share_image_" + System.currentTimeMillis() + ".png");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 60, out);
+            out.close();
+            bmpUri = Uri.fromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
+    }
 
     private void shareOnWhatsApp(Favourites favourites, String url) {
         Intent whatsappIntent = new Intent();

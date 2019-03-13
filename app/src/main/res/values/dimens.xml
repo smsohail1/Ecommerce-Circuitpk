@@ -132,6 +132,7 @@
     <dimen name="check_stroke_width">7dp</dimen>
 
     <dimen name="btn_add_to_cart_height">54dp</dimen>
+    <dimen name="btn_txt_desc_size">10sp</dimen>
 
     <dimen name="text_Size_button_checkout">11dp</dimen>
     <dimen name="action_bar_logo_width">140dp</dimen>

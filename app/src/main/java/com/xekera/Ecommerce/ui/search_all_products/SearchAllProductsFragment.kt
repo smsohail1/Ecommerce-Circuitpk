@@ -7,10 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
+import android.os.*
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -40,6 +39,9 @@ import kotlinx.android.synthetic.main.fragment_dashboard_details.*
 
 import javax.inject.Inject
 import java.io.ByteArrayOutputStream
+import java.io.*
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.ArrayList
 import java.util.Calendar
@@ -436,9 +438,12 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
         val imgFacebook = dialog.findViewById(R.id.imgFacebook) as ImageView
         val imgMessenger = dialog.findViewById(R.id.imgMessenger) as ImageView
         val imgTwitter = dialog.findViewById(R.id.imgTwitter) as ImageView
+        val imgGmail = dialog.findViewById(R.id.imgGmail) as ImageView
 
 
-
+        imgGmail.setOnClickListener {
+            shareOnGmail(product, product.image_json!![0])
+        }
         imgTwitter.setOnClickListener(View.OnClickListener {
             shareOnTwitter(product, product.image_json!![0])
         })
@@ -710,6 +715,85 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
             toastUtil.showToastShortTime("Whatsapp have not been installed.", toastView)
         }
 
+    }
+
+    private fun shareOnGmail(product: Product, url: String?) {
+
+        val builder = StrictMode.VmPolicy.Builder()
+        StrictMode.setVmPolicy(builder.build())
+
+        val b = BitmapFactory.decodeResource(resources, R.drawable.icon_compnay_share)
+
+        val gmail = Intent()
+        gmail.action = Intent.ACTION_SEND
+        gmail.type = "image/*"
+        gmail.type = "text/plain"
+
+        gmail.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        gmail.setPackage(GMAIL_PACKAGE)
+        //        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+
+        //        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        /*gmail.putExtra(Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + product.getName() + "\n" +
+                        "New Price: " + product.getPrice() + "\n" +
+                        "Old Price: " + product.getRegularPrice() + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());*/
+
+        val productDescription = "Product Name: " + product.name + "\n" +
+                "New Price: " + product.Price + "\n" +
+                "Old Price: " + product.Regular_price + "\n" +
+                "Website: " + "https://circuit.pk/product/" + product.name_sku + "\n\n"
+
+        gmail.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        val Weblink = "https://circuit.pk/"
+        val mobileAppLink = "https://play.google.com/store/apps/details?id=" + activity!!.packageName
+        val socialMediaLinks =
+            "Social Media Pages:\n" + "Facebook: " + AppConstants.URL_CIRCUIT_PK_FACEBOOK_PAGE_URL + "\n" +
+                    "Twitter: " + AppConstants.URL_CIRCUIT_PK_TWITTER_PAGE_URL + "\n" +
+                    "Google Plus: " + AppConstants.URL_CIRCUIT_PK_GOOGLE_PLUS_PAGE_URL + "\n" +
+                    "Pinterest: " + AppConstants.URL_CIRCUIT_PK_PINTEREST_PAGE_URL + "\n" +
+                    "Youtube:" + AppConstants.URL_CIRCUIT_PK_YOUTUBE_PAGE_URL
+
+
+        val textDesc =
+            "I am using circuit.pk app.Here, you can purchase electronic components in low cost.\n\n" + "Below are the links of Website and mobile app.\n"
+        val linkDesc =
+            productDescription + textDesc + "Website: " + Weblink + "\n" + "Mobile App: " + mobileAppLink + "\n\n" + socialMediaLinks
+
+        gmail.putExtra(Intent.EXTRA_TEXT, linkDesc)
+        gmail.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(b))
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        try {
+            startActivity(gmail)
+        } catch (ex: android.content.ActivityNotFoundException) {
+            toastUtil.showToastShortTime("Gmail have not been installed.", toastView)
+        }
+
+    }
+
+
+    private fun getLocalBitmapUri(bmp: Bitmap): Uri? {
+        var bmpUri: Uri? = null
+        try {
+            val file = File(
+                activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                "share_image_" + System.currentTimeMillis() + ".png"
+            )
+            val out = FileOutputStream(file)
+            bmp.compress(Bitmap.CompressFormat.PNG, 60, out)
+            out.close()
+            bmpUri = Uri.fromFile(file)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return bmpUri
     }
 
     private fun isPackageInstalled(packageName: String, packageManager: PackageManager): Boolean {

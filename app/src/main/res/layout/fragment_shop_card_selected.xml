@@ -10,18 +10,112 @@
         android:background="@drawable/irongrip_repeating"
         android:orientation="vertical"
         android:clickable="true">
+
+    <LinearLayout
+            android:id="@+id/productNameLayout"
+            android:layout_width="match_parent"
+            android:padding="3dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/productNameTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="#3b5999"
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_product_name_card_selected_size"
+        />
+        <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp"
+        >
+            <RelativeLayout
+                    android:id="@+id/bottomCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+            >
+                <Button
+                        android:id="@+id/btnAddToCart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_add_to_cart"
+                        android:textColor="@color/btn_white_add_to_cart"
+                        android:theme="@style/PrimaryButton"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="@dimen/btn_txt_desc_size"
+
+                />
+                <LinearLayout android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:layout_marginRight="10dp"
+                              android:layout_alignParentRight="true"
+                              android:layout_marginTop="13dp"
+                >
+
+
+                    <ImageView
+                            android:id="@+id/decrementImageButton"
+                            android:layout_width="23dp"
+                            android:layout_height="23dp"
+                            android:clickable="true"
+                            android:padding="7dp"
+                            android:background="@drawable/minus_selector"
+
+                    />
+
+                    <TextView
+                            android:id="@+id/counterTextview"
+                            android:layout_width="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:textStyle="bold"
+
+                    />
+
+                    <ImageView
+                            android:id="@+id/incrementImageButton"
+                            android:layout_width="23dp"
+                            android:layout_height="23dp"
+                            android:clickable="true"
+                            android:padding="7dp"
+                            android:background="@drawable/add_selector"
+                    />
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+
     <ScrollView
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
-            android:layout_above="@+id/bottomCart"
+            android:layout_below="@+id/productNameLayout"
     >
 
         <LinearLayout
                 android:id="@+id/parentLinear"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginTop="4dp"
                 android:fillViewport="true">
 
 
@@ -37,22 +131,6 @@
                               android:orientation="vertical"
                 >
 
-                    <LinearLayout
-                            android:id="@+id/productNameLayout"
-                            android:layout_width="match_parent"
-                            android:padding="3dp"
-                            android:layout_height="wrap_content">
-
-                        <TextView
-                                android:id="@+id/productNameTextview"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:textColor="#3b5999"
-                                android:textStyle="bold"
-                                android:textSize="@dimen/txt_product_name_card_selected_size"
-                        />
-                    </LinearLayout>
                     <RelativeLayout
                             android:id="@+id/relativeLayoutImgParent"
                             android:layout_width="match_parent"
@@ -149,7 +227,7 @@
                                 android:layout_marginTop="5dp"
                                 app:cardCornerRadius="2dp"
                                 app:cardElevation="2dp"
-                                >
+                        >
 
 
                             <LinearLayout
@@ -778,67 +856,69 @@
 
     </ScrollView>
 
-    <RelativeLayout
-            android:id="@+id/bottomCart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:layout_alignParentBottom="true"
-
-    >
-        <Button
-                android:id="@+id/btnAddToCart"
-                android:layout_width="wrap_content"
+    <!--
+        <RelativeLayout
+                android:id="@+id/bottomCart"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/text_add_to_cart"
-                android:textColor="@color/btn_white_add_to_cart"
-                android:theme="@style/PrimaryButton"
-                android:layout_marginLeft="5dp"
+                android:padding="5dp"
+                android:layout_alignParentBottom="true"
 
-        />
-        <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal"
-                      android:layout_marginRight="10dp"
-                      android:layout_alignParentRight="true"
-                      android:layout_marginTop="13dp"
         >
-
-
-            <ImageView
-                    android:id="@+id/decrementImageButton"
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    android:clickable="true"
-                    android:padding="7dp"
-                    android:background="@drawable/minus_selector"
-
-            />
-
-            <TextView
-                    android:id="@+id/counterTextview"
+            <Button
+                    android:id="@+id/btnAddToCart"
                     android:layout_width="wrap_content"
-                    android:gravity="center_horizontal"
                     android:layout_height="wrap_content"
+                    android:text="@string/text_add_to_cart"
+                    android:textColor="@color/btn_white_add_to_cart"
+                    android:theme="@style/PrimaryButton"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-
 
             />
-
-            <ImageView
-                    android:id="@+id/incrementImageButton"
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    android:clickable="true"
-                    android:padding="7dp"
-                    android:background="@drawable/add_selector"
-            />
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+                          android:layout_marginRight="10dp"
+                          android:layout_alignParentRight="true"
+                          android:layout_marginTop="13dp"
+            >
 
 
-        </LinearLayout>
+                <ImageView
+                        android:id="@+id/decrementImageButton"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:clickable="true"
+                        android:padding="7dp"
+                        android:background="@drawable/minus_selector"
+
+                />
+
+                <TextView
+                        android:id="@+id/counterTextview"
+                        android:layout_width="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
 
 
-    </RelativeLayout>
+                />
+
+                <ImageView
+                        android:id="@+id/incrementImageButton"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:clickable="true"
+                        android:padding="7dp"
+                        android:background="@drawable/add_selector"
+                />
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    -->
 
 </RelativeLayout>

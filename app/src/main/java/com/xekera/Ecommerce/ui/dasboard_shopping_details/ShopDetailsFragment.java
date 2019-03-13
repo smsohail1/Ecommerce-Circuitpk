@@ -13,10 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Parcelable;
+import android.os.*;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -59,9 +56,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import javax.inject.Inject;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -877,12 +872,21 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         ImageView imgWhatsApp = dialog.findViewById(R.id.imgWhatsApp);
         ImageView imgFacebook = dialog.findViewById(R.id.imgFacebook);
         ImageView imgMessenger = dialog.findViewById(R.id.imgMessenger);
+        ImageView imgGmail = dialog.findViewById(R.id.imgGmail);
+
         ImageView imgTwitter = dialog.findViewById(R.id.imgTwitter);
 
         imgTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 shareOnTwitter(product, product.getImageJson().get(0));
+            }
+        });
+
+        imgGmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareOnGmail(product, product.getImageJson().get(0));
             }
         });
 
@@ -1110,6 +1114,78 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 
     }
 
+    private void shareOnGmail(Product product, String url) {
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.icon_compnay_share);
+
+        Intent gmail = new Intent();
+        gmail.setAction(Intent.ACTION_SEND);
+        gmail.setType("image/*");
+        gmail.setType("text/plain");
+
+        gmail.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        gmail.setPackage(GMAIL_PACKAGE);
+//        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+
+//        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        /*gmail.putExtra(Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + product.getName() + "\n" +
+                        "New Price: " + product.getPrice() + "\n" +
+                        "Old Price: " + product.getRegularPrice() + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());*/
+
+        String productDescription = "Product Name: " + product.getName() + "\n" +
+                "New Price: " + product.getPrice() + "\n" +
+                "Old Price: " + product.getRegularPrice() + "\n" +
+                "Website: " + "https://circuit.pk/product/" + product.getNameSku() + "\n\n";
+
+        gmail.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        String Weblink = "https://circuit.pk/";
+        String mobileAppLink = "https://play.google.com/store/apps/details?id=" + getActivity().getPackageName();
+        String socialMediaLinks = "Social Media Pages:\n" + "Facebook: " + AppConstants.URL_CIRCUIT_PK_FACEBOOK_PAGE_URL + "\n" +
+                "Twitter: " + AppConstants.URL_CIRCUIT_PK_TWITTER_PAGE_URL + "\n" +
+                "Google Plus: " + AppConstants.URL_CIRCUIT_PK_GOOGLE_PLUS_PAGE_URL + "\n" +
+                "Pinterest: " + AppConstants.URL_CIRCUIT_PK_PINTEREST_PAGE_URL + "\n" +
+                "Youtube:" + AppConstants.URL_CIRCUIT_PK_YOUTUBE_PAGE_URL;
+
+
+        String textDesc = "I am using circuit.pk app.Here, you can purchase electronic components in low cost.\n\n" +
+                "Below are the links of Website and mobile app.\n";
+        String linkDesc = productDescription + textDesc + "Website: " + Weblink + "\n" + "Mobile App: " + mobileAppLink + "\n\n" + socialMediaLinks;
+
+        gmail.putExtra(Intent.EXTRA_TEXT, linkDesc);
+        gmail.putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(b));
+        // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+        try {
+            startActivity(gmail);
+        } catch (android.content.ActivityNotFoundException ex) {
+            toastUtil.showToastShortTime("Gmail have not been installed.", toastView);
+        }
+
+    }
+
+    private Uri getLocalBitmapUri(Bitmap bmp) {
+        Uri bmpUri = null;
+        try {
+            File file = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                    "share_image_" + System.currentTimeMillis() + ".png");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 60, out);
+            out.close();
+            bmpUri = Uri.fromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
+    }
 
     private void shareOnWhatsApp(Uri imagePath) {
         Intent whatsappIntent = new Intent();

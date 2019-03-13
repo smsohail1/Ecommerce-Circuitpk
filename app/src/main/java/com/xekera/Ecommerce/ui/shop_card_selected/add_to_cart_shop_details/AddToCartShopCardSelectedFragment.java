@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -303,6 +304,12 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
             //}
 
             if (!utils.isTextNullOrEmpty(quantity)) {
+                if (quantity.equalsIgnoreCase("0")) {
+                    counterTextview.setTextColor(Color.parseColor("#FF0000"));
+                } else {
+                    counterTextview.setTextColor(Color.parseColor("#00FF00"));
+
+                }
                 counterTextview.setText(quantity);
             }
 
@@ -692,7 +699,12 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
                         //  shoppingDetailModel.setItemQuantity(0);
                         noOfProductsIntIncrement = 0;
                         counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
+                        if (noOfProductsIntIncrement == 0) {
+                            counterTextview.setTextColor(Color.parseColor("#FF0000"));
+                        } else {
+                            counterTextview.setTextColor(Color.parseColor("#00FF00"));
 
+                        }
 //                        if (shoppingDetailModel != null) {
 //                            shoppingDetailModel.setItemQuantity(0);
 //                        }
@@ -703,7 +715,12 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
 
                             noOfProductsIntIncrement = noOfProductsIntIncrement + 1;
                             counterTextview.setText(String.valueOf(noOfProductsIntIncrement));
+                            if (noOfProductsIntIncrement == 0) {
+                                counterTextview.setTextColor(Color.parseColor("#FF0000"));
+                            } else {
+                                counterTextview.setTextColor(Color.parseColor("#00FF00"));
 
+                            }
 //                            if (shoppingDetailModel != null) {
 //                                shoppingDetailModel.setItemQuantity(noOfProductsIntIncrement);
 //                            }
@@ -742,7 +759,12 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
                         //decrementCounter = 0;
                         noOfProductsIntDecrement = 0;
                         counterTextview.setText(String.valueOf(noOfProductsIntDecrement));
+                        if (noOfProductsIntDecrement == 0) {
+                            counterTextview.setTextColor(Color.parseColor("#FF0000"));
+                        } else {
+                            counterTextview.setTextColor(Color.parseColor("#00FF00"));
 
+                        }
 //                        if (shoppingDetailModel != null) {
 //                            shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
 //                        }
@@ -762,6 +784,12 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
 //                            presenter.updateItemCountInDB(String.valueOf(noOfProductsIntDecrement)
 //                                    , productNameLabelTextView.getText().toString());
                             showToastShortTime("Please select atleast one quantity.");
+                            if (noOfProductsIntDecrement == 0) {
+                                counterTextview.setTextColor(Color.parseColor("#FF0000"));
+                            } else {
+                                counterTextview.setTextColor(Color.parseColor("#00FF00"));
+
+                            }
                             return;
                         }
                         noOfProductsIntDecrement = noOfProductsIntDecrement - 1;
@@ -769,7 +797,12 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
                         //  presenter.updateItemCountInDB(String.valueOf(noOfProductsIntDecrement)
                         //        , productNameLabelTextView.getText().toString());
                         counterTextview.setText(String.valueOf(noOfProductsIntDecrement));
+                        if (noOfProductsIntDecrement == 0) {
+                            counterTextview.setTextColor(Color.parseColor("#FF0000"));
+                        } else {
+                            counterTextview.setTextColor(Color.parseColor("#00FF00"));
 
+                        }
 //                        if (shoppingDetailModel != null) {
 //                            shoppingDetailModel.setItemQuantity(noOfProductsIntDecrement);
 //                        }
