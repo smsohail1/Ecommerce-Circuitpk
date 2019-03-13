@@ -1,5 +1,6 @@
 package com.xekera.Ecommerce.ui.search_all_products;
 
+import com.google.gson.JsonObject;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.data.rest.response.ProductResponse;
@@ -512,6 +513,29 @@ public class SearchAllProductsModel implements SearchAllProductsMVP.Model {
     public void addToCart(String productId, String quantity, String price, String discountPrice, String randomKey,
                           final INetworkListGeneral<ResponseBody> iNetworkListGeneral) {
         Call<ResponseBody> call = xekeraAPI.addToProducts(productId, quantity, price, randomKey);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    // AddToCartResponse productResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(response.body());
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void addToFavouritesServer(JsonObject jsonObject, final INetworkListGeneral<ResponseBody> iNetworkListGeneral) {
+        Call<ResponseBody> call = xekeraAPI.postAddToFavouriteBody(jsonObject);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

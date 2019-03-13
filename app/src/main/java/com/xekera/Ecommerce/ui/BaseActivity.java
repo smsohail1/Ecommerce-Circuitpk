@@ -1624,6 +1624,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                         sessionManager.clearAll();
                         hideLogoutOption();
+                        showTotalCartsCount(0);
                         toastUtil.showToastShortTime("Logout Successfully.", toastView);
                         setUserDetails();
                         dialog.dismiss();
@@ -1661,6 +1662,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     if (currentAccessToken == null) {
                         dialog.dismiss();
                         isEnable = true;
+                        showTotalCartsCount(0);
                         sessionManager.clearAll();
                         setUserDetails();
                         hideLogoutOption();

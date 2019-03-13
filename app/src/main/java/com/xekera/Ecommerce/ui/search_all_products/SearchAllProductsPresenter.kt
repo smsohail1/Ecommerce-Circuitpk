@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.search_all_products
 import android.graphics.Bitmap
 import android.widget.ImageView
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral
 import com.xekera.Ecommerce.data.rest.response.ProductResponse
 import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.AllProductsResponse
@@ -541,6 +542,34 @@ class SearchAllProductsPresenter(
                 }
             })
 
+    }
+
+
+    override fun addToFavouritesServer(productId: String, username: String, email: String, name: String) {
+
+        view?.showProgressDialogPleaseWait()
+        val jsonObject = JsonObject()
+        jsonObject.addProperty("postid", productId)
+        jsonObject.addProperty("username", username)
+        jsonObject.addProperty("email", email)
+        model.addToFavouritesServer(jsonObject, object : INetworkListGeneral<ResponseBody> {
+            override fun onSuccess(response: ResponseBody) {
+                view?.hideProgressDialogPleaseWait()
+
+                view?.showToastShortTime("Add to favorite")
+
+                view?.addToFavoriteList(name)
+            }
+
+            override fun onFailure(t: Throwable) {
+                view?.hideProgressDialogPleaseWait()
+                if (t?.message != null) {
+                    view?.showToastShortTime(t.message!!)
+                } else {
+                    view?.showToastShortTime("Error while add favourite.")
+                }
+            }
+        })
     }
 
     override fun updateItemCountInDBForDecrement(

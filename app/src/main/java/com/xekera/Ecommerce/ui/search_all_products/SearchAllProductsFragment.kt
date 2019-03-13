@@ -425,6 +425,19 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
 
     }
 
+    override fun onFavouriteBtnClickOnSever(productId: String, name: String) {
+        presenter.addToFavouritesServer(productId, sessionManager.getusername(), sessionManager.email, name)
+
+    }
+
+    override fun showError(errorMsg: String) {
+        showToastShortTime(errorMsg)
+
+    }
+
+    override fun addToFavoriteList(name: String) {
+        shopDetailsAdapter.addFavList(name)
+    }
 
     private fun showShareDialog(context: Context?, product: Product) {
         val dialog = Dialog(context!!)
@@ -872,7 +885,7 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
 //        )
         shopDetailsAdapter = SearchAllProductsAdapter(
             activity!!, products as MutableList<Product>,
-            this, utils
+            this, utils,sessionManager
         )
         showRecylerViewProductsDetail(shopDetailsAdapter)
         hideCircularProgressBar()

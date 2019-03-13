@@ -1,48 +1,33 @@
 package com.xekera.Ecommerce.ui.adapter;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.varunest.sparkbutton.SparkButton;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.rest.response.Product;
-import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
-import com.xekera.Ecommerce.ui.shop_card_selected.ShopCardSelectedFragment;
 import com.xekera.Ecommerce.util.SessionManager;
-import com.xekera.Ecommerce.util.ToastUtil;
 import com.xekera.Ecommerce.util.Utils;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
@@ -51,7 +36,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     IShopDetailAdapter iShopDetailAdapter;
     List<String> favList;
     Utils utils;
-
+    SessionManager sessionManager;
 
 //    private ProductItemActionListener actionListener;
 
@@ -60,7 +45,8 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
-    public ShopDetailsAdapter(Context context, List<Product> productsItems, IShopDetailAdapter iShopDetailAdapter, Utils utils) {
+    public ShopDetailsAdapter(Context context, List<Product> productsItems, IShopDetailAdapter iShopDetailAdapter, Utils utils,
+                              SessionManager sessionManager) {
         this.context = context;
         this.productsItems = productsItems;
         this.iShopDetailAdapter = iShopDetailAdapter;
@@ -68,6 +54,7 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.productsItemsSearch.addAll(productsItems);
         this.favList = new ArrayList<>();
         this.utils = utils;
+        this.sessionManager = sessionManager;
 
 
     }
@@ -376,21 +363,25 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     break;
 
                 case R.id.favouriteButton:
-                    if (((SparkButton) v.findViewById(R.id.favouriteButton)).isChecked()) {
-                        ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(false);
-                        favList.remove(productsItems.get(getLayoutPosition()).getName());
+                    if (utils.isInternetAvailable()) {
 
 
-                        // productsItems.get(getLayoutPosition()).setFavourite(false);
+                        // if (((SparkButton) v.findViewById(R.id.favouriteButton)).isChecked()) {
+                        //   ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(false);
+                        // favList.remove(productsItems.get(getLayoutPosition()).getName());
 
-                    } else {
-                        ((SparkButton) v.findViewById(R.id.favouriteButton)).playAnimation();
-                        ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(true);
-                        favList.add(productsItems.get(getLayoutPosition()).getName());
+                        //  } else {
+                        if (utils.isTextNullOrEmpty(sessionManager.getusername()) ||
+                                utils.isTextNullOrEmpty(sessionManager.getEmail())) {
+                            iShopDetailAdapter.showError("First login/SignUp to add favorites.");
+                        } else {
+                            ((SparkButton) v.findViewById(R.id.favouriteButton)).playAnimation();
+                            ((SparkButton) v.findViewById(R.id.favouriteButton)).setChecked(true);
+
+                            //   favList.add(productsItems.get(getLayoutPosition()).getName());
 
 
-                        // productsItems.get(getLayoutPosition()).setFavourite(true);
-                    }
+                            //}
 
 //                    Bitmap bitmapFavourite = null;
 //
@@ -410,10 +401,10 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //
 //                    }
 
-                    Bitmap bitmapFavourite = null;
+                            // Bitmap bitmapFavourite = null;
 
-                    //  try {
-                    //    String[] separatedList = new String[0];
+                            //  try {
+                            //    String[] separatedList = new String[0];
 
 //                        if (!productsItems.get(getLayoutPosition()).getImageJson().equalsIgnoreCase("")) {
 //                            if (productsItems.get(getLayoutPosition()).getImageJson().contains(",")) {
@@ -423,21 +414,28 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //                            }
 //                        }
 
-                    //  URL url = new URL(separatedList[0]);
-                    //bitmapFavourite = BitmapFactory.decodeStream((InputStream) url.getContent());
-                    //bitmapFavourite = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                            //  URL url = new URL(separatedList[0]);
+                            //bitmapFavourite = BitmapFactory.decodeStream((InputStream) url.getContent());
+                            //bitmapFavourite = BitmapFactory.decodeStream(url.openConnection().getInputStream());
 
-                    //} catch(IOException e){
-                    //}
+                            //} catch(IOException e){
+                            //}
 
-                    iShopDetailAdapter.onFavouriteButtonClick(productsItems.get(getLayoutPosition()), getLayoutPosition(),
-                            bitmapFavourite, counterTextview.getText().toString(),
-                            productsItems.get(getLayoutPosition()).getImageJson().get(0),
-                            productsItems.get(getLayoutPosition()).getId(), "0",
-                            productsItems.get(getLayoutPosition()).getAboutProduct(),
-                            productsItems.get(getLayoutPosition()).getImageJson(),
-                            productsItems.get(getLayoutPosition()).getNameSku()
-                    );
+//                        iShopDetailAdapter.onFavouriteButtonClick(productsItems.get(getLayoutPosition()), getLayoutPosition(),
+//                                bitmapFavourite, counterTextview.getText().toString(),
+//                                productsItems.get(getLayoutPosition()).getImageJson().get(0),
+//                                productsItems.get(getLayoutPosition()).getId(), "0",
+//                                productsItems.get(getLayoutPosition()).getAboutProduct(),
+//                                productsItems.get(getLayoutPosition()).getImageJson(),
+//                                productsItems.get(getLayoutPosition()).getNameSku()
+//                        );
+
+                            iShopDetailAdapter.onFavouriteBtnClickOnSever(productsItems.get(getLayoutPosition()).getId(),
+                                    productsItems.get(getLayoutPosition()).getName());
+                        }
+                    } else {
+                        iShopDetailAdapter.InternetError();
+                    }
 
                     break;
                 case R.id.decrementImageButton:
@@ -624,6 +622,10 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
+    public void addFavList(String name) {
+        favList.add(name);
+    }
+
     public interface IShopDetailAdapter {
         void onAddButtonClick(Product productItems);
 
@@ -658,6 +660,10 @@ public class ShopDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         void addToCart(Product productItems, ImageView imgProductCopy);
 
         void InternetError();
+
+        void onFavouriteBtnClickOnSever(String productId, String name);
+
+        void showError(String errorMsg);
 
     }
 

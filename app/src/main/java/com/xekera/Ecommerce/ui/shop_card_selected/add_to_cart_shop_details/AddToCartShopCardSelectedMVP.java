@@ -3,6 +3,7 @@ package com.xekera.Ecommerce.ui.shop_card_selected.add_to_cart_shop_details;
 
 import android.content.Context;
 import android.widget.ImageView;
+import com.google.gson.JsonObject;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Favourites;
@@ -83,6 +84,9 @@ public interface AddToCartShopCardSelectedMVP {
 
         void addToCartApi(String productId, String quantity, String price, String discountPrice,
                           String randomKey);
+
+        void addtoFavouriteServer(JsonObject jsonObject);
+
     }
 
     interface Model {
@@ -116,5 +120,8 @@ public interface AddToCartShopCardSelectedMVP {
         void addToCart(String productId, String quantity, String price, String discountPrice,
                        String randomKey
                 , INetworkListGeneral<ResponseBody> iNetworkListGeneral);
+
+        void addtoFavouriteServer(JsonObject jsonObject, INetworkListGeneral<ResponseBody> iNetworkListGeneral);
+
     }
 }

@@ -1,5 +1,6 @@
 package com.xekera.Ecommerce.ui.shop_card_selected.add_to_cart_shop_details;
 
+import com.google.gson.JsonObject;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.data.room.AppDatabase;
@@ -410,6 +411,30 @@ public class AddToCartShopCardSelectedModel implements AddToCartShopCardSelected
         } catch (Exception ex) {
             iRemoveFavouriteItemDetails.onError(ex);
         }
+    }
+
+
+    @Override
+    public void addtoFavouriteServer(JsonObject jsonObject, final INetworkListGeneral<ResponseBody> iNetworkListGeneral) {
+        Call<ResponseBody> call = xekeraAPI.postAddToFavouriteBody(jsonObject);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    // AddToCartResponse productResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(response.body());
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
+            }
+        });
     }
 
     @Override

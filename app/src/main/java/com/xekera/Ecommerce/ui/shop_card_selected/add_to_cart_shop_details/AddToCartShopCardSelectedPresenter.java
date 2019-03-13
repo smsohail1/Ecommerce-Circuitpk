@@ -2,6 +2,7 @@ package com.xekera.Ecommerce.ui.shop_card_selected.add_to_cart_shop_details;
 
 import android.content.Context;
 import android.widget.ImageView;
+import com.google.gson.JsonObject;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
@@ -424,6 +425,31 @@ public class AddToCartShopCardSelectedPresenter implements AddToCartShopCardSele
                 view.animateFavouriteButton();
                 view.showToastShortTime("Error while in saving data.");
 
+            }
+        });
+    }
+
+    @Override
+    public void addtoFavouriteServer(JsonObject jsonObject) {
+        view.showProgressDialogPleaseWait();
+        model.addtoFavouriteServer(jsonObject, new INetworkListGeneral<ResponseBody>() {
+            @Override
+            public void onSuccess(ResponseBody response) {
+
+                view.showToastShortTime("Add to favorite");
+                view.hideProgressDialogPleaseWait();
+                //view.setFavCount();
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while add to favorite.");
+                }
             }
         });
     }

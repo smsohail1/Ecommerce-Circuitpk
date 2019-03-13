@@ -21,6 +21,7 @@ import com.varunest.sparkbutton.SparkButton
 import com.wang.avi.AVLoadingIndicatorView
 import com.xekera.Ecommerce.R
 import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.Product
+import com.xekera.Ecommerce.util.SessionManager
 import com.xekera.Ecommerce.util.Utils
 import kotlinx.android.synthetic.main.fragment_row_shop_details.view.*
 
@@ -35,6 +36,7 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     lateinit var iShopDetailAdapter: SearchAllProductsAdapter.IShopDetailAdapter
     lateinit var favList: MutableList<String>
     lateinit var utils: Utils
+    lateinit var sessionManager: SessionManager
     //    private ProductItemActionListener actionListener;
 
     constructor() {
@@ -46,7 +48,8 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         context: Context,
         productsItems: MutableList<Product>,
         iShopDetailAdapter: SearchAllProductsAdapter.IShopDetailAdapter,
-        utils: Utils
+        utils: Utils,
+        sessionManager: SessionManager
 
     ) {
         this.context = context
@@ -56,6 +59,8 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         (this.productsItemsSearch as ArrayList<Product>).addAll(productsItems)
         this.favList = mutableListOf<String>()
         this.utils = utils
+        this.sessionManager = sessionManager
+
     }
 
 
@@ -300,31 +305,51 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             itemView.favouriteButton.setOnClickListener {
 
 
-                if ((itemView.favouriteButton as SparkButton).isChecked) {
-                    (itemView.favouriteButton as SparkButton).isChecked = false
-                    favList.remove(productsItems[layoutPosition].name)
+                /* if ((itemView.favouriteButton as SparkButton).isChecked) {
+                     (itemView.favouriteButton as SparkButton).isChecked = false
+                     favList.remove(productsItems[layoutPosition].name)
 
 
+                 } else {
+                     (itemView.favouriteButton as SparkButton).playAnimation()
+                     (itemView.favouriteButton as SparkButton).isChecked = true
+                     favList.add(productsItems[layoutPosition].name!!)
+
+
+                 }
+
+
+                 val bitmapFavourite: Any? = null ?: ""
+
+                 iShopDetailAdapter.onFavouriteButtonClick(
+                     productsItems[layoutPosition], layoutPosition,
+                     bitmapFavourite, counterTextview!!.text.toString(),
+                     productsItems[layoutPosition].image_json!![0],
+                     productsItems[layoutPosition].id!!, "0",
+                     productsItems[layoutPosition].Des!!,
+                     productsItems[layoutPosition].image_json as List<String>,
+                     productsItems[layoutPosition].name_sku!!
+                 )*/
+
+                if (utils.isInternetAvailable) {
+
+                    if (utils.isTextNullOrEmpty(sessionManager.getusername()) || utils.isTextNullOrEmpty(sessionManager.getEmail())) run {
+                        iShopDetailAdapter.showError(
+                            "First login/SignUp to add favorites."
+                        )
+                    } else {
+                        (itemView.favouriteButton as SparkButton).playAnimation()
+                        (itemView.favouriteButton as SparkButton).isChecked = true
+
+
+                        iShopDetailAdapter.onFavouriteBtnClickOnSever(
+                            productsItems[layoutPosition].id!!,
+                            productsItems[layoutPosition].name!!
+                        )
+                    }
                 } else {
-                    (itemView.favouriteButton as SparkButton).playAnimation()
-                    (itemView.favouriteButton as SparkButton).isChecked = true
-                    favList.add(productsItems[layoutPosition].name!!)
-
-
+                    iShopDetailAdapter.InternetError()
                 }
-
-
-                val bitmapFavourite: Any? = null ?: ""
-
-                iShopDetailAdapter.onFavouriteButtonClick(
-                    productsItems[layoutPosition], layoutPosition,
-                    bitmapFavourite, counterTextview!!.text.toString(),
-                    productsItems[layoutPosition].image_json!![0],
-                    productsItems[layoutPosition].id!!, "0",
-                    productsItems[layoutPosition].Des!!,
-                    productsItems[layoutPosition].image_json as List<String>,
-                    productsItems[layoutPosition].name_sku!!
-                )
 
             }
 
@@ -545,6 +570,10 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
+    fun addFavList(name: String) {
+        favList.add(name)
+    }
+
     interface IShopDetailAdapter {
         fun onAddButtonClick(productItems: Product)
 
@@ -586,6 +615,12 @@ class SearchAllProductsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         fun addToCart(productItems: Product, imgProductCopy: ImageView)
 
         fun InternetError()
+
+        fun onFavouriteBtnClickOnSever(productId: String, name: String)
+
+        fun showError(errorMsg: String)
+
+
     }
 
 

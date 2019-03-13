@@ -2,6 +2,7 @@ package com.xekera.Ecommerce.ui.shop_card_selected;
 
 import android.content.Context;
 import android.widget.ImageView;
+import com.google.gson.JsonObject;
 import com.xekera.Ecommerce.R;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
@@ -369,12 +370,12 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
                     view.showToastShortTime("Item added to favorites.");
-                    view.enableAddtoFavouriteButton();
+                    //  view.enableAddtoFavouriteButton();
                     view.animationAddButton();
                     view.setFavCount();
 
                 } else {
-                    view.enableAddtoFavouriteButton();
+                    // view.enableAddtoFavouriteButton();
                     view.animationAddButton();
                     view.setFavCount();
 
@@ -385,7 +386,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
 
             @Override
             public void onErrorReceived(Exception ex) {
-                view.enableAddtoFavouriteButton();
+                // view.enableAddtoFavouriteButton();
                 view.animationAddButton();
 
                 view.showToastShortTime("Error while saving data.");
@@ -400,13 +401,13 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
             @Override
             public void onSuccess(boolean success) {
                 if (success) {
-                    view.enableAddtoFavouriteButton();
+                    // view.enableAddtoFavouriteButton();
                     view.animateFavouriteButton();
                     view.showToastShortTime("Item removed from favourite.");
                     view.setFavCount();
                     return;
                 } else {
-                    view.enableAddtoFavouriteButton();
+                    //view.enableAddtoFavouriteButton();
                     view.animateFavouriteButton();
                     view.showToastShortTime("Error while remove to favourite.");
                     view.setFavCount();
@@ -418,7 +419,7 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
 
             @Override
             public void onError(Exception ex) {
-                view.enableAddtoFavouriteButton();
+                //view.enableAddtoFavouriteButton();
                 view.animateFavouriteButton();
                 view.showToastShortTime("Error while in saving data.");
 
@@ -480,6 +481,30 @@ public class ShopCardSelectedPresenter implements ShopCardSelectedMVP.Presenter,
                     view.showToastShortTime("Error while add product.");
                 }
 
+            }
+        });
+    }
+
+    @Override
+    public void addtoFavouriteServer(JsonObject jsonObject) {
+        view.showProgressDialogPleaseWait();
+        model.addtoFavouriteServer(jsonObject, new INetworkListGeneral<ResponseBody>() {
+            @Override
+            public void onSuccess(ResponseBody response) {
+
+                view.showToastShortTime("Add to favorite");
+                view.hideProgressDialogPleaseWait();
+                // view.setFavCount();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while add to favorite.");
+                }
             }
         });
     }

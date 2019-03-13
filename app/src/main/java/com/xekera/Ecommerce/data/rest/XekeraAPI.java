@@ -28,6 +28,7 @@ public interface XekeraAPI {
     String WEB_API_FETCH_ALL_CART_ORDER = "products/";
     String WEB_API_DELETE_ORDER = "products/";
     String WEB_API_ADD_REMOVE_ITEMS_CART = "products/";
+    String WEB_API_ADD_TO_FAVOURITE = "favorite/";
 
 
     @FormUrlEncoded
@@ -156,6 +157,13 @@ public interface XekeraAPI {
 
     @GET(WEB_API_ALL_PRODUCTS + "searchproduct.php")
     Call<AllProductsResponse> getAllProducts();
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST(WEB_API_ADD_TO_FAVOURITE + "fav.php")
+    Call<ResponseBody> postAddToFavouriteBody(@Body JsonObject jsonObejct);
 
 //    @FormUrlEncoded
 //    @POST(WEB_API_SUBMIT_ORDER + "submitdata.php")

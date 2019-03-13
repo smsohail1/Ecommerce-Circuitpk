@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.varunest.sparkbutton.SparkButton;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.App;
@@ -602,7 +603,7 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
 
     @Override
     public void enableAddtoFavouriteButton() {
-        favouriteButton.setEnabled(true);
+        //favouriteButton.setEnabled(true);
     }
 
     @Override
@@ -833,39 +834,40 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
 //                    } else {
 //                        showSnackBarShortTime("Remove item from favourites.", getView());
 //                    }
-                    String quantity = counterTextview.getText().toString();
+                    //   String quantity = counterTextview.getText().toString();
 
 //                    if (utils.isTextNullOrEmptyOrZero(quantity)) {
 //                        quantity = "1";
 //                    }
-                    boolean favourite = false;
-                    if (favouriteButton.isChecked()) {
-                        favourite = true;
-                    } else {
-                        favourite = false;
-                    }
+//                    boolean favourite = false;
+//                    if (favouriteButton.isChecked()) {
+//                        favourite = true;
+//                    } else {
+//                        favourite = false;
+//                    }
 
                     //  favouriteButton.setChecked(true);
-                    favouriteButton.playAnimation();
-                    favouriteButton.setEnabled(false);
+//                    favouriteButton.playAnimation();
+//                    favouriteButton.setChecked(true);
+                    //favouriteButton.setEnabled(false);
 
-                    String itemName = productNameLabelTextView.getText().toString();
-                    String itemIndividualPrice = priceTextView.getText().toString();
-                    String itemCutPrice = discountPriceTextView.getText().toString();
-                    String availabilityInStock = availabilitStockTextView.getText().toString();
-                    long totalPrice = Long.valueOf(itemIndividualPrice) * Long.valueOf(quantity);
+//                    String itemName = productNameLabelTextView.getText().toString();
+//                    String itemIndividualPrice = priceTextView.getText().toString();
+//                    String itemCutPrice = discountPriceTextView.getText().toString();
+//                    String availabilityInStock = availabilitStockTextView.getText().toString();
+//                    long totalPrice = Long.valueOf(itemIndividualPrice) * Long.valueOf(quantity);
 
-                    String formattedDate = "";
-                    formattedDate = getCurrentDate();
+//                    String formattedDate = "";
+//                    formattedDate = getCurrentDate();
+//
+//                    String descStr = "";
+//                    if (!utils.isTextNullOrEmpty(about)) {
+//                        descStr = Html.fromHtml(about.trim()).toString();
+//                    } else {
+//                        descStr = "";
+//                    }
 
-                    String descStr = "";
-                    if (!utils.isTextNullOrEmpty(about)) {
-                        descStr = Html.fromHtml(about.trim()).toString();
-                    } else {
-                        descStr = "";
-                    }
-
-                    String jsonObjectImg = new Gson().toJson(imgList);
+                   /* String jsonObjectImg = new Gson().toJson(imgList);
 
                     Favourites favourites;
 
@@ -888,8 +890,24 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
                     }
 
                     presenter.addItemToFavourites(favourites, favourite);
+*/
+                    if (utils.isInternetAvailable()) {
+                        if (utils.isTextNullOrEmpty(sessionManager.getusername()) ||
+                                utils.isTextNullOrEmpty(sessionManager.getEmail())) {
+                            showToastShortTime("First login/SignUp to add favorites.");
+                        } else {
+                            favouriteButton.playAnimation();
+                            favouriteButton.setChecked(true);
+                            JsonObject jsonObject = new JsonObject();
+                            jsonObject.addProperty("postid", producdID);
+                            jsonObject.addProperty("username", sessionManager.getusername());
+                            jsonObject.addProperty("email", sessionManager.getEmail());
+                            presenter.addtoFavouriteServer(jsonObject);
+                        }
+                    } else {
+                        showToastShortTime("Please connect to internet");
 
-
+                    }
                 } catch (Exception e) {
 
                 }

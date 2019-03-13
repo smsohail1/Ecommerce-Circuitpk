@@ -37,6 +37,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.stripe.android.RequestOptions;
 import com.varunest.sparkbutton.SparkButton;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -663,7 +664,6 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
     @Override
     public void setFavCount() {
         ((BaseActivity) getActivity()).favCounts();
-
     }
 
 
@@ -881,24 +881,26 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
 //                    if (utils.isTextNullOrEmptyOrZero(quantity)) {
 //                        quantity = "1";
 //                    }
-                    boolean favourite = false;
-                    if (favouriteButton.isChecked()) {
-                        favourite = true;
-                    } else {
-                        favourite = false;
-                    }
+//                    boolean favourite = false;
+//                    if (favouriteButton.isChecked()) {
+//                        favourite = true;
+//                    } else {
+//                        favourite = false;
+//                    }
 
                     //  favouriteButton.setChecked(true);
-                    favouriteButton.playAnimation();
-                    favouriteButton.setEnabled(false);
+//                    favouriteButton.playAnimation();
+//                    favouriteButton.setChecked(true);
 
-                    String itemName = productNameLabelTextView.getText().toString();
-                    String itemIndividualPrice = priceTextView.getText().toString();
-                    String itemCutPrice = discountPriceTextView.getText().toString();
-                    String availabilityInStock = availabilitStockTextView.getText().toString();
-                    long totalPrice = Long.valueOf(itemIndividualPrice) * Long.valueOf(quantity);
+                    // favouriteButton.setEnabled(false);
 
-                    String formattedDate = "";
+                    // String itemName = productNameLabelTextView.getText().toString();
+                    // String itemIndividualPrice = priceTextView.getText().toString();
+                    // String itemCutPrice = discountPriceTextView.getText().toString();
+                    // String availabilityInStock = availabilitStockTextView.getText().toString();
+                    // long totalPrice = Long.valueOf(itemIndividualPrice) * Long.valueOf(quantity);
+
+                    /*String formattedDate = "";
                     formattedDate = getCurrentDate();
 
                     String descStr = "";
@@ -931,8 +933,25 @@ public class ShopCardSelectedFragment extends Fragment implements ShopCardSelect
                     }
 
                     presenter.addItemToFavourites(favourites, favourite);
+*/
 
+                    if (utils.isInternetAvailable()) {
+                        if (utils.isTextNullOrEmpty(sessionManager.getusername()) ||
+                                utils.isTextNullOrEmpty(sessionManager.getEmail())) {
+                            showToastShortTime("First login/SignUp to add favorites.");
+                        } else {
+                            favouriteButton.playAnimation();
+                            favouriteButton.setChecked(true);
+                            JsonObject jsonObject = new JsonObject();
+                            jsonObject.addProperty("postid", producdID);
+                            jsonObject.addProperty("username", sessionManager.getusername());
+                            jsonObject.addProperty("email", sessionManager.getEmail());
+                            presenter.addtoFavouriteServer(jsonObject);
+                        }
+                    } else {
+                        showToastShortTime("Please connect to internet");
 
+                    }
                 } catch (Exception e) {
 
                 }

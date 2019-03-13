@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.response.Category;
 import com.xekera.Ecommerce.data.rest.response.CategoryResponse;
@@ -322,6 +323,36 @@ public class ShopDetailsPresenter implements ShopDetailsMVP.Presenter {
                     view.showToastShortTime("Error while add product.");
                 }
 
+            }
+        });
+    }
+
+    @Override
+    public void addToFavouritesServer(String productId, String username, String email, final String name) {
+
+        view.showProgressDialogPleaseWait();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("postid", productId);
+        jsonObject.addProperty("username", username);
+        jsonObject.addProperty("email", email);
+        model.addToFavouritesServer(jsonObject, new INetworkListGeneral<ResponseBody>() {
+            @Override
+            public void onSuccess(ResponseBody response) {
+                view.hideProgressDialogPleaseWait();
+
+                view.showToastShortTime("Add to favorite");
+
+                view.addToFavoriteList(name);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while add favourite.");
+                }
             }
         });
     }

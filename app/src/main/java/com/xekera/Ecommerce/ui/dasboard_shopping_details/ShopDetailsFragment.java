@@ -649,6 +649,18 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
         toastUtil.showToastShortTime("Please connect to internet", toastView);
     }
 
+    @Override
+    public void onFavouriteBtnClickOnSever(String productId, String name) {
+        presenter.addToFavouritesServer(productId, sessionManager.getusername(), sessionManager.getEmail(), name);
+
+    }
+
+    @Override
+    public void showError(String errorMsg) {
+        showToastShortTime(errorMsg);
+
+    }
+
 
     @Override
     public void setIsFavourites(boolean isFavourites, int position) {
@@ -1321,7 +1333,7 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //        Log.d("kkjk2", separated[1][0]);
 //        Log.d("kkjk3", separated[2][0]);
 
-        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), products, this, utils);
+        shopDetailsAdapter = new ShopDetailsAdapter(getActivity(), products, this, utils, sessionManager);
         showRecylerViewProductsDetail(shopDetailsAdapter);
         hideCircularProgressBar();
         showAllData();
@@ -1342,6 +1354,11 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
     @Override
     public int getCartCount() {
         return ((BaseActivity) getActivity()).countsForActionBar();
+    }
+
+    @Override
+    public void addToFavoriteList(String name) {
+        shopDetailsAdapter.addFavList(name);
     }
 
     @Override

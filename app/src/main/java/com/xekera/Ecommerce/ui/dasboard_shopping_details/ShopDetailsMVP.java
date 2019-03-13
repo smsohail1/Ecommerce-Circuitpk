@@ -4,6 +4,7 @@ package com.xekera.Ecommerce.ui.dasboard_shopping_details;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
+import com.google.gson.JsonObject;
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
 import com.xekera.Ecommerce.data.rest.response.CategoryResponse;
 import com.xekera.Ecommerce.data.rest.response.Product;
@@ -71,6 +72,8 @@ public interface ShopDetailsMVP {
         void getFavCounts();
 
         int getCartCount();
+
+        void addToFavoriteList(String name);
     }
 
     interface Presenter {
@@ -114,6 +117,9 @@ public interface ShopDetailsMVP {
 
         void addToCartApi(String productId, String quantity, String price, String discountPrice,
                           String randomKey, ImageView imgProductCopy);
+
+        void addToFavouritesServer(String productId, String username, String email, String name);
+
     }
 
     interface Model {
@@ -147,6 +153,8 @@ public interface ShopDetailsMVP {
         void addToCart(String productId, String quantity, String price, String discountPrice,
                        String randomKey
                 , INetworkListGeneral<ResponseBody> iNetworkListGeneral);
+
+        void addToFavouritesServer(JsonObject jsonObject, INetworkListGeneral<ResponseBody> iNetworkListGeneral);
 
     }
 }

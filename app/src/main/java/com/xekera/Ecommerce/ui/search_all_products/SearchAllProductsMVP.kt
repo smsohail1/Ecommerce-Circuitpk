@@ -2,6 +2,7 @@ package com.xekera.Ecommerce.ui.search_all_products
 
 import android.graphics.Bitmap
 import android.widget.ImageView
+import com.google.gson.JsonObject
 import com.xekera.Ecommerce.data.rest.INetworkListGeneral
 import com.xekera.Ecommerce.data.rest.response.ProductResponse
 import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.AllProductsResponse
@@ -59,6 +60,9 @@ interface SearchAllProductsMVP {
         fun getFavCounts();
 
         fun getCartCount(): Int
+
+        fun addToFavoriteList(name: String)
+
     }
 
     interface Presenter {
@@ -121,6 +125,9 @@ interface SearchAllProductsMVP {
             productId: String?, quantity: String, price: String?, discountPrice: String?,
             randomKey: String, imgProductCopy: ImageView
         )
+
+        fun addToFavouritesServer(productId: String, username: String, email: String, name: String)
+
     }
 
     interface Model {
@@ -171,6 +178,12 @@ interface SearchAllProductsMVP {
             productId: String?, quantity: String, price: String?, discountPrice: String?,
             randomKey: String, iNetworkListGeneral: INetworkListGeneral<ResponseBody>
         )
+
+        fun addToFavouritesServer(
+            jsonObject: JsonObject,
+            iNetworkListGeneral: INetworkListGeneral<ResponseBody>
+        )
+
 
     }
 }

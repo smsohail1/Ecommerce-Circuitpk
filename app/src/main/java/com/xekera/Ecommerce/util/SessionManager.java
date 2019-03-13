@@ -235,6 +235,7 @@ public class SessionManager {
         editor.remove(KEY_CARD_CVC);
         editor.remove(KEY_COMPANY_NAME);
         editor.remove(KEY_ADDRESS);
+        editor.remove(KEY_RANDOM_KEY);
 
         editor.apply();
         editor.commit();
