@@ -122,7 +122,7 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
     public static final String KEY_SHOP_CARD_SELECTED_ABOUT = "cart_shop_card_selected_about";
     public static final String KEY_SHOP_CARD_SELECTED_SKU = "cart_shop_card_selected_sku";
     public static final String KEY_SHOP_CARD_SELECTED_PRODUCT_ID = "cart_shop_card_selected_product_id";
-    public static final String KEY_SHOP_CARD_SELECTED_SKU_NAME = "shop_card_selected_sku_name";
+    public static final String KEY_SHOP_CARD_SELECTED_SKU_NAME = "cart_shop_card_selected_sku_name";
 
 
     ShoppingDetailModel shoppingDetailModel;

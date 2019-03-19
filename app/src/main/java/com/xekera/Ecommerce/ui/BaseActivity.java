@@ -58,6 +58,7 @@ import com.facebook.login.widget.LoginButton;
 import com.squareup.picasso.Picasso;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.about.AboutFragment;
@@ -140,6 +141,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     AppDatabase appDatabase;
     @Inject
     protected SnackUtil snackUtil;
+    @Inject
+    protected XekeraAPI xekeraAPI;
 
     private int itemCounter = 0;
 
@@ -172,7 +175,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         toggle.syncState();
         enableHomeIcon(true);
 
-        favouritesModel = new FavouritesModel(appDatabase, utils);
+        favouritesModel = new FavouritesModel(appDatabase, utils, xekeraAPI);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -2082,6 +2085,21 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     public void setTotalBottomNavigationCount(int index, long counts) {
         final Menu menu = navigation.getMenu();
+        menu.getItem(index).setTitle("Favorite");
+
+//        if (counts == 0) {
+//            menu.getItem(index).setTitle("Favorite");
+//
+//        } else {
+//            menu.getItem(index).setTitle("Favorite(" + counts + ")");
+//        }
+    }
+
+
+    public void setFavoriteBottomNavigationCount(int index, long counts) {
+        final Menu menu = navigation.getMenu();
+        menu.getItem(index).setTitle("Favorite");
+
         if (counts == 0) {
             menu.getItem(index).setTitle("Favorite");
 

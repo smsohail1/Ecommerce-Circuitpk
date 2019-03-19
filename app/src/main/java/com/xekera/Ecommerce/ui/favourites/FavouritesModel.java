@@ -1,5 +1,10 @@
 package com.xekera.Ecommerce.ui.favourites;
 
+import com.google.gson.JsonObject;
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
+import com.xekera.Ecommerce.data.rest.XekeraAPI;
+import com.xekera.Ecommerce.data.rest.response.fetch_favourite_response.FetchFavouriteResponse;
+import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.AllProductsResponse;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.data.room.dao.AddToCartDao;
 import com.xekera.Ecommerce.data.room.dao.FavouritesDao;
@@ -13,17 +18,22 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.List;
 
 public class FavouritesModel implements FavouritesMVP.Model {
     private AppDatabase appDatabase;
     private Utils utils;
+    private XekeraAPI xekeraAPI;
 
-    public FavouritesModel(AppDatabase appDatabase, Utils utils) {
+    public FavouritesModel(AppDatabase appDatabase, Utils utils, XekeraAPI xekeraAPI) {
         this.appDatabase = appDatabase;
         this.utils = utils;
-
+        this.xekeraAPI = xekeraAPI;
     }
 
     @Override
@@ -146,6 +156,7 @@ public class FavouritesModel implements FavouritesMVP.Model {
 
     }
 
+
     @Override
     public void checkItemAlreadyAddedOrNot(final String itemName, final IFetchOrderDetailsList iFetchCartDetailsList) {
         try {
@@ -186,48 +197,48 @@ public class FavouritesModel implements FavouritesMVP.Model {
     }
 
 
-    @Override
-    public void removeSelectedCartDetails(final String itemName, final IRemoveSelectedItemDetails iRemoveSelectedItemDetails) {
-        try {
-            Observable.just(appDatabase)
-                    .map(new Function<AppDatabase, Boolean>() {
-                        @Override
-                        public Boolean apply(AppDatabase appDatabase) throws Exception {
-                            appDatabase.getFavouritesDao().deleteItem(itemName);
-
-
-                            return true;
-                        }
-                    })
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Boolean>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(Boolean success) {
-                            iRemoveSelectedItemDetails.onSuccess(success);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            if (e.getMessage() != null) {
-                                iRemoveSelectedItemDetails.onError((Exception) e);
-                            }
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-        } catch (Exception ex) {
-            iRemoveSelectedItemDetails.onError(ex);
-        }
-    }
+//    @Override
+//    public void removeSelectedCartDetails(final String itemName, final IRemoveSelectedItemDetails iRemoveSelectedItemDetails) {
+//        try {
+//            Observable.just(appDatabase)
+//                    .map(new Function<AppDatabase, Boolean>() {
+//                        @Override
+//                        public Boolean apply(AppDatabase appDatabase) throws Exception {
+//                            appDatabase.getFavouritesDao().deleteItem(itemName);
+//
+//
+//                            return true;
+//                        }
+//                    })
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<Boolean>() {
+//                        @Override
+//                        public void onSubscribe(Disposable d) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onNext(Boolean success) {
+//                            iRemoveSelectedItemDetails.onSuccess(success);
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//                            if (e.getMessage() != null) {
+//                                iRemoveSelectedItemDetails.onError((Exception) e);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onComplete() {
+//
+//                        }
+//                    });
+//        } catch (Exception ex) {
+//            iRemoveSelectedItemDetails.onError(ex);
+//        }
+//    }
 
 
     @Override
@@ -768,6 +779,104 @@ public class FavouritesModel implements FavouritesMVP.Model {
             iSaveProductDetails.onErrorReceived(ex);
         }
     }
+
+
+    @Override
+    public void addToCart(String productId, String quantity, String price, String discountPrice, String randomKey,
+                          final INetworkListGeneral<ResponseBody> iNetworkListGeneral) {
+        Call<ResponseBody> call = xekeraAPI.addToProducts(productId, quantity, price, randomKey);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    // AddToCartResponse productResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(response.body());
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void fetchAllProducts(String productId, String quantity, String price,
+                                 String discountPrice, String randomKey,
+                                 final INetworkListGeneral<AllProductsResponse> iNetworkListGeneral) {
+
+        Call<AllProductsResponse> call = xekeraAPI.getAllProducts();
+        call.enqueue(new Callback<AllProductsResponse>() {
+            @Override
+            public void onResponse(Call<AllProductsResponse> call, Response<AllProductsResponse> response) {
+                try {
+                    AllProductsResponse productResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(productResponse);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AllProductsResponse> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void fetchFavouritesServer(String username, String email, final INetworkListGeneral<FetchFavouriteResponse> iNetworkListGeneral) {
+        Call<FetchFavouriteResponse> call = xekeraAPI.fetchFavouriteBody(username, email);
+        call.enqueue(new Callback<FetchFavouriteResponse>() {
+            @Override
+            public void onResponse(Call<FetchFavouriteResponse> call, Response<FetchFavouriteResponse> response) {
+                try {
+                    // AddToCartResponse productResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(response.body());
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchFavouriteResponse> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void removeSelectedCartDetails(JsonObject id, final INetworkListGeneral<ResponseBody> iNetworkListGeneral) {
+        Call<ResponseBody> call = xekeraAPI.postDeleteFavouriteBody(id);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    // AddToCartResponse productResponse = response.body();
+
+                    iNetworkListGeneral.onSuccess(response.body());
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                iNetworkListGeneral.onFailure(t);
+            }
+        });
+    }
+
 
     public interface IFetchOrderDetailsList {
         void onCartDetailsReceived(List<Favourites> bookings);

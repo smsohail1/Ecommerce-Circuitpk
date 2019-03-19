@@ -1,6 +1,7 @@
 package com.xekera.Ecommerce.di.module;
 
 import android.content.Context;
+import com.xekera.Ecommerce.data.rest.XekeraAPI;
 import com.xekera.Ecommerce.data.room.AppDatabase;
 import com.xekera.Ecommerce.ui.favourites.FavouritesMVP;
 import com.xekera.Ecommerce.ui.favourites.FavouritesModel;
@@ -18,7 +19,7 @@ public class FavouritesModule {
     }
 
     @Provides
-    public FavouritesMVP.Model provideFavouritesModel(AppDatabase appDatabase, Utils utils) {
-        return new FavouritesModel(appDatabase, utils);
+    public FavouritesMVP.Model provideFavouritesModel(AppDatabase appDatabase, Utils utils, XekeraAPI xekeraAPI) {
+        return new FavouritesModel(appDatabase, utils, xekeraAPI);
     }
 }

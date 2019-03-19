@@ -12,7 +12,7 @@ public class AppConstants {
     public static final String URL_CIRCUIT_PK_YOUTUBE_PAGE_URL = "https://www.youtube.com/channel/UCNvZmRamI5jDMRq5nMOBzMg";
 
 
-    public static final String PUBLISHABLE_KEY = "pk_test_D60AO4IYAVSOyjHBFbFPMtev";
+    public static final String PUBLISHABLE_KEY = "pk_live_dQwp0pXx92fMo9TvOqHgGBya";
     public static final String APPLICATION_ID = "NnsQYFEDDotEQsBU0nI2rMhc7KdrLvbkkuYI5Mqt";
     public static final String CLIENT_KEY = "DRZFknfqSgWK5FpswOO320vCh5Dt8grVN06vbfnQ";
     public static final String BACK4PAPP_API = "https://parseapi.back4app.com/";

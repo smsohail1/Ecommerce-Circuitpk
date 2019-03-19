@@ -2,6 +2,11 @@ package com.xekera.Ecommerce.ui.favourites;
 
 import android.graphics.Bitmap;
 import android.widget.ImageView;
+import com.google.gson.JsonObject;
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
+import com.xekera.Ecommerce.data.rest.response.fetch_favourite_response.FetchFavouriteResponse;
+import com.xekera.Ecommerce.data.rest.response.fetch_favourite_response.Product;
+import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.AllProductsResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.data.room.model.Favourites;
@@ -13,6 +18,7 @@ import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsPresenter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.history.HistoryMVP;
 import com.xekera.Ecommerce.ui.history.HistoryModel;
+import okhttp3.ResponseBody;
 
 import java.util.List;
 
@@ -44,8 +50,11 @@ public interface FavouritesMVP {
 
         void hideNoCartItemFound();
 
+        void showProgressDialogPleaseWait();
 
-        void setAdapter(List<Favourites> addToCarts);
+        void hideProgressDialogPleaseWait();
+
+        void setAdapter(List<Product> addToCarts);
 
         void removeItemFromFavourites(int position);
 
@@ -57,12 +66,15 @@ public interface FavouritesMVP {
 
         void itemsCountsBottomView(int index, long counts);
 
+        int getCartCount();
+
     }
 
     interface Presenter {
         void setView(FavouritesMVP.View view);
 
         void fetchFavouritesDetails();
+
 
         void insertSelectedFavouritesToCart(AddToCart addToCart, int position, ImageView imageView);
 
@@ -72,7 +84,7 @@ public interface FavouritesMVP {
         void setAddRemoveActionListener(FavouritesPresenter.ProductAddRemoveActionListener actionListener);
 
 
-        void removeFromFavourites(Favourites favourites, int position);
+        void removeFromFavourites(String id, int position, String username, String email);
 
         void saveProductDetails(long quantity, String price, String totalPrice, String productName, long cutPrice, byte[]
                 byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl, String productID, String isEmailFav,
@@ -85,6 +97,14 @@ public interface FavouritesMVP {
         void removeItem(Favourites favourites);
 
 
+        void addToCartApi(String productId, String quantity, String price, String discountPrice,
+                          String randomKey, ImageView imgProductCopy, int position, String username, String email,
+                          String productIdIncrement);
+
+        void getAllProducts(String productIdIncrement, String quantity, String price, String discountPrice,
+                            String randomKey, ImageView imgProductCopy, int position, String username, String email, String nameSku);
+
+        void fetchFavouritesServer(String username, String email);
     }
 
     interface Model {
@@ -94,7 +114,7 @@ public interface FavouritesMVP {
 
         void checkItemAlreadyAddedOrNot(String itemName, FavouritesModel.IFetchCartDetailsList iFetchCartDetailsList);
 
-        void removeSelectedCartDetails(String itemName, FavouritesModel.IRemoveSelectedItemDetails iRemoveSelectedItemDetails);
+        //void removeSelectedCartDetails(String name, FavouritesModel.IRemoveSelectedItemDetails iRemoveSelectedItemDetails);
 
 
         void getTotalCounts(FavouritesModel.IFetchOrderDetailsList iFetchOrderDetailsList);
@@ -131,5 +151,19 @@ public interface FavouritesMVP {
 
 
         void checkItemAlreadyAddedOrNot(String itemName, FavouritesModel.IFetchOrderDetailsList iFetchCartDetailsList);
+
+        void addToCart(String productId, String quantity, String price, String discountPrice,
+                       String randomKey
+                , INetworkListGeneral<ResponseBody> iNetworkListGeneral);
+
+
+        void fetchAllProducts(String productId, String quantity, String price, String discountPrice,
+                              String randomKey
+                , INetworkListGeneral<AllProductsResponse> iNetworkListGeneral);
+
+
+        void fetchFavouritesServer(String username, String email, INetworkListGeneral<FetchFavouriteResponse> iNetworkListGeneral);
+
+        void removeSelectedCartDetails(JsonObject jsonObject, INetworkListGeneral<ResponseBody> iNetworkListGeneral);
     }
 }

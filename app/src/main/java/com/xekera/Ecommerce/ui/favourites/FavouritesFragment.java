@@ -28,7 +28,7 @@ import com.facebook.messenger.MessengerUtils;
 import com.facebook.messenger.ShareToMessengerParams;
 import com.xekera.Ecommerce.App;
 import com.xekera.Ecommerce.R;
-import com.xekera.Ecommerce.data.rest.response.Product;
+import com.xekera.Ecommerce.data.rest.response.fetch_favourite_response.Product;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.data.room.model.Favourites;
@@ -39,6 +39,7 @@ import com.xekera.Ecommerce.ui.dasboard_shopping_details.ShopDetailsPresenter;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.shop_card_selected.add_to_cart_shop_details.AddToCartShopCardSelectedFragment;
 import com.xekera.Ecommerce.util.*;
+import org.json.JSONArray;
 
 import javax.inject.Inject;
 import java.io.*;
@@ -74,6 +75,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     FavoritesAdapter adapter;
 
     View toastView;
+    private ProgressCustomDialogController progressDialogControllerPleaseWait;
 
     private int PICK_IMAGE_REQUEST = 1;
     public static final String FACEBOOK_MESSENGER_PACKAGE = "com.facebook.orca";
@@ -131,6 +133,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         //((BaseActivity) getActivity()).showBottomNavigation();
 
         recyclerViewAddToCartDetails.setLayoutManager(new LinearLayoutManager(getActivity()));
+        progressDialogControllerPleaseWait = new ProgressCustomDialogController(getActivity(), R.string.please_wait);
 
         presenter.setActionListener(new FavouritesPresenter.ProductItemActionListener() {
             @Override
@@ -169,8 +172,17 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
             @Override
             public void run() {
 
-
-                presenter.fetchFavouritesDetails();
+                if (utils.isInternetAvailable()) {
+                    //presenter.fetchFavouritesDetails();
+                    if (utils.isTextNullOrEmpty(sessionManager.getusername()) ||
+                            utils.isTextNullOrEmpty(sessionManager.getEmail())) {
+                        showToastShortTime("First log in to view favourite.");
+                    } else {
+                        presenter.fetchFavouritesServer(sessionManager.getusername(), sessionManager.getEmail());
+                    }
+                } else {
+                    showToastShortTime("Please connect to internet.");
+                }
 
 
             }
@@ -181,7 +193,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     @Override
     public void itemsCountsBottomView(int index, long counts) {
-        ((BaseActivity) getActivity()).setTotalBottomNavigationCount(index, counts);
+        ((BaseActivity) getActivity()).setFavoriteBottomNavigationCount(index, counts);
 
     }
 
@@ -246,7 +258,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
 
     @Override
-    public void setAdapter(List<Favourites> addToCarts) {
+    public void setAdapter(List<Product> addToCarts) {
 
         adapter = new FavoritesAdapter(getActivity(), addToCarts, this);
         showRecylerViewProductsDetail(adapter);
@@ -274,66 +286,67 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     boolean isShowing = true;
 
     @Override
-    public void onCardClick(final Favourites favourites) {
+    public void onCardClick(final Product favourites) {
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                JSONArray json = new JSONArray(favourites.getImageJson());
+                String jsonString = json.toString();
 
                 AddToCartShopCardSelectedFragment addToCartShopCardSelectedFragment = new AddToCartShopCardSelectedFragment();
                 ((BaseActivity) getActivity()).replaceFragmentForActivityTranstion(
-                        addToCartShopCardSelectedFragment.newInstance(favourites.getItemName(),
-                                favourites.getItemIndividualPrice(),
-                                favourites.getItemCutPrice(),
-                                favourites.getItemQuantity(),
-                                favourites.getImage()
-                                , favourites.getImgArrListFav(),
-                                favourites.getProduct_id(),
-                                favourites.getProductDescFav(), "", favourites.getNameSku()));
+                        addToCartShopCardSelectedFragment.newInstance(favourites.getName(),
+                                favourites.getPrice(),
+                                favourites.getRegularPrice(),
+                                "1",
+                                favourites.getImageJson().get(0)
+                                , jsonString,
+                                favourites.getId(),
+                                favourites.getAboutProduct(), favourites.getProductSku(), favourites.getNameSku()));
             }
         }, 100);
     }
 
     @Override
     public void addToCartFavourites(final Favourites favourites, final int position, final ImageView img) {
-        if (isShowing) {
-            isShowing = false;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    String formattedDate = "";
-                    formattedDate = getCurrentDate();
-
-                    if (Long.valueOf(favourites.getItemQuantity()) <= 0) {
-                        showToastShortTime("Select atleast one quantity");
-                        isShowing = true;
-                        return;
-                    }
-                    long totalPrice = Long.valueOf(favourites.getItemIndividualPrice()) * Long.valueOf(favourites.getItemQuantity());
-
-                    AddToCart addToCart = new AddToCart("", favourites.getItemName(), String.valueOf(totalPrice)
-                            , favourites.getItemQuantity(),
-                            "N", favourites.getItemImage(), favourites.getItemCutPrice(),
-                            favourites.getItemIndividualPrice(),
-                            formattedDate, favourites.getImage(),
-                            favourites.getProduct_id(), favourites.getIsEmailFav(),
-                            favourites.getProductDescFav(), favourites.getImgArrListFav(),
-                            favourites.getNameSku());
-                    presenter.insertSelectedFavouritesToCart(addToCart, position, img);
-                    isShowing = true;
-                }
-            }, 100);
-        }
+//        if (isShowing) {
+//            isShowing = false;
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                    String formattedDate = "";
+//                    formattedDate = getCurrentDate();
+//
+//                    if (Long.valueOf(favourites.getItemQuantity()) <= 0) {
+//                        showToastShortTime("Select atleast one quantity");
+//                        isShowing = true;
+//                        return;
+//                    }
+//                    long totalPrice = Long.valueOf(favourites.getItemIndividualPrice()) * Long.valueOf(favourites.getItemQuantity());
+//
+//                    AddToCart addToCart = new AddToCart("", favourites.getItemName(), String.valueOf(totalPrice)
+//                            , favourites.getItemQuantity(),
+//                            "N", favourites.getItemImage(), favourites.getItemCutPrice(),
+//                            favourites.getItemIndividualPrice(),
+//                            formattedDate, favourites.getImage(),
+//                            favourites.getProduct_id(), favourites.getIsEmailFav(),
+//                            favourites.getProductDescFav(), favourites.getImgArrListFav(),
+//                            favourites.getNameSku());
+//                    presenter.insertSelectedFavouritesToCart(addToCart, position, img);
+//                    isShowing = true;
+//                }
+//            }, 100);
+//        }
     }
 
     @Override
-    public void removeFavourites(final Favourites favourites, final int position) {
+    public void removeFavourites(final Product favourites, final int position) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                presenter.removeFromFavourites(favourites, position);
-
+                presenter.removeFromFavourites(favourites.getId(), position, sessionManager.getusername(), sessionManager.getEmail());
             }
         }, 50);
     }
@@ -383,7 +396,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     boolean isShareButtonClick = true;
 
     @Override
-    public void onClickShareButton(final Favourites favourites) {
+    public void onClickShareButton(final Product favourites) {
         if (isShareButtonClick) {
             isShareButtonClick = false;
             new Handler().postDelayed(new Runnable() {
@@ -400,7 +413,43 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     }
 
-    private void showShareDialog(Context context, final Favourites favourites) {
+    @Override
+    public void showProgressDialogPleaseWait() {
+        progressDialogControllerPleaseWait.showDialog();
+    }
+
+    @Override
+    public void hideProgressDialogPleaseWait() {
+        progressDialogControllerPleaseWait.hideDialog();
+    }
+
+    @Override
+    public int getCartCount() {
+        return ((BaseActivity) getActivity()).countsForActionBar();
+    }
+
+    @Override
+    public void addToCartServer(String product_id, String itemQuantity, String itemPrice, String last_id, String discountPrice,
+                                ImageView imgProductCopy, int position, String nameSku) {
+        if (utils.isInternetAvailable()) {
+            if (utils.isTextNullOrEmptyOrZero(itemQuantity)) {
+                showToastShortTime("Please atleast select one quantity");
+            } else {
+
+                presenter.getAllProducts(product_id, itemQuantity, itemPrice, discountPrice,
+                        sessionManager.getKeyRandomKey(), imgProductCopy, position,
+                        sessionManager.getusername(), sessionManager.getEmail(), nameSku);
+//                presenter.addToCartApi(product_id, itemQuantity, itemPrice, discountPrice,
+//                        sessionManager.getKeyRandomKey(), imgProductCopy, position,
+//                        sessionManager.getusername(), sessionManager.getEmail()
+//                );
+            }
+        } else {
+            showToastShortTime("Please connect to internet.");
+        }
+    }
+
+    private void showShareDialog(Context context, final Product favourites) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View v = dialog.getWindow().getDecorView();
@@ -417,13 +466,13 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         imgTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareOnTwitter(favourites, favourites.getImage());
+                shareOnTwitter(favourites, favourites.getName());
             }
         });
         imgGmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareOnGmail(favourites, favourites.getImage());
+                shareOnGmail(favourites, favourites.getImageJson().get(0));
             }
         });
 
@@ -432,7 +481,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
             @Override
             public void onClick(View view) {
                 /// selectImage();
-                shareOnWhatsApp(favourites, favourites.getImage());
+                shareOnWhatsApp(favourites, favourites.getImageJson().get(0));
             }
         });
 
@@ -442,9 +491,9 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                 PackageManager pm = getActivity().getPackageManager();
                 boolean isInstalled = isPackageInstalled(FACEBOOK_APP_PACKAGE, pm);
                 if (isInstalled) {
-                    shareViaFacebook(favourites, favourites.getImage());
+                    shareViaFacebook(favourites, favourites.getImageJson().get(0));
                 } else {
-                    shareViaFacebookLite(favourites, favourites.getImage());
+                    shareViaFacebookLite(favourites, favourites.getImageJson().get(0));
 
                 }
             }
@@ -456,9 +505,9 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                 PackageManager pm = getActivity().getPackageManager();
                 boolean isInstalled = isPackageInstalled(FACEBOOK_MESSENGER_PACKAGE, pm);
                 if (isInstalled) {
-                    shareOnFacebookMessenger(favourites, favourites.getImage());
+                    shareOnFacebookMessenger(favourites, favourites.getImageJson().get(0));
                 } else {
-                    shareOnFacebookMessengerLite(favourites, favourites.getImage());
+                    shareOnFacebookMessengerLite(favourites, favourites.getImageJson().get(0));
                 }
             }
         });
@@ -467,7 +516,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
     }
 
 
-    private void shareOnFacebookMessenger(Favourites favourites, String url) {
+    private void shareOnFacebookMessenger(Product favourites, String url) {
 
         Intent sendIntent = new Intent();
 
@@ -478,9 +527,9 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
         sendIntent.putExtra(Intent.EXTRA_TEXT,
                 url + "\n\n" +
-                        "Product Name: " + favourites.getItemName() + "\n" +
-                        "New Price: " + favourites.getItemIndividualPrice() + "\n" +
-                        "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                        "Product Name: " + favourites.getName() + "\n" +
+                        "New Price: " + favourites.getPrice() + "\n" +
+                        "Old Price: " + favourites.getRegularPrice() + "\n" +
                         "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
 
@@ -499,7 +548,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     }
 
-    private void shareOnFacebookMessengerLite(Favourites favourites, String url) {
+    private void shareOnFacebookMessengerLite(Product favourites, String url) {
 
         Intent sendIntent = new Intent();
 
@@ -510,9 +559,9 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
         sendIntent.putExtra(Intent.EXTRA_TEXT,
                 url + "\n\n" +
-                        "Product Name: " + favourites.getItemName() + "\n" +
-                        "New Price: " + favourites.getItemIndividualPrice() + "\n" +
-                        "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                        "Product Name: " + favourites.getName() + "\n" +
+                        "New Price: " + favourites.getPrice() + "\n" +
+                        "Old Price: " + favourites.getRegularPrice() + "\n" +
                         "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
 
@@ -531,7 +580,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     }
 
-    private void shareViaFacebook(Favourites favourites, String url) {
+    private void shareViaFacebook(Product favourites, String url) {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
 
@@ -541,9 +590,9 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
         shareIntent.putExtra(Intent.EXTRA_TEXT,
                 url + "\n\n" +
-                        "Product Name: " + favourites.getItemName() + "\n" +
-                        "New Price: " + favourites.getItemIndividualPrice() + "\n" +
-                        "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                        "Product Name: " + favourites.getName() + "\n" +
+                        "New Price: " + favourites.getPrice() + "\n" +
+                        "Old Price: " + favourites.getRegularPrice() + "\n" +
                         "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
 
@@ -560,7 +609,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         }
     }
 
-    private void shareViaFacebookLite(Favourites favourites, String url) {
+    private void shareViaFacebookLite(Product favourites, String url) {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
 
@@ -570,9 +619,9 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
         shareIntent.putExtra(Intent.EXTRA_TEXT,
                 url + "\n\n" +
-                        "Product Name: " + favourites.getItemName() + "\n" +
-                        "New Price: " + favourites.getItemIndividualPrice() + "\n" +
-                        "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                        "Product Name: " + favourites.getName() + "\n" +
+                        "New Price: " + favourites.getPrice() + "\n" +
+                        "Old Price: " + favourites.getRegularPrice() + "\n" +
                         "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
 
@@ -589,7 +638,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         }
     }
 
-    private void shareOnGmail(Favourites favourites, String url) {
+    private void shareOnGmail(Product favourites, String url) {
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
@@ -615,9 +664,9 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                         "Old Price: " + product.getRegularPrice() + "\n" +
                         "Website: " + "https://circuit.pk/product/" + product.getNameSku());*/
 
-        String productDescription = "Product Name: " + favourites.getItemName() + "\n" +
-                "New Price: " + favourites.getItemIndividualPrice() + "\n" +
-                "Old Price: " + favourites.getItemCutPrice() + "\n" +
+        String productDescription = "Product Name: " + favourites.getName() + "\n" +
+                "New Price: " + favourites.getPrice() + "\n" +
+                "Old Price: " + favourites.getRegularPrice() + "\n" +
                 "Website: " + "https://circuit.pk/product/" + favourites.getNameSku() + "\n\n";
 
         gmail.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -662,7 +711,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
         return bmpUri;
     }
 
-    private void shareOnWhatsApp(Favourites favourites, String url) {
+    private void shareOnWhatsApp(Product favourites, String url) {
         Intent whatsappIntent = new Intent();
         whatsappIntent.setAction(Intent.ACTION_SEND);
 
@@ -676,9 +725,9 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
         whatsappIntent.putExtra(Intent.EXTRA_TEXT,
                 url + "\n\n" +
-                        "Product Name: " + favourites.getItemName() + "\n" +
-                        "New Price: " + favourites.getItemIndividualPrice() + "\n" +
-                        "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                        "Product Name: " + favourites.getName() + "\n" +
+                        "New Price: " + favourites.getPrice() + "\n" +
+                        "Old Price: " + favourites.getRegularPrice() + "\n" +
                         "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
         whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -694,7 +743,7 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
     }
 
-    private void shareOnTwitter(Favourites favourites, String url) {
+    private void shareOnTwitter(Product favourites, String url) {
         Intent twitter = new Intent();
         twitter.setAction(Intent.ACTION_SEND);
 
@@ -707,9 +756,9 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 
         twitter.putExtra(Intent.EXTRA_TEXT,
                 url + "\n\n" +
-                        "Product Name: " + favourites.getItemName() + "\n" +
-                        "New Price: " + favourites.getItemIndividualPrice() + "\n" +
-                        "Old Price: " + favourites.getItemCutPrice() + "\n" +
+                        "Product Name: " + favourites.getName() + "\n" +
+                        "New Price: " + favourites.getPrice() + "\n" +
+                        "Old Price: " + favourites.getRegularPrice() + "\n" +
                         "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
         twitter.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

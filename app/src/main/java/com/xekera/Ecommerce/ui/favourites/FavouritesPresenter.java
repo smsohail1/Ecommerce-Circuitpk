@@ -4,6 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.widget.ImageView;
+import com.google.gson.JsonObject;
+import com.xekera.Ecommerce.data.rest.INetworkListGeneral;
+import com.xekera.Ecommerce.data.rest.response.fetch_favourite_response.FetchFavouriteResponse;
+import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.AllProductsResponse;
+import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.Product;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
 import com.xekera.Ecommerce.data.room.model.Booking;
 import com.xekera.Ecommerce.data.room.model.Favourites;
@@ -15,10 +20,12 @@ import com.xekera.Ecommerce.ui.history.HistoryModel;
 import com.xekera.Ecommerce.util.AppConstants;
 import com.xekera.Ecommerce.util.SessionManager;
 import com.xekera.Ecommerce.util.Utils;
+import okhttp3.ResponseBody;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.EnumMap;
 import java.util.List;
 
 public class FavouritesPresenter implements FavouritesMVP.Presenter {
@@ -55,27 +62,109 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
 
     @Override
-    public void removeFromFavourites(Favourites favourites, final int position) {
-        model.removeSelectedCartDetails(favourites.getItemName(), new FavouritesModel.IRemoveSelectedItemDetails() {
+    public void removeFromFavourites(String id, final int position, final String username, final String email) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("postid", id);
+        view.showProgressDialogPleaseWait();
+        model.removeSelectedCartDetails(jsonObject, new INetworkListGeneral<ResponseBody>() {
             @Override
-            public void onSuccess(boolean success) {
-                if (success) {
-                    //  getCount(position);
-                    view.showToastShortTime("Item Removed from favourites.");
-                    view.removeItemFromFavourites(position);
-                    getFavouriteCount();
+            public void onSuccess(ResponseBody response) {
+                // view.hideProgressDialogPleaseWait();
 
-                }
-
+                view.showToastShortTime("Item Removed from favorite.");
+                fetchFavouritesCounts(username, email, position);
+//                view.removeItemFromFavourites(position);
+                //view.itemsCountsBottomView(1, 0);
             }
 
             @Override
-            public void onError(Exception ex) {
-                view.showToastShortTime(ex.getMessage());
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while delete favorite.");
+                }
+                //   view.itemsCountsBottomView(1, 0);
 
             }
         });
+
+//        model.removeSelectedCartDetails(id, new FavouritesModel.IRemoveSelectedItemDetails() {
+//            @Override
+//            public void onSuccess(boolean success) {
+//                if (success) {
+//                    //  getCount(position);
+//                    view.showToastShortTime("Item Removed from favourites.");
+//                    view.removeItemFromFavourites(position);
+//                    getFavouriteCount();
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onError(Exception ex) {
+//                view.showToastShortTime(ex.getMessage());
+//
+//            }
+//        });
     }
+
+    public void removeFromFavouritesServer(final String id, final int position, final String username, final String email,
+                                           final ImageView imgProductCopy) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("postid", id);
+        model.removeSelectedCartDetails(jsonObject, new INetworkListGeneral<ResponseBody>() {
+            @Override
+            public void onSuccess(ResponseBody response) {
+
+                //  fetchFavouritesCounts(username, email, position);
+                // view.hideProgressDialogPleaseWait();
+                //  view.removeItemFromFavourites(position);
+                if (actionListener != null)
+                    actionListener.onItemTap(imgProductCopy, view.getCartCount(), position);
+
+                fetchFavouritesServerCounts(username, email, imgProductCopy, position,
+                        id);
+
+
+//                view.removeItemFromFavourites(position);
+                //view.itemsCountsBottomView(1, 0);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                }
+                //   view.itemsCountsBottomView(1, 0);
+
+            }
+        });
+
+//        model.removeSelectedCartDetails(id, new FavouritesModel.IRemoveSelectedItemDetails() {
+//            @Override
+//            public void onSuccess(boolean success) {
+//                if (success) {
+//                    //  getCount(position);
+//                    view.showToastShortTime("Item Removed from favourites.");
+//                    view.removeItemFromFavourites(position);
+//                    getFavouriteCount();
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onError(Exception ex) {
+//                view.showToastShortTime(ex.getMessage());
+//
+//            }
+//        });
+    }
+
 
     public void getFavouriteCount() {
         model.getTotalCounts(new FavouritesModel.IFetchOrderDetailsList() {
@@ -115,7 +204,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
                     view.hideNoCartItemFound();
                     view.itemsCountsBottomView(1, favourites.size());
                     view.showRecyclerView();
-                    view.setAdapter(favourites);
+                    //view.setAdapter(favourites);
 
                     // setAdapter(addToCarts);
                 }
@@ -165,7 +254,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             public void onProductDetailsSaved(boolean isAdded) {
                 if (isAdded) {
                     view.showToastShortTime("Item added to cart successfully.");
-                    removeItemFromFavourites(addToCart.getItemName(), position, imageView);
+                    //removeItemFromFavourites(addToCart.getItemName(), position, imageView);
 
                 }
             }
@@ -233,20 +322,20 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
     }
 
     private void removeItemFromFavourites(String itemName, final int position, final ImageView imageView) {
-        model.removeSelectedCartDetails(itemName, new FavouritesModel.IRemoveSelectedItemDetails() {
-            @Override
-            public void onSuccess(boolean success) {
-                // view.removeItemFromFavourites(position);
-                getCount(imageView, position);
-
-            }
-
-            @Override
-            public void onError(Exception ex) {
-                ex.printStackTrace();
-                view.showToastShortTime(ex.getMessage());
-            }
-        });
+//        model.removeSelectedCartDetails(itemName, new FavouritesModel.IRemoveSelectedItemDetails() {
+//            @Override
+//            public void onSuccess(boolean success) {
+//                // view.removeItemFromFavourites(position);
+//                getCount(imageView, position);
+//
+//            }
+//
+//            @Override
+//            public void onError(Exception ex) {
+//                ex.printStackTrace();
+//                view.showToastShortTime(ex.getMessage());
+//            }
+//        });
     }
 
 
@@ -483,6 +572,222 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
     }
 
+
+    @Override
+    public void addToCartApi(String productId, String quantity, String price, String discountPrice, String randomKey,
+                             final ImageView imgProductCopy, final int position, final String username, final String email,
+                             final String productIdIncrement) {
+        //view.showProgressDialogPleaseWait();
+        model.addToCart(productId, quantity, price, discountPrice, randomKey, new INetworkListGeneral<ResponseBody>() {
+            @Override
+            public void onSuccess(ResponseBody response) {
+                // view.hideProgressDialogPleaseWait();
+
+                if (response == null) {
+                    view.showToastShortTime("Error while add to cart.");
+                    view.hideProgressDialogPleaseWait();
+                    return;
+                } else {
+                    view.showToastShortTime("Item added to cart.");
+                    removeFromFavouritesServer(productIdIncrement, position, username, email, imgProductCopy);
+
+//                    fetchFavouritesServerCounts(username, email, imgProductCopy, position,
+//                            productIdIncrement);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while add to cart.");
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void getAllProducts(final String productIdIncrement, final String quantity, final String price, final String discountPrice, String randomKey,
+                               final ImageView imgProductCopy, final int position, String username, String email, final String nameSku) {
+        view.showProgressDialogPleaseWait();
+        model.fetchAllProducts(productIdIncrement, quantity, price, discountPrice, randomKey, new INetworkListGeneral<AllProductsResponse>() {
+            @Override
+            public void onSuccess(AllProductsResponse response) {
+
+                String productId = "";
+                if (response == null) {
+                    view.showToastShortTime("Error while add to cart.");
+                    view.hideProgressDialogPleaseWait();
+                    return;
+                } else if (response.getProducts() == null) {
+                    view.showToastShortTime("Error while add to cart.");
+                    view.hideProgressDialogPleaseWait();
+
+                    return;
+                } else if (response.getProducts().size() == 0) {
+                    view.showToastShortTime("Error while add to cart.");
+                    view.hideProgressDialogPleaseWait();
+
+                    return;
+                } else {
+                    for (Product product : response.getProducts()) {
+                        if (product.getName_sku().equalsIgnoreCase(nameSku)) {
+                            productId = product.getId();
+                            break;
+                        }
+                    }
+
+                    addToCartApi(productId, quantity, price, discountPrice,
+                            sessionManager.getKeyRandomKey(), imgProductCopy, position,
+                            sessionManager.getusername(), sessionManager.getEmail(),
+                            productIdIncrement
+                    );
+
+                    // view.showToastShortTime("Item added to cart.");
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while add to cart.");
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void fetchFavouritesServer(String username, String email) {
+        view.showProgressDialogPleaseWait();
+//        JsonObject jsonObject = new JsonObject();
+//        jsonObject.addProperty("username", sessionManager.getusername());
+//        jsonObject.addProperty("useremail", sessionManager.getEmail());
+        model.fetchFavouritesServer(username, email, new INetworkListGeneral<FetchFavouriteResponse>() {
+            @Override
+            public void onSuccess(FetchFavouriteResponse response) {
+
+                view.hideProgressDialogPleaseWait();
+                if (response == null) {
+                    view.hideRecyclerView();
+                    view.txtNoCartItemFound();
+                    view.itemsCountsBottomView(1, 0);
+
+                    return;
+                } else if (response.getProducts() == null) {
+                    view.hideRecyclerView();
+                    view.txtNoCartItemFound();
+                    view.itemsCountsBottomView(1, 0);
+                    return;
+                } else if (response.getProducts().size() == 0) {
+                    view.hideRecyclerView();
+                    view.txtNoCartItemFound();
+                    view.itemsCountsBottomView(1, 0);
+                    return;
+                } else {
+                    view.hideNoCartItemFound();
+                    view.itemsCountsBottomView(1, response.getProducts().size());
+                    view.showRecyclerView();
+                    view.setAdapter(response.getProducts());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+                if (t.getMessage() != null) {
+                    view.showToastShortTime(t.getMessage());
+                } else {
+                    view.showToastShortTime("Error while fetch favorite.");
+                }
+                view.itemsCountsBottomView(1, 0);
+
+            }
+        });
+    }
+
+    private void fetchFavouritesServerCounts(final String username, final String email, final ImageView imgProductCopy,
+                                             final int position,
+                                             final String productIdIncrement) {
+
+        model.fetchFavouritesServer(username, email, new INetworkListGeneral<FetchFavouriteResponse>() {
+            @Override
+            public void onSuccess(FetchFavouriteResponse response) {
+
+               view.hideProgressDialogPleaseWait();
+//                view.removeItemFromFavourites(position);
+
+
+                if (response == null) {
+                    view.itemsCountsBottomView(1, 0);
+
+                    return;
+                } else if (response.getProducts() == null) {
+
+                    view.itemsCountsBottomView(1, 0);
+
+                    return;
+                } else if (response.getProducts().size() == 0) {
+
+                    view.itemsCountsBottomView(1, 0);
+
+                    return;
+                } else {
+                    view.itemsCountsBottomView(1, response.getProducts().size());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+
+            }
+        });
+    }
+
+    private void fetchFavouritesCounts(String username, String email, final int position) {
+
+        model.fetchFavouritesServer(username, email, new INetworkListGeneral<FetchFavouriteResponse>() {
+            @Override
+            public void onSuccess(FetchFavouriteResponse response) {
+
+                view.hideProgressDialogPleaseWait();
+                view.removeItemFromFavourites(position);
+
+                if (response == null) {
+                    view.itemsCountsBottomView(1, 0);
+                    return;
+                } else if (response.getProducts() == null) {
+
+                    view.itemsCountsBottomView(1, 0);
+                    return;
+                } else if (response.getProducts().size() == 0) {
+
+                    view.itemsCountsBottomView(1, 0);
+                    return;
+                } else {
+                    view.itemsCountsBottomView(1, response.getProducts().size());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                view.hideProgressDialogPleaseWait();
+
+            }
+        });
+    }
+
     private void removeItem(String productName) {
         model.removeItemFromCart(productName, new FavouritesModel.IRemoveSelectedItemDetails() {
             @Override
@@ -615,7 +920,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
 
                     return;
                 } else {
-                    removeItemFromFavourites(productName, position, imgProductCopy);
+                    // removeItemFromFavourites(productName, position, imgProductCopy);
 
                     // if (productAddRemoveActionListener != null)
                     //   productAddRemoveActionListener.onItemTap(imgProductCopy, addToCarts.size());

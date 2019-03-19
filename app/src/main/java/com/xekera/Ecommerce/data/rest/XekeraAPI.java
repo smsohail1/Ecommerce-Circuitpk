@@ -5,6 +5,7 @@ import com.xekera.Ecommerce.data.rest.response.*;
 import com.xekera.Ecommerce.data.rest.response.add_remove_cart_response.AddRemoveCartResponse;
 import com.xekera.Ecommerce.data.rest.response.add_to_cart_response.AddToCartResponse;
 import com.xekera.Ecommerce.data.rest.response.delete_item_cart_response.DeleteItemCartResponse;
+import com.xekera.Ecommerce.data.rest.response.fetch_favourite_response.FetchFavouriteResponse;
 import com.xekera.Ecommerce.data.rest.response.searchAllProductReponse.AllProductsResponse;
 import com.xekera.Ecommerce.data.rest.response.submit_order_json_response.SubmitOrderJsonResponse;
 import com.xekera.Ecommerce.data.room.model.AddToCart;
@@ -29,6 +30,8 @@ public interface XekeraAPI {
     String WEB_API_DELETE_ORDER = "products/";
     String WEB_API_ADD_REMOVE_ITEMS_CART = "products/";
     String WEB_API_ADD_TO_FAVOURITE = "favorite/";
+    String WEB_API_FETCH_FAVOURITE = "favorite/";
+    String WEB_API_DELETE_FAVOURITE = "favorite/";
 
 
     @FormUrlEncoded
@@ -164,6 +167,24 @@ public interface XekeraAPI {
     })
     @POST(WEB_API_ADD_TO_FAVOURITE + "fav.php")
     Call<ResponseBody> postAddToFavouriteBody(@Body JsonObject jsonObejct);
+
+
+    //    @Headers({
+//            "Accept: application/json",
+//            "Content-Type: application/json"
+//    })
+    // @POST(WEB_API_FETCH_FAVOURITE + "fetch_fav.php")
+    @GET(WEB_API_FETCH_FAVOURITE + "fetch_fav.php")
+    Call<FetchFavouriteResponse> fetchFavouriteBody(@Query("username") String username, @Query("useremail") String email);
+
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @POST(WEB_API_DELETE_FAVOURITE + "fav_delete.php")
+    Call<ResponseBody> postDeleteFavouriteBody(@Body JsonObject jsonObejct);
+
 
 //    @FormUrlEncoded
 //    @POST(WEB_API_SUBMIT_ORDER + "submitdata.php")

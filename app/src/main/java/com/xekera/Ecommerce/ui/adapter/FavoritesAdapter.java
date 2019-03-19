@@ -21,20 +21,22 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.xekera.Ecommerce.R;
+import com.xekera.Ecommerce.data.rest.response.fetch_favourite_response.Product;
 import com.xekera.Ecommerce.data.room.model.Favourites;
 import com.xekera.Ecommerce.ui.dasboard_shopping_details.model.ShoppingDetailModel;
 import com.xekera.Ecommerce.ui.history.HistoryPresenter;
+import retrofit2.http.Query;
 
 import java.util.List;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
-    List<Favourites> productsItems;
+    List<Product> productsItems;
     // IShopDetailAdapter iShopDetailAdapter;
     HistoryPresenter historyPresenter;
     IFvaouritesAddToCartAdapter iFvaouritesAddToCartAdapter;
 
-    public FavoritesAdapter(Context context, List<Favourites> productsItems, IFvaouritesAddToCartAdapter iFvaouritesAddToCartAdapter) {
+    public FavoritesAdapter(Context context, List<Product> productsItems, IFvaouritesAddToCartAdapter iFvaouritesAddToCartAdapter) {
         this.context = context;
         this.productsItems = productsItems;
         this.iFvaouritesAddToCartAdapter = iFvaouritesAddToCartAdapter;
@@ -56,17 +58,17 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final Favourites favourites = productsItems.get(position);
+        final Product favourites = productsItems.get(position);
         if (holder instanceof productDetailsDataListViewHolder) {
             final productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
-            productDetailsDataListViewHolder.productNameLabelTextView.setText(favourites.getItemName());
-            productDetailsDataListViewHolder.priceTextView.setText(favourites.getItemIndividualPrice());
+            productDetailsDataListViewHolder.productNameLabelTextView.setText(favourites.getName());
+            productDetailsDataListViewHolder.priceTextView.setText(favourites.getPrice());
 
-            if (favourites.getItemCutPrice() != null) {
+            if (favourites.getRegularPrice() != null) {
 
-                productDetailsDataListViewHolder.discountPriceTextView.setText(favourites.getItemCutPrice());
-                if (favourites.getItemCutPrice().equalsIgnoreCase("0")) {
+                productDetailsDataListViewHolder.discountPriceTextView.setText(favourites.getRegularPrice());
+                if (favourites.getRegularPrice().equalsIgnoreCase("0")) {
                     productDetailsDataListViewHolder.discountLinearParent.setVisibility(View.GONE);
                 }
 
@@ -76,13 +78,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             }
 
-            productDetailsDataListViewHolder.availabilitStockTextView.setText(favourites.getItemStockStatus());
-            productDetailsDataListViewHolder.counterTextview.setText(favourites.getItemQuantity() + "");
+            // productDetailsDataListViewHolder.availabilitStockTextView.setText();
+            //  productDetailsDataListViewHolder.counterTextview.setText(favourites.getItemQuantity() + "");
 
             try {
 
                 Glide.with(context)
-                        .load(favourites.getImage())
+                        .load(favourites.getImageJson().get(0))
                         .asBitmap()
                         .placeholder(R.drawable.placeholder)
                         .error(R.drawable.placeholder)
@@ -208,7 +210,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 case R.id.cardViewParent:
                     try {
 
-                        productsItems.get(getLayoutPosition()).setItemQuantity(counterTextview.getText().toString());
+                        //  productsItems.get(getLayoutPosition()).setItemQuantity(counterTextview.getText().toString());
 
                         iFvaouritesAddToCartAdapter.onCardClick(
                                 productsItems.get(getLayoutPosition()));
@@ -218,8 +220,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     break;
 
                 case R.id.btnAddToCart:
-                    iFvaouritesAddToCartAdapter.addToCartFavourites(productsItems.get(getLayoutPosition()), getLayoutPosition(),
-                            imgProductCopy);
+                    Product productDetail = productsItems.get(getLayoutPosition());
+                    iFvaouritesAddToCartAdapter.addToCartServer(productDetail.getId(), counterTextview.getText().toString(),
+                            productDetail.getPrice(),
+                            "", productDetail.getRegularPrice(), imgProductCopy, getLayoutPosition(),
+                            productDetail.getNameSku());
+                    // iFvaouritesAddToCartAdapter.addToCartFavourites(productsItems.get(getLayoutPosition()), getLayoutPosition(),
+                    //       imgProductCopy);
                     break;
 
 
@@ -228,143 +235,92 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     break;
 
                 case R.id.decrementImageButton:
-                    //  decrementCounter = decrementCounter - 1;
-                    //productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
 
-                    // productsItems.get(getLayoutPosition()).setItemQuantity(getItemQuantity());
+//                    long dec = 0;
+                    long clickCounts = Long.valueOf(counterTextview.getText().toString());
 
-                    long dec = 0;
-                    if (Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) == 0) {
-                        dec = 0;
-
-                        productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(dec));
-                        counterTextview.setText(dec + "");
-
-                        long productPriceDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
-                        long itemQuantityDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
-                        iFvaouritesAddToCartAdapter.onDecrementButtonClick(Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()),
-                                String.valueOf(productPriceDec),
-                                String.valueOf(productPriceDec * itemQuantityDec),
-                                productsItems.get(getLayoutPosition()).getItemName(),
-                                Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
-                                productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy,
-                                productsItems.get(getLayoutPosition()).getImage(),
-                                productsItems.get(getLayoutPosition()).getProduct_id(), "0", productsItems.get(getLayoutPosition()).getProductDescFav(),
-                                productsItems.get(getLayoutPosition()).getImgArrListFav(),
-                                productsItems.get(getLayoutPosition()).getNameSku());
-
+                    if (clickCounts == 1) {
+                        counterTextview.setText("1");
                     } else {
-                        dec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) - 1;
-                        productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(dec));
-                        counterTextview.setText(dec + "");
-
-                        long productPriceDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
-                        long itemQuantityDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
-                        iFvaouritesAddToCartAdapter.onDecrementButtonClick(Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()),
-                                String.valueOf(productPriceDec),
-                                String.valueOf(productPriceDec * itemQuantityDec),
-                                productsItems.get(getLayoutPosition()).getItemName(),
-                                Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
-                                productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy,
-                                productsItems.get(getLayoutPosition()).getImage(),
-                                productsItems.get(getLayoutPosition()).getProduct_id(), "0", productsItems.get(getLayoutPosition()).getProductDescFav(),
-                                productsItems.get(getLayoutPosition()).getImgArrListFav(),
-                                productsItems.get(getLayoutPosition()).getNameSku());
-
+                        counterTextview.setText(String.valueOf(clickCounts - 1));
+                        ;
                     }
+//                    if (clickCounts == 0) {
+//                        dec = 0;
+//
+////                        productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(dec));
+////                        counterTextview.setText(dec + "");
+//
+////                        long productPriceDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
+////                        long itemQuantityDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+////                        iFvaouritesAddToCartAdapter.onDecrementButtonClick(Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()),
+////                                String.valueOf(productPriceDec),
+////                                String.valueOf(productPriceDec * itemQuantityDec),
+////                                productsItems.get(getLayoutPosition()).getItemName(),
+////                                Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
+////                                productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy,
+////                                productsItems.get(getLayoutPosition()).getImage(),
+////                                productsItems.get(getLayoutPosition()).getProduct_id(), "0", productsItems.get(getLayoutPosition()).getProductDescFav(),
+////                                productsItems.get(getLayoutPosition()).getImgArrListFav(),
+////                                productsItems.get(getLayoutPosition()).getNameSku());
+//
+//                    } else {
+////                        dec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()) - 1;
+////                        productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(dec));
+////                        counterTextview.setText(dec + "");
+////
+////                        long productPriceDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
+////                        long itemQuantityDec = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+////                        iFvaouritesAddToCartAdapter.onDecrementButtonClick(Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()),
+////                                String.valueOf(productPriceDec),
+////                                String.valueOf(productPriceDec * itemQuantityDec),
+////                                productsItems.get(getLayoutPosition()).getItemName(),
+////                                Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
+////                                productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy,
+////                                productsItems.get(getLayoutPosition()).getImage(),
+////                                productsItems.get(getLayoutPosition()).getProduct_id(), "0", productsItems.get(getLayoutPosition()).getProductDescFav(),
+////                                productsItems.get(getLayoutPosition()).getImgArrListFav(),
+////                                productsItems.get(getLayoutPosition()).getNameSku());
+//
+//                    }
 
 
-                    // else {
-                    // productsItems.get(getLayoutPosition()).setItemQuantity("0");
-                    //   counterTextview.setText(productsItems.get(getLayoutPosition()).getItemQuantity() + "");
-
-                    // iFvaouritesAddToCartAdapter.removeItemFromCart(productsItems.get(getLayoutPosition()));
-
-
-//                        long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getProductPrice());
-//                        long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
-//                        iShopDetailAdapter.onDecrementButtonClick(productsItems.get(getLayoutPosition()).getItemQuantity(),
-//                                String.valueOf(productPrice),
-//                                String.valueOf(productPrice * itemQuantity),
-//                                productsItems.get(getLayoutPosition()).getProductName(),
-//                                productsItems.get(getLayoutPosition()).getCutPrice(),
-//                                productsItems.get(getLayoutPosition()).getByteImage(), imgProductCopy);
-
-                    //}
                     break;
                 case R.id.incrementImageButton:
+                    long clickIncrementCounts = Long.valueOf(counterTextview.getText().toString());
 
-                    long inc = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
-                    long incrementLong = inc + 1;
-                    productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(incrementLong));
-                    counterTextview.setText(incrementLong + "");
-                    long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
-                    long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
 
-                    Bitmap bitmapAdd = null;
+                    counterTextview.setText(String.valueOf(clickIncrementCounts + 1));
 
-//                    if (getLayoutPosition() == 0) {
-//                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
-//                    } else if (getLayoutPosition() == 1) {
-//                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_sensor_module);
+
+//                    long inc = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
+//                    long incrementLong = inc + 1;
+//                    productsItems.get(getLayoutPosition()).setItemQuantity(String.valueOf(incrementLong));
+//                    counterTextview.setText(incrementLong + "");
+//                    long productPrice = Long.valueOf(productsItems.get(getLayoutPosition()).getItemIndividualPrice());
+//                    long itemQuantity = Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity());
 //
-//                    } else if (getLayoutPosition() == 2) {
-//                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_battery);
+//                    Bitmap bitmapAdd = null;
 //
-//                    } else if (getLayoutPosition() == 3) {
-//                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_wire);
 //
-//                    } else if (getLayoutPosition() == 4) {
-//                        bitmapAdd = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_rectifier);
+//                    iFvaouritesAddToCartAdapter.onIncrementButtonClick(Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()),
+//                            String.valueOf(productPrice),
+//                            String.valueOf(productPrice * itemQuantity),
+//                            productsItems.get(getLayoutPosition()).getItemName(),
+//                            Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
+//                            productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy, bitmapAdd,
+//                            productsItems.get(getLayoutPosition()).getImage(),
+//                            productsItems.get(getLayoutPosition()).getProduct_id(), "0",
+//                            productsItems.get(getLayoutPosition()).getProductDescFav(),
+//                            productsItems.get(getLayoutPosition()).getImgArrListFav(),
+//                            productsItems.get(getLayoutPosition()).getNameSku());
 //
-//                    }
-
-                    iFvaouritesAddToCartAdapter.onIncrementButtonClick(Long.valueOf(productsItems.get(getLayoutPosition()).getItemQuantity()),
-                            String.valueOf(productPrice),
-                            String.valueOf(productPrice * itemQuantity),
-                            productsItems.get(getLayoutPosition()).getItemName(),
-                            Long.valueOf(productsItems.get(getLayoutPosition()).getItemCutPrice()),
-                            productsItems.get(getLayoutPosition()).getItemImage(), imgProductCopy, bitmapAdd,
-                            productsItems.get(getLayoutPosition()).getImage(),
-                            productsItems.get(getLayoutPosition()).getProduct_id(), "0",
-                            productsItems.get(getLayoutPosition()).getProductDescFav(),
-                            productsItems.get(getLayoutPosition()).getImgArrListFav(),
-                            productsItems.get(getLayoutPosition()).getNameSku());
-
-
-//                    long inc = productsItems.get(getLayoutPosition()).getItemQuantity() + 1;
-//                    productsItems.get(getLayoutPosition()).setItemQuantity(inc);
-//                    counterTextview.setText(inc + "");
-
-
-//                    if (actionListener != null)
-//                        actionListener.onItemTap(imgProductCopy);
 
                     break;
 
-//                case R.id.messenger_send_button:
-//                    iFvaouritesAddToCartAdapter.onClickButtonMessenger();
-//                    break;
 
                 case R.id.imgShareProductDetails:
-                    // Bitmap bitmapShare = null;
 
-//                    if (getLayoutPosition() == 0) {
-//                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.arduino_detail);
-//                    } else if (getLayoutPosition() == 1) {
-//                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_sensor_module);
-//
-//                    }
-// else if (getLayoutPosition() == 2) {
-//                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_battery);
-//
-//                    } else if (getLayoutPosition() == 3) {
-//                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.detail_wire);
-//
-//                    } else if (getLayoutPosition() == 4) {
-//                        bitmapShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.details_rectifier);
-//
-//                    }
                     iFvaouritesAddToCartAdapter.onClickShareButton(productsItems.get(getLayoutPosition()));
                     break;
 
@@ -396,7 +352,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    public void addAll(List<Favourites> addToCarts) {
+    public void addAll(List<Product> addToCarts) {
         int currentListSize = this.productsItems.size();
         this.productsItems.addAll(addToCarts);
         notifyItemRangeInserted(currentListSize, addToCarts.size());
@@ -404,11 +360,11 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     public interface IFvaouritesAddToCartAdapter {
-        void onCardClick(Favourites favourites);
+        void onCardClick(Product favourites);
 
         void addToCartFavourites(Favourites favourites, int position, ImageView img);
 
-        void removeFavourites(Favourites favourites, int position);
+        void removeFavourites(Product favourites, int position);
 
         void onIncrementButtonClick(long quantity, String price, String totalPrice, String productName,
                                     long cutPrice, byte[] byteImage, ImageView imgProductCopy, Bitmap bitmap, String imgUrl,
@@ -422,7 +378,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         void onClickButtonMessenger();
 
-        void onClickShareButton(Favourites favourites);
+        void onClickShareButton(Product favourites);
+
+        void addToCartServer(String product_id,
+                             String itemQuantity,
+                             String itemPrice,
+                             String last_id, String discountPrice, ImageView imgProductCopy, int position,
+                             String nameSku);
 
     }
 }
