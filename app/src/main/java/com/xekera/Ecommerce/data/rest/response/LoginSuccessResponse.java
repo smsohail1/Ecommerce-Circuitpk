@@ -22,6 +22,10 @@ public class LoginSuccessResponse {
     @SerializedName("password")
     @Expose
     private String password;
+    @SerializedName("phonenumber")
+    @Expose
+    private String phonenumber;
+
 
     public Boolean getStatus() {
         return status;
@@ -71,6 +75,11 @@ public class LoginSuccessResponse {
         this.password = password;
     }
 
+    public String getPhonenumber() {
+        return phonenumber;
+    }
 
-
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
 }

@@ -169,7 +169,10 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
 
         recyclerViewProductDetails?.layoutManager = LinearLayoutManager(activity)
 
-
+        val dataTime = getCurrentDateTime()
+        if (utils.isTextNullOrEmpty(sessionManager.keyRandomKey)) {
+            sessionManager.keyRandomKey = "mobile$dataTime"
+        }
         edtSearchProduct?.setText("")
 
 
@@ -304,6 +307,18 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
 //
 //        return fragment
 //    }
+
+    private fun getCurrentDateTime(): String {
+        try {
+
+            val c = Calendar.getInstance()
+            val df = SimpleDateFormat(AppConstants.DATE_TIME_FORMAT_FOUR)
+            return df.format(c.time)
+        } catch (e: Exception) {
+            return ""
+        }
+
+    }
 
     override fun onAddButtonClick(productItems: Product) {
 
@@ -885,7 +900,7 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
 //        )
         shopDetailsAdapter = SearchAllProductsAdapter(
             activity!!, products as MutableList<Product>,
-            this, utils,sessionManager
+            this, utils, sessionManager
         )
         showRecylerViewProductsDetail(shopDetailsAdapter)
         hideCircularProgressBar()

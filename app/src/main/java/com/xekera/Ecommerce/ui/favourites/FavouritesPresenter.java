@@ -678,21 +678,32 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
                 if (response == null) {
                     view.hideRecyclerView();
                     view.txtNoCartItemFound();
+                    view.hideLoadingProgressDialog();
+
                     view.itemsCountsBottomView(1, 0);
+                    view.showToastShortTime("No items added in favorite.");
+
 
                     return;
                 } else if (response.getProducts() == null) {
                     view.hideRecyclerView();
+                    view.hideLoadingProgressDialog();
+
                     view.txtNoCartItemFound();
                     view.itemsCountsBottomView(1, 0);
+                    view.showToastShortTime("No items added in favorite.");
+
                     return;
                 } else if (response.getProducts().size() == 0) {
                     view.hideRecyclerView();
+                    view.hideLoadingProgressDialog();
                     view.txtNoCartItemFound();
                     view.itemsCountsBottomView(1, 0);
+                    view.showToastShortTime("No items added in favorite.");
                     return;
                 } else {
                     view.hideNoCartItemFound();
+                    view.hideLoadingProgressDialog();
                     view.itemsCountsBottomView(1, response.getProducts().size());
                     view.showRecyclerView();
                     view.setAdapter(response.getProducts());
@@ -722,7 +733,7 @@ public class FavouritesPresenter implements FavouritesMVP.Presenter {
             @Override
             public void onSuccess(FetchFavouriteResponse response) {
 
-               view.hideProgressDialogPleaseWait();
+                view.hideProgressDialogPleaseWait();
 //                view.removeItemFromFavourites(position);
 
 

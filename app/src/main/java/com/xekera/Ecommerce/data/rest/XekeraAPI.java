@@ -38,7 +38,8 @@ public interface XekeraAPI {
     @POST(WEB_API_SIGN_UP_URL + "signup.php")
     Call<SignUpSuccessResponse> postSignUpDetails(@Field("username") String username,
                                                   @Field("password") String password,
-                                                  @Field("email") String emailID);
+                                                  @Field("email") String emailID,
+                                                  @Field("phonenumber") String phoneNumber);
 
     @GET(WEB_API_SIGN_UP_URL + "login.php")
     Call<LoginSuccessResponse> getSignInDetails(@Query("username") String username,

@@ -80,7 +80,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final productDetailsDataListViewHolder productDetailsDataListViewHolder = (productDetailsDataListViewHolder) holder;
 
             if (booking.getOrderID() != null && !booking.getOrderID().equalsIgnoreCase("")) {
-                productDetailsDataListViewHolder.OrderId.setText(booking.getOrderID());
+                productDetailsDataListViewHolder.OrderId.setText(booking.getID());
             }
             if (booking.getOrderStatus() != null && !booking.getOrderStatus().equalsIgnoreCase("")) {
                 productDetailsDataListViewHolder.Status.setText(booking.getOrderStatus());
@@ -234,7 +234,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 productsItems.addAll(productsItemsSearch);
             } else if (charText.length() > 0) {
                 for (OrderList wp : productsItemsSearch) {
-                    if (wp.getOrderID().toLowerCase(Locale.getDefault()).trim()
+                    if (wp.getID().toLowerCase(Locale.getDefault()).trim()
                             .contains(charText)) {
                         productsItems.add(wp);
 

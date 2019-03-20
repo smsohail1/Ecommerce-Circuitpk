@@ -74,21 +74,21 @@ public class HistoryDesciptionAdapter extends RecyclerView.Adapter<RecyclerView.
             if (booking.getName() != null) {
                 productDetailsDataListViewHolder.productNameLabelTextView.setText(booking.getName());
             }
-            if (booking.getPrice() != null) {
-                //long totalAmount = Long.valueOf(booking.getPrice()) * Long.valueOf(booking.getItemQuantity());
-                productDetailsDataListViewHolder.priceTextView.setText(booking.getPrice());
-            }
+//            if (booking.getPrice() != null) {
+//                //long totalAmount = Long.valueOf(booking.getPrice()) * Long.valueOf(booking.getItemQuantity());
+//                productDetailsDataListViewHolder.priceTextView.setText(booking.getPrice());
+//            }
 
-            if (booking.getItemQuantity() != null) {
-                productDetailsDataListViewHolder.quantityTextView.setText(booking.getItemQuantity());
-            }
+//            if (booking.getItemQuantity() != null) {
+//                productDetailsDataListViewHolder.quantityTextView.setText(booking.getItemQuantity());
+//            }
             if (address.getCustName() != null) {
                 productDetailsDataListViewHolder.nameValueTextView.setText(address.getCustName());
             }
-            if (address.getAddress() != null) {
-                productDetailsDataListViewHolder.orderIdValueTextView.setText(address.getOrderId());
-
-            }
+//            if (address.getAddress() != null) {
+//                productDetailsDataListViewHolder.orderIdValueTextView.setText(address.getOrderId());
+//
+//            }
             if (address.getPhoneNumber() != null) {
                 productDetailsDataListViewHolder.PhoneNoValueTextView.setText(address.getPhoneNumber());
             }

@@ -48,7 +48,7 @@ class SignupModel(utils: Utils, sessionManager: SessionManager, xekeraAPI: Xeker
     ) {
         var apiInterface: XekeraAPI = ApiClient.getClient()!!.create(XekeraAPI::class.java)
         var call: Call<SignUpSuccessResponse>
-        call = apiInterface.postSignUpDetails(userName, password, emailID)
+        call = apiInterface.postSignUpDetails(userName, password, emailID,phoneNo)
 
         //val call = xekeraAPI?.postSignUpDetails(userName, password, emailID)
         call?.enqueue(object : Callback<SignUpSuccessResponse> {

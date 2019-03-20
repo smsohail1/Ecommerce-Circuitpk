@@ -412,7 +412,7 @@ public class AddToCartShopCardSelectedFragment extends Fragment implements AddTo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_shop_card_selected, container, false);
+        View v = inflater.inflate(R.layout.shop_card_selected_add_cart, container, false);
 
         initializeViews(v);
 

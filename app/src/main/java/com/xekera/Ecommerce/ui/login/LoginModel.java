@@ -51,7 +51,7 @@ public class LoginModel implements LoginMVP.Model {
 
     @Override
     public void registerFacebookUser(String username, String password, String phoneNo, String emailID, final INetworkLoginSignup<SignUpSuccessResponse> iNetworkLoginSignup) {
-        Call<SignUpSuccessResponse> call = xakeraAPI.postSignUpDetails(username, password, emailID);
+        Call<SignUpSuccessResponse> call = xakeraAPI.postSignUpDetails(username, password, emailID, "");
         call.enqueue(new Callback<SignUpSuccessResponse>() {
             @Override
             public void onResponse(Call<SignUpSuccessResponse> call, Response<SignUpSuccessResponse> response) {

@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class OrderList {
+    @SerializedName("ID")
+    @Expose
+    private String iD;
     @SerializedName("Order_ID")
     @Expose
     private String orderID;
@@ -13,6 +16,14 @@ public class OrderList {
     @SerializedName("Order_Status")
     @Expose
     private String orderStatus;
+
+    public String getID() {
+        return iD;
+    }
+
+    public void setID(String iD) {
+        this.iD = iD;
+    }
 
     public String getOrderID() {
         return orderID;
@@ -37,5 +48,6 @@ public class OrderList {
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
+
 
 }

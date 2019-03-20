@@ -79,7 +79,7 @@ public class SignupPresenter : SignupMVP.Presenter {
 
                                 sessionManager?.createSignUpSession(
                                     response.username,
-                                    phoneNo,
+                                    response.phonenumber,
                                     response.password,
                                     response.email,
                                     true, true
