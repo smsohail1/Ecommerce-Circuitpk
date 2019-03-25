@@ -525,13 +525,21 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 //                "Circuit.pk"
 //        );
 
-        sendIntent.putExtra(Intent.EXTRA_TEXT,
-                url + "\n\n" +
-                        "Product Name: " + favourites.getName() + "\n" +
-                        "New Price: " + favourites.getPrice() + "\n" +
-                        "Old Price: " + favourites.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
+        if (utils.isTextNullOrEmptyOrZero(favourites.getRegularPrice())) {
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + favourites.getName() + "\n" +
+                            "New Price: " + favourites.getPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
+        } else {
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + favourites.getName() + "\n" +
+                            "New Price: " + favourites.getPrice() + "\n" +
+                            "Old Price: " + favourites.getRegularPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
+        }
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
@@ -557,13 +565,21 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 //                "Circuit.pk"
 //        );
 
-        sendIntent.putExtra(Intent.EXTRA_TEXT,
-                url + "\n\n" +
-                        "Product Name: " + favourites.getName() + "\n" +
-                        "New Price: " + favourites.getPrice() + "\n" +
-                        "Old Price: " + favourites.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
+        if (utils.isTextNullOrEmptyOrZero(favourites.getRegularPrice())) {
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + favourites.getName() + "\n" +
+                            "New Price: " + favourites.getPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
+        } else {
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + favourites.getName() + "\n" +
+                            "New Price: " + favourites.getPrice() + "\n" +
+                            "Old Price: " + favourites.getRegularPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
+        }
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
@@ -588,13 +604,21 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 //                "Circuit.pk"
 //        );
 
-        shareIntent.putExtra(Intent.EXTRA_TEXT,
-                url + "\n\n" +
-                        "Product Name: " + favourites.getName() + "\n" +
-                        "New Price: " + favourites.getPrice() + "\n" +
-                        "Old Price: " + favourites.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
+        if (utils.isTextNullOrEmptyOrZero(favourites.getRegularPrice())) {
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + favourites.getName() + "\n" +
+                            "New Price: " + favourites.getPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
+        } else {
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + favourites.getName() + "\n" +
+                            "New Price: " + favourites.getPrice() + "\n" +
+                            "Old Price: " + favourites.getRegularPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
+        }
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
@@ -617,13 +641,21 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 //                "Circuit.pk"
 //        );
 
-        shareIntent.putExtra(Intent.EXTRA_TEXT,
-                url + "\n\n" +
-                        "Product Name: " + favourites.getName() + "\n" +
-                        "New Price: " + favourites.getPrice() + "\n" +
-                        "Old Price: " + favourites.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
+        if (utils.isTextNullOrEmptyOrZero(favourites.getRegularPrice())) {
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + favourites.getName() + "\n" +
+                            "New Price: " + favourites.getPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
 
+        } else {
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + favourites.getName() + "\n" +
+                            "New Price: " + favourites.getPrice() + "\n" +
+                            "Old Price: " + favourites.getRegularPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
+        }
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
@@ -663,11 +695,18 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
                         "New Price: " + product.getPrice() + "\n" +
                         "Old Price: " + product.getRegularPrice() + "\n" +
                         "Website: " + "https://circuit.pk/product/" + product.getNameSku());*/
+        String productDescription = "";
+        if (utils.isTextNullOrEmptyOrZero(favourites.getRegularPrice())) {
+            productDescription = "Product Name: " + favourites.getName() + "\n" +
+                    "New Price: " + favourites.getPrice() + "\n" +
+                    "Website: " + "https://circuit.pk/product/" + favourites.getNameSku() + "\n\n";
 
-        String productDescription = "Product Name: " + favourites.getName() + "\n" +
-                "New Price: " + favourites.getPrice() + "\n" +
-                "Old Price: " + favourites.getRegularPrice() + "\n" +
-                "Website: " + "https://circuit.pk/product/" + favourites.getNameSku() + "\n\n";
+        } else {
+            productDescription = "Product Name: " + favourites.getName() + "\n" +
+                    "New Price: " + favourites.getPrice() + "\n" +
+                    "Old Price: " + favourites.getRegularPrice() + "\n" +
+                    "Website: " + "https://circuit.pk/product/" + favourites.getNameSku() + "\n\n";
+        }
 
         gmail.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         String Weblink = "https://circuit.pk/";
@@ -723,12 +762,21 @@ public class FavouritesFragment extends Fragment implements FavouritesMVP.View, 
 //        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
 
-        whatsappIntent.putExtra(Intent.EXTRA_TEXT,
-                url + "\n\n" +
-                        "Product Name: " + favourites.getName() + "\n" +
-                        "New Price: " + favourites.getPrice() + "\n" +
-                        "Old Price: " + favourites.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
+        if (utils.isTextNullOrEmptyOrZero(favourites.getRegularPrice())) {
+            whatsappIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + favourites.getName() + "\n" +
+                            "New Price: " + favourites.getPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
+
+        } else {
+            whatsappIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + favourites.getName() + "\n" +
+                            "New Price: " + favourites.getPrice() + "\n" +
+                            "Old Price: " + favourites.getRegularPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + favourites.getNameSku());
+        }
 
         whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 

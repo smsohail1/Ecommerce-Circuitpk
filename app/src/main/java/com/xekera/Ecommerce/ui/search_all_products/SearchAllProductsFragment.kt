@@ -515,14 +515,25 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
         //                "Circuit.pk"
         //        );
 
-        sendIntent.putExtra(
-            Intent.EXTRA_TEXT,
-            url + "\n\n" +
-                    "Product Name: " + product.name + "\n" +
-                    "New Price: " + product.Price + "\n" +
-                    "Old Price: " + product.Regular_price + "\n" +
-                    "Website: " + "https://circuit.pk/product/" + product.name_sku
-        )
+        if (utils.isTextNullOrEmptyOrZero(product.Regular_price)) {
+            sendIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + product.name + "\n" +
+                        "New Price: " + product.Price + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.name_sku
+            )
+
+        } else {
+            sendIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                (url + "\n\n" +
+                        "Product Name: " + product.name + "\n" +
+                        "New Price: " + product.Price + "\n" +
+                        "Old Price: " + product.Regular_price + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.name_sku)
+            )
+        }
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -549,14 +560,25 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
         //                "Circuit.pk"
         //        );
 
-        sendIntent.putExtra(
-            Intent.EXTRA_TEXT,
-            (url + "\n\n" +
-                    "Product Name: " + product.name + "\n" +
-                    "New Price: " + product.Price + "\n" +
-                    "Old Price: " + product.Regular_price + "\n" +
-                    "Website: " + "https://circuit.pk/product/" + product.name_sku)
-        )
+        if (utils.isTextNullOrEmptyOrZero(product.Regular_price)) {
+            sendIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + product.name + "\n" +
+                        "New Price: " + product.Price + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.name_sku
+            )
+
+        } else {
+            sendIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                (url + "\n\n" +
+                        "Product Name: " + product.name + "\n" +
+                        "New Price: " + product.Price + "\n" +
+                        "Old Price: " + product.Regular_price + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.name_sku)
+            )
+        }
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -582,14 +604,25 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
         //                "Circuit.pk"
         //        );
 
-        shareIntent.putExtra(
-            Intent.EXTRA_TEXT,
-            (url + "\n\n" +
-                    "Product Name: " + product.name + "\n" +
-                    "New Price: " + product.Price + "\n" +
-                    "Old Price: " + product.Regular_price + "\n" +
-                    "Website: " + "https://circuit.pk/product/" + product.name_sku)
-        )
+        if (utils.isTextNullOrEmptyOrZero(product.Regular_price)) {
+            shareIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + product.name + "\n" +
+                        "New Price: " + product.Price + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.name_sku
+            )
+
+        } else {
+            shareIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                (url + "\n\n" +
+                        "Product Name: " + product.name + "\n" +
+                        "New Price: " + product.Price + "\n" +
+                        "Old Price: " + product.Regular_price + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.name_sku)
+            )
+        }
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -614,14 +647,25 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
         //                "Circuit.pk"
         //        );
 
-        shareIntent.putExtra(
-            Intent.EXTRA_TEXT,
-            (url + "\n\n" +
-                    "Product Name: " + product.name + "\n" +
-                    "New Price: " + product.Price + "\n" +
-                    "Old Price: " + product.Regular_price + "\n" +
-                    "Website: " + "https://circuit.pk/product/" + product.name_sku)
-        )
+        if (utils.isTextNullOrEmptyOrZero(product.Regular_price)) {
+            shareIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + product.name + "\n" +
+                        "New Price: " + product.Price + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.name_sku
+            )
+
+        } else {
+            shareIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                (url + "\n\n" +
+                        "Product Name: " + product.name + "\n" +
+                        "New Price: " + product.Price + "\n" +
+                        "Old Price: " + product.Regular_price + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.name_sku)
+            )
+        }
 
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -651,14 +695,25 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
         //        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
 
-        whatsappIntent.putExtra(
-            Intent.EXTRA_TEXT,
-            (url + "\n\n" +
-                    "Product Name: " + product.name + "\n" +
-                    "New Price: " + product.Price + "\n" +
-                    "Old Price: " + product.Regular_price + "\n" +
-                    "Website: " + "https://circuit.pk/product/" + product.name_sku)
-        )
+        if (utils.isTextNullOrEmptyOrZero(product.Regular_price)) {
+            whatsappIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + product.name + "\n" +
+                        "New Price: " + product.Price + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.name_sku
+            )
+
+        } else {
+            whatsappIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                (url + "\n\n" +
+                        "Product Name: " + product.name + "\n" +
+                        "New Price: " + product.Price + "\n" +
+                        "Old Price: " + product.Regular_price + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.name_sku)
+            )
+        }
 
         whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
@@ -684,14 +739,25 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
         //        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
 
-        twitter.putExtra(
-            Intent.EXTRA_TEXT,
-            (url + "\n\n" +
-                    "Product Name: " + product.name + "\n" +
-                    "New Price: " + product.Price + "\n" +
-                    "Old Price: " + product.Regular_price + "\n" +
-                    "Website: " + "https://circuit.pk/product/" + product.name_sku)
-        )
+        if (utils.isTextNullOrEmptyOrZero(product.Regular_price)) {
+            twitter.putExtra(
+                Intent.EXTRA_TEXT,
+                url + "\n\n" +
+                        "Product Name: " + product.name + "\n" +
+                        "New Price: " + product.Price + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.name_sku
+            )
+
+        } else {
+            twitter.putExtra(
+                Intent.EXTRA_TEXT,
+                (url + "\n\n" +
+                        "Product Name: " + product.name + "\n" +
+                        "New Price: " + product.Price + "\n" +
+                        "Old Price: " + product.Regular_price + "\n" +
+                        "Website: " + "https://circuit.pk/product/" + product.name_sku)
+            )
+        }
 
         twitter.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
@@ -771,10 +837,19 @@ class SearchAllProductsFragment : Fragment(), SearchAllProductsMVP.View, SearchA
                         "Old Price: " + product.getRegularPrice() + "\n" +
                         "Website: " + "https://circuit.pk/product/" + product.getNameSku());*/
 
-        val productDescription = "Product Name: " + product.name + "\n" +
-                "New Price: " + product.Price + "\n" +
-                "Old Price: " + product.Regular_price + "\n" +
-                "Website: " + "https://circuit.pk/product/" + product.name_sku + "\n\n"
+
+        var productDescription = ""
+        if (utils.isTextNullOrEmptyOrZero(product.Regular_price)) {
+            productDescription = "Product Name: " + product.name + "\n" +
+                    "New Price: " + product.Price + "\n" +
+                    "Website: " + "https://circuit.pk/product/" + product.name_sku + "\n\n"
+
+        } else {
+            productDescription = "Product Name: " + product.name + "\n" +
+                    "New Price: " + product.Price + "\n" +
+                    "Old Price: " + product.Regular_price + "\n" +
+                    "Website: " + "https://circuit.pk/product/" + product.name_sku + "\n\n"
+        }
 
         gmail.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         val Weblink = "https://circuit.pk/"

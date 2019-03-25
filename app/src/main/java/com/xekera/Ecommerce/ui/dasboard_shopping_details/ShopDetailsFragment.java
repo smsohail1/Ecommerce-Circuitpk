@@ -949,13 +949,21 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //                "Circuit.pk"
 //        );
 
-        sendIntent.putExtra(Intent.EXTRA_TEXT,
-                url + "\n\n" +
-                        "Product Name: " + product.getName() + "\n" +
-                        "New Price: " + product.getPrice() + "\n" +
-                        "Old Price: " + product.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+        if (utils.isTextNullOrEmptyOrZero(product.getRegularPrice())) {
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + product.getName() + "\n" +
+                            "New Price: " + product.getPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + product.getNameSku());
 
+        } else {
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + product.getName() + "\n" +
+                            "New Price: " + product.getPrice() + "\n" +
+                            "Old Price: " + product.getRegularPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+        }
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
@@ -981,13 +989,21 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //                "Circuit.pk"
 //        );
 
-        sendIntent.putExtra(Intent.EXTRA_TEXT,
-                url + "\n\n" +
-                        "Product Name: " + product.getName() + "\n" +
-                        "New Price: " + product.getPrice() + "\n" +
-                        "Old Price: " + product.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+        if (utils.isTextNullOrEmptyOrZero(product.getRegularPrice())) {
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + product.getName() + "\n" +
+                            "New Price: " + product.getPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + product.getNameSku());
 
+        } else {
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + product.getName() + "\n" +
+                            "New Price: " + product.getPrice() + "\n" +
+                            "Old Price: " + product.getRegularPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+        }
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
@@ -1012,13 +1028,21 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //                "Circuit.pk"
 //        );
 
-        shareIntent.putExtra(Intent.EXTRA_TEXT,
-                url + "\n\n" +
-                        "Product Name: " + product.getName() + "\n" +
-                        "New Price: " + product.getPrice() + "\n" +
-                        "Old Price: " + product.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+        if (utils.isTextNullOrEmptyOrZero(product.getRegularPrice())) {
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + product.getName() + "\n" +
+                            "New Price: " + product.getPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + product.getNameSku());
 
+        } else {
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + product.getName() + "\n" +
+                            "New Price: " + product.getPrice() + "\n" +
+                            "Old Price: " + product.getRegularPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+        }
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
@@ -1041,13 +1065,21 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //                "Circuit.pk"
 //        );
 
-        shareIntent.putExtra(Intent.EXTRA_TEXT,
-                url + "\n\n" +
-                        "Product Name: " + product.getName() + "\n" +
-                        "New Price: " + product.getPrice() + "\n" +
-                        "Old Price: " + product.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+        if (utils.isTextNullOrEmptyOrZero(product.getRegularPrice())) {
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + product.getName() + "\n" +
+                            "New Price: " + product.getPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + product.getNameSku());
 
+        } else {
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + product.getName() + "\n" +
+                            "New Price: " + product.getPrice() + "\n" +
+                            "Old Price: " + product.getRegularPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+        }
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
@@ -1075,13 +1107,21 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
 
-        whatsappIntent.putExtra(Intent.EXTRA_TEXT,
-                url + "\n\n" +
-                        "Product Name: " + product.getName() + "\n" +
-                        "New Price: " + product.getPrice() + "\n" +
-                        "Old Price: " + product.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+        if (utils.isTextNullOrEmptyOrZero(product.getRegularPrice())) {
+            whatsappIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + product.getName() + "\n" +
+                            "New Price: " + product.getPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + product.getNameSku());
 
+        } else {
+            whatsappIntent.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + product.getName() + "\n" +
+                            "New Price: " + product.getPrice() + "\n" +
+                            "Old Price: " + product.getRegularPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+        }
         whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         // sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -1106,12 +1146,21 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
 //        whatsappIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
 
-        twitter.putExtra(Intent.EXTRA_TEXT,
-                url + "\n\n" +
-                        "Product Name: " + product.getName() + "\n" +
-                        "New Price: " + product.getPrice() + "\n" +
-                        "Old Price: " + product.getRegularPrice() + "\n" +
-                        "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+        if (utils.isTextNullOrEmptyOrZero(product.getRegularPrice())) {
+            twitter.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + product.getName() + "\n" +
+                            "New Price: " + product.getPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+
+        } else {
+            twitter.putExtra(Intent.EXTRA_TEXT,
+                    url + "\n\n" +
+                            "Product Name: " + product.getName() + "\n" +
+                            "New Price: " + product.getPrice() + "\n" +
+                            "Old Price: " + product.getRegularPrice() + "\n" +
+                            "Website: " + "https://circuit.pk/product/" + product.getNameSku());
+        }
 
         twitter.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
@@ -1152,10 +1201,19 @@ public class ShopDetailsFragment extends Fragment implements ShopDetailsMVP.View
                         "Old Price: " + product.getRegularPrice() + "\n" +
                         "Website: " + "https://circuit.pk/product/" + product.getNameSku());*/
 
-        String productDescription = "Product Name: " + product.getName() + "\n" +
-                "New Price: " + product.getPrice() + "\n" +
-                "Old Price: " + product.getRegularPrice() + "\n" +
-                "Website: " + "https://circuit.pk/product/" + product.getNameSku() + "\n\n";
+
+        String productDescription = "";
+        if (utils.isTextNullOrEmptyOrZero(product.getRegularPrice())) {
+            productDescription = "Product Name: " + product.getName() + "\n" +
+                    "New Price: " + product.getPrice() + "\n" +
+                    "Website: " + "https://circuit.pk/product/" + product.getNameSku() + "\n\n";
+
+        } else {
+            productDescription = "Product Name: " + product.getName() + "\n" +
+                    "New Price: " + product.getPrice() + "\n" +
+                    "Old Price: " + product.getRegularPrice() + "\n" +
+                    "Website: " + "https://circuit.pk/product/" + product.getNameSku() + "\n\n";
+        }
 
         gmail.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         String Weblink = "https://circuit.pk/";
